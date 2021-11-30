@@ -1,0 +1,119 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 29 12:53:56 2021
+
+@author: ca007843
+"""
+
+# import libraries for data processing, visualization and nlp
+import glob
+import matplotlib.pyplot as plt
+import numpy as mp
+import os
+import pandas as pd
+import seaborn as sns
+
+def load_and_concat_csvs(csv_path):
+    '''
+    Load and concatenate the corpus of Indeed csvs containing job data
+    Input   = csv_path   : string - points to the csv location
+    Output  = csv_concat : dataframe - df containing the raw concatenated csvs
+    '''
+    # load and concatenate all Indeed csvs while adding a field for each record's parent csv name
+    all_csvs = glob.glob(csv_path + "/*.csv")
+    df_raw = pd.concat([pd.read_csv(fp).assign(csv_name=os.path.basename(fp)) for fp in all_csvs])
+
+    return df_raw
+
+
+def raw_csv_stats(df_raw):
+    '''
+    Generate statistics for the raw csv imports
+    '''
+    print('*****Import Statistics*****')
+    print(f'Records imported: {df_raw.shape[0]} \n')
+    print(f'Unique job titles: {df_raw.job_title.nunique()} \n')
+    print(f'Nulls are present:\n {df_raw.isna().sum()} \n')
+    print(f'Records missing job_title field: {(df_raw.job_title.isna().sum() / df_raw.shape[0] * 100).round(3)}%')
+    print(f'Records missing job_Description field: {(df_raw.job_Description.isna().sum() / df_raw.shape[0] * 100).round(3)}% \n')
+    print(f"Count of duplicates based on company, location, title and description: {df_raw.duplicated(subset=['job_title', 'company', 'location', 'job_Description']).sum()}")
+    print(f"Duplication rate: {((df_raw.duplicated(subset=['job_title', 'company', 'location', 'job_Description']).sum()) / df_raw.shape[0] * 100).round(3) }% \n")
+
+
+def clean_raw_csv(df_raw):
+    # drop unnecessary fields and repair job_Description field name
+    df_clean = df_raw.drop(['URL', 'page_count', 'post_date', 'reviews'], axis=1)
+    df_clean.rename(columns={'job_Description':'job_description'}, inplace=True)
+
+    # drop duplicates based on key fields and assert that the drop duplicates artithmetic worked corrrectly
+    df_clean = df_clean.drop_duplicates(subset=['job_title', 'company', 'location', 'job_description'])
+    assert (len(df_raw) - len(df_clean))   ==  (df_raw.duplicated(subset=['job_title', 'company', 'location', 'job_Description']).sum())
+    
+    # drop records that have NaN for job_title, company, location or job_description
+    df_clean.dropna(subset = ['job_title', 'company', 'location', 'job_description'], inplace=True)
+    
+    # reset the index
+    df_clean.reset_index(inplace=True, drop=True)
+    
+    print(f'{len(df_clean)} records remaining after intial data cleaning')
+    
+    return df_clean
+
+
+def parse_date_scraped_field(df_clean):
+    # convert csv_name field to a string 
+    df_clean['csv_name'] = df_clean['csv_name'].astype(str)
+    
+    # from the csv_name field, create fields for the state, scraped job title and date scraped 
+    df_clean['state'] = df_clean['csv_name'].str.slice(3, 5)
+    df_clean['scrape_job_title'] = df_clean['csv_name'].str.slice(0, 2)
+    df_clean['scrape_date'] = df_clean['csv_name'].str.slice(10, 20)
+    
+    # make a copy of df_clean as df, drop the now unnecessary csv_name field and delete the df_clean dataframe
+    df = df_clean.copy()
+    df = df.drop(['csv_name'], axis=1)
+    
+   
+    return df
+
+def nlp_flagging(df):
+    pass
+
+# define universal variables
+csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data'
+
+# execute the main program
+df_raw = load_and_concat_csvs(csv_path)
+raw_csv_stats(df_raw)
+df_clean = clean_raw_csv(df_raw)
+df = parse_date_scraped_field(df_clean)
+
+# clean up intermediate dataframes
+del df_raw, df_clean
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######  ARCHIVE ######
+# csv_list = []
+
+# for csv in all_csvs:
+#     csv_temp = pd.read_csv(csv, index_col=None, header=0)
+#     csv_list.append(csv_temp)
+
+# # concatnate csvs into a single dataframe
+# df_raw = pd.concat(csv_list, axis=0, ignore_index=True)
+
+
