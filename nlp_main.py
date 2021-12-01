@@ -1,4 +1,3 @@
-##### THIS IS A TEST
 # -*- coding: utf-8 -*-
 """
 Created on Mon Nov 29 12:53:56 2021
@@ -6,13 +5,19 @@ Created on Mon Nov 29 12:53:56 2021
 @author: ca007843
 """
 
-# import libraries for data processing, visualization and nlp
+# import libraries for data processing and visualization
 import glob
 import matplotlib.pyplot as plt
 import numpy as mp
 import os
 import pandas as pd
 import seaborn as sns
+
+# import libraries for natural language processing (NLP)
+import nltk
+from nltk.corpus import stopwords
+import re
+import unicodedata
 
 def load_and_concat_csvs(csv_path):
     '''
@@ -34,7 +39,7 @@ def raw_csv_stats(df_raw):
     print('*****Import Statistics*****')
     print(f'Records imported: {df_raw.shape[0]} \n')
     print(f'Unique job titles: {df_raw.job_title.nunique()} \n')
-    print(f'Nulls are present:\n {df_raw.isna().sum()} \n')
+    print(f'Nulls are present:\n{df_raw.isna().sum()} \n')
     print(f'Records missing job_title field: {(df_raw.job_title.isna().sum() / df_raw.shape[0] * 100).round(3)}%')
     print(f'Records missing job_Description field: {(df_raw.job_Description.isna().sum() / df_raw.shape[0] * 100).round(3)}% \n')
     print(f"Count of duplicates based on company, location, title and description: {df_raw.duplicated(subset=['job_title', 'company', 'location', 'job_Description']).sum()}")
@@ -77,17 +82,55 @@ def parse_date_scraped_field(df_clean):
    
     return df
 
-def nlp_flagging(df):
-    pass
+def clean_for_nlp(series_for_nlp):
+    '''
+    Execute stopword removal, lowercasing, encoding/decoding, normalizing and 
+    lemmatization in preparation for NLP.
+    '''
+    print('\nCleaning data for nlp...')
+    
+    # convert parsed series to a list
+    text = ''.join(str(series_for_nlp.tolist()))
+
+    # add additional stopwords to nltk default stopword list
+    extra_stopwords = ['bargaining']
+    stopwords = nltk.corpus.stopwords.words('english') + extra_stopwords
+    
+    # normalize, split and lowercase the parsed text
+    text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
+    words = re.sub(r'[^\w\s]', '', text).split()
+    
+    # initialize lemmatizer and execute lemmatization
+    wnl = nltk.stem.WordNetLemmatizer()
+    terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stopwords]
+    
+    return terms_for_nlp
+
+####### !!!!!!!! START HERE TOMORROW WITH N-GRAMS #########
+# n-grams
+# add non-discrimmination language to stopwords
+
+
 
 # define universal variables
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data'
 
+
+
+
 # execute the main program
-df_raw = load_and_concat_csvs(csv_path)
+df_raw        = load_and_concat_csvs(csv_path)
 raw_csv_stats(df_raw)
-df_clean = clean_raw_csv(df_raw)
-df = parse_date_scraped_field(df_clean)
+df_clean      = clean_raw_csv(df_raw)
+df            = parse_date_scraped_field(df_clean)
+
+series_for_nlp = df['job_description']
+terms_for_nlp = clean_for_nlp(series_for_nlp)
+
+
+
+
+
 
 # clean up intermediate dataframes
 del df_raw, df_clean
