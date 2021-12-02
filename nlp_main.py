@@ -93,7 +93,12 @@ def clean_for_nlp(series_for_nlp):
     text = ''.join(str(series_for_nlp.tolist()))
 
     # add additional stopwords to nltk default stopword list
-    extra_stopwords = ['bargaining']
+    extra_stopwords = ['sexual', 'orientation', 'equal', 'opportunity', 'origin', 'gender', 'identity', 'marital',
+                       'status', 'applicant', 'religion', 'sex', 'race', 'color', 'without', 'regard', 'reasonable',
+                       'accomodation', 'protected', 'veteran', 'consideration', 'employment', 'receive', 'consideration',
+                       'applicant', 'receive', 'united', 'state', 'job', 'description', 'york', 'disability', 'age',
+                       'candidate', 'fully', 'vaccinated', 'covid19', 'affirmative', 'action', 'employer', 'discriminate',
+                       'arrest', 'conviction', 'please', 'visit']
     stopwords = nltk.corpus.stopwords.words('english') + extra_stopwords
     
     # normalize, split and lowercase the parsed text
