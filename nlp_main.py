@@ -98,8 +98,13 @@ def clean_for_nlp(series_for_nlp):
                        'accomodation', 'protected', 'veteran', 'consideration', 'employment', 'receive', 'consideration',
                        'applicant', 'receive', 'united', 'state', 'job', 'description', 'york', 'disability', 'age',
                        'candidate', 'fully', 'vaccinated', 'covid19', 'affirmative', 'action', 'employer', 'discriminate',
-                       'arrest', 'conviction', 'please', 'visit']
-    stopwords = nltk.corpus.stopwords.words('english') + extra_stopwords
+                       'arrest', 'conviction', 'please', 'visit', 'every', 'day', 'san', 'francisco', 'around', 'world',
+                       'applicable', 'law', 'applicant', 'criminal', 'history', 'etc']
+    
+    benefits_stopwords = ['medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
+    
+    
+    stopwords = nltk.corpus.stopwords.words('english') + extra_stopwords + benefits_stopwords
     
     # normalize, split and lowercase the parsed text
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
@@ -113,9 +118,8 @@ def clean_for_nlp(series_for_nlp):
 
 ####### !!!!!!!! START HERE TOMORROW WITH N-GRAMS #########
 # n-grams
-# add non-discrimmination language to stopwords
-
-
+#(pd.Series(nltk.ngrams(terms_for_nlp, 2)).value_counts())[100:150]
+# continue to refine stopwords
 
 # define universal variables
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data'
