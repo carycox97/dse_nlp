@@ -116,6 +116,9 @@ def clean_for_nlp(series_for_nlp):
     
     return terms_for_nlp
 
+def identify_n_grams():
+    pass
+
 ####### !!!!!!!! START HERE TOMORROW WITH N-GRAMS #########
 # n-grams
 #(pd.Series(nltk.ngrams(terms_for_nlp, 2)).value_counts())[100:150]
