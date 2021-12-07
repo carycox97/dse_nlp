@@ -116,35 +116,39 @@ def clean_for_nlp(series_for_nlp):
     
     return terms_for_nlp
 
-def identify_n_grams():
+def identify_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop):
+    n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
+    print(n_grams)
+    return n_grams
+
+def create_word_cloud():
     pass
 
-####### !!!!!!!! START HERE TOMORROW WITH N-GRAMS #########
-# n-grams
-#(pd.Series(nltk.ngrams(terms_for_nlp, 2)).value_counts())[100:150]
-# continue to refine stopwords
+####### !!!!!!!! START HERE NEXT  #########
+# clean up doc strings and comments
+# build word cloud function
 
 # define universal variables
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data'
 
-
-
-
-# execute the main program
+# execute cleaning and field parsing
 df_raw        = load_and_concat_csvs(csv_path)
 raw_csv_stats(df_raw)
 df_clean      = clean_raw_csv(df_raw)
 df            = parse_date_scraped_field(df_clean)
-
 series_for_nlp = df['job_description']
-terms_for_nlp = clean_for_nlp(series_for_nlp)
+terms_for_nlp  = clean_for_nlp(series_for_nlp)
+
+# execute nlp
+n_gram_count = 2
+n_gram_range_start, n_gram_range_stop  = 0, 50
+n_grams = identify_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 
 
 
 
-
-# clean up intermediate dataframes
+# clean up intermediate dataframes and variables
 del df_raw, df_clean
 
 
