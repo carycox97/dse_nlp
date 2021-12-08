@@ -104,7 +104,7 @@ def clean_for_nlp(series_for_nlp):
                        'candidate', 'fully', 'vaccinated', 'covid19', 'affirmative', 'action', 'employer', 'discriminate',
                        'arrest', 'conviction', 'please', 'visit', 'every', 'day', 'san', 'francisco', 'around', 'world',
                        'applicable', 'law', 'applicant', 'criminal', 'history', 'etc', 'eg', 'andor', 'youll', 'including',
-                       'u', 'using', 'way', 'set', 'accomodation', 'within']
+                       'u', 'using', 'way', 'set', 'accomodation', 'within', 'nonessential', 'suspended']
     
     benefits_stopwords = ['benefit', 'medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
     
@@ -139,8 +139,9 @@ def create_word_cloud():
 # create list of soft skills
 # add timing
 
-# define universal variables
-csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data'
+# define universal variables and data paths
+csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
+# csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_da'
 
 # execute cleaning and field parsing
 df_raw        = load_and_concat_csvs(csv_path)
