@@ -19,6 +19,10 @@ from nltk.corpus import stopwords
 import re
 import unicodedata
 
+# remove row and column display restrictions in the console
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+
 def load_and_concat_csvs(csv_path):
     '''
     Load and concatenate the corpus of Indeed csvs containing job data
@@ -99,10 +103,10 @@ def clean_for_nlp(series_for_nlp):
                        'applicant', 'receive', 'united', 'state', 'job', 'description', 'york', 'disability', 'age',
                        'candidate', 'fully', 'vaccinated', 'covid19', 'affirmative', 'action', 'employer', 'discriminate',
                        'arrest', 'conviction', 'please', 'visit', 'every', 'day', 'san', 'francisco', 'around', 'world',
-                       'applicable', 'law', 'applicant', 'criminal', 'history', 'etc']
+                       'applicable', 'law', 'applicant', 'criminal', 'history', 'etc', 'eg', 'andor', 'youll', 'including',
+                       'u', 'using', 'way', 'set', 'accomodation', 'within']
     
-    benefits_stopwords = ['medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
-    
+    benefits_stopwords = ['benefit', 'medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
     
     stopwords = nltk.corpus.stopwords.words('english') + extra_stopwords + benefits_stopwords
     
@@ -128,6 +132,12 @@ def create_word_cloud():
 ####### !!!!!!!! START HERE NEXT  #########
 # clean up doc strings and comments
 # build word cloud function
+# expand stopwords
+# create searches for key lists
+# create list of ds skills
+# create list of cloud tech
+# create list of soft skills
+# add timing
 
 # define universal variables
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data'
@@ -141,8 +151,8 @@ series_for_nlp = df['job_description']
 terms_for_nlp  = clean_for_nlp(series_for_nlp)
 
 # execute nlp
-n_gram_count = 2
-n_gram_range_start, n_gram_range_stop  = 0, 50
+n_gram_count = 1
+n_gram_range_start, n_gram_range_stop  = 0, 200
 n_grams = identify_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 
