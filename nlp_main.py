@@ -124,6 +124,18 @@ def identify_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ran
     print('\nIdentifying n_grams...')
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
     print(n_grams)
+    
+    #!!!! WORKING HERE ON VISUALIZATION !!! # next is to add comments and make a function out of it
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.3)
+    n_grams_cols = ['count']
+    n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
+    n_grams_df['grams'] = n_grams_df.index.astype('string')
+    n_grams_df_sns = n_grams_df.iloc[:20]
+    ax = sns.barplot(x="count", y="grams", data=n_grams_df_sns, orient='h', palette="mako_d") # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax.set_title("n grams")
+    
     return n_grams
 
 def create_word_cloud():
@@ -137,7 +149,11 @@ def create_word_cloud():
 # create list of ds skills
 # create list of cloud tech
 # create list of soft skills
+# create seaborne charts for n-grams
 # add timing
+# select favorite sns color pallete, and maybe use that for the branding colors!
+# determine optimal sns chat size
+# think about gouping compaisons of n_grams based on job type/title
 
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
