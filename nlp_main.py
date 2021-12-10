@@ -86,6 +86,7 @@ def parse_date_scraped_field(df_clean):
    
     return df
 
+
 def clean_for_nlp(series_for_nlp):
     '''
     Execute stopword removal, lowercasing, encoding/decoding, normalizing and 
@@ -120,23 +121,72 @@ def clean_for_nlp(series_for_nlp):
     
     return terms_for_nlp
 
-def identify_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop):
+
+def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop):
+    '''
+    Count the volume of n_grams present within the job_description field of the Indeed data.
+
+    Parameters
+    ----------
+    terms_for_nlp : list
+        List containing scrapped and cleaned job descriptions; created in the clean_for nlp function.
+    n_gram_count : integer
+        A parameter representing the dimensionality of the n_grams of interest (e.g., 2 = bigram, 3 = trigram, etc.).
+    n_gram_range_start : integer
+        A parameter indicating the uoper bound (i.e., the n_gram with the highest count) of the n_grams Series.
+    n_gram_range_stop : integer
+        A parameter indicating the lower bound (i.e., the n_gram with the lowest count) of the n_grams Series.
+
+    Returns
+    -------
+    n_grams : Series
+        Contains the processed n_grams; sorted by count from highest to lowest.
+
+    '''
+    # indicate processing status in the console
     print('\nIdentifying n_grams...')
+    
+    # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
     print(n_grams)
     
-    #!!!! WORKING HERE ON VISUALIZATION !!! # next is to add comments and make a function out of it
+    # visualize n_grams
+    visualize_n_grams(n_grams)
+    
+    return n_grams
+
+
+def visualize_n_grams(n_grams):
+    '''
+    Visualize the n_grams created by the count_n_grams function.
+
+    Parameters
+    ----------
+    n_grams : Series
+        Contains the processed n_grams; sorted by count from highest to lowest; converted to a df in this function.
+
+    Returns
+    -------
+    None. Directly outputs visualizations.
+
+    '''
+    # configure plot size, seaborne style and font scale
     plt.figure(figsize=(7, 10))
     sns.set_style('dark')
     sns.set(font_scale = 1.3)
+    
+    # convert the n_grams Series to a Dataframe for seaborne visualization
     n_grams_cols = ['count']
     n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
+    
+    # pull the n_grams out of the index and bound the count of records to be visualized
     n_grams_df['grams'] = n_grams_df.index.astype('string')
     n_grams_df_sns = n_grams_df.iloc[:20]
+    
+    # create a horizontal barplot visualizing n_gram counts from greatest to least
     ax = sns.barplot(x="count", y="grams", data=n_grams_df_sns, orient='h', palette="mako_d") # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title("n grams")
-    
-    return n_grams
+
 
 def create_word_cloud():
     pass
@@ -153,7 +203,14 @@ def create_word_cloud():
 # add timing
 # select favorite sns color pallete, and maybe use that for the branding colors!
 # determine optimal sns chat size
-# think about gouping compaisons of n_grams based on job type/title
+# think about grouping/stacking compaisons of n_grams based on job type/title
+# consider a function to identify and collapse key terms, like 'scientist' and 'science', 'analytics' and 'analysis', 'algorithm' and 'technique', 'oral' and'verbal'
+# consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
+  # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
+  # has been collapsed and simplified)
+# will need to make an index of key skills based on the n_gram results
+# create a functionality to count how many jobs cite a specifc term I searched; probably just search the series with lov=c
+# really need to grind out all stop words that aren't relevant
 
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
@@ -170,7 +227,7 @@ terms_for_nlp  = clean_for_nlp(series_for_nlp)
 # execute nlp
 n_gram_count = 1
 n_gram_range_start, n_gram_range_stop  = 0, 200
-n_grams = identify_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 
 
