@@ -47,8 +47,18 @@ def load_and_concat_csvs(csv_path):
 
 def raw_csv_stats(df_raw):
     '''
-    Generate statistics for the raw csv imports
-    '''
+    Generate statistics for the raw csv imports.
+
+    Parameters
+    ----------
+    df_raw : dataframe
+        Contains the raw concatenated csvs.
+
+    Returns
+    -------
+    None.
+
+    '''    
     print('*****Import Statistics*****')
     print(f'Records imported: {df_raw.shape[0]} \n')
     print(f'Unique job titles: {df_raw.job_title.nunique()} \n')
