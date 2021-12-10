@@ -25,9 +25,18 @@ pd.set_option('display.max_rows', None)
 
 def load_and_concat_csvs(csv_path):
     '''
-    Load and concatenate the corpus of Indeed csvs containing job data
-    Input   = csv_path   : string - points to the csv location
-    Output  = csv_concat : dataframe - df containing the raw concatenated csvs
+    Loads and concatenates the corpus of Indeed csvs containing job data.
+
+    Parameters
+    ----------
+    csv_path : string
+        Parameter pointing to the location of the stored csvs.
+
+    Returns
+    -------
+    df_raw : dataframe
+        Contains the raw concatenated csvs.
+
     '''
     # load and concatenate all Indeed csvs while adding a field for each record's parent csv name
     all_csvs = glob.glob(csv_path + "/*.csv")
