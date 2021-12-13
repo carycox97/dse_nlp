@@ -5,13 +5,20 @@ Created on Mon Nov 29 12:53:56 2021
 @author: ca007843
 """
 
-# import libraries for data processing and visualization
-import glob
-import matplotlib.pyplot as plt
-import numpy as mp
+# import libraries for admin
 import os
+import warnings
+
+# import libraries for data processing
+import glob
+import numpy as np
 import pandas as pd
+
+# import libraries for visualization
+import matplotlib.pyplot as plt
+import PIL
 import seaborn as sns
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
 # import libraries for natural language processing (NLP)
 import nltk
@@ -94,15 +101,16 @@ def parse_date_scraped_field(df_clean):
     df_clean['csv_name'] = df_clean['csv_name'].astype(str)
     
     # from the csv_name field, create fields for the state, scraped job title and date scraped 
-    df_clean['state'] = df_clean['csv_name'].str.slice(3, 5)
+    df_clean['state_abbrev'] = df_clean['csv_name'].str.slice(3, 5)
     df_clean['scrape_job_title'] = df_clean['csv_name'].str.slice(0, 2)
     df_clean['scrape_date'] = df_clean['csv_name'].str.slice(10, 20)
     
+    # create a field to capture the full state name in sentence case
+
     # make a copy of df_clean as df, drop the now unnecessary csv_name field and delete the df_clean dataframe
     df = df_clean.copy()
     df = df.drop(['csv_name'], axis=1)
     
-   
     return df
 
 
@@ -175,6 +183,18 @@ def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_
     return n_grams
 
 
+def visualize_indeed_data(df):
+    
+    # configure plot size, seaborne style and font scale
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.30)
+    
+    ax = sns.countplot(y='state', data=df, palette='gist_gray', 
+                       order = df['state'].value_counts().index) # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax.set_title('Jobs by State')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+
 def visualize_n_grams(n_grams):
     '''
     Visualize the n_grams created by the count_n_grams function.
@@ -203,8 +223,8 @@ def visualize_n_grams(n_grams):
     n_grams_df_sns = n_grams_df.iloc[:20]
     
     # create a horizontal barplot visualizing n_gram counts from greatest to least
-    ax = sns.barplot(x="count", y="grams", data=n_grams_df_sns, orient='h', palette="mako_d") # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-    ax.set_title("n grams")
+    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_d') # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax.set_title('n grams')
 
 
 def create_word_cloud():
@@ -212,6 +232,8 @@ def create_word_cloud():
 
 ####### !!!!!!!! START HERE NEXT  #########
 # clean up doc strings and comments
+# bar plot of count of jobs in states
+# for visualization: branded for NLP/ML insights 
 # build word cloud function
 # expand stopwords
 # create searches for key lists
