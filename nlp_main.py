@@ -32,7 +32,7 @@ pd.set_option('display.max_rows', None)
 
 def load_and_concat_csvs(csv_path):
     '''
-    Loads and concatenates the corpus of Indeed csvs containing job data.
+    Load and concatenate the corpus of Indeed csvs containing job data.
 
     Parameters
     ----------
@@ -52,14 +52,14 @@ def load_and_concat_csvs(csv_path):
     return df_raw
 
 
-def raw_csv_stats(df_raw):
+def calculate_raw_csv_stats(df_raw):
     '''
     Generate statistics for the raw csv imports.
 
     Parameters
     ----------
     df_raw : dataframe
-        Contains the raw concatenated csvs.
+        Contains the raw concatenated Indeed csvs.
 
     Returns
     -------
@@ -77,6 +77,21 @@ def raw_csv_stats(df_raw):
 
 
 def clean_raw_csv(df_raw):
+    '''
+    Cleans the raw Indeed dataframe by dropping uncesessary fields, dropping duplicates, cleaning the NaNs
+    and resetting the index.
+
+    Parameters
+    ----------
+    df_raw : dataframe
+        Contains the raw concatenated Indeed csvs.
+
+    Returns
+    -------
+    df_clean : dataframe
+        The cleaned version of df_raw, after duplicates dropped, NaNs cleaned, etc..
+
+    '''
     # drop unnecessary fields and repair job_Description field name
     df_clean = df_raw.drop(['URL', 'page_count', 'post_date', 'reviews'], axis=1)
     df_clean.rename(columns={'job_Description':'job_description'}, inplace=True)
@@ -94,9 +109,24 @@ def clean_raw_csv(df_raw):
     print(f'{len(df_clean)} records remaining after intial data cleaning')
     
     return df_clean
-
+    
 
 def parse_date_scraped_field(df_clean):
+    '''
+    From the date_scraped field, parse the state abbreviation and date, and create a field
+    containing the full state name in sentence case.
+
+    Parameters
+    ----------
+    df_clean : dataframe
+        The cleaned version of df_raw, after duplicates dropped, NaNs cleaned, etc.
+
+    Returns
+    -------
+    df : dataframe
+        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data..
+
+    '''
     # convert csv_name field to a string 
     df_clean['csv_name'] = df_clean['csv_name'].astype(str)
     
@@ -105,7 +135,67 @@ def parse_date_scraped_field(df_clean):
     df_clean['scrape_job_title'] = df_clean['csv_name'].str.slice(0, 2)
     df_clean['scrape_date'] = df_clean['csv_name'].str.slice(10, 20)
     
-    # create a field to capture the full state name in sentence case
+    # create a dictionary to convert state abbreviations to full state names
+    state_name_to_abbrev = {
+        "Remote" : "re",
+        "Alabama": "al",
+        "Alaska": "ak",
+        "Arizona": "az",
+        "Arkansas": "ar",
+        "California": "ca",
+        "Colorado": "co",
+        "Connecticut": "ct",
+        "Delaware": "de",
+        "Florida": "fl",
+        "Georgia": "ga",
+        "Hawaii": "hi",
+        "Idaho": "id",
+        "Illinois": "il",
+        "Indiana": "in",
+        "Iowa": "ia",
+        "Kansas": "ks",
+        "Kentucky": "ky",
+        "Louisiana": "la",
+        "Maine": "me",
+        "Maryland": "md",
+        "Massachusetts": "ma",
+        "Michigan": "mi",
+        "Minnesota": "mn",
+        "Mississippi": "ms",
+        "Missouri": "mo",
+        "Montana": "mt",
+        "Nebraska": "ne",
+        "Nevada": "nv",
+        "New Hampshire": "nh",
+        "New Jersey": "nj",
+        "New Mexico": "nm",
+        "New York": "ny",
+        "North Carolina": "nc",
+        "North Dakota": "nd",
+        "Ohio": "oh",
+        "Oklahoma": "ok",
+        "Oregon": "or",
+        "Pennsylvania": "pa",
+        "Rhode Island": "ri",
+        "South Carolina": "sc",
+        "South Dakota": "sd",
+        "Tennessee": "tn",
+        "Texas": "tx",
+        "Utah": "ut",
+        "Vermont": "vt",
+        "Virginia": "va",
+        "Washington": "wa",
+        "West Virginia": "wv",
+        "Wisconsin": "wi",
+        "Wyoming": "wy",
+        "District of Columbia": "dc",
+    }
+
+    # invert the state_name_to_abbrev dictionary and create the state_name field
+    state_abbrev_to_state_name = dict(map(reversed, state_name_to_abbrev.items()))
+    df_clean['state_name'] = df_clean['state_abbrev']
+    df_clean['state_name'] = df_clean['state_name'].replace(state_abbrev_to_state_name)
+    
 
     # make a copy of df_clean as df, drop the now unnecessary csv_name field and delete the df_clean dataframe
     df = df_clean.copy()
@@ -116,9 +206,21 @@ def parse_date_scraped_field(df_clean):
 
 def clean_for_nlp(series_for_nlp):
     '''
-    Execute stopword removal, lowercasing, encoding/decoding, normalizing and 
-    lemmatization in preparation for NLP.
+    Execute stopword removal, lowercasing, encoding/decoding, normalizing and lemmatization in preparation for NLP.
+
+    Parameters
+    ----------
+    series_for_nlp : Series
+        A variable set in the main program, series_for_nlp contains the series of interest for NLP processing.
+
+    Returns
+    -------
+    terms_for_nlp : list
+        A list containing all terms (fully cleaned and processed) extracted from the series_for_nlp Series.
+
     '''
+    
+    
     print('\nCleaning data for nlp...')
     
     # convert parsed series to a list
@@ -184,16 +286,30 @@ def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_
 
 
 def visualize_indeed_data(df):
-    
+    '''
+    Generate basic visualizations for data exploration of the scraped Indeed csv data.
+
+    Parameters
+    ----------
+    df : dataframe
+        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
+
+    Returns
+    -------
+    None. Directly outputs visuaizations.
+
+    '''
     # configure plot size, seaborne style and font scale
     plt.figure(figsize=(7, 10))
     sns.set_style('dark')
     sns.set(font_scale = 1.30)
     
-    ax = sns.countplot(y='state', data=df, palette='gist_gray', 
-                       order = df['state'].value_counts().index) # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    # create countplot for state counts
+    ax = sns.countplot(y='state_name', data=df, palette='gist_gray', 
+                       order = df['state_name'].value_counts().index) # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title('Jobs by State')
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+
 
 def visualize_n_grams(n_grams):
     '''
@@ -231,11 +347,10 @@ def create_word_cloud():
     pass
 
 ####### !!!!!!!! START HERE NEXT  #########
-# clean up doc strings and comments
-# bar plot of count of jobs in states
+# finalize bar plot of count of jobs in states
 # for visualization: branded for NLP/ML insights 
 # build word cloud function
-# expand stopwords
+# expand stopwords, aggressively
 # create searches for key lists
 # create list of ds skills
 # create list of cloud tech
@@ -259,11 +374,12 @@ csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
 # execute cleaning and field parsing
 df_raw        = load_and_concat_csvs(csv_path)
-raw_csv_stats(df_raw)
+calculate_raw_csv_stats(df_raw)
 df_clean      = clean_raw_csv(df_raw)
 df            = parse_date_scraped_field(df_clean)
 series_for_nlp = df['job_description']
 terms_for_nlp  = clean_for_nlp(series_for_nlp)
+visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 1
