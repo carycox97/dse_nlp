@@ -16,7 +16,7 @@ import pandas as pd
 
 # import libraries for visualization
 import matplotlib.pyplot as plt
-import PIL
+from PIL import Image
 import seaborn as sns
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
@@ -29,6 +29,9 @@ import unicodedata
 # remove row and column display restrictions in the console
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
+
+# suspend filter warnings
+warnings.filterwarnings("ignore")
 
 def load_and_concat_csvs(csv_path):
     '''
@@ -344,11 +347,79 @@ def visualize_n_grams(n_grams):
 
 
 def create_word_cloud():
-    pass
+    # Start with one job_description:
+    text = df.job_description[0]
+    
+    # Create and generate a word cloud image:
+    wordcloud = WordCloud().generate(text)
+    
+    # Display the generated image:
+    plt.imshow(wordcloud, interpolation='bilinear') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis("off")
+    plt.show()
+    
+    # lower max_font_size, change the maximum number of word and lighten the background:
+    wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(text)
+    plt.figure()
+    plt.imshow(wordcloud, interpolation="bilinear")
+    plt.axis("off")
+    plt.show()
+    
+    # Save the image in the img folder:
+    wordcloud.to_file("word_clouds/test_job_description.png")
+    
+    # combine all job descriptions into a single object
+    text = " ".join(review for review in df.job_description)
+    print ("There are {} words in the combination of all review.".format(len(text)))
+    
+    # Create stopword list:
+    stopwords = set(STOPWORDS)
+    stopwords.update(["qualification", "key", "job", "America"])
+    
+    # Generate a word cloud image
+    wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
+    
+    # Display the generated image:
+    # the matplotlib way:
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
+    
+    # masking attempt
+    wine_mask = np.array(Image.open("wine_mask.png"))
+    wine_mask
+    
+    # convret mask to white=255, black=0
+    def transform_format(val):
+        if val == 0:
+            return 255
+        else:
+            return val
+    
+    # Transform your mask into a new one that will work with the function:
+    transformed_wine_mask = np.ndarray((wine_mask.shape[0], wine_mask.shape[1]), np.int32)
+    for i in range(len(wine_mask)):
+        transformed_wine_mask[i] = list(map(transform_format, wine_mask[i]))
+    
+    # Create a word cloud image
+    wc = WordCloud(background_color="white", max_words=1000, mask=transformed_wine_mask,
+                   stopwords=stopwords, contour_width=3, contour_color='firebrick')
+    wc.generate(text)
+    
+    # save out the png
+    wc.to_file("wine_mask_try.png")
+    
+    # show
+    plt.figure(figsize=[20,10])
+    plt.imshow(wc, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()
+    
 
 ####### !!!!!!!! START HERE NEXT  #########
 # finalize bar plot of count of jobs in states
 # for visualization: branded for NLP/ML insights 
+# parse the date_scraped field for the parent scrape (e.g., ds, ml, etc.)
 # build word cloud function
 # expand stopwords, aggressively
 # create searches for key lists
