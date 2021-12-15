@@ -230,7 +230,7 @@ def clean_for_nlp(series_of_interest):
     text = ''.join(str(series_of_interest.tolist()))
 
     # add additional stopwords to nltk default stopword list
-    extra_stopwords = ['sexual', 'orientation', 'equal', 'opportunity', 'origin', 'gender', 'identity', 'marital',
+    permanent_stopwords = ['sexual', 'orientation', 'equal', 'opportunity', 'origin', 'gender', 'identity', 'marital',
                        'status', 'applicant', 'religion', 'sex', 'race', 'color', 'without', 'regard', 'reasonable',
                        'accomodation', 'protected', 'veteran', 'consideration', 'employment', 'receive', 'consideration',
                        'applicant', 'receive', 'united', 'state', 'job', 'description', 'york', 'disability', 'age',
@@ -241,7 +241,9 @@ def clean_for_nlp(series_of_interest):
     
     benefits_stopwords = ['benefit', 'medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
     
-    stop_words = nltk.corpus.stopwords.words('english') + extra_stopwords + benefits_stopwords
+    other_hr_stopwords = ['qualified', 'applicant', 'related', 'field']
+    
+    stop_words = nltk.corpus.stopwords.words('english') + permanent_stopwords + benefits_stopwords
     
     # normalize, split and lowercase the parsed text
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
@@ -287,6 +289,20 @@ def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_
     visualize_n_grams(n_grams)
     
     return n_grams
+
+
+def filter_terms_for_nlp():
+    value_list = ['data','science', 'python']
+    boolean_series = pd.Series(terms_for_nlp).isin(value_list)
+    filtered_series = pd.Series(terms_for_nlp)[boolean_series]
+    print(len(filtered_series))
+    print(filtered_series.value_counts())
+    print(filtered_series[:10])
+    
+    # get only rows without the key terms - not sure if this works
+    inverse_boolean_series = ~pd.Series(terms_for_nlp).isin(value_list)
+    inverse_filtered_df = pd.Series(terms_for_nlp)[inverse_boolean_series]
+
 
 
 def visualize_indeed_data(df):
@@ -347,7 +363,7 @@ def visualize_n_grams(n_grams):
     ax.set_title('n grams')
 
 
-def create_word_clouds(terms_for_nlp):
+def visualize_word_clouds(terms_for_nlp):
     '''
     Generate masked and unmasked word clouds from the processed terms extracted from the 
     series of interest (e.g., job_description, company, etc.)
@@ -444,9 +460,29 @@ def create_word_clouds(terms_for_nlp):
 # create a functionality to count how many jobs cite a specifc term I searched; probably just search the series with lov=c
 # really need to grind out all stop words that aren't relevant
 
+
+def main_program():
+    pass
+
+
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 # csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_da'
+
+# establish lists for nlp filtering
+ds_tech_skill_terms = ['python', 'r', 'sql', 'tableau', 'analytics', 'deep', 'learning', 'big', 'data']
+ds_soft_skill_terms = ['written', 'collaborate', 'communicate']
+ds_cred_terms = ['degree', 'phd', 'master', 'bachelor']
+ds_task_terms = ['processing', 'model']
+ds_verb_terms = []
+python_library_terms = ['numpy', 'pandas']
+
+starfish_analytics_terms = ['analytics']
+starfish_math_modeling_terms = []
+starfish_visualization_terms = []
+starfish_integreation_terms = []
+starfish_etl_terms = []
+
 
 # execute cleaning and field parsing
 df_raw        = load_and_concat_csvs(csv_path)
@@ -458,10 +494,11 @@ terms_for_nlp  = clean_for_nlp(series_of_interest)
 visualize_indeed_data(df)
 
 # execute nlp
-n_gram_count = 1
-n_gram_range_start, n_gram_range_stop  = 0, 200
+n_gram_count = 2
+n_gram_range_start, n_gram_range_stop  = 0, 100
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-create_word_clouds(terms_for_nlp)
+
+visualize_word_clouds(terms_for_nlp)
 
 
 
