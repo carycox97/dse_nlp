@@ -207,19 +207,19 @@ def parse_date_scraped_field(df_clean):
     return df
 
 
-def clean_for_nlp(series_for_nlp):
+def clean_for_nlp(series_of_interest):
     '''
     Execute stopword removal, lowercasing, encoding/decoding, normalizing and lemmatization in preparation for NLP.
 
     Parameters
     ----------
-    series_for_nlp : Series
-        A variable set in the main program, series_for_nlp contains the series of interest for NLP processing.
+    series_of_interest : Series
+        A variable set in the main program, series_of_interest contains the series of interest for NLP processing.
 
     Returns
     -------
     terms_for_nlp : list
-        A list containing all terms (fully cleaned and processed) extracted from the series_for_nlp Series.
+        A list containing all terms (fully cleaned and processed) extracted from the series_of_interest Series.
 
     '''
     
@@ -227,7 +227,7 @@ def clean_for_nlp(series_for_nlp):
     print('\nCleaning data for nlp...')
     
     # convert parsed series to a list
-    text = ''.join(str(series_for_nlp.tolist()))
+    text = ''.join(str(series_of_interest.tolist()))
 
     # add additional stopwords to nltk default stopword list
     extra_stopwords = ['sexual', 'orientation', 'equal', 'opportunity', 'origin', 'gender', 'identity', 'marital',
@@ -241,7 +241,7 @@ def clean_for_nlp(series_for_nlp):
     
     benefits_stopwords = ['benefit', 'medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
     
-    stopwords = nltk.corpus.stopwords.words('english') + extra_stopwords + benefits_stopwords
+    stop_words = nltk.corpus.stopwords.words('english') + extra_stopwords + benefits_stopwords
     
     # normalize, split and lowercase the parsed text
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
@@ -249,7 +249,7 @@ def clean_for_nlp(series_for_nlp):
     
     # initialize lemmatizer and execute lemmatization
     wnl = nltk.stem.WordNetLemmatizer()
-    terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stopwords]
+    terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stop_words]
     
     return terms_for_nlp
 
@@ -261,7 +261,8 @@ def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_
     Parameters
     ----------
     terms_for_nlp : list
-        List containing scrapped and cleaned job descriptions; created in the clean_for nlp function.
+        List containing scrapped and cleaned terms from the series of interest; created
+        in the clean_for nlp function.
     n_gram_count : integer
         A parameter representing the dimensionality of the n_grams of interest (e.g., 2 = bigram, 3 = trigram, etc.).
     n_gram_range_start : integer
@@ -346,88 +347,90 @@ def visualize_n_grams(n_grams):
     ax.set_title('n grams')
 
 
-def create_word_cloud():
-    # Start with one job_description:
-    text = df.job_description[0]
+def create_word_clouds(terms_for_nlp):
+    '''
+    Generate masked and unmasked word clouds from the processed terms extracted from the 
+    series of interest (e.g., job_description, company, etc.)
+
+    Parameters
+    ----------
+    terms_for_nlp : list
+        List containing scrapped and cleaned terms from the series of interest; created
+        in the clean_for nlp function..
+
+    Returns
+    -------
+    None. Directly outputs and saves visualizations as pngs.
+
+    '''
+    # convert the terms_for_nlp list into a string, which is what WordCloud expects
+    word_cloud_terms = ' '.join(terms_for_nlp)
+       
+    # create a WordCloud object and optimize the terms for display; tune the Dunning collocation threshold
+    # to increase or decrease bigram frequency (low threshold=more bigrams)
+    word_cloud = WordCloud(max_font_size=50,
+                           max_words=50,
+                           background_color='white',
+                           collocation_threshold=1000).generate(word_cloud_terms)
     
-    # Create and generate a word cloud image:
-    wordcloud = WordCloud().generate(text)
-    
-    # Display the generated image:
-    plt.imshow(wordcloud, interpolation='bilinear') # bilinear, sinc, catrom, bessel, lanczos
-    plt.axis("off")
-    plt.show()
-    
-    # lower max_font_size, change the maximum number of word and lighten the background:
-    wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(text)
+    # display the word cloud
     plt.figure()
-    plt.imshow(wordcloud, interpolation="bilinear")
-    plt.axis("off")
+    plt.imshow(word_cloud, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis('off')
     plt.show()
     
-    # Save the image in the img folder:
-    wordcloud.to_file("word_clouds/test_job_description.png")
+    # save the word cloud to a png
+    word_cloud.to_file(f'word_clouds/word_cloud_{series_of_interest.name}.png')
     
-    # combine all job descriptions into a single object
-    text = " ".join(review for review in df.job_description)
-    print ("There are {} words in the combination of all review.".format(len(text)))
-    
-    # Create stopword list:
-    stopwords = set(STOPWORDS)
-    stopwords.update(["qualification", "key", "job", "America"])
-    
-    # Generate a word cloud image
-    wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
-    
-    # Display the generated image:
-    # the matplotlib way:
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis("off")
-    plt.show()
-    
-    # masking attempt
-    wine_mask = np.array(Image.open("wine_mask.png"))
-    wine_mask
-    
-    # convret mask to white=255, black=0
-    def transform_format(val):
-        if val == 0:
-            return 255
-        else:
-            return val
-    
+    # read in mask for a word cloud canvassed on a mask outline
+    word_cloud_mask = np.array(Image.open('bear.png'))
+
+    # if needed, use this function and the lines below to convert a mask to white=255, black=0
+    # def transform_mask_pixel_values(val):
+    #     if val == 0:
+    #         return 255
+    #     else:
+    #         return val   
     # Transform your mask into a new one that will work with the function:
-    transformed_wine_mask = np.ndarray((wine_mask.shape[0], wine_mask.shape[1]), np.int32)
-    for i in range(len(wine_mask)):
-        transformed_wine_mask[i] = list(map(transform_format, wine_mask[i]))
-    
-    # Create a word cloud image
-    wc = WordCloud(background_color="white", max_words=1000, mask=transformed_wine_mask,
-                   stopwords=stopwords, contour_width=3, contour_color='firebrick')
-    wc.generate(text)
-    
-    # save out the png
-    wc.to_file("wine_mask_try.png")
-    
-    # show
-    plt.figure(figsize=[20,10])
-    plt.imshow(wc, interpolation='bilinear')
-    plt.axis("off")
+    # transformed_word_cloud_mask = np.ndarray((word_cloud_mask.shape[0], word_cloud_mask.shape[1]), np.int32)
+    # for i in range(len(word_cloud_mask)):
+    #     transformed_word_cloud_mask[i] = list(map(transform_mask_pixel_values, word_cloud_mask[i]))    
+
+    # create a masked WordCloud object and optimize the terms for display
+    word_cloud_masked = WordCloud(max_font_size=50,
+                                  max_words=100,
+                                  background_color='white',
+                                  mask=word_cloud_mask,
+                                  contour_width=2, 
+                                  contour_color='black').generate(word_cloud_terms)    
+
+    # display the masked word cloud
+    plt.figure()
+    plt.imshow(word_cloud_masked, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis('off')
     plt.show()
     
+    # save the masked cloud to a png
+    word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')
+    
+  
 
 ####### !!!!!!!! START HERE NEXT  #########
 # finalize bar plot of count of jobs in states
 # for visualization: branded for NLP/ML insights 
+# find a better mask for the word cloud
 # parse the date_scraped field for the parent scrape (e.g., ds, ml, etc.)
 # build word cloud function
 # expand stopwords, aggressively
 # create searches for key lists
 # create list of ds skills
 # create list of cloud tech
+# hold = df[df['job_description'].str.contains('attention to detail')]
+# hold = df[df['job_description'].str.contains('|'.join(['passion','collaborate','teamwork','team work', 'interpersonal','flexibility','flexible','listening','listener','listen','empathy','empathetic']))]
 # create list of soft skills
 # create seaborne charts for n-grams
 # add timing
+# figure out how to brand-color the word clouds
 # select favorite sns color pallete, and maybe use that for the branding colors!
 # determine optimal sns chat size
 # think about grouping/stacking compaisons of n_grams based on job type/title
@@ -448,26 +451,21 @@ df_raw        = load_and_concat_csvs(csv_path)
 calculate_raw_csv_stats(df_raw)
 df_clean      = clean_raw_csv(df_raw)
 df            = parse_date_scraped_field(df_clean)
-series_for_nlp = df['job_description']
-terms_for_nlp  = clean_for_nlp(series_for_nlp)
+series_of_interest = df['job_description']
+terms_for_nlp  = clean_for_nlp(series_of_interest)
 visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 1
 n_gram_range_start, n_gram_range_stop  = 0, 200
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-
+create_word_clouds(terms_for_nlp)
 
 
 
 
 # clean up intermediate dataframes and variables
-del df_raw, df_clean
-
-
-
-
-
+del df_raw, df_clean, n_gram_count, n_gram_range_start, n_gram_range_stop
 
 
 
