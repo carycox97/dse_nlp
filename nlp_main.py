@@ -343,7 +343,7 @@ def visualize_n_grams(n_grams):
     n_grams_df_sns = n_grams_df.iloc[:20]
     
     # create a horizontal barplot visualizing n_gram counts from greatest to least
-    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_d') # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_d') # crest, mako, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title('n grams')
 
 
@@ -370,8 +370,9 @@ def create_word_clouds(terms_for_nlp):
     # to increase or decrease bigram frequency (low threshold=more bigrams)
     
     word_cloud = WordCloud(max_font_size=50,
-                           max_words=50,
-                           background_color='white',
+                           max_words=100,
+                           background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
+                           colormap='mako',                  # mako, crest
                            collocations=False).generate(word_cloud_terms)
     
     # display the word cloud
@@ -400,7 +401,8 @@ def create_word_clouds(terms_for_nlp):
     # create a masked WordCloud object and optimize the terms for display
     word_cloud_masked = WordCloud(max_font_size=50,
                                   max_words=100,
-                                  background_color='white',
+                                  background_color='lightgray',
+                                  colormap='mako',                # crest
                                   mask=word_cloud_mask,
                                   contour_width=2, 
                                   contour_color='black').generate(word_cloud_terms)    
