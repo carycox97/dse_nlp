@@ -366,12 +366,13 @@ def create_word_clouds(terms_for_nlp):
     # convert the terms_for_nlp list into a string, which is what WordCloud expects
     word_cloud_terms = ' '.join(terms_for_nlp)
        
-    # create a WordCloud object and optimize the terms for display; tune the Dunning collocation threshold
+    # create a WordCloud object and optimize the terms for display; tune the Dunning collocation_threshold
     # to increase or decrease bigram frequency (low threshold=more bigrams)
+    
     word_cloud = WordCloud(max_font_size=50,
                            max_words=50,
                            background_color='white',
-                           collocation_threshold=1000).generate(word_cloud_terms)
+                           collocations=False).generate(word_cloud_terms)
     
     # display the word cloud
     plt.figure()
@@ -420,7 +421,6 @@ def create_word_clouds(terms_for_nlp):
 # for visualization: branded for NLP/ML insights 
 # find a better mask for the word cloud
 # parse the date_scraped field for the parent scrape (e.g., ds, ml, etc.)
-# build word cloud function
 # expand stopwords, aggressively
 # create searches for key lists
 # create list of ds skills
