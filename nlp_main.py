@@ -237,13 +237,13 @@ def clean_for_nlp(series_of_interest):
                        'candidate', 'fully', 'vaccinated', 'covid19', 'affirmative', 'action', 'employer', 'discriminate',
                        'arrest', 'conviction', 'please', 'visit', 'every', 'day', 'san', 'francisco', 'around', 'world',
                        'applicable', 'law', 'applicant', 'criminal', 'history', 'etc', 'eg', 'andor', 'youll', 'including',
-                       'u', 'using', 'way', 'set', 'accomodation', 'within', 'nonessential', 'suspended']
+                       'u', 'using', 'way', 'set', 'accomodation', 'within', 'nonessential', 'suspended', 'genetic']
     
     benefits_stopwords = ['benefit', 'medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
     
-    other_hr_stopwords = ['qualified', 'applicant', 'related', 'field']
+    other_hr_stopwords = ['qualified', 'applicant', 'related', 'field', 'ability']
     
-    stop_words = nltk.corpus.stopwords.words('english') + permanent_stopwords + benefits_stopwords
+    stop_words = nltk.corpus.stopwords.words('english') + permanent_stopwords + benefits_stopwords + other_hr_stopwords
     
     # normalize, split and lowercase the parsed text
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
@@ -489,6 +489,7 @@ def visualize_word_clouds(terms_for_nlp):
 # will need to make an index of key skills based on the n_gram results
 # create a functionality to count how many jobs cite a specifc term I searched; probably just search the series with lov=c
 # really need to grind out all stop words that aren't relevant
+# can break skill lists into why/how/what subsets later
 
 
 def main_program():
@@ -499,19 +500,142 @@ def main_program():
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 # csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_da'
 
+
 # establish lists for nlp filtering
-ds_tech_skill_terms = ['python', 'r', 'sql', 'tableau', 'analytics', 'deep', 'learning', 'big', 'data']
-ds_soft_skill_terms = ['written', 'collaborate', 'communicate']
-ds_cred_terms = ['degree', 'phd', 'master', 'bachelor']
+ds_cred_terms = ['1',
+                 '2',
+                 '3',
+                 '4',
+                 '5',
+                 'analyst',
+                 'bachelor',
+                 'computer',
+                 'data',
+                 'degree',
+                 'electrical',
+                 'engineering',
+                 'experience',
+                 'field',
+                 'handson',
+                 'industry',
+                 'knowledge',
+                 'master',
+                 'phd',
+                 'quantitative', 
+                 'record',
+                 'related',
+                 'relevant',
+                 'science',
+                 'scientist',
+                 'software',
+                 'track', 
+                 'work',
+                 'working',
+                 'year'] # degrees, work and job titles
+
+ds_tech_skill_terms = ['airflow',
+                       'advanced',
+                       'algorithm',
+                     'analysis',
+                     'analytics',
+                     'artificial',
+                     'big',
+                     'complex',
+                     'computer',
+                     'data',
+                     'deep',
+                     'development',
+                     'django',
+                     'engineering',
+                     'fastapi',
+                     'flask',
+                     'intelligence',
+                     'language',
+                     'large',
+                     'learning',
+                     'machine',
+                     'mining',
+                     'model',
+                     'natural',
+                     'pipeline',
+                     'processing'
+                     'programming', 
+                     'python',
+                     'r',
+                     'science',
+                     'set',
+                     'software',
+                     'source',
+                     'spark',
+                     'sql',
+                     'statistical',
+                     'structured',
+                     'tableau',
+                     'technique',
+                     'tool',
+                     'unstructured',
+                     'visualization']
+
+ds_soft_skill_terms = ['ability',
+                       'attention', 
+                     'best',
+                     'business',
+                     'collaborate',
+                     'communicate',
+                     'communication',
+                     'decision', 
+                     'detail',
+                     'intelligence',
+                     'making',
+                     'management',
+                     'member',
+                     'practice',
+                     'problem', 
+                     'quality',
+                     'skill',
+                     'solving',
+                     'team',
+                     'verbal',
+                     'written']
+
+ds_prof_skill_terms = ['business',
+                       'case',
+                       'customer', 
+                       'data',
+                       'experience',
+                       'help',
+                       'management',
+                       'member',
+                       'need',
+                       'partner',
+                       'problem',
+                       'product',
+                       'project', 
+                       'record',
+                       'science',
+                       'service',
+                       'team',
+                       'track',
+                       'use']
+
+
+ds_network_skill_terms = []
+
+
+
+stops_permanent_hold = ['internal','external']
+
+stops_benefits_hold = []
+
+stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws', 'preferred', 'qualification',
+                       'join', 'u', 'applicant', 'national', 'location', 'duty', 'responsibility']
+
+consideration = ['building', 'environment'] # experience, building | work, environment | supply, chain | essential, function
+
 ds_task_terms = ['processing', 'model']
-ds_verb_terms = []
 python_library_terms = ['numpy', 'pandas']
 
-starfish_analytics_terms = ['analytics']
-starfish_math_modeling_terms = []
-starfish_visualization_terms = []
-starfish_integreation_terms = []
-starfish_etl_terms = []
+
 
 
 # execute cleaning and field parsing
@@ -525,7 +649,7 @@ visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 2
-n_gram_range_start, n_gram_range_stop  = 0, 100
+n_gram_range_start, n_gram_range_stop  = 100, 200
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 visualize_word_clouds(terms_for_nlp)
