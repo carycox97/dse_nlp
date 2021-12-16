@@ -400,6 +400,36 @@ def visualize_word_clouds(terms_for_nlp):
     # save the word cloud to a png
     word_cloud.to_file(f'word_clouds/word_cloud_{series_of_interest.name}.png')
     
+    # create a word cloud that allows for bigrams
+    word_cloud_bigrams = WordCloud(max_font_size=50,
+                                   max_words=100,
+                                   background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
+                                   colormap='mako',                  # mako, crest
+                                   collocation_threshold=30).generate(word_cloud_terms)
+    
+    # display the bigram word cloud
+    plt.figure()
+    plt.imshow(word_cloud_bigrams, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis('off')
+    plt.show()
+    
+    # save the bigram word cloud to a png
+    word_cloud.to_file(f'word_clouds/word_cloud_bigram_{series_of_interest.name}.png')
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # read in mask for a word cloud canvassed on a mask outline
     word_cloud_mask = np.array(Image.open('bear.png'))
 
