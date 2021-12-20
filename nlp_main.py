@@ -486,7 +486,7 @@ def visualize_word_clouds(terms_for_nlp):
 # consider a function to identify and collapse key terms, like 'scientist' and 'science', 'analytics' and 'analysis', 'algorithm' and 'technique', 'oral' and 'verbal',
 #     'model' and 'modeling', 'strong', 'excellent', 'writing' and 'written', 'discipline' and 'field',
 #     'collaborate' and 'collaboratively' and 'work together' and 'work closely'; all numbers (1 vs one);
-#     'cloud' and 'cloudbased'; 'gcp' into google cloud platform;  'sa' back into 'sas'
+#     'cloud' and 'cloudbased'; 'gcp' into google cloud platform;  'sa' back into 'sas'; scrub the alphabetical lists
 # consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
   # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
   # has been collapsed and simplified)
@@ -532,6 +532,7 @@ ds_cred_terms = ['ability',
                  'degree',
                  'demonstrated', 
                  'discipline',
+                 'economics',
                  'education',
                  'electrical',
                  'engineer',
@@ -613,6 +614,8 @@ ds_tech_skill_terms = ['ab',
                      'c',
                      'causal', 
                      'center',
+                     'cleaning',
+                     'cleansing',
                      'cloud', 
                      'cloudbased',
                      'code', 
@@ -650,6 +653,7 @@ ds_tech_skill_terms = ['ab',
                      'engineering',
                      'enterprise',
                      'environment',
+                     'etl',
                      'excel',
                      'experimental', 
                      'exploration',
@@ -661,6 +665,7 @@ ds_tech_skill_terms = ['ab',
                      'flow',
                      'forest',
                      'framework',
+                     'fraud', 
                      'generation',
                      'gcp',
                      'google',
@@ -681,6 +686,7 @@ ds_tech_skill_terms = ['ab',
                      'intelligence',
                      'interface',
                      'java',
+                     'jupyter', 
                      'kera',
                      'kubernetes',
                      'lake',
@@ -688,12 +694,14 @@ ds_tech_skill_terms = ['ab',
                      'large',
                      'largescale',
                      'learning',
+                     'library',
                      'lifecycle',
                      'logistic', 
                      'machine',
                      'maintain',
                      'manipulation',
                      'math,'
+                     'mathematical',
                      'mathematics',
                      'method',
                      'methodology',
@@ -709,6 +717,7 @@ ds_tech_skill_terms = ['ab',
                      'neural', 
                      'nlp',
                      'nosql',
+                     'notebook',
                      'office',
                      'open', 
                      'pipeline',
@@ -719,6 +728,7 @@ ds_tech_skill_terms = ['ab',
                      'prescriptive',
                      'problem',
                      'procedure',
+                     'process',
                      'processing',
                      'programming', 
                      'python',
@@ -849,6 +859,7 @@ ds_soft_skill_terms = ['ad',
                      'nontechnical', 
                      'oral,'
                      'organization',
+                     'oriented',
                      'paced',
                      'people',
                      'perspective',
@@ -1021,7 +1032,7 @@ stops_permanent_hold = list(set(['internal','external', 'new', 'capital', 'part'
                         'based', 'upon', 'personal', 'embracing', 'third', 'party', 'due', 'part', 'deploying',
                         'well', 'fargo', 'prescribe', 'action', 'washington', 'dc', 'least', 'hour', 'overview',
                         'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound', 'indepth', 'also', 'consider',
-                        'colorado', 'salesforcecom', 'salesforceorg', '3rd']))
+                        'colorado', 'salesforcecom', 'salesforceorg', '3rd', 'suite']))
 ''
 
 stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws', 'preferred', 'qualification',
@@ -1057,11 +1068,12 @@ stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws',
                        'prior', 'hour', 'shift', 'relic', 'mental', 'political', 'affiliation', 'credit',
                        'nondiscrimination', 'enjoy', 'privacy', 'someone', 'compliance', 'regulatory', 'family',
                        'eeo', 'statement', 'schedule', 'posse', 'talented', 'wellness', 'sincerely', 'kept',
-                       'confidential', 'unitedhealth', 'group', 'december', 'defense', 'wellbeing', 'demand']
+                       'confidential', 'unitedhealth', 'group', 'december', 'defense', 'wellbeing', 'demand',
+                       'participate', 'able', 'sending', 'email', 'zone', 'million', 'stock', 'purchase']
 
 consideration = ['building', 'environment'] # financial, service | experience, building | work, environment | supply, chain | essential, function
 
-c19 = ['proof', 'vaccination', 'executive', 'order', 'requirement', 'order', '14042']
+c19 = ['proof', 'vaccination', 'executive', 'order', 'requirement', 'order', '14042', 'required']
 
 ds_task_terms = ['processing', 'model']
 python_library_terms = ['numpy', 'pandas']
@@ -1080,7 +1092,7 @@ visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 2
-n_gram_range_start, n_gram_range_stop  = 1500, 1600
+n_gram_range_start, n_gram_range_stop  = 1700, 1800
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 visualize_word_clouds(terms_for_nlp)
