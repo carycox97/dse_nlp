@@ -542,6 +542,7 @@ ds_cred_terms = ['ability',
                  'field',
                  'graduate',
                  'handson',
+                 'higher',
                  'industry',
                  'knowledge',
                  'master',
@@ -549,6 +550,7 @@ ds_cred_terms = ['ability',
                  'military', 
                  'operation', 
                  'phd',
+                 'physic',
                  'portfolio',
                  'practical',
                  'prior',
@@ -576,7 +578,7 @@ ds_cred_terms = ['ability',
                  'university',
                  'work',
                  'working',
-                 'year'] # degrees, work and job titles 
+                 'year'] # degrees, work and job titles  
 
 ds_tech_skill_terms = ['ab',
                        'agile',
@@ -597,6 +599,7 @@ ds_tech_skill_terms = ['ab',
                      'applied', 
                      'applying',
                      'architect',
+                     'architecting',
                      'architecture',
                      'artificial',
                      'asaservice',
@@ -620,6 +623,7 @@ ds_tech_skill_terms = ['ab',
                      'computing',
                      'concept',
                      'confidence',
+                     'continuous',
                      'control',
                      'cutting', 
                      'dashboard',
@@ -637,6 +641,7 @@ ds_tech_skill_terms = ['ab',
                      'develop',
                      'development',
                      'distributed', 
+                     'docker',
                      'django',
                      'ecosystem',
                      'edge',
@@ -659,7 +664,8 @@ ds_tech_skill_terms = ['ab',
                      'generation',
                      'gcp',
                      'google',
-                     'hadoop', 
+                     'hadoop',
+                     'hardware',
                      'hidden',
                      'hypothesis', 
                      'image',
@@ -675,6 +681,8 @@ ds_tech_skill_terms = ['ab',
                      'intelligence',
                      'interface',
                      'java',
+                     'kera',
+                     'kubernetes',
                      'lake',
                      'language',
                      'large',
@@ -688,6 +696,7 @@ ds_tech_skill_terms = ['ab',
                      'math,'
                      'mathematics',
                      'method',
+                     'methodology',
                      'metric',
                      'microsoft', 
                      'mining',
@@ -759,6 +768,8 @@ ds_tech_skill_terms = ['ab',
                      'testing',
                      'time', 
                      'tool',
+                     'train',
+                     'training',
                      'transformation',
                      'troubleshooting',
                      'tree',
@@ -771,7 +782,7 @@ ds_tech_skill_terms = ['ab',
                      'volume',
                      'warehouse',
                      'warehousing',
-                     'web']
+                     'web']    
 
 ds_soft_skill_terms = ['ad', 
                        'ability',
@@ -995,7 +1006,7 @@ stops_permanent_hold = list(set(['internal','external', 'new', 'capital', 'part'
                         'credit', 'card', 'regarding', 'make', 'sure', 'existing', 'performed', '50', 'wed', 'love',
                         'based', 'upon', 'personal', 'embracing', 'third', 'party', 'due', 'part', 'deploying',
                         'well', 'fargo', 'prescribe', 'action', 'washington', 'dc', 'least', 'hour', 'overview',
-                        'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound']))
+                        'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound', 'indepth']))
 ''
 
 stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws', 'preferred', 'qualification',
@@ -1028,7 +1039,8 @@ stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws',
                        'saving', 'account', 'primary', 'location', 'secret', 'total', 'reward', 'sponsorship', 'cv',
                        'come', 'sense', 'belonging', 'dedicated', 'commitment', 'base', 'salary', 'eeo', 'poster',
                        'bonus', 'point', 'encouraged', 'apply', 'seeking', 'great', 'rapidly', 'unsolicited', 'resume',
-                       'prior', 'hour', 'shift', 'relic', 'mental']
+                       'prior', 'hour', 'shift', 'relic', 'mental', 'political', 'affiliation', 'credit',
+                       'nondiscrimination', 'enjoy']
 
 consideration = ['building', 'environment'] # financial, service | experience, building | work, environment | supply, chain | essential, function
 
@@ -1051,7 +1063,7 @@ visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 2
-n_gram_range_start, n_gram_range_stop  = 1200, 1300
+n_gram_range_start, n_gram_range_stop  = 1300, 1400
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 visualize_word_clouds(terms_for_nlp)
