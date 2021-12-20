@@ -816,12 +816,14 @@ ds_soft_skill_terms = ['ad',
                      'efficiency',
                      'effectively',
                      'environment',
+                     'ethic',
                      'excellent',
                      'experience',
                      'fast', 
                      'fastpaced',
                      'finding',
                      'flexible',
+                     'hard',
                      'high', 
                      'highly', 
                      'hoc', 
@@ -884,6 +886,7 @@ ds_prof_skill_terms = ['ability',
                        'career', 
                        'case',
                        'challenge',
+                       'change', 
                        'chosen',
                        'client',
                        'complex', 
@@ -1006,7 +1009,8 @@ stops_permanent_hold = list(set(['internal','external', 'new', 'capital', 'part'
                         'credit', 'card', 'regarding', 'make', 'sure', 'existing', 'performed', '50', 'wed', 'love',
                         'based', 'upon', 'personal', 'embracing', 'third', 'party', 'due', 'part', 'deploying',
                         'well', 'fargo', 'prescribe', 'action', 'washington', 'dc', 'least', 'hour', 'overview',
-                        'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound', 'indepth']))
+                        'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound', 'indepth', 'also', 'consider',
+                        'colorado']))
 ''
 
 stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws', 'preferred', 'qualification',
@@ -1040,7 +1044,7 @@ stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws',
                        'come', 'sense', 'belonging', 'dedicated', 'commitment', 'base', 'salary', 'eeo', 'poster',
                        'bonus', 'point', 'encouraged', 'apply', 'seeking', 'great', 'rapidly', 'unsolicited', 'resume',
                        'prior', 'hour', 'shift', 'relic', 'mental', 'political', 'affiliation', 'credit',
-                       'nondiscrimination', 'enjoy']
+                       'nondiscrimination', 'enjoy', 'privacy', 'someone', 'compliance', 'regulatory']
 
 consideration = ['building', 'environment'] # financial, service | experience, building | work, environment | supply, chain | essential, function
 
@@ -1063,7 +1067,7 @@ visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 2
-n_gram_range_start, n_gram_range_stop  = 1300, 1400
+n_gram_range_start, n_gram_range_stop  = 1400, 1500
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 visualize_word_clouds(terms_for_nlp)
