@@ -486,7 +486,7 @@ def visualize_word_clouds(terms_for_nlp):
 # consider a function to identify and collapse key terms, like 'scientist' and 'science', 'analytics' and 'analysis', 'algorithm' and 'technique', 'oral' and 'verbal',
 #     'model' and 'modeling', 'strong', 'excellent', 'writing' and 'written', 'discipline' and 'field',
 #     'collaborate' and 'collaboratively' and 'work together' and 'work closely'; all numbers (1 vs one);
-#     'cloud' and 'cloudbased'; 'gcp' into google cloud platform; 
+#     'cloud' and 'cloudbased'; 'gcp' into google cloud platform;  'sa' back into 'sas'
 # consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
   # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
   # has been collapsed and simplified)
@@ -519,6 +519,7 @@ ds_cred_terms = ['ability',
                  '12',
                  '35',
                  'advanced',
+                 'accredited',
                  'analyst',
                  'analytics',
                  'bachelor',
@@ -551,7 +552,9 @@ ds_cred_terms = ['ability',
                  'portfolio',
                  'practical',
                  'prior',
+                 'professional',
                  'proficiency',
+                 'proven',
                  'quantitative', 
                  'record',
                  'related',
@@ -573,7 +576,7 @@ ds_cred_terms = ['ability',
                  'university',
                  'work',
                  'working',
-                 'year'] # degrees, work and job titles
+                 'year'] # degrees, work and job titles 
 
 ds_tech_skill_terms = ['ab',
                        'agile',
@@ -666,9 +669,11 @@ ds_tech_skill_terms = ['ab',
                      'inference',
                      'information',
                      'infrastructure',
+                     'ingestion',
                      'integration',
                      'integrity',
                      'intelligence',
+                     'interface',
                      'java',
                      'lake',
                      'language',
@@ -694,6 +699,7 @@ ds_tech_skill_terms = ['ab',
                      'next',
                      'neural', 
                      'nlp',
+                     'nosql',
                      'office',
                      'open', 
                      'pipeline',
@@ -703,11 +709,13 @@ ds_tech_skill_terms = ['ab',
                      'predict',
                      'predictive',
                      'prescriptive',
+                     'problem',
                      'procedure',
-                     'processing'
+                     'processing',
                      'programming', 
                      'python',
                      'pytorch',
+                     'quantitative',
                      'query',
                      'relational', 
                      'r',
@@ -721,6 +729,7 @@ ds_tech_skill_terms = ['ab',
                      'review',
                      'robotics',
                      'sa',
+                     'scala',
                      'scale',
                      'scenario',
                      'science',
@@ -755,6 +764,7 @@ ds_tech_skill_terms = ['ab',
                      'tree',
                      'uncover', 
                      'unstructured',
+                     'user',
                      'unsupervised',
                      'version', 
                      'visualization',
@@ -786,8 +796,10 @@ ds_soft_skill_terms = ['ad',
                      'contributor',
                      'critical', 
                      'crossfunctional',
+                     'curiosity',
                      'decision', 
                      'deliver',
+                     'delivering',
                      'detail',
                      'dynamic',
                      'efficiency',
@@ -808,6 +820,7 @@ ds_soft_skill_terms = ['ad',
                      'independently',
                      'individual', 
                      'intelligence',
+                     'intellectual', 
                      'interpersonal',
                      'level',
                      'making',
@@ -873,6 +886,7 @@ ds_prof_skill_terms = ['ability',
                        'decisionmaking',
                        'deep', 
                        'deliver',
+                       'delivering',
                        'demonstrated', 
                        'decision',
                        'development',
@@ -922,6 +936,7 @@ ds_prof_skill_terms = ['ability',
                        'operational', 
                        'opportunity',
                        'owner',
+                       'ownership',
                        'partner',
                        'problem',
                        'problemsolving',
@@ -947,6 +962,7 @@ ds_prof_skill_terms = ['ability',
                        'subject',
                        'success',
                        'team',
+                       'technical',
                        'thought',
                        'track',
                        'transform',
@@ -962,7 +978,8 @@ ds_prof_skill_terms = ['ability',
 
 ds_network_skill_terms = []
 
-
+# for x in ds_prof_skill_terms:
+#     print(x, end=', ')
 
 stops_permanent_hold = list(set(['internal','external', 'new', 'capital', 'part', 'across', 'multiple', 'plus', 'clinical', 'trial',
                         'strong', 'high', 'quality', 'additional', 'unit', 'would', 'like', 'wide', 'variety',
@@ -978,7 +995,7 @@ stops_permanent_hold = list(set(['internal','external', 'new', 'capital', 'part'
                         'credit', 'card', 'regarding', 'make', 'sure', 'existing', 'performed', '50', 'wed', 'love',
                         'based', 'upon', 'personal', 'embracing', 'third', 'party', 'due', 'part', 'deploying',
                         'well', 'fargo', 'prescribe', 'action', 'washington', 'dc', 'least', 'hour', 'overview',
-                        'would', 'disruption']))
+                        'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound']))
 ''
 
 stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws', 'preferred', 'qualification',
@@ -1010,11 +1027,12 @@ stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws',
                        'industry', 'standard', 'matching', 'eligibility', 'privacy', 'notice', 'considered',
                        'saving', 'account', 'primary', 'location', 'secret', 'total', 'reward', 'sponsorship', 'cv',
                        'come', 'sense', 'belonging', 'dedicated', 'commitment', 'base', 'salary', 'eeo', 'poster',
-                       'bonus', 'point', 'encouraged', 'apply', 'seeking', 'great', 'rapidly']
+                       'bonus', 'point', 'encouraged', 'apply', 'seeking', 'great', 'rapidly', 'unsolicited', 'resume',
+                       'prior', 'hour', 'shift', 'relic', 'mental']
 
 consideration = ['building', 'environment'] # financial, service | experience, building | work, environment | supply, chain | essential, function
 
-c19 = ['proof', 'vaccination', 'executive', 'order', 'requirement']
+c19 = ['proof', 'vaccination', 'executive', 'order', 'requirement', 'order', '14042']
 
 ds_task_terms = ['processing', 'model']
 python_library_terms = ['numpy', 'pandas']
@@ -1033,7 +1051,7 @@ visualize_indeed_data(df)
 
 # execute nlp
 n_gram_count = 2
-n_gram_range_start, n_gram_range_stop  = 1100, 1200
+n_gram_range_start, n_gram_range_stop  = 1200, 1300
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 visualize_word_clouds(terms_for_nlp)
