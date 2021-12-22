@@ -230,20 +230,77 @@ def clean_for_nlp(series_of_interest):
     text = ''.join(str(series_of_interest.tolist()))
 
     # add additional stopwords to nltk default stopword list
-    permanent_stopwords = ['sexual', 'orientation', 'equal', 'opportunity', 'origin', 'gender', 'identity', 'marital',
-                       'status', 'applicant', 'religion', 'sex', 'race', 'color', 'without', 'regard', 'reasonable',
-                       'accomodation', 'protected', 'veteran', 'consideration', 'employment', 'receive', 'consideration',
-                       'applicant', 'receive', 'united', 'state', 'job', 'description', 'york', 'disability', 'age',
-                       'candidate', 'fully', 'vaccinated', 'covid19', 'affirmative', 'action', 'employer', 'discriminate',
-                       'arrest', 'conviction', 'please', 'visit', 'every', 'day', 'san', 'francisco', 'around', 'world',
-                       'applicable', 'law', 'applicant', 'criminal', 'history', 'etc', 'eg', 'andor', 'youll', 'including',
-                       'u', 'using', 'way', 'set', 'accomodation', 'within', 'nonessential', 'suspended', 'genetic']
+    additional_stopwords = sorted(list(set(['14042', '3rd', '401k', '50', '500', 'a16z', 'able', 'accepted',
+                                            'access', 'accommodation', 'accomodation', 'account', 'across',
+                                            'action', 'additional', 'adhering', 'affiliation', 'affirmative',
+                                            'age', 'allen', 'also', 'amazecon', 'america', 'amount', 'ancestry',
+                                            'andor', 'angeles', 'another', 'applicable', 'applicant', 'application',
+                                            'apply', 'applyaccommodationschangehealthcarecom', 'area', 'around',
+                                            'arrest', 'assigned', 'assistance', 'assurance', 'authentic', 'authorization',
+                                            'authorized', 'background', 'balance', 'base', 'based', 'basic', 'basis',
+                                            'belief', 'belonging', 'benefit', 'best', 'beyond', 'billion', 'bonus',
+                                            'booz', 'broad', 'california', 'call', 'candidate', 'cannot', 'capital',
+                                            'card', 'care', 'chance', 'change', 'characteristic', 'chase', 'check',
+                                            'chicago', 'childbirth', 'citizen', 'citizenship', 'city', 'civil',
+                                            'classified', 'click', 'clinical', 'closely', 'color', 'colorado', 'come',
+                                            'comfortable', 'commitment', 'committed', 'commuter', 'company', 'compensation',
+                                            'competitive', 'complaint', 'compliance', 'comprehensive', 'confidential',
+                                            'consider', 'consideration', 'considered', 'consistent', 'contact', 'contractor',
+                                            'conversation', 'conversational', 'conviction', 'core', 'cover', 'covid',
+                                            'covid19', 'creating', 'credit', 'creed', 'criminal', 'culture', 'current',
+                                            'currently', 'cv', 'date', 'day', 'dc', 'december', 'dedicated', 'defense',
+                                            'demand', 'dental', 'deploying', 'description', 'disability', 'disclose',
+                                            'disclosed', 'disclosure', 'discriminate', 'discrimination', 'discussed',
+                                            'disruption', 'distributed', 'diverse', 'diversity', 'domestic', 'drive',
+                                            'drugfree', 'drugtesting', 'due', 'duty', 'eeo', 'eg', 'eligibility',
+                                            'eligible', 'email', 'embracing', 'employee', 'employeeled', 'employer',
+                                            'employment', 'encouraged', 'enjoy', 'ensure', 'equal', 'equity', 'essential',
+                                            'estate', 'etc', 'every', 'everyone', 'executive', 'existing', 'expression',
+                                            'extensive', 'external', 'fair', 'family', 'fargo', 'federal', 'feel', 'following',
+                                            'fortune', 'francisco', 'friday', 'full', 'fulltime', 'fully', 'furnish',
+                                            'furtherance', 'gender', 'genetic', 'genetics', 'getty', 'globe', 'go',
+                                            'good', 'great', 'group', 'growing', 'hand', 'harassment', 'health', 'healthcare',
+                                            'hearing', 'high', 'highly', 'hire', 'hiring', 'history', 'holiday', 'home',
+                                            'host', 'hour', 'httpswwwamazonjobsendisabilityus',
+                                            'httpswwwdolgovofccpregscomplianceposterspdfofccp_eeo_supplement_final_jrf_qa_508cpdf',
+                                            'httpswwweeocgovemployerseeolawposter', 'human', 'ibm', 'id', 'identity',
+                                            'il', 'include', 'including', 'inclusion', 'inclusive', 'indepth', 'industry',
+                                            'inquired', 'inside', 'insurance', 'internal', 'job', 'johnson', 'join',
+                                            'jpmorgan', 'kept', 'key', 'kpmg', 'largest', 'law', 'laws', 'least', 'leave',
+                                            'legally', 'letter', 'level', 'leverage', 'life', 'lightspeed', 'like', 'limited',
+                                            'local', 'location', 'lockheed', 'long', 'looking', 'los', 'love', 'm', 'made',
+                                            'maintaining', 'make', 'mandate', 'manner', 'marital', 'martin', 'match',
+                                            'matching', 'mature', 'may', 'medical', 'medium', 'mental', 'million', 'minimum',
+                                            'monday', 'motivated', 'multiple', 'must', 'national', 'navigate', 'need',
+                                            'new', 'nondiscrimination', 'nonessential', 'north', 'notice', 'offer', 'one',
+                                            'opportunity', 'opportunityaffirmative', 'order', 'ordinance', 'orientation',
+                                            'origin', 'outside', 'overview', 'package', 'paid', 'pandemic', 'parental',
+                                            'part', 'participate', 'partnership', 'party', 'pay', 'per', 'perform', 'performed',
+                                            'perk', 'personal', 'phone', 'physical', 'place', 'plan', 'please', 'plus',
+                                            'point', 'policy', 'political', 'position', 'posse', 'poster', 'preemployment',
+                                            'preferred', 'pregnancy', 'premier', 'prescribe', 'previous', 'primary', 'prior',
+                                            'privacy', 'privilege', 'proceeding', 'process', 'proof', 'protected', 'proud',
+                                            'provide', 'providing', 'public', 'puerto', 'purchase', 'qualification', 'qualified',
+                                            'quality', 'race', 'range', 'rapidly', 'real', 'reasonable', 'receive', 'recruiter',
+                                            'recruiting', 'recruitment', 'referral', 'regard', 'regarding', 'regardless',
+                                            'regulation', 'regulatory', 'reimbursement', 'relic', 'religion', 'religious',
+                                            'relocation', 'remote', 'remotely', 'reporting', 'req', 'request', 'required',
+                                            'requirement', 'requires', 'resource', 'responsibility', 'responsible', 'resume',
+                                            'retirement', 'reward', 'rico', 'role', 'safety', 'salary', 'salesforcecom',
+                                            'salesforceorg', 'san', 'saving', 'schedule', 'scratch', 'secret', 'seeking',
+                                            'self', 'sending', 'senior', 'sense', 'sequoia', 'set', 'sex', 'sexual', 'shape',
+                                            'shift', 'show', 'sincerely', 'small', 'social', 'someone', 'sound', 'spending',
+                                            'sponsorship', 'sr', 'standard', 'start', 'state', 'statement', 'status', 'stay',
+                                            'stock', 'strong', 'suite', 'summary', 'supplemental', 'support', 'sure',
+                                            'suspended', 'talented', 'teladoc', 'tenure', 'term', 'therapeutic', 'third',
+                                            'total', 'toughest', 'transgender', 'translate', 'transparency', 'travel', 'trial',
+                                            'trove', 'tuition', 'type', 'u', 'union', 'unit', 'united', 'unitedhealth',
+                                            'unsolicited', 'upon', 'using', 'vaccinated', 'vaccination', 'variety', 'vast',
+                                            'veteran', 'visa', 'vision', 'visit', 'washington', 'way', 'wed', 'well',
+                                            'wellbeing', 'wellness', 'whats', 'wide', 'within', 'without', 'workforce',
+                                            'worklife', 'workplace', 'world', 'would', 'york', 'youll', 'zone']))) + ds_skills_combined
     
-    benefits_stopwords = ['benefit', 'medical', 'dental', 'vision', 'pregnancy', 'childbirth', 'life', 'insurance']
-    
-    other_hr_stopwords = ['qualified', 'applicant', 'related', 'field', 'ability']
-    
-    stop_words = nltk.corpus.stopwords.words('english') + permanent_stopwords + benefits_stopwords + other_hr_stopwords
+    stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     
     # normalize, split and lowercase the parsed text
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
@@ -252,6 +309,9 @@ def clean_for_nlp(series_of_interest):
     # initialize lemmatizer and execute lemmatization
     wnl = nltk.stem.WordNetLemmatizer()
     terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stop_words]
+    
+    # execute post-lemmatization stopword removal to drop unnecessary lemma
+    terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
     
     return terms_for_nlp
 
@@ -281,6 +341,8 @@ def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_
     # indicate processing status in the console
     print('\nIdentifying n_grams...')
     
+    ###!!! Need to drop lemmatized terms from your main list that mixes lemmatized and unlemmatized terms
+    
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
     print(n_grams)
@@ -302,7 +364,6 @@ def filter_terms_for_nlp():
     # get only rows without the key terms - not sure if this works
     inverse_boolean_series = ~pd.Series(terms_for_nlp).isin(value_list)
     inverse_filtered_df = pd.Series(terms_for_nlp)[inverse_boolean_series]
-
 
 
 def visualize_indeed_data(df):
@@ -1109,86 +1170,15 @@ ds_prof_skill_terms = ['ability',
                        'working',
                        'workstreams'] 
 
-
-ds_network_skill_terms = []
+ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
 
 # for x in ds_prof_skill_terms:
 #     print(x, end=', ')
 
-stops_permanent_hold = list(set(['internal','external', 'new', 'capital', 'part', 'across', 'multiple', 'plus', 'clinical', 'trial',
-                        'strong', 'high', 'quality', 'additional', 'unit', 'would', 'like', 'wide', 'variety',
-                        'may', 'include', 'core', 'like', 'qualification', 'fair', 'chance', 'include', 'limited',
-                        'per', 'small', 'least', 'key', 'support', 'best', 'policy', 'real', 'estate', 'may', 'required',
-                        'world', 'extensive', 'senior', 'looking', 'globe', 'monday', 'friday', 'hand',
-                        'million', 'lockheed', 'martin', 'leverage', 'comfortable', 'maintaining', 'broad', 'good',
-                        'sr', 'long', 'term', 'must', 'ensure', 'following', 'area', 'social', 'medium', 'chance',
-                        'ordinance', 'conversational', 'getty', 'highly', 'motivated', 'may', 'also', 'largest',
-                        'committed', 'translate', 'essential', 'duty', 'due', 'drive', 'distributed', 'primary',
-                        'committed', 'multiple', 'amount', 'provide', 'assurance', 'vast', 'trove', 'disruption',
-                        'fortune', '500', 'drive', 'level', 'shape', 'least', 'los', 'angeles', 'ensure',
-                        'credit', 'card', 'regarding', 'make', 'sure', 'existing', 'performed', '50', 'wed', 'love',
-                        'based', 'upon', 'personal', 'embracing', 'third', 'party', 'due', 'part', 'deploying',
-                        'well', 'fargo', 'prescribe', 'action', 'washington', 'dc', 'least', 'hour', 'overview',
-                        'would', 'disruption', 'httpswwwamazonjobsendisabilityus', 'sound', 'indepth', 'also', 'consider',
-                        'colorado', 'salesforcecom', 'salesforceorg', '3rd', 'suite', 'johnson', 'amazecon', 'ibm',
-                        'host']))
-''
 
-stops_other_hr_hold = ['senior', 'closely', 'federal', 'state', 'local', 'laws', 'preferred', 'qualification',
-                       'join', 'u', 'applicant', 'national', 'location', 'duty', 'responsibility',
-                       'least', 'one', 'disability', 'change', 'healthcare', 'minimum', 'qualification',
-                       'benefit', 'package', 'law', 'health', 'care', 'type', 'fulltime', 'employee', 'applicant',
-                       'diversity', 'inclusion', 'responsibility', 'include', 'physical', 'mental', 'wide', 'range',
-                       'must', 'able', 'following', 'consider', 'qualified', 'request', 'accommodation',
-                       'diverse', 'inclusive', 'basic', 'paid', 'parental', 'leave', 'application', 'process',
-                       'full', 'committed', 'providing', 'remote', 'required', 'basis', 'national',
-                       'health', 'safety', 'place', 'competitive', 'salary', 'range', 'perform', 'essential', 'key', 'responsibility',
-                       'creed', 'national', 'ancestry', 'federal', 'contractor', 'preferred', 'worklife', 'balance',
-                       'contact', 'accommodation', 'request', 'able', 'responsible', 'travel', 'requirement',
-                       'offer', 'competitive', 'pay', 'transparency', 'committed', 'creating', 'start', 'date',
-                       'background', 'check', 'duty', 'assigned', 'public', 'health', 'retirement', 'plan',
-                       'expression', 'citizen', 'authorized', 'discrimination', 'harassment', 'regulation',
-                       'workplace', 'remotely', 'equity', 'inclusion', 'role', 'company', 'previous', 'position', 'requires',
-                       'location', 'paid', 'holiday', 'tuition', 'reimbursement', 'opportunity', 'hire',
-                       'human', 'resource', 'cover', 'letter', 'home', 'reporting', 'need', 'assistance',
-                       'comprehensive', 'benefit', 'citizenship', 'compensation', 'history', 'spending',
-                       'position', 'summary', 'compensation', 'benefit', 'workforce', 'benefit', '401k', 'role',
-                       'candidate', 'legally', 'recruiting', 'religious', 'belief', 'match', 'paid', 'parental',
-                       'assistance', 'accommodation', 'visa', 'sponsorship', 'access', 'compensation', 'package',
-                       'culture', 'genetics', 'notice', 'opportunityaffirmative', 'seeking', 'recruitment', 'hiring',
-                       'authorization', 'characteristic', 'offer', 'scratch', 'group', 'employee', 'navigate',
-                       'provide', 'proof', 'providing', 'opportunity', 'request', 'personal', 'health', 'saving',
-                       'eligible', 'employee', 'currently', 'seeking', 'requires', 'north', 'america', 'growing', 'm',
-                       'city', 'manner', 'consistent', '401k', 'family', 'healthcare', 'state', 'apply',
-                       'industry', 'standard', 'matching', 'eligibility', 'privacy', 'notice', 'considered',
-                       'saving', 'account', 'primary', 'location', 'secret', 'total', 'reward', 'sponsorship', 'cv',
-                       'come', 'sense', 'belonging', 'dedicated', 'commitment', 'base', 'salary', 'eeo', 'poster',
-                       'bonus', 'point', 'encouraged', 'apply', 'seeking', 'great', 'rapidly', 'unsolicited', 'resume',
-                       'prior', 'hour', 'shift', 'relic', 'mental', 'political', 'affiliation', 'credit',
-                       'nondiscrimination', 'enjoy', 'privacy', 'someone', 'compliance', 'regulatory', 'family',
-                       'eeo', 'statement', 'schedule', 'posse', 'talented', 'wellness', 'sincerely', 'kept',
-                       'confidential', 'unitedhealth', 'group', 'december', 'defense', 'wellbeing', 'demand',
-                       'participate', 'able', 'sending', 'email', 'zone', 'million', 'stock', 'purchase',
-                       'authentic', 'self', 'mature', 'perk', 'inquired', 'discussed', 'phone', 'call', 'disclosed',
-                       'contact', 'inside', 'outside', 'employee', 'another', 'inquired', 'complaint', 'proceeding',
-                       'hearing', 'furnish', 'everyone', 'feel', 'cannot', 'furtherance', 'disclose', 'disclosure',
-                       'proud', 'teladoc', 'relocation', 'assistance', 'toughest', 'referral', 'jpmorgan', 'chase',
-                       'stay', 'current', 'range', 'made', 'access', 'classified', 'premier', 'love', 'regardless',
-                       'show', 'proof', 'drugfree', 'workplace', 'go', 'beyond', 'california', 'billion', 'worklife',
-                       'supplemental', 'therapeutic', 'preemployment', 'conversation', 'transgender', 'civil', 'union',
-                       'opportunityaffirmative', 'req', 'id', 'whats', 'drugtesting', 'accepted', 'click', 'kpmg',
-                       'httpswwwdolgovofccpregscomplianceposterspdfofccp_eeo_supplement_final_jrf_qa_508cpdf',
-                       'httpswwweeocgovemployerseeolawposter', 'applyaccommodationschangehealthcarecom', 'employeeled',
-                       'tenure', 'recruiter', 'privilege', 'sequoia', 'capital', 'lightspeed', 'domestic', 'partnership',
-                       'retirement', 'commuter', 'a16z', 'puerto', 'rico', 'chicago', 'il', 'booz', 'allen']
 
-consideration = ['building', 'environment'] # financial, service | experience, building | work, environment | supply, chain | essential, function
 
-c19 = ['proof', 'vaccination', 'executive', 'order', 'requirement', 'order', '14042', 'required', 'full', 'mandate', 'covid',
-       'pandemic', 'adhering', 'opportunityaffirmative']
 
-ds_task_terms = ['processing', 'model']
-python_library_terms = ['numpy', 'pandas']
 
 
 
@@ -1203,7 +1193,7 @@ terms_for_nlp  = clean_for_nlp(series_of_interest)
 visualize_indeed_data(df)
 
 # execute nlp
-n_gram_count = 1
+n_gram_count = 2
 n_gram_range_start, n_gram_range_stop  = 0, 200 # 3900, 4000 # NEXT - advance the range
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
