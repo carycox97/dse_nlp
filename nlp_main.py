@@ -240,7 +240,7 @@ def clean_for_nlp(series_of_interest):
                                             'authorized', 'background', 'balance', 'base', 'based', 'basic', 'basis',
                                             'belief', 'belonging', 'benefit', 'best', 'beyond', 'billion', 'bonus',
                                             'booz', 'broad', 'california', 'call', 'candidate', 'cannot', 'capital',
-                                            'card', 'care', 'chance', 'change', 'characteristic', 'chase', 'check',
+                                            'card', 'care', 'chain', 'chance', 'change', 'characteristic', 'chase', 'check',
                                             'chicago', 'childbirth', 'citizen', 'citizenship', 'city', 'civil',
                                             'classified', 'click', 'clinical', 'closely', 'color', 'colorado', 'come',
                                             'comfortable', 'commitment', 'committed', 'commuter', 'company', 'compensation',
@@ -291,14 +291,24 @@ def clean_for_nlp(series_of_interest):
                                             'self', 'sending', 'senior', 'sense', 'sequoia', 'set', 'sex', 'sexual', 'shape',
                                             'shift', 'show', 'sincerely', 'small', 'social', 'someone', 'sound', 'spending',
                                             'sponsorship', 'sr', 'standard', 'start', 'state', 'statement', 'status', 'stay',
-                                            'stock', 'strong', 'suite', 'summary', 'supplemental', 'support', 'sure',
+                                            'stock', 'strong', 'suite', 'summary', 'supplemental', 'supply', 'support', 'sure',
                                             'suspended', 'talented', 'teladoc', 'tenure', 'term', 'therapeutic', 'third',
                                             'total', 'toughest', 'transgender', 'translate', 'transparency', 'travel', 'trial',
                                             'trove', 'tuition', 'type', 'u', 'union', 'unit', 'united', 'unitedhealth',
                                             'unsolicited', 'upon', 'using', 'vaccinated', 'vaccination', 'variety', 'vast',
                                             'veteran', 'visa', 'vision', 'visit', 'washington', 'way', 'wed', 'well',
                                             'wellbeing', 'wellness', 'whats', 'wide', 'within', 'without', 'workforce',
-                                            'worklife', 'workplace', 'world', 'would', 'york', 'youll', 'zone']))) + ds_skills_combined
+                                            'worklife', 'workplace', 'world', 'would', 'york', 'youll', 'zone',
+                                            'achieve', 'goal', 'organization', 'future', 'sourcing', 'offering',
+                                            'choice', 'let', 'know', 'strategic', 'immigration', 'available',
+                                            'government', 'agency', 'financial', 'institution', 'resolve', 'issue',
+                                            'leveraging', 'drug', 'free', 'monitor', 'successful', 'completion', 'community', 'serve',
+                                            'hired', 'accenture', 'chief', 'officer', 'investigation', 'otherwise', 'unless',
+                                            'right', 'thing', 'better', 'function', 'response', 'formal', 'charge', 'b',
+                                            'conducted', 'legal', 'placing', 'manager', 'talent', 'firm', '100', 'ongoing',
+                                            'ethnicity', 'conference', 'resident', 'submitting', 'acknowledge', 'mix', 'building',
+                                            'celebrates', 'httpswwwdolgovofccppdfpaytransp_20english_formattedesqa508cpdf',
+                                            'vacation', 'sick', 'january', '2022', 'tiger', 'global']))) + ds_skills_combined
     
     stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     
@@ -340,8 +350,6 @@ def count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_
     '''
     # indicate processing status in the console
     print('\nIdentifying n_grams...')
-    
-    ###!!! Need to drop lemmatized terms from your main list that mixes lemmatized and unlemmatized terms
     
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
@@ -526,6 +534,7 @@ def visualize_word_clouds(terms_for_nlp):
   
 
 ####### !!!!!!!! START HERE NEXT  #########
+# NEED TO DECONFLICT SKILL LISTS AND STOPWORD LISTS
 # finalize bar plot of count of jobs in states
 # for visualization: branded for NLP/ML insights 
 # find a better mask for the word cloud
@@ -731,6 +740,7 @@ ds_tech_skill_terms = ['ab',
                      'designing',
                      'detection',
                      'develop',
+                     'developing',
                      'development',
                      'distributed', 
                      'docker',
@@ -928,6 +938,8 @@ ds_tech_skill_terms = ['ab',
 ds_soft_skill_terms = ['ad', 
                        'ability',
                        'agile',
+                       'ambiguity',
+                       'ambiguous',
                        'attention', 
                        'audience',
                      'best',
@@ -963,6 +975,7 @@ ds_soft_skill_terms = ['ad',
                      'environment',
                      'ethic',
                      'excellent',
+                     'exercise', 
                      'experience',
                      'explain', 
                      'fast', 
@@ -985,6 +998,7 @@ ds_soft_skill_terms = ['ad',
                      'intellectually',
                      'interdisciplinary',
                      'interpersonal',
+                     'judgment',
                      'learn',
                      'level',
                      'making',
@@ -1131,6 +1145,7 @@ ds_prof_skill_terms = ['ability',
                        'process',
                        'product',
                        'professional',
+                       'program',
                        'project', 
                        'proven',
                        'question',
@@ -1192,7 +1207,7 @@ series_of_interest = df['job_description']
 terms_for_nlp  = clean_for_nlp(series_of_interest)
 visualize_indeed_data(df)
 
-# execute nlp
+# execute nlp   NEED TO DECONFLICT SKILL LISTS AND STOPWORD LISTS
 n_gram_count = 2
 n_gram_range_start, n_gram_range_stop  = 0, 200 # 3900, 4000 # NEXT - advance the range
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
