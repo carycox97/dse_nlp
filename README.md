@@ -1,2 +1,5 @@
-hold for readme details
-remember to add code details
+Date Updated:
+Author:
+Title:
+Intent:
+Instructions for Use:
