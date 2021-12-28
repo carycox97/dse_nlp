@@ -308,7 +308,11 @@ def clean_for_nlp(series_of_interest):
                                             'conducted', 'legal', 'placing', 'manager', 'talent', 'firm', '100', 'ongoing',
                                             'ethnicity', 'conference', 'resident', 'submitting', 'acknowledge', 'mix', 'building',
                                             'celebrates', 'httpswwwdolgovofccppdfpaytransp_20english_formattedesqa508cpdf',
-                                            'vacation', 'sick', 'january', '2022', 'tiger', 'global']))) + ds_skills_combined
+                                            'vacation', 'sick', 'january', '2022', 'tiger', 'global', 'get', 'done',
+                                            'top', 'priority', 'internally', 'externally', 'performance', 'indicator',
+                                            'continue', 'grow', 'faculty', 'staff', 'bring', 'closer', 'result',
+                                            'virtual', 'assistant', 'approved', 'condition', 'save', 'money']))) + ds_skills_combined
+    
     
     stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     
@@ -953,6 +957,7 @@ ds_soft_skill_terms = ['ad',
                      'collaborative',
                      'collaboratively',
                      'communicate',
+                     'communicating', 
                      'communication',
                      'complex',
                      'concise',
@@ -1208,7 +1213,7 @@ terms_for_nlp  = clean_for_nlp(series_of_interest)
 visualize_indeed_data(df)
 
 # execute nlp   NEED TO DECONFLICT SKILL LISTS AND STOPWORD LISTS
-n_gram_count = 2
+n_gram_count = 1
 n_gram_range_start, n_gram_range_stop  = 0, 200 # 3900, 4000 # NEXT - advance the range
 n_grams = count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
