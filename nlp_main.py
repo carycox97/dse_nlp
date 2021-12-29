@@ -311,8 +311,10 @@ def clean_for_nlp(series_of_interest):
                                             'vacation', 'sick', 'january', '2022', 'tiger', 'global', 'get', 'done',
                                             'top', 'priority', 'internally', 'externally', 'performance', 'indicator',
                                             'continue', 'grow', 'faculty', 'staff', 'bring', 'closer', 'result',
-                                            'virtual', 'assistant', 'approved', 'condition', 'save', 'money']))) + ds_skills_combined
-    
+                                            'virtual', 'assistant', 'approved', 'condition', 'save', 'money', 'create',
+                                            'understand', 'various', 'production', 'activity', 'take', 'department', 'provides',
+                                            'familiarity', 'others', 'assist']))) + ds_skills_combined
+    ''
     
     stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     
@@ -562,7 +564,7 @@ def visualize_word_clouds(terms_for_nlp):
 #     'collaborate' and 'collaboratively' and 'work together' and 'work closely'; all numbers (1 vs one);
 #     'cloud' and 'cloudbased'; 'gcp' into google cloud platform;  'sa' back into 'sas'; scrub the alphabetical lists;
 #     'speech recognition' to 'nlp'; 'ai' 'ml' and 'aiml'; 'latest', 'newest', 'cutting edge'; 'recommender' and 'recommendation
-#     in the systems;'making decison' bigram to 'decisionmaking'
+#     in the systems;'making decison' bigram to 'decisionmaking'; 'approach' and 'method' and all cousins
 # consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
   # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
   # has been collapsed and simplified)
@@ -693,6 +695,7 @@ ds_tech_skill_terms = ['ab',
                      'application',
                      'applied', 
                      'applying',
+                     'approach',
                      'architect',
                      'architecting',
                      'architecture',
@@ -998,6 +1001,8 @@ ds_soft_skill_terms = ['ad',
                      'improvement',
                      'independently',
                      'individual', 
+                     'initiative',
+                     'innovation',
                      'intelligence',
                      'intellectual', 
                      'intellectually',
@@ -1082,6 +1087,7 @@ ds_prof_skill_terms = ['ability',
                        'decisionmaking',
                        'deep', 
                        'deliver', 
+                       'delivery',
                        'delivering',
                        'demonstrated', 
                        'decision',
