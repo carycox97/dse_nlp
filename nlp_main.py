@@ -317,7 +317,8 @@ def clean_for_nlp(series_of_interest):
                                             'different', 'planning', 'task', 'want', 'supporting', 'appropriate', 'consumer',
                                             'effort', 'define', 'document', 'conduct', 'potential', 'used', 'patient',
                                             'find', 'documentation', 'finance', 'similar', 'first', 'specific', 'share',
-                                            'deployment', 'includes', 'require']))) + ds_skills_combined
+                                            'deployment', 'includes', 'require', 'focused', 'act', 'implementing',
+                                            'organizational', 'person', 'many', 'brand', 'search', 'content']))) + ds_skills_combined
     ''
     
     stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
