@@ -317,9 +317,10 @@ def clean_for_nlp(series_of_interest):
                                             'different', 'planning', 'task', 'want', 'supporting', 'appropriate', 'consumer',
                                             'effort', 'define', 'document', 'conduct', 'potential', 'used', 'patient',
                                             'find', 'documentation', 'finance', 'similar', 'first', 'specific', 'share',
-                                            'deployment', 'includes', 'require', 'focused', 'act', 'implementing',
-                                            'organizational', 'person', 'many', 'brand', 'search', 'content']))) + ds_skills_combined
-    ''
+                                            'deployment', 'includes', 'require', 'focused', 'act', 'implementing', 'desired',
+                                            'organizational', 'person', 'many', 'brand', 'search', 'content', 'address',
+                                            'directly', 'driving', 'execution', 'colleague', 'general', 'online', 'addition',
+                                            'asset', 'commercial', 'meaningful']))) + ds_skills_combined
     
     stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     
@@ -569,7 +570,8 @@ def visualize_word_clouds(terms_for_nlp):
 #     'collaborate' and 'collaboratively' and 'work together' and 'work closely'; all numbers (1 vs one);
 #     'cloud' and 'cloudbased'; 'gcp' into google cloud platform;  'sa' back into 'sas'; scrub the alphabetical lists;
 #     'speech recognition' to 'nlp'; 'ai' 'ml' and 'aiml'; 'latest', 'newest', 'cutting edge'; 'recommender' and 'recommendation
-#     in the systems;'making decison' bigram to 'decisionmaking'; 'approach' and 'method' and all cousins
+#     in the systems;'making decison' bigram to 'decisionmaking'; 'approach' and 'method' and all cousins; 'principle', 'method, apprach, etc.
+#     'experience' and 'experienced'
 # consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
   # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
   # has been collapsed and simplified)
@@ -631,6 +633,7 @@ ds_cred_terms = ['ability',
                  'engineering',
                  'equivalent',
                  'experience',
+                 'experienced',
                  'expert',
                  'field',
                  'graduate',
@@ -752,6 +755,7 @@ ds_tech_skill_terms = ['ab',
                      'designing',
                      'detection',
                      'develop',
+                     'developer',
                      'developing',
                      'development',
                      'distributed', 
@@ -765,6 +769,8 @@ ds_tech_skill_terms = ['ab',
                      'enterprise',
                      'environment',
                      'etl',
+                     'evaluate',
+                     'evaluation',
                      'excel',
                      'experimental', 
                      'exploration',
@@ -854,6 +860,7 @@ ds_tech_skill_terms = ['ab',
                      'predict',
                      'predictive',
                      'prescriptive',
+                     'principle',
                      'probability',
                      'problem',
                      'procedure',
@@ -994,6 +1001,7 @@ ds_soft_skill_terms = ['ad',
                      'excellent',
                      'exercise', 
                      'experience',
+                     'experienced',
                      'explain', 
                      'fast', 
                      'fastpaced',
@@ -1117,6 +1125,7 @@ ds_prof_skill_terms = ['ability',
                        'entrepreneurial',
                        'executive',
                        'experience',
+                       'experienced',
                        'expert',
                        'expertise',
                        'generate',
