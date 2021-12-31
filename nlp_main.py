@@ -370,7 +370,8 @@ def clean_for_nlp(series_of_interest):
                                             'vigorously', 'hiv', 'past', 'organizationleaders', 'customerobsessed', 'thirteen',
                                             '85000', 'property', 'casualty', 'mass', 'brigham', 'driver', 'license',
                                             'second', 'dose', 'investigator', 'pittsburgh', 'pa', 'attract', 'retain',
-                                            'catered', 'lunch', 'booster', 'shot', 'maternity', 'prohibited']))) + ds_skills_combined
+                                            'catered', 'lunch', 'booster', 'shot', 'maternity', 'prohibited', 'behavior',
+                                            'exceptional']))) + ds_skills_combined
     
     stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     
@@ -630,6 +631,12 @@ def visualize_word_clouds(terms_for_nlp):
 # really need to grind out all stop words that aren't relevant
 # can break skill lists into why/how/what subsets later
 # think about a graphic showing a tree from a key word, like 'experience' linking to the highest bigrams on the right
+
+def utilities():
+    
+    # script for cleaning up the n_grams series and converting it to a list
+    strip_end = [x[:-3] for x in n_grams.index]
+    clean_list = [x[2:] for x in strip_end]
 
 
 def main_program():
