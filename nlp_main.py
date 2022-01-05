@@ -233,7 +233,12 @@ def clean_for_nlp(series_of_interest):
     
     # convert parsed series to a list
     text = ''.join(str(series_of_interest.tolist()))
-
+    
+    # normalize, split and lowercase the parsed text
+    print('Normalizing, splitting and lowercasing...')
+    text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
+    words = re.sub(r'[^\w\s]', '', text).split()
+    
     # add additional stopwords to nltk default stopword list
     additional_stopwords = sorted(list(set(['14042', '3rd', '401k', '50', '500', 'a16z', 'able', 'accepted',
                                             'access', 'accommodation', 'accomodation', 'account', 'across',
@@ -1158,24 +1163,47 @@ def clean_for_nlp(series_of_interest):
                                             'configurable', 'irca', 'boomi', 'multiomics', 'decisiveness', 'microbial', 'flawless',
                                             'figuring', 'cabinet', 'spatiotemporal', 'essence', 'opentext', 'gay', '33',
                                             'microbiology', 'flair', 'simpler', 'dependability', 'autodesk', 'hm', 'occurred',
-                                            'httpssfgovorgolsesitesdefaultfilesfco20poster2020pdf', 'automaker', 'macos']))) + ds_skills_combined
+                                            'httpssfgovorgolsesitesdefaultfilesfco20poster2020pdf', 'automaker', 'macos',
+                                            'charles', '52', 'bandwidth', 'quote', 'struggle', 'starter', 'aug', 'accompanying',
+                                            'wyman', 'kroll', 'characterizing', 'entertain', 'unvaccinated', 'principled', 'bet',
+                                            'pipeda', 'upholding', 'humana', 'cnbc', 'domino', 'clinically', 'passed', 'preventive',
+                                            'apex', 'stateprovince', 'procter', 'eleven', 'projectstasks', 'genius', 'macrolevel',
+                                            'diplomaged', 'creatingrunning', 'productionalized', '13000000', 'purposebuilt', 'tb',
+                                            'crains', 'httpswwwspgbenefitessentialscomnewhires', 'aftermarket', '2002',
+                                            'elimination', 'itar', '1961', 'technologyfocused', 'munich', '80000', 'releasing',
+                                            'meant', 'reform', 'instant', 'rational', 'reflecting', 'grew', 'paul', 'responder',
+                                            'hustle', 'statisticallyminded', 'ibmwhat', 'productsservices', 'vr', 'westlake',
+                                            'deployable', 'nbcuniversals', 'athome', 'tlf', 'diligent', 'unavailable',
+                                            'businessolver', 'bio', 'av', 'proposes', 'played', 'postdegree', 'autoscaling',
+                                            'ordering', 'asic', 'logic2020', 'conveniently', 'compromising', 'hyderabad',
+                                            'httpwd5myworkdaycomryderdtask14223htmld', 'iaa', 'snagajob', 'nonstatisticians',
+                                            'disco', 'higherlevel', 'rsus', 'menu', 'mle', 'integrationcontinuous', 'tenant',
+                                            'tend', 'policymakers', 'wastewater', 'assessed', 'sankyo', 'jean', 'authoritative',
+                                            'crossdepartmental', 'garage', 'slow', 'reflective', 'yearround', 'safetysensitive',
+                                            'varsity', 'icertis', 'camp', 'objectively', 'impairment', 'injection', 'ob', 
+                                            'domicile', 'gapp', 'iq', 'detailing', 'cmc', 'ccar', 'preventative', 'nordisk',
+                                            'settlement', 'mx', 'bird', 'advertisement', 'tf', 'eurofins', 'whichever', '263892',
+                                            'coppa', 'amyris', 'labcorp', 'justification', 'virology', 'sisense', 'nextroll',
+                                            'njoy', 'educationtraining', 'cref', 'experiential', 'oltp', 'menlo', 'reaction',
+                                            'organizationally', 'gradeslevels', 'protectionrelated', 'caching', 'mentored',
+                                            '75year', 'geo', 'oura', 'eeocompliancespglobalcom', 'forrester', 'arrow', 'accrual',
+                                            'multilevel', 'gb', 'secrecy', 'drg', 'eighty', 'differentiator', 'acquires', 'avp',
+                                            'ipsos', 'daunting', 'republic', 'carfax', 'outpatient', 'highspeed', 'xsell',
+                                            '74000', 'lowest', 'cashierless', 'highscale', 'finicity', 'retrain', 'mdg', 
+                                            'stewarding', 'cism', 'lsi', 'blacksky', '131', 'kelly', 'reset', 'george', 'autoimmune', 'hcpcs', 'reuters', 'neurodegenerative', 'coolest', 'salient', 'daiichi', 'employerveteransdisabled', 'lateral', 'hobby', 'shehe', 'wired', 'sigint', 'freeportmcmoran', 'sia', '13000', 'digest', 'alexis', 'sarah', 'attentiontodetail', 'achiever', 'fundbox', 'coupa', '707', 'versatility', 'aitecharch', 'bmo', 'bmw', 'bdm', 'ap', 'encountered', 'iat', 'computerelectrical', 'hrbp', 'aon', 'ministry', 'foundry', 'dea', 'marijuana', 'industrybased', 'optimus', 'digitalization', 'gastroenterology', '1year', 'recorded', 'shelf', 'rosslyn', 'graduatelevel', 'fieldbased', 'mississippi', 'thrill', 'weighing', 'bigtable', 'reusability', 'sabbatical', 'cat', 'dry', 'brooklyn', '110000', 'insured', 'elicitation', 'metrology', 'appropriateness', 'impromptu', 'recipe', 'rei', 'manulife', 'dcri', 'ironic', 'itatms', 'inaccuracy', 'directhire', 'steering', 'branded', 'pd', 'stride', 'acorn', 'valuedriven', 'modelsmethods', 'merrick', 'perkins', 'activision', 'kleiner', 'qgis', 'reconstruction', 'tredence', 'staple', 'gamble', 'abbvies', 'uniform', 'kaiser', 'accessory', 'imagining', 'immunization', 'aca', 'golden', 'switzerland', 'logically', 'replace', 'ledger', 'responded', 'qualifies', 'medidatas', 'stormsamza', '1b', 'ornl', 'acquirer', 'tpm', 'durham', 'evergrowing', 'businessoriented', 'bestpractices', 'shrinkage', 'avaya', 'interdepartmental', 'preeminent', 'messenger', 'wing', 'drilling', 'jackson', 'uas', 'learningdata', 'deciding', 'regarded', 'innovates', 'fbi', 'nd', 'ctos', 'gan', 'replicable', 'trackrecord', 'clery', 'quite', 'inscom', 'passenger', 'sla', 'symbol', 'reinforces', 'systemlevel', 'constructively', 'yesterday', 'rose', '1973', 'selfawareness', 'inferencing', 'okay', '24x7', 'conditioning', 'nexus', 'normalizing', 'liaising', 'vista', 'mouse', 'predictability', 'problemsolve', 'underperforming', 'leaving', 'trouble', 'stateofart', 'mirror', 'controlling', 'sweden', 'intimate', 'alexion', 'circlers', 'farming', 'skillsqualifications', 'edr', 'lighting', 'archival', 'designthinking', 'celonis', 'everexpanding', 'ftes', 'indigenous', 'analyzer', 'mentalphysical', 'dubai', 'fruition', 'glms', 'manually', 'bsmsphd', 'mandating', 'cli', 'hazmat', 'ln', 'handled', 'negligible', 'underpinning', 'underpinned', 'sf15', 'justify', 'chegg', 'conferencing', 'honorable']))) + ds_skills_combined
     
-    stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords #+ ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
-    
-    # normalize, split and lowercase the parsed text
-    print('Normalizing, splitting and lowercasing...')
-    text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
-    words = re.sub(r'[^\w\s]', '', text).split()
-    
+    # create stop_words object and toggle on/off additional stop words
+    stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
+
     # initialize lemmatizer and execute lemmatization; this is the sloest part of the processing
     print('Lemmatizing...')
     wnl = nltk.stem.WordNetLemmatizer()
     terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stop_words]
-    
+ 
     # execute post-lemmatization stopword removal to drop unnecessary lemma
     print('Post-lemmatization stopword removal...')
     terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
-    
+
     return terms_for_nlp
 
 
@@ -1374,9 +1402,7 @@ def visualize_word_clouds(terms_for_nlp):
     
     # save the masked cloud to a png
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')
-    
-    print(f'\Processing Time to Here: {(time.time() - start_time) / 60:.2f} minutes')
-    
+        
   
 
 ####### !!!!!!!! START HERE NEXT  #########
@@ -1454,6 +1480,7 @@ ds_cred_terms = ['ability',
                  'aerospace',
                  'analyst',
                  'analytics',
+                 'analyticsrelated',
                  'associate',
                  'bachelor',
                  'bachelorsmasters',
@@ -1582,6 +1609,7 @@ ds_cred_terms = ['ability',
                  'social',
                  'software',
                  'solid', 
+                 'ssbi',
                  'statistic',
                  'statisticalmathematical',
                  'statistics',
@@ -1622,6 +1650,7 @@ ds_tech_skill_terms = ['ab',
                        'aiml',
                        'aimlnlp',
                        'aimachine',
+                       'aipytorch',
                        'airflow',
                        'advanced',
                        'algebra',
@@ -1630,6 +1659,8 @@ ds_tech_skill_terms = ['ab',
                        'algorithmic',
                        'alteryx',
                        'amazon',
+                       'amis',
+                       'anaconda',
                      'analysis',
                      'analytical',
                      'analytic',
@@ -1664,6 +1695,7 @@ ds_tech_skill_terms = ['ab',
                      'athena',
                      'augmentation',
                      'aurora',
+                     'autoencoders',
                      'automated',
                      'automates',
                      'automation', 
@@ -1739,6 +1771,7 @@ ds_tech_skill_terms = ['ab',
                      'confluence',
                      'constraint',
                      'container',
+                     'containerbased',
                      'containerization',
                      'containerized',
                      'continuous',
@@ -1765,6 +1798,7 @@ ds_tech_skill_terms = ['ab',
                      'd3js',
                      'dash',
                      'dashboard',
+                     'reportsdashboards',
                      'dashboarding',
                      'dask',
                      'data',
@@ -1780,6 +1814,8 @@ ds_tech_skill_terms = ['ab',
                      'datasets',
                      'database',
                      'databased',
+                     'datamining',
+                     'datastores',
                      'dax',
                      'debug',
                      'debugging',
@@ -2005,6 +2041,7 @@ ds_tech_skill_terms = ['ab',
                      'looker',
                      'loss',
                      'lstm',
+                     'lstms',
                      'ltv',
                      'luigi',
                      'machine',
@@ -2126,6 +2163,7 @@ ds_tech_skill_terms = ['ab',
                      'orchestrating',
                      'outlier',
                      'paas',
+                     'palantir',
                      'panda', 
                      'parallel',
                      'parametric',
@@ -2173,6 +2211,7 @@ ds_tech_skill_terms = ['ab',
                      'programming', 
                      'programmingscripting',
                      'pso',
+                     'ipython',
                      'python',
                      'pythonbased',
                      'pythonr',
@@ -2209,6 +2248,7 @@ ds_tech_skill_terms = ['ab',
                      'redshift', 
                      'reduction',
                      'regression',
+                     'regularization',
                      'reinforcement',
                      'rekognition',
                      'relational',
@@ -2279,6 +2319,7 @@ ds_tech_skill_terms = ['ab',
                      'semantics', 
                      'semistructured',
                      'semisupervised',
+                     'structuredunstructured',
                      'supervisedunsupervised',
                      'sensing',
                      'sensor',
@@ -2300,12 +2341,14 @@ ds_tech_skill_terms = ['ab',
                      'snowflake',
                      'software',
                      'solr',
+                     'sorcero',
                      'source',
                      'sp',
                      'spacy',
                      'spark',
                      'sparkcognition',
                      'sparkml',
+                     'sparksql',
                      'spatial',
                      'speech', 
                      'speechlanguage',
@@ -2316,9 +2359,11 @@ ds_tech_skill_terms = ['ab',
                      'sprint',
                      'spss',
                      'sql',
+                     'sqlnosql',
                      'sqlpython',
                      'slq',
                      'sqoop',
+                     'sqs',
                      'ssis',
                      'stack',
                      'stat',
@@ -2411,6 +2456,7 @@ ds_tech_skill_terms = ['ab',
                      'visualizing',
                      'visualizingpresenting',
                      'visuals',
+                     'vlookup',
                      'vlookups',
                      'vmware',
                      'volume',
@@ -2692,6 +2738,7 @@ ds_soft_skill_terms = ['ad',
                      'write',
                      'writing',
                      'written',
+                     'writtenverbal',
                      'word',
                      'work',
                      'workflow',
@@ -2891,6 +2938,7 @@ ds_prof_skill_terms = ['ability',
                        'tell', 
                        'think', 
                        'thought',
+                       'thoughtleadership',
                        'track',
                        'transform',
                        'transformation',
