@@ -133,6 +133,8 @@ def clean_terms_for_nlp(series_of_interest):
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
     words = re.sub(r'[^\w\s]', '', text).split()
     
+    ####!!!! START HERE AND CREATE THE FIND AND REPLACE DICTIONARY FOR THE KEY SKILLS LISTS
+    
     # add additional stopwords to nltk default stopword list; counts between 20 and 50 are evaluated but not included in the lists
     # counts of 19 and below are neither evaluated nor included in the stopword list or skill lists
     additional_stopwords = sorted(list(set(['14042', '3rd', '401k', '50', '500', 'a16z', 'able', 'accepted',
@@ -1270,7 +1272,7 @@ def clean_terms_for_nlp(series_of_interest):
 
 def clean_skill_lists_for_nlp():
     
-    # establish lists for nlp filtering
+    # establish credential and skill lists for nlp filtering
     ds_cred_terms = ['ability', 
                      '1',
                      '2',
@@ -3016,7 +3018,7 @@ def visualize_n_grams(n_grams):
     n_grams_df_sns = n_grams_df.iloc[:20]
     
     # create a horizontal barplot visualizing n_gram counts from greatest to least
-    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_d') # crest, mako, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='crest_d') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title('n grams')
 
 
@@ -3047,7 +3049,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud = WordCloud(max_font_size=50,
                            max_words=100,
                            background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
-                           colormap='mako',                  # mako, crest
+                           colormap='crest',                  # mako, crest
                            collocations=False).generate(word_cloud_terms)
     
     # display the word cloud
@@ -3063,7 +3065,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_bigrams = WordCloud(max_font_size=50,
                                    max_words=100,
                                    background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
-                                   colormap='mako',                  # mako, crest
+                                   colormap='crest',                  # mako, crest
                                    collocation_threshold=30).generate(word_cloud_terms)
     
     # display the bigram word cloud
@@ -3168,6 +3170,10 @@ def utilities(terms_for_nlp):
     strip_end = [x[:-3] for x in n_grams.index]
     clean_ngram_list = [x[2:] for x in strip_end]
     print(clean_ngram_list)
+    
+    # working on extracting hex colors from seaborn palletes
+    pal = sns.color_palette('mako')
+    print(pal.as_hex())
 
 
 ###### MAIN EXECUTION BELOW ######
@@ -3208,10 +3214,10 @@ def main_program(csv_path):
     # visualize n_grams as a horizontal bar plot
     visualize_n_grams(n_grams)
 
-    return df, series_of_interest, terms_for_nlp
+    return df, series_of_interest, terms_for_nlp, n_grams
 
 
-df, series_of_interest, terms_for_nlp = main_program(csv_path)
+df, series_of_interest, terms_for_nlp, n_grams = main_program(csv_path)
 
 # close time calculation
 end_time = time.time()
@@ -3226,15 +3232,12 @@ del start_time, end_time
 # finalize bar plot of count of jobs in states
 # for visualization: branded for NLP/ML insights 
 # find a better mask for the word cloud
-# parse the date_scraped field for the parent scrape (e.g., ds, ml, etc.)
-# expand stopwords, aggressively
 # create searches for key lists
 # create list of cloud tech
 # word clouds based only on the verbs in the job descriptions
 # hold = df[df['job_description'].str.contains('attention to detail')]
 # hold = df[df['job_description'].str.contains('|'.join(['passion','collaborate','teamwork','team work', 'interpersonal','flexibility','flexible','listening','listener','listen','empathy','empathetic']))]
 # create seaborne charts for n-grams
-# add timing
 # figure out how to brand-color the word clouds (probably just use the mako colors as my brand colors)
 # select favorite sns color pallete, and maybe use that for the branding colors!
 # determine optimal sns chat size
@@ -3250,9 +3253,7 @@ del start_time, end_time
 # consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
   # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
   # has been collapsed and simplified)
-# will need to make an index of key skills based on the n_gram results
 # create a functionality to count how many jobs cite a specifc term I searched; probably just search the series with lov=c
-# really need to grind out all stop words that aren't relevant
 # can break skill lists into why/how/what subsets later
 # think about a graphic showing a tree from a key word, like 'experience' linking to the highest bigrams on the right
 
