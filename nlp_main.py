@@ -133,8 +133,6 @@ def clean_terms_for_nlp(series_of_interest):
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
     words = re.sub(r'[^\w\s]', '', text).split()
     
-    ####!!!! START HERE AND CREATE THE FIND AND REPLACE DICTIONARY FOR THE KEY SKILLS LISTS
-    
     # add additional stopwords to nltk default stopword list; counts between 20 and 50 are evaluated but not included in the lists
     # counts of 19 and below are neither evaluated nor included in the stopword list or skill lists
     additional_stopwords = sorted(list(set(['14042', '3rd', '401k', '50', '500', 'a16z', 'able', 'accepted',
@@ -1267,6 +1265,17 @@ def clean_terms_for_nlp(series_of_interest):
     print('Post-lemmatization stopword removal...')
     terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
 
+    ####!!!! START HERE AND CREATE THE FIND AND REPLACE DICTIONARY FOR THE KEY SKILLS LISTS
+    # create a dictionary for term corrections (e.g., misspellings, etc.)
+    term_fixes = {'working_fixed': 'working',
+                  'advanced': 'advance',
+                  'zuckerberg_fixed': 'zuckerberg'}
+    
+    # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
+    df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
+    df_term_fixes['terms'].replace(dict(zip(list(term_fixes.values()), list(term_fixes.keys()))), regex=False, inplace=True)
+    terms_for_nlp = list(df_term_fixes['terms'])
+    
     return terms_for_nlp
 
 
@@ -3018,7 +3027,7 @@ def visualize_n_grams(n_grams):
     n_grams_df_sns = n_grams_df.iloc[:20]
     
     # create a horizontal barplot visualizing n_gram counts from greatest to least
-    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='crest_d') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title('n grams')
 
 
@@ -3147,7 +3156,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
 
 
 def nlp_filter_terms():
-    value_list = ['data', 'science', 'python']
+    value_list = ['advance']#['data', 'science', 'python']
     boolean_series = pd.Series(terms_for_nlp).isin(value_list)
     filtered_series = pd.Series(terms_for_nlp)[boolean_series]
     print(len(filtered_series))
