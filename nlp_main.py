@@ -1344,8 +1344,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'secret sci': 'secretsci',
                   'statistics biostatistics': 'statisticsbiostatistics',
                   'statistics': 'statistic',
-                  '': '',
-                  '': '',
+                  'statistics mathematics': 'statisticalmathematical',
+                  'statistics': 'statistician',
                   '': '',
                   '': '',
                   '': '',
@@ -1431,7 +1431,9 @@ def clean_skill_lists_for_nlp():
                             'scienceengineering',
                             'scientist',
                             'secretsci',
-                            'statisticsbiostatistics',]
+                            'statisticsbiostatistics',
+                            'statisticalmathematical',
+                            'statistician',]
     
     # establish credential and skill lists for nlp filtering
     ds_cred_terms = ['ability', 
@@ -1517,9 +1519,6 @@ def clean_skill_lists_for_nlp():
                      'spectrometry',
                      'ssbi',
                     !!!   'statistics',
-                     'statisticalmathematical',
-                     'statistics',
-                     'statistician',
                      'stem',
                      'system', 
                      'technical',
