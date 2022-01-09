@@ -1353,13 +1353,14 @@ def clean_terms_for_nlp(series_of_interest):
                   'understand': 'understood',
                   'understand': 'understands',
                   'experience': 'work',
-                  'experience': 'working',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',}
+                  'experience': 'working'}
+    
+    # code for inverting the dictionary and sorting it alphabetically by key
+    inv_map = {v: k for k, v in term_fixes.items()}
+    inv_map
+    dict_items = sorted(inv_map.items())
+    dict_items
+    dict(dict_items)
     
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
@@ -3028,9 +3029,12 @@ def visualize_n_grams(n_grams):
     n_grams_df['grams'] = n_grams_df.index.astype('string')
     n_grams_df_sns = n_grams_df.iloc[:20]
     
-    # create a horizontal barplot visualizing n_gram counts from greatest to least
+    # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
     ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title('n grams')
+    
+    ###!!! Start here and create a visualization just for the credentials list
+    
 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
