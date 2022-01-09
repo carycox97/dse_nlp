@@ -1355,7 +1355,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'experience': 'work',
                   'experience': 'working'}
     
-    # code for inverting the dictionary and sorting it alphabetically by key
+    # code for inverting the dictionary and sorting it alphabetically by key; then switch them
     inv_map = {v: k for k, v in term_fixes.items()}
     inv_map
     dict_items = sorted(inv_map.items())
