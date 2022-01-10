@@ -1267,106 +1267,65 @@ def clean_terms_for_nlp(series_of_interest):
     print('Post-lemmatization stopword removal...')
     terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
 
-    ####!!!! START HERE AND CREATE THE FIND AND REPLACE DICTIONARY FOR THE KEY SKILLS LISTS
     # create a dictionary for term corrections (e.g., misspellings, etc.)
-    term_fixes = {'working_fixed': 'working',
-                  'advanced': 'advance',
-                  'accredited': 'accreditation',
-                  'analytics': 'analyticsrelated',
-                  'bachelors': 'bachelor',
-                  'bachelors': 'undergraduate',
-                  'bachelors masters': 'bachelorsmasters',
-                  'bioscience': 'biology',
-                  'bioscience': 'biological',
-                  'bioscience': 'biochemistry',
-                  'bioscience': 'epidemiology',
-                  'bioscience': 'neuroscience',
-                  'biostatistics': 'biostatistical',
-                  'biostatistics': 'biostatistician',
-                  'biostatistics': 'biostatisticians',
-                  'biotech': 'biotechnology',
-                  'bootcamp': 'bootcamps',
-                  'bachelors': 'bsba',
-                  'bachelors': 'bsc',
-                  'bachelors masters': 'bsms',
-                  'bachelors masters phd': 'bsmsphd',
-                  'certification': 'certificate',
-                  'certification': 'certified',
-                  'certification': 'licensecertification',
-                  'college': 'collegeuniversity',
-                  'college': 'university',
-                  'computer': 'computational',
-                  'computer': 'computation',
-                  'coursework': 'course',
-                  'proven': 'demonstrates',
-                  'proven': 'demonstrated',
-                  'degree': 'diploma',
-                  'phd': 'doctoral',
-                  'phd': 'doctorate',
-                  'econometrics': 'econometric',
-                  'education experience': 'educationexperience',
-                  'engineering': 'engineer',
-                  'experience': 'experienced',
-                  'expert': 'expertlevel',
-                  'field': 'discipline',
-                  'proficient': 'fluency',
-                  'proficient': 'fluently',
-                  'proficient': 'fluent',
-                  'proficient': 'literate',
-                  'genomics': 'genomic',
-                  'graduate': 'graduatelevel',
-                  'masters': 'master',
-                  'masters phd': 'mastersphd',
-                  'mathematics statistics': 'mathstatistics',
-                  'mathematics statistics': 'mathematicsstatistics',
-                  'mathematics': 'mathematician',
-                  'masters': 'msc',
-                  'masters': 'msma',
-                  'masters phd': 'msphd',
-                  'operations': 'operation',
-                  'peer-reviewed': 'peerreviewed',
-                  'phd masters': 'phdms',
-                  'physics': 'physic',
-                  'professional': 'professionally',
-                  'proficient': 'proficiency',
-                  'proficient': 'proficiently',
-                  'quantitative': 'quantifiable',
-                  'quantitative': 'quantification',
-                  'quantitative': 'quantifying',
-                  'proven': 'record',
-                  'relevant': 'related',
-                  'research': 'researcher',
-                  'college': 'school',
-                  'science logic': 'sciencelogic',
-                  'science analytics': 'scienceanalytics',
-                  'science data': 'sciencedata',
-                  'science engineering': 'scienceengineering',
-                  'science': 'scientist',
-                  'secret sci': 'secretsci',
-                  'statistics biostatistics': 'statisticsbiostatistics',
-                  'statistics': 'statistic',
-                  'statistics mathematics': 'statisticalmathematical',
-                  'statistics': 'statistician',
-                  'top secret': 'topsecret',
-                  'top secret sci': 'tssci',
-                  'understand': 'understanding',
-                  'understand': 'understood',
-                  'understand': 'understands',
-                  'experience': 'work',
-                  'experience': 'working'}
+    term_fixes = {'accreditation': 'accredited',
+                  'advance': 'advanced',
+                  'analyticsrelated': 'analytics',
+                  'biostatisticians': 'biostatistics',
+                  'biotechnology': 'biotech',
+                  'bootcamps': 'bootcamp',
+                  'bsc': 'bachelors',
+                  'bsms': 'bachelors masters',
+                  'bsmsphd': 'bachelors masters phd',
+                  'computation': 'computer',
+                  'course': 'coursework',
+                  'diploma': 'degree',
+                  'discipline': 'field',
+                  'doctorate': 'phd',
+                  'econometric': 'econometrics',
+                  'educationexperience': 'education experience',
+                  'engineer': 'engineering',
+                  'expertlevel': 'expert',
+                  'genomic': 'genomics',
+                  'graduatelevel': 'graduate',
+                  'licensecertification': 'certification',
+                  'mathematician': 'mathematics',
+                  'mathematicsstatistics': 'mathematics statistics',
+                  'msma': 'masters',
+                  'msphd': 'masters phd',
+                  'neuroscience': 'bioscience',
+                  'operation': 'operations',
+                  'peerreviewed': 'peer-reviewed',
+                  'phdms': 'phd masters',
+                  'physic': 'physics',
+                  'professionally': 'professional',
+                  'proficiently': 'proficient',
+                  'quantifying': 'quantitative',
+                  'record': 'proven',
+                  'related': 'relevant',
+                  'researcher': 'research',
+                  'school': 'college',
+                  'scienceanalytics': 'science analytics',
+                  'sciencedata': 'science data',
+                  'scienceengineering': 'science engineering',
+                  'sciencelogic': 'science logic',
+                  'scientist': 'science',
+                  'secretsci': 'secret sci',
+                  'statisticalmathematical': 'statistics mathematics',
+                  'statistician': 'statistics',
+                  'statisticsbiostatistics': 'statistics biostatistics',
+                  'topsecret': 'top secret',
+                  'tssci': 'top secret sci',
+                  'understands': 'understand',
+                  'working': 'experience'}
     
-    # code for inverting the dictionary and sorting it alphabetically by key; then switch them
-    inv_map = {v: k for k, v in term_fixes.items()}
-    inv_map
-    dict_items = sorted(inv_map.items())
-    dict_items
-    dict(dict_items)
-    
+    ###!!! BOTTOM OF term_fixes DICTIONARY
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
+    print('Correcting misspellings, eroneous concatenations, ambiguities, etc...')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
-    df_term_fixes['terms'].replace(dict(zip(list(term_fixes.values()), list(term_fixes.keys()))), regex=False, inplace=True)
+    df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
-    
+        
     return terms_for_nlp
 
 
@@ -3276,5 +3235,11 @@ del start_time, end_time
 
 #######  ARCHIVE ######
 
-
+# original -> df_term_fixes['terms'].replace(dict(zip(list(term_fixes.values()), list(term_fixes.keys()))), regex=False, inplace=True)
+# code for inverting the dictionary and sorting it alphabetically by key; then switch them
+# inv_map = {v: k for k, v in term_fixes.items()}
+# inv_map
+# dict_items = sorted(inv_map.items())
+# dict_items
+# dict(dict_items)
 
