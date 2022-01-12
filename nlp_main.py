@@ -1251,7 +1251,8 @@ def clean_terms_for_nlp(series_of_interest):
                                             'licensures', 'budgetary', '119880', 'httpswwwlinkedincomcompany1603', 'patreon', 
                                             'ihub', 'acrobat', 'attrition', 'eventbrite', 'samara', 'sentar', 'infra',
                                             'combination', 'handson', 'high', 'higher', '35', 'military', 'militaryveteran',
-                                            'molecular', 'prior', 'track', 'service', 'solid', 'track', 'asaservice']))) 
+                                            'molecular', 'prior', 'track', 'service', 'solid', 'track', 'asaservice',
+                                            'transform']))) 
     
     # create stop_words object and toggle on/off additional stop words
     # stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
@@ -1440,7 +1441,21 @@ def clean_terms_for_nlp(series_of_interest):
                   'etlelt': 'etl',
                   'etls': 'etl',
                   'extracttransformload': 'etl',
-                  'evaluate': 'evaluation',
+                  'experimental': 'experiment',
+                  'experimentation': 'experiment',
+                  'experimenting': 'experiment',
+                  'exploration': 'exploratory',
+                  'extract': 'etl',
+                  'extraction': 'etl',
+                  'extracting': 'etl',
+                  'exploratory': 'eda',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
                   '': '',
                   '': '',
                   '': '',
@@ -1450,7 +1465,6 @@ def clean_terms_for_nlp(series_of_interest):
                  
                   }
 
-    
     # alphabetize term_fixes, print to console and paste back into code for ease of parsing
     # dict_alpha = sorted(term_fixes.items())
     
@@ -1715,20 +1729,12 @@ def clean_skill_lists_for_nlp():
                          'error',
                          'estimate',
                          'estimation',
-           !!!              'etl',
-                         '',
+                         'etl',
+                         'evaluate',
                          'evaluation',
                          'evidence',
                          'excel',
                          'experiment',
-                         'experimental', 
-                         'experimentation',
-                         'experimenting',
-                         'exploration',
-                         'exploratory',
-                         'extract', 
-                         'extraction',
-                         'extracting',
                          'fastapi',
                          'feature',
                          'filter', 
@@ -1736,7 +1742,7 @@ def clean_skill_lists_for_nlp():
                          'fivetran', 
                          'flask',
                          'flow',
-                         'flume',
+           !!!              'flume',
                          'forecast',
                          'forecasting',
                          'forest',
@@ -2838,7 +2844,6 @@ def clean_skill_lists_for_nlp():
                            'thought',
                            'thoughtleadership',
                            'track',
-                           'transform',
                            'transformation',
                            'trust',
                            'trusted', 
