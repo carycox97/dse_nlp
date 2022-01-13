@@ -2056,7 +2056,7 @@ def clean_skill_lists_for_nlp():
                          'plsql',
                          'postgresql', 
                          'power',
-         !!!!                'powershell',
+         !!!                'powershell',
                          'predict',
                          'predicting',
                          'predictive',
