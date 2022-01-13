@@ -83,8 +83,8 @@ def clean_raw_csv(df_raw):
 
     Returns
     -------
-    df_clean : dataframe
-        The cleaned version of df_raw, after duplicates dropped, NaNs cleaned, etc..
+    df : dataframe
+        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
 
     '''
     # drop unnecessary fields and repair job_Description field name
@@ -98,12 +98,106 @@ def clean_raw_csv(df_raw):
     # drop records that have NaN for job_title, company, location or job_description
     df_clean.dropna(subset = ['job_title', 'company', 'location', 'job_description'], inplace=True)
     
-    # reset the index
+    # reset the index and report the number of unique records remaining after initial cleaning
     df_clean.reset_index(inplace=True, drop=True)
-    
     print(f'{len(df_clean)} records remaining after intial data cleaning')
     
-    return df_clean
+    def clean_and_parse_date_scraped_field(df_clean):
+        '''
+        From the date_scraped field, parse the state abbreviation and date, and create a field
+        containing the full state name in sentence case.
+
+        Parameters
+        ----------
+        df_clean : dataframe
+            The cleaned version of df_raw, after duplicates dropped, NaNs cleaned, etc.
+
+        Returns
+        -------
+        df : dataframe
+            The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
+
+        '''
+        # convert csv_name field to a string 
+        df_clean['csv_name'] = df_clean['csv_name'].astype(str)
+        
+        # from the csv_name field, create fields for the state, scraped job title and date scraped 
+        df_clean['state_abbrev'] = df_clean['csv_name'].str.slice(3, 5)
+        df_clean['scrape_job_title'] = df_clean['csv_name'].str.slice(0, 2)
+        df_clean['scrape_date'] = df_clean['csv_name'].str.slice(10, 20)
+        
+        # create a dictionary to convert state abbreviations to full state names
+        state_name_to_abbrev = {
+            "Remote" : "re",
+            "Alabama": "al",
+            "Alaska": "ak",
+            "Arizona": "az",
+            "Arkansas": "ar",
+            "California": "ca",
+            "Colorado": "co",
+            "Connecticut": "ct",
+            "Delaware": "de",
+            "Florida": "fl",
+            "Georgia": "ga",
+            "Hawaii": "hi",
+            "Idaho": "id",
+            "Illinois": "il",
+            "Indiana": "in",
+            "Iowa": "ia",
+            "Kansas": "ks",
+            "Kentucky": "ky",
+            "Louisiana": "la",
+            "Maine": "me",
+            "Maryland": "md",
+            "Massachusetts": "ma",
+            "Michigan": "mi",
+            "Minnesota": "mn",
+            "Mississippi": "ms",
+            "Missouri": "mo",
+            "Montana": "mt",
+            "Nebraska": "ne",
+            "Nevada": "nv",
+            "New Hampshire": "nh",
+            "New Jersey": "nj",
+            "New Mexico": "nm",
+            "New York": "ny",
+            "North Carolina": "nc",
+            "North Dakota": "nd",
+            "Ohio": "oh",
+            "Oklahoma": "ok",
+            "Oregon": "or",
+            "Pennsylvania": "pa",
+            "Rhode Island": "ri",
+            "South Carolina": "sc",
+            "South Dakota": "sd",
+            "Tennessee": "tn",
+            "Texas": "tx",
+            "Utah": "ut",
+            "Vermont": "vt",
+            "Virginia": "va",
+            "Washington": "wa",
+            "West Virginia": "wv",
+            "Wisconsin": "wi",
+            "Wyoming": "wy",
+            "District of Columbia": "dc",
+        }
+
+        # invert the state_name_to_abbrev dictionary and create the state_name field
+        state_abbrev_to_state_name = dict(map(reversed, state_name_to_abbrev.items()))
+        df_clean['state_name'] = df_clean['state_abbrev']
+        df_clean['state_name'] = df_clean['state_name'].replace(state_abbrev_to_state_name)
+        
+
+        # make a copy of df_clean as df, drop the now unnecessary csv_name field and delete the df_clean dataframe
+        df = df_clean.copy()
+        df = df.drop(['csv_name'], axis=1)
+        
+        return df
+    
+    # parse the date_scraped field from the Indeed csvs, and create the ready-for-nlp dataframe, df     
+    df = clean_and_parse_date_scraped_field(df_clean)
+    
+    return df
 
 
 def clean_terms_for_nlp(series_of_interest):
@@ -123,13 +217,13 @@ def clean_terms_for_nlp(series_of_interest):
     '''
     
     
-    print('\nCleaning data for nlp...')
+    print('\nCleaning data for nlp:')
     
     # convert parsed series to a list
     text = ''.join(str(series_of_interest.tolist()))
     
     # normalize, split and lowercase the parsed text
-    print('Normalizing, splitting and lowercasing...')
+    print('   Normalizing, splitting and lowercasing...')
     text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
     words = re.sub(r'[^\w\s]', '', text).split()
     
@@ -398,7 +492,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'scheduling', 'diagnostics', 'merchant', 'interacting', 'labor', 'currency', 'fintech',
                                             'street', 'seeker', 'evaluates', 'standardization', 'reading', 'investing', 'workday',
                                             'circle', 'mode', 'supervisor', 'extremely', 'receiving', 'organizing', 'magazine',
-                                            'outlined', 'commensurate', 'florida', 'window', 'isnt', 'factory', 'district',
+                                            'outlined', 'commensurate', 'florida', 'isnt', 'factory', 'district',
                                             'parttime', 'presented', 'pressure', 'occasional', 'pas', 'utilizes', 'calculation',
                                             'promoting', 'extended', 'dna', 'quarterly', 'snack', 'deeper', 'courage', 'schema',
                                             'acceptance', 'qa', 'perception', 'mitigate', 'nasdaq', 'attend', 'prospect', '24',
@@ -445,7 +539,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'moody', 'else', 'translates', 'cultivate', 'anccon', 'cognizant',
                                             'strengthen', 'raise', 'drawing', 'affair', 'internationally', 'door', 'portal',
                                             'seller', 'plant', 'buyer', 'accomplishment', '1000', 'traffic', 'intervention',
-                                            'honest', 'specified', 'terabyte', 'executes', 'backlog', 'w', 'published', 'army',
+                                            'honest', 'specified', 'executes', 'backlog', 'w', 'published', 'army',
                                             'relates', 'eight', 'recommends', 'park', 'motivation', 'called', 'sitting',
                                             'fulfillment', 'na', 'walmart', 'administrator', 'ac_consulting21', 'verisk', 'spent',
                                             'michigan', 'slack', 'red', 'crime', 'anticipated', 'desk', '5000', 'derived',
@@ -1245,14 +1339,14 @@ def clean_terms_for_nlp(series_of_interest):
                                             'recruitingaccommodationguidehousecom', '607415a', 'discovers', 'comp', 'multimedia',
                                             'strauss', 'ribbon', 'outfit', 'uscentcom', 'scientistengineer', 'hyperpersonalized',
                                             'sow', 'rebellion', 'unposting', 'artifactory', 'subsequently', 'out', 'c2c', 'mph',
-                                            'surrogacy', 'kwx', 'replicate', 'bioinformatic', 'distributes', 'inter',
+                                            'surrogacy', 'kwx', 'replicate', 'bioinformatic', 'distributes', 'inter', 
                                             'abnormality', 'installed', 'basket', 'agendasetting', 'iowa', 'expertly',
                                             'wwwguidehousecom', 'briefly', 'persuasion', 'commencing', 'productionalizing',
                                             'licensures', 'budgetary', '119880', 'httpswwwlinkedincomcompany1603', 'patreon', 
                                             'ihub', 'acrobat', 'attrition', 'eventbrite', 'samara', 'sentar', 'infra',
                                             'combination', 'handson', 'high', 'higher', '35', 'military', 'militaryveteran',
-                                            'molecular', 'prior', 'track', 'service', 'solid', 'track', 'asaservice',
-                                            'transform', 'natural', 'next', 'ppas', 'maker', 'sparkcognition']))) 
+                                            'molecular', 'prior', 'track', 'service', 'solid', 'track', 'asaservice', 'ad', 
+                                            'transform', 'natural', 'next', 'ppas', 'maker', 'sparkcognition', 'flow']))) 
     
     # create stop_words object and toggle on/off additional stop words
     # stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
@@ -1260,12 +1354,12 @@ def clean_terms_for_nlp(series_of_interest):
     stop_words = stopwords.words('english')
 
     # initialize lemmatizer and execute lemmatization; this is the sloest part of the processing
-    print('Lemmatizing...')
+    print('   Lemmatizing...')
     wnl = nltk.stem.WordNetLemmatizer()
     terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stop_words]
  
     # execute post-lemmatization stopword removal to drop unnecessary lemma
-    print('Post-lemmatization stopword removal...')
+    print('   Post-lemmatization stopword removal...')
     terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
 
     # create a dictionary for term corrections (e.g., misspellings, etc.)
@@ -1502,7 +1596,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'learningdeep': 'deep learning',
                   'learningenabled': 'learning', 
                   'learningpredictive': 'learning predictive',
-                  'learningstatistical': 'learning statistical',
+                  'learningstatistical': 'learning statistics',
                   'lm': 'linear model',
                   'linearnonlinear': 'linear nonlinear',
                   'linearlogistic': 'linear logistic',
@@ -1643,8 +1737,59 @@ def clean_terms_for_nlp(series_of_interest):
                   'sqlpython': 'sql python',
                   'slq': 'sql',
                   'stateofart': 'cutting edge',
+                  'stateoftheart': 'cutting edge',
                   'stat': 'statistics',
                   'stats': 'statistics',
+                  'statistic': 'statistics',
+                  'statistically': 'statistics',
+                  'statistical': 'statistics',
+                  'statisticalmathematical': 'statistics mathematics',
+                  'statisticalmachine': 'statistics machine',
+                  'statisticalml': 'statistics machine learning',
+                  'statistician': 'statistics',
+                  'svms': 'svm',
+                  'table': 'visualization',
+                  'tech': 'technical',
+                  'technically': 'technical',
+                  'technological': 'technology',
+                  'platformtensor': 'platform tensor',
+                  'tensorflowkeras': ' keras',
+                  'tensor': 'tensorflow',
+                  'terabyte': 'big data',
+                  'teradata': 'big data',
+                  'test': 'testing',
+                  'theoretical': 'theory',
+                  'timeseries': 'time series',
+                  'tooling': 'tool',
+                  'train': 'training',
+                  'transformative': 'transformation',
+                  'translating': 'translation',
+                  'troubleshoots': 'troubleshoot',
+                  'troubleshooting': 'troubleshoot',
+                  'treebased': 'tree',
+                  'tsql': 'sql',
+                  'unixshell': 'unix shell',
+                  'windowsunix': 'windows unix',
+                  'window': 'windows',
+                  'visionimage': 'vision image',
+                  'visualize': 'visualization',
+                  'visualisation': 'visualization',
+                  'visualizing': 'visualization',
+                  'visualizingpresenting': 'visualization',
+                  'visuals': 'visualization',
+                  'vlookups': 'vlookup',
+                  'warehousing': 'warehouse',
+                  'wrangle': 'cleaning',
+                  'wrangler': 'cleaning',
+                  'wranglingcleansing': 'cleaning',
+                  'wrangling': 'cleaning',
+                  'hoc': 'adhoc',
+                  'adapt': 'adaptive',
+                  'ambiguous': 'ambiguity',
+                  'articulates': 'articulate',
+                  'attention': 'attention-to-detail',
+                  'attentiontodetail': 'attention-to-detail',
+                  '': '',
                   '': '',
                   '': '',
                   '': '',
@@ -1655,13 +1800,13 @@ def clean_terms_for_nlp(series_of_interest):
                   '': '',
                   '': '',
                   }
-                   
+              
     # alphabetize term_fixes, print to console and paste back into code for ease of parsing
     # dict_alpha = sorted(term_fixes.items())
     
     ###!!! BOTTOM OF term_fixes DICTIONARY
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
-    print('Correcting misspellings, eroneous concatenations, ambiguities, etc...')
+    print('   Correcting misspellings, eroneous concatenations, ambiguities, etc...')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
     df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
@@ -1669,7 +1814,9 @@ def clean_terms_for_nlp(series_of_interest):
     return terms_for_nlp
 
 
-def clean_skill_lists_for_nlp():
+def nlp_skill_lists():
+    # probably best to keep this a separate function given how much interaction I'll have with these lists
+    # once complete with the initial cleaning, move this function down to be with the nlp functions
     
     # establish credential and skill lists for nlp filtering
     ds_cred_terms = ['ability', 
@@ -1930,7 +2077,6 @@ def clean_skill_lists_for_nlp():
                          'filtering',
                          'fivetran', 
                          'flask',
-                         'flow',
                          'flume',
                          'forecast',
                          'forest',
@@ -2152,6 +2298,7 @@ def clean_skill_lists_for_nlp():
                          'radar',
                          'r&d',
                          'rabbitmq',
+                         'rancher',
                          'random',
                          'randomization',
                          'rasa',
@@ -2221,7 +2368,6 @@ def clean_skill_lists_for_nlp():
                          'sensitivity',
                          'sentiment',
                          'seo',
-                         'series',
                          'server',
                          'service',
                          'set',
@@ -2256,75 +2402,43 @@ def clean_skill_lists_for_nlp():
                          'sqs',
                          'ssis',
                          'stack',
-            !!!             'statsmodels',
-                         'statistic',
-                         'statistically',
+                         'statsmodels',
                          'statistics',
-                         'statistical',
-                         'statisticalmathematical',
-                         'statisticalmachine',
-                         'statisticalml',
-                         'statistician',
-                         'stateoftheart',
                          'stata',
                          'stochastic',
                          'structured',
                          'supervised', 
-                         'supervises',
                          'svm',
                          'svn',
-                         'svms',
                          'synthetic',
                          'system',
-                         'table',
                          'tableau',
-                         'tech',
                          'technical',
-                         'technically',
                          'technique',
                          'technology',
-                         'technological',
                          'temporal',
-                         'tensor',
-                         'platformtensor',
-                         'tensorflow', 
-                         'tensorflowkeras',
-                         'terabyte',
-                         'teradata',
-                         'test',
+                         'tensorflow',
                          'testing',
                          'text',
                          'theano',
-                         'theoretical',
                          'theory',
                          'tibco',
                          'tidyverse',
                          'time', 
-                         'timeseries',
                          'timely',
                          'tool',
-                         'tooling',
                          'toolkit',
                          'torch',
-                         'train',
                          'training',
                          'trajectory',
-                         'translating',
                          'transformation',
-                         'transformative',
                          'translation',
                          'troubleshoot',
-                         'troubleshoots', 
-                         'troubleshooting', 
                          'tree',
-                         'treebased',
                          'trend',
-                         'tsql',
                          'typescript',
                          'uncover', 
                          'unix',
-                         'unixshell',
-                         'windowsunix',
                          'univariate',
                          'unstructured',
                          'user',
@@ -2339,47 +2453,30 @@ def clean_skill_lists_for_nlp():
                          'virtualization',
                          'visio',
                          'vision',
-                         'visionimage',
-                         'visualize',
-                         'visualisation',
                          'visualization',
-                         'visualizing',
-                         'visualizingpresenting',
-                         'visuals',
                          'vlookup',
-                         'vlookups',
                          'vmware',
                          'volume',
                          'warehouse',
-                         'warehousing',
                          'warfare',
                          'watson',
                          'web',
                          'weka',
+                         'windows',
                          'word2vec',
-                         'wrangle',
-                         'wrangler',
-                         'wranglingcleansing',
-                         'wrangling',
                          'xgboost',
                          'xml',
                          'yarn',
                          'zeromq',]    
     
-    ds_soft_skill_terms = ['ad', 
-                           'adhoc',
-                           'adapt',
+    ds_soft_skill_terms = ['adhoc',
                            'adaptive',
                            'ability',
                            'agile',
-                           'agilescrum',
                            'ambiguity',
-                           'ambiguous',
-                           'articulate',
-                           'articulates',
+                            'articulate',
                            'assumption',
-                           'attention', 
-                           'attentiontodetail',
+         !!!                  'attention-to-detail',
                            'attitude',
                            'audience',
                            'authenticity',
@@ -2480,7 +2577,7 @@ def clean_skill_lists_for_nlp():
                          'high', 
                          'highenergy',
                          'highly', 
-                         'hoc', 
+                         
                          'holistic',
                          'holistically', 
                          'idea',
@@ -2861,97 +2958,7 @@ def clean_skill_lists_for_nlp():
 
 
 
-def clean_and_parse_date_scraped_field(df_clean):
-    '''
-    From the date_scraped field, parse the state abbreviation and date, and create a field
-    containing the full state name in sentence case.
 
-    Parameters
-    ----------
-    df_clean : dataframe
-        The cleaned version of df_raw, after duplicates dropped, NaNs cleaned, etc.
-
-    Returns
-    -------
-    df : dataframe
-        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data..
-
-    '''
-    # convert csv_name field to a string 
-    df_clean['csv_name'] = df_clean['csv_name'].astype(str)
-    
-    # from the csv_name field, create fields for the state, scraped job title and date scraped 
-    df_clean['state_abbrev'] = df_clean['csv_name'].str.slice(3, 5)
-    df_clean['scrape_job_title'] = df_clean['csv_name'].str.slice(0, 2)
-    df_clean['scrape_date'] = df_clean['csv_name'].str.slice(10, 20)
-    
-    # create a dictionary to convert state abbreviations to full state names
-    state_name_to_abbrev = {
-        "Remote" : "re",
-        "Alabama": "al",
-        "Alaska": "ak",
-        "Arizona": "az",
-        "Arkansas": "ar",
-        "California": "ca",
-        "Colorado": "co",
-        "Connecticut": "ct",
-        "Delaware": "de",
-        "Florida": "fl",
-        "Georgia": "ga",
-        "Hawaii": "hi",
-        "Idaho": "id",
-        "Illinois": "il",
-        "Indiana": "in",
-        "Iowa": "ia",
-        "Kansas": "ks",
-        "Kentucky": "ky",
-        "Louisiana": "la",
-        "Maine": "me",
-        "Maryland": "md",
-        "Massachusetts": "ma",
-        "Michigan": "mi",
-        "Minnesota": "mn",
-        "Mississippi": "ms",
-        "Missouri": "mo",
-        "Montana": "mt",
-        "Nebraska": "ne",
-        "Nevada": "nv",
-        "New Hampshire": "nh",
-        "New Jersey": "nj",
-        "New Mexico": "nm",
-        "New York": "ny",
-        "North Carolina": "nc",
-        "North Dakota": "nd",
-        "Ohio": "oh",
-        "Oklahoma": "ok",
-        "Oregon": "or",
-        "Pennsylvania": "pa",
-        "Rhode Island": "ri",
-        "South Carolina": "sc",
-        "South Dakota": "sd",
-        "Tennessee": "tn",
-        "Texas": "tx",
-        "Utah": "ut",
-        "Vermont": "vt",
-        "Virginia": "va",
-        "Washington": "wa",
-        "West Virginia": "wv",
-        "Wisconsin": "wi",
-        "Wyoming": "wy",
-        "District of Columbia": "dc",
-    }
-
-    # invert the state_name_to_abbrev dictionary and create the state_name field
-    state_abbrev_to_state_name = dict(map(reversed, state_name_to_abbrev.items()))
-    df_clean['state_name'] = df_clean['state_abbrev']
-    df_clean['state_name'] = df_clean['state_name'].replace(state_abbrev_to_state_name)
-    
-
-    # make a copy of df_clean as df, drop the now unnecessary csv_name field and delete the df_clean dataframe
-    df = df_clean.copy()
-    df = df.drop(['csv_name'], axis=1)
-    
-    return df
 
 
 def visualize_indeed_metadata(df):
@@ -3169,7 +3176,7 @@ def utilities(terms_for_nlp):
     # working on extracting hex colors from seaborn palletes
     pal = sns.color_palette('mako')
     print(pal.as_hex())
-
+    
 
 ###### MAIN EXECUTION BELOW ######
 
@@ -3182,11 +3189,8 @@ def main_program(csv_path):
     df_raw = load_and_concat_csvs(csv_path)
     
     # execute basic cleaning of the df_raw dataframe (e.g., deal with NaNs, drop duplicates, etc.)
-    df_clean = clean_raw_csv(df_raw)
+    df = clean_raw_csv(df_raw)
 
-    # parse the date_scraped field from the Indeed csvs, and create the ready-for-nlp dataframe, df     
-    df = clean_and_parse_date_scraped_field(df_clean)
-    
     # this begins the NLP component
     # select the series of interest for natural language processing (e.g., company, job_title, job_description, etc.)
     series_of_interest = df['job_description']
@@ -3195,7 +3199,7 @@ def main_program(csv_path):
     terms_for_nlp = clean_terms_for_nlp(series_of_interest)
     
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
-    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = clean_skill_lists_for_nlp()
+    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists()
     
     # count n_grams 
     n_gram_count = 1
@@ -3223,7 +3227,7 @@ del start_time, end_time
 
 ####### !!!!!!!! START HERE NEXT  #########
 # NEXT: NEED TO DECONFLICT SKILL LISTS AND STOPWORD LISTS, and create assertion gates to make sure every word is accounted for and every list overlap is accounted for
-# FOR EACH SKILLS MASTER CHART: will need to combine counts of unigrams and bigrams
+# FOR EACH SKILLS MASTER CHART: will need to combine counts of unigrams and bigrams and trigrams (attention to detail)
 # will definitely have to make sublists of skills only, libraries only, languages only, etc.
 # will need a breakout for sub-skillsets, like deep learning, neural networks
 # will need to a breakout for all the SAS tooling
