@@ -203,6 +203,23 @@ def clean_raw_csv(df_raw):
 def clean_terms_for_nlp(series_of_interest):
     '''
     Execute stopword removal, lowercasing, encoding/decoding, normalizing and lemmatization in preparation for NLP.
+    
+    Data Flow:
+        series_of_interest converted into a single string *text_as_string > 
+        *text-as_string normalized, split and lowercased >
+        *text-as_string converted to a list of single *words >
+        
+        *additional_stopwords list created to capture industry-specific stopwords >
+        standard English *stop_words created from NLTK >
+        
+        *words cleansed of terms in *stop_words >
+        *words lemmatized to create the *terms_for_nlp list, a list of lemmatized terms >
+        *additional_stopwords dropped from *terms_for_nlp >
+        
+        *term_fixes dictionary created to map misspellings, ambiguities, etc. to preferred terms >
+        *terms_for_nlp converted to a single-series dataframe, *df_term_fixes >
+        *df_term_fixes remapped according to the *term_fixes dictionary as a final NLP cleaning step >
+        *df_term_fixes converted back into a list as the final instantiation of *terms_for_nlp <>
 
     Parameters
     ----------
@@ -219,13 +236,13 @@ def clean_terms_for_nlp(series_of_interest):
     
     print('\nCleaning data for nlp:')
     
-    # convert parsed series to a list
-    text = ''.join(str(series_of_interest.tolist()))
+    # convert parsed series to a single string
+    text_as_string = ''.join(str(series_of_interest.tolist()))
     
     # normalize, split and lowercase the parsed text
     print('   Normalizing, splitting and lowercasing...')
-    text = (unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
-    words = re.sub(r'[^\w\s]', '', text).split()
+    text_as_string = (unicodedata.normalize('NFKD', text_as_string).encode('ascii', 'ignore').decode('utf-8', 'ignore').lower())
+    words = re.sub(r'[^\w\s]', '', text_as_string).split()
     
     # add additional stopwords to nltk default stopword list; counts between 20 and 50 are evaluated but not included in the lists
     # counts of 19 and below are neither evaluated nor included in the stopword list or skill lists
@@ -711,7 +728,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'dataintensive', 'breach', 'rock', 'band', 'sits', 'emphasizing', 'serverless', '46',
                                             'coast', 'retaliation', 'versed', 'ta', 'pathway', 'investigative', 'licensing',
                                             'transforms', 'route', 'represented', 'merchandise', 'delta', 'cd', 'knowledgeskills',
-                                            'consent', 'seniorlevel', 'drink', 'nov', 'selfmotivation', 'treasury', 'companypaid',
+                                            'consent', 'seniorlevel', 'drink', 'nov', 'treasury', 'companypaid',
                                             'costeffective', 'excitement', 'packaged', 'issuing', 'thanks', 'compass', 'assemble',
                                             'sedentary', 'lineage', 'geico', 'engineered', 'refer', 'bert', 'unitibm', 'postdoc',
                                             'arrive', 'mary', 'reuse', 'cleveland', 'ups', 'modality', 'orlando', 'ascension',
@@ -859,7 +876,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'yahoo', 'aienabled', 'chewys', 'lookout', 'monitored', '250', 'handicap', '1988',
                                             'fascinated', 'producer', 'proteomics', '37', 'migrating', 'enrolled', 'amplify',
                                             'directtoconsumer', 'h', 'confidentially', 'sizing', 'undertaken', 'cigna', 'closed', 
-                                            'comparative', 'full_time', 'orange', 'minor', 'dq', 'grit', 'hhs', 'anthem',
+                                            'comparative', 'full_time', 'orange', 'minor', 'dq', 'hhs', 'anthem',
                                             '6200', 'virus', 'auction', 'ucsf', 'redesign', 'verified', 'download', 'happens',
                                             'athlete', '30000', 'exclusively', 'sunshine', 'lack', 'undergoing', 'mediamonks',
                                             'intelligently', 'webinars', 'interval', 'liquidity', 'hackathons', 'trigger',
@@ -982,12 +999,12 @@ def clean_terms_for_nlp(series_of_interest):
                                             'arc', 'bridging', 'myriad', 'solicitation', 'adviser', 'squibb', 'retrieving',
                                             'seeyourselfcignacom', 'colour', 'annotated', 'alcohol', 'bethesda', 'powerhouse',
                                             'crawler', 'slas', 'ref', '24b', 'advantageous', 'softwaretools', 'dsi', 'island',
-                                            'moveworks', 'bottomline', 'permanently', 'accessed', 'edc', 'limc1', 'selfsufficient',
+                                            'moveworks', 'bottomline', 'permanently', 'accessed', 'edc', 'limc1', 
                                             'saint', 'grad', 'pubsub', 'elder', 'onpoint', 'entered', 'cleared', 'upsell',
                                             'nudge', '47', 'transcriptomics', 'preview', 'gadget', 'overarching', 'od',
                                             'frontline', 'ethically', 'pragmatism', 'elasticity', 'markit', 'stellar', 'jefferson',
                                             'calculating', 'safeguarding', 'ridesharing', 'harris', 'beloved', 'ncqa', 'swap',
-                                            'ihs', 'bentonville', 'jax', 'nccharlotte', 'outsourced', 'hightech', 'tenacious',
+                                            'ihs', 'bentonville', 'jax', 'nccharlotte', 'outsourced', 'hightech', 
                                             'veteransdisabled', 'revolve', 'approve', 'airport', '21st', 'congress', 'windowlearn',
                                             'faith', 'adequacy', 'lumen', 'negotiable', 'moines', 'rivian', 'steady', 'http',
                                             'lgbtqia', 'waymo', 'exp', 'informational', 'singledose', 'spearhead', 'forwarded',
@@ -1212,7 +1229,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'harrison', 'remotework', 'writtenqualifications', 'hbo', 'settle', 'wholeperson',
                                             'relish', 'proofofconcepts', 'passivelogic', 'vertex', 'web3', 'immunotherapy',
                                             'martech', 'mainframe', 'permanente', 'worcester', 'facilitated', 'lading', 'absent',
-                                            '7500000', 'costco', 'tenacity', 'concierge', 'und', 'translated', 'rescinded',
+                                            '7500000', 'costco',  'concierge', 'und', 'translated', 'rescinded',
                                             'jdcom', 'verisks', 'httpswwwinstagramcomastrazeneca_careershlen', 'stooping',
                                             'aberdeen', 'liverampers', 'wideranging', 'soliciting', 'invaluable', 'afford',
                                             'hyundai', 'highway', 'backtesting', 'obw', 'binder', '1990', 'fixing',
@@ -1278,7 +1295,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'museum', 'sar', 'bennett', 'tracked', 'sequential', 'failing', 'fuzzy','meditation',
                                             'composition', 'hoursweek', 'mockups', 'nnsa', 'calibrate', 'fto', 'horizontal',
                                             'bcg', '1996', 'neither', 'kbi', 'onshore', 'espouse', 'longlasting', 'macbook',
-                                            'ntt', 'sunpower', 'gritty', 'anthropology', 'numerate', 'divestiture', 'imaginative',
+                                            'ntt', 'sunpower', 'anthropology', 'numerate', 'divestiture', 'imaginative',
                                             'nccs', 'graphically', 'praxis', 'refinery', 'postoffer', 'immerse', 'nonimmigrant', 
                                             'greenplum', 'ctc', 'citis', 'spgi', 'printed', 'predictiveprescriptive',
                                             'computerworld', '8008355099', 'stephen', 'photocopier', 'variability', 'inappropriate',
@@ -1362,7 +1379,7 @@ def clean_terms_for_nlp(series_of_interest):
     print('   Post-lemmatization stopword removal...')
     terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
 
-    # create a dictionary for term corrections (e.g., misspellings, etc.)
+    # create a dictionary for term corrections (e.g., misspellings, etc.); values are final form for each term
     term_fixes = {'accreditation': 'accredited',
                   'advance': 'advanced',
                   'analyticsrelated': 'analytics',
@@ -1753,7 +1770,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'technically': 'technical',
                   'technological': 'technology',
                   'platformtensor': 'platform tensor',
-                  'tensorflowkeras': ' keras',
+                  'tensorflowkeras': 'keras',
                   'tensor': 'tensorflow',
                   'terabyte': 'big data',
                   'teradata': 'big data',
@@ -1789,6 +1806,17 @@ def clean_terms_for_nlp(series_of_interest):
                   'articulates': 'articulate',
                   'attention': 'attention-to-detail',
                   'attentiontodetail': 'attention-to-detail',
+                  'detail': 'attention-to-detail',
+                  'detailed': 'attention-to-detail',
+                  'detailoriented': 'attention-to-detail',
+                  'bestpractices': 'best practice',
+                  'cando': 'self-confidence',
+                  'grit': 'self-confidence',
+                  'gritty': 'self-confidence',
+                  'tenacious': 'self-confidence',
+                  'tenacity': 'self-confidence',
+                  'confidence': 'self-confidence',
+                  'challenging': 'challenge',
                   '': '',
                   '': '',
                   '': '',
@@ -1805,6 +1833,7 @@ def clean_terms_for_nlp(series_of_interest):
     # dict_alpha = sorted(term_fixes.items())
     
     ###!!! BOTTOM OF term_fixes DICTIONARY
+    
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
     print('   Correcting misspellings, eroneous concatenations, ambiguities, etc...')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
@@ -1996,7 +2025,6 @@ def nlp_skill_lists():
                          'computing',
                          'concept',
                          'conceptual',
-                         'confidence',
                          'confluence',
                          'constraint',
                          'continuous',
@@ -2474,19 +2502,17 @@ def nlp_skill_lists():
                            'ability',
                            'agile',
                            'ambiguity',
-                            'articulate',
+                           'articulate',
                            'assumption',
-         !!!                  'attention-to-detail',
+                           'attention-to-detail',
                            'attitude',
                            'audience',
                            'authenticity',
-                         'best',
-                         'bestpractices',
-                         'boundary',
-                         'business',
-                         'cando',
+                           'best',
+                           'boundary',
+                           'business',
                          'cause',
-                         'challenging', 
+            !!!             'challenge', 
                          'clear', 
                          'clearly', 
                          'closely',
@@ -2533,9 +2559,6 @@ def nlp_skill_lists():
                          'decision', 
                          'deliver',
                          'delivering',
-                         'detail',
-                         'detailed',
-                         'detailoriented',
                          'document',
                          'documenting',
                          'draw', 
@@ -2577,7 +2600,6 @@ def nlp_skill_lists():
                          'high', 
                          'highenergy',
                          'highly', 
-                         
                          'holistic',
                          'holistically', 
                          'idea',
@@ -2681,6 +2703,7 @@ def nlp_skill_lists():
                          'root', 
                          'savvy',
                          'scrum',
+                         'self-confidence',
                          'selfdirected',
                          'selfdirection',
                          'selfmanage',
@@ -2690,7 +2713,9 @@ def nlp_skill_lists():
                          'selfstarter',
                          'selfstarting',
                          'selfstarters',
+                         'selfmotivation',
                          'selfmotivated',
+                         'selfsufficient',
                          'simultaneously',
                          'skill',
                          'solve',
@@ -3233,6 +3258,8 @@ del start_time, end_time
 # will need to a breakout for all the SAS tooling
 # consider the top bigrams, both fore and aft, of the term 'data'
 # will need to break out all of AWS's tools; sometimes need to roll them all up into AWS; other times tagged AWS-x, other times full granularity
+# need to figure out how to capture 'self confidence'
+
 
 # maybe another term for 'cutting edge'
 # for a deep dive on nlp, will need to atomize nlp into nlu and nlg, which are currently relabeled as nlp
