@@ -1363,7 +1363,8 @@ def clean_terms_for_nlp(series_of_interest):
                                             'ihub', 'acrobat', 'attrition', 'eventbrite', 'samara', 'sentar', 'infra',
                                             'combination', 'handson', 'high', 'higher', '35', 'military', 'militaryveteran',
                                             'molecular', 'prior', 'track', 'service', 'solid', 'track', 'asaservice', 'ad', 
-                                            'transform', 'natural', 'next', 'ppas', 'maker', 'sparkcognition', 'flow']))) 
+                                            'transform', 'natural', 'next', 'ppas', 'maker', 'sparkcognition', 'flow',
+                                            'fast', 'faster',]))) 
     
     # create stop_words object and toggle on/off additional stop words
     # stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
@@ -1858,9 +1859,9 @@ def clean_terms_for_nlp(series_of_interest):
                   'explainable': 'explain',
                   'explainability': 'explain',
                   'explanation': 'explain',
-                  '': '',
-                  '': '',
-                  '': '',
+                  'fastmoving': 'fast-paced',
+                  'fastpaced': 'fast-paced',
+                  'paced': 'fast-paced',
                   '': '',
                   '': '',
                   '': '',
@@ -2581,13 +2582,8 @@ def nlp_skill_lists():
                          'excellence',
                          'exercise', 
                          'experience',
-            !!!             'explain', 
-                         'fast', 
-                         'fastmoving',
-                         'fastpaced',
-                         'faster',
-                         'paced',
-                         'pace',
+                         'explain',
+            !!!             'fast-paced',
                          'finding',
                          'flex',
                          'flexible',
