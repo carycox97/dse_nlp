@@ -1,5 +1,5 @@
 articulate                 - can speak well
-attention-to-detail        - detailed
+meticulous	           - detailed
 attitude                   - positive thinking
 authenticity               - real, not fake
 creative                   - can improvise
@@ -12,11 +12,19 @@ flexible                   - can flex and adapt to change
 focus			   - can concentrate on key tasks
 forward-thinking            - can predict next problems and innovate
 impactful		   - work makes a difference
+independent                - can work as an individual
+initiative 		   - the ability to assess and initiate things independently.
+innovation		   - ability to invent, create
+intelligence   		   - brainpower, ability to reason
+collarborate		   - working with others
+interpersonal (skills)     - people skills
+
+
 
 energetic - approaches work with vigor and enthusiasm
 enthusiasm                 - eager and happy to work
 
-diligent
+diligent                   - hard working; ability to overcome; resiliant
 (need to add persistence?)
 
 
