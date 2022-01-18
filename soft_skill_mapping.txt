@@ -10,7 +10,7 @@ empathy                    - can feel concern for others
 excellence                 - delivers quality work 
 flexible                   - can flex and adapt to change
 focus			   - can concentrate on key tasks
-forward-thinking            - can predict next problems and innovate
+forward-thinking           - can predict next problems and innovate
 impactful		   - work makes a difference
 independent                - can work as an individual
 initiative 		   - the ability to assess and initiate things independently.
@@ -18,12 +18,8 @@ innovation		   - ability to invent, create
 intelligence   		   - brainpower, ability to reason
 collarborate		   - working with others
 interpersonal (skills)     - people skills
-
-
-
-energetic - approaches work with vigor and enthusiasm
-enthusiasm                 - eager and happy to work
-
+nimble			   - agile (ugh)
+enthusiasm                 - eager and happy to work; ability to advance
 diligent                   - hard working; ability to overcome; resiliant
 (need to add persistence?)
 
