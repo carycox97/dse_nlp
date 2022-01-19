@@ -21,6 +21,7 @@ interpersonal (skills)     - people skills
 nimble			   - agile (ugh)
 enthusiasm                 - eager and happy to work; ability to advance
 diligent                   - hard working; ability to overcome; resiliant
+organized		   - can be organized; related to meticulous
 (need to add persistence?)
 
 
