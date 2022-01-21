@@ -1925,6 +1925,18 @@ def clean_terms_for_nlp(series_of_interest):
                   'player': 'collaborate',
                   'poised': 'self-confident',
                   'positive': 'enthusiastic',
+                  'precision': 'meticulous',
+                  'precise': 'meticulous',
+                  'present': 'storytelling',
+                  'presentation': 'storytelling',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
                   '': '',
                   '': '',
                   '': '',
@@ -1935,7 +1947,7 @@ def clean_terms_for_nlp(series_of_interest):
                   '': '',
                   }
                
-                       
+                     
         
     # alphabetize term_fixes, print to console and paste back into code for ease of parsing
     # dict_alpha = sorted(term_fixes.items())
@@ -2684,12 +2696,8 @@ def nlp_skill_lists():
                          'people',
                          'perspective',
                          'powerpoint',
-           !!!              'practice',
-                         'pragmatic',
-                         'precision',
-                         'precise',
-                         'present', 
-                         'presentation',
+                         'practice',
+           !!!              'pragmatic',
                          'priority',
                          'prioritization',
                          'prioritizing',
@@ -3279,7 +3287,8 @@ del start_time, end_time
 # consider the top bigrams, both fore and aft, of the term 'data'
 # will need to break out all of AWS's tools; sometimes need to roll them all up into AWS; other times tagged AWS-x, other times full granularity
 # need to figure out how to capture 'self confidence'
-
+# need to clear all of the technical debt I hav accrued
+# need to make sure all functions have comments and doc strings
 
 # maybe another term for 'novel'
 # for a deep dive on nlp, will need to atomize nlp into nlu and nlg, which are currently relabeled as nlp

@@ -16,7 +16,7 @@ independent                - can work as an individual
 initiative 		   - the ability to assess and initiate things independently.
 innovation		   - ability to invent, create
 intelligence   		   - brainpower, ability to reason
-collarborate		   - working with others
+collaborate		   - working with others
 interpersonal (skills)     - people skills
 nimble			   - agile (ugh)
 enthusiasm                 - eager and happy to work; ability to advance
@@ -24,7 +24,7 @@ self-confident             - self-confident
 
 organized		   - can be organized; related to meticulous
 
-
+ 
 
 diligent                   - hard working
 flexible		   - adaptability
