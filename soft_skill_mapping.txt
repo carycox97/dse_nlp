@@ -9,6 +9,7 @@ authenticity               - real, not fake
 curious                    - eager to learn
 
 flexible                   - can flex and adapt to change
+
 innovative		   - can improvise and be creative
 
 efficient                  - can do things quickly and well
@@ -30,6 +31,8 @@ diligent                   - hard working
 independent                - can work as an individual
 initiative 		   - the ability to assess and initiate things independently.
 proactive
+
+problem-solving
 
 intelligence   		   - brainpower, ability to reason
 
