@@ -21,6 +21,7 @@ interpersonal (skills)     - people skills
 nimble			   - agile (ugh)
 enthusiasm                 - eager and happy to work; ability to advance
 self-confident             - self-confident
+prioritize  		   - put first things first
 
 organized		   - can be organized; related to meticulous
 

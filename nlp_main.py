@@ -1261,7 +1261,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'knit', 'willamette', 'pod', 'privacyops', 'decrease', 'cameo', 'gsn', 'frontdoor', 
                                             'devbusinessops', 'oig', 'adoptive', 'reactive', 'addressable', 'prohibiting',
                                             'longerterm', 'ado', 'streamlines', '1400', 'packet', 'datorama', 'thatatms', 
-                                            'everyoneatms', 'mumbai', 'parson', 'merges', 'delhaize', 'highpriority', 'scrub',
+                                            'everyoneatms', 'mumbai', 'parson', 'merges', 'delhaize',  'scrub',
                                             'statewide', 'ahold', 'happier', '350', 'correcting', 'anaplan', 'erpi', 'broadband'
                                             'crown', 'dailypay', 'ergonomic', 'inmemory', 'nfl', 'ripple', 'peacock', 'readout',
                                             'pitfall', 'lipfe', 'lululemon', 'absenceaccommodation', 'unifying', 'praescient',
@@ -1333,7 +1333,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'imagevideo', 'videographers', 'marketdisrupting', 'headlinedriving', 'vessel',
                                             'societychanging', 'veritas', 'assisted', 'engineersscientists', 'infographics',
                                             'cyberattacks', 'irrespective', 'meade', 'apron', 'streamlit', '1999', 'interchange',
-                                            'ead', 'prioritise', 'bunch', 'tumblr', 'recruitingaccommodationsgettyimagescom', 
+                                            'ead', 'bunch', 'tumblr', 'recruitingaccommodationsgettyimagescom', 
                                             'gendernonbinary', 'rudeness', 'photographer', 'reused', 'firstplace', 'healthtech',
                                             'potff', 'crisp', 'exploding', 'slate', 'concertai', 'foresight', 'regulartemporary',
                                             '35000', 'geometry', 'underpin', 'morse', 'usb', 'apac', 'doctrine', 'lawrence',
@@ -1929,13 +1929,13 @@ def clean_terms_for_nlp(series_of_interest):
                   'precise': 'meticulous',
                   'present': 'storytelling',
                   'presentation': 'storytelling',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',
-                  '': '',
+                  'prioritization': 'prioritize',
+                  'prioritizing': 'prioritize',
+                  'prioritizes': 'prioritize',
+                  'prioritized': 'prioritize',
+                  'priority': 'prioritize',
+                  'prioritise': 'prioritize',
+                  'highpriority': 'prioritize',
                   '': '',
                   '': '',
                   '': '',
@@ -1946,8 +1946,7 @@ def clean_terms_for_nlp(series_of_interest):
                   '': '',
                   '': '',
                   }
-               
-                     
+         
         
     # alphabetize term_fixes, print to console and paste back into code for ease of parsing
     # dict_alpha = sorted(term_fixes.items())
@@ -2697,13 +2696,8 @@ def nlp_skill_lists():
                          'perspective',
                          'powerpoint',
                          'practice',
-           !!!              'pragmatic',
-                         'priority',
-                         'prioritization',
-                         'prioritizing',
-                         'prioritize',
-                         'prioritizes', 
-                         'prioritized',
+                         'pragmatic',
+           !!!              'prioritize',
                          'proactive',
                          'proactively',
                          'problem', 
