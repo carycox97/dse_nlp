@@ -9,12 +9,13 @@ authenticity               - real, not fake
 curious                    - eager to learn
 
 flexible                   - can flex and adapt to change
-creative                   - can improvise
+innovative		   - can improvise and be creative
 
 efficient                  - can do things quickly and well
 prioritize  		   - put first things first
 
-empathy                    - can feel concern for others
+empathetic		   - can feel concern for others
+rapport			   - having a close relationship with
 
 excellence                 - delivers quality work 
 
@@ -29,16 +30,13 @@ diligent                   - hard working
 independent                - can work as an individual
 initiative 		   - the ability to assess and initiate things independently.
 
-creative 		   - abilit to create
-innovation		   - ability to invent, create
-
 intelligence   		   - brainpower, ability to reason
 
 collaborate		   - working with others
 
 interpersonal (skills)     - people skills
 
-enthusiasm                 - eager and happy to work; ability to advance
+enthusiastic               - eager and happy to work; ability to advance
 
 self-confident             - self-confident
 
@@ -48,5 +46,9 @@ organized		   - can be organized; related to meticulous
 
 flexible		   - adaptability
 
-resiliance                 - ability to overcome
+resilient		   - ability to overcome
+
+reliable		   - can be counted on
+
+respectful		   - respectful
 
