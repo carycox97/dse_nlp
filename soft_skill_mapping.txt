@@ -21,6 +21,7 @@ rapport			   - having a close relationship with
 excellence                 - delivers quality work 
 
 focus			   - can concentrate on key tasks
+(should this under prioritize?)
 
 forward-thinking           - can predict next problems and innovate
 
@@ -55,4 +56,6 @@ resilient		   - ability to overcome
 reliable		   - can be counted on
 
 respectful		   - respectful
+
+storytelling
 
