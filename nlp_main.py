@@ -2078,6 +2078,16 @@ def clean_terms_for_nlp(series_of_interest):
                   'help': 'helpful',
                   'helped': 'helpful',
                   'helping': 'helpful',
+                  'identify': 'identification',
+                  'identifies': 'identification',
+                  'identifying': 'identification',
+                  'improve': 'impactful',
+                  'improvement': 'impactful',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
+                  '': '',
                   '': '',
                   '': '',
                   '': '',
@@ -2088,7 +2098,8 @@ def clean_terms_for_nlp(series_of_interest):
                   '': '',
                   }
                  
-                             
+                          
+                           
     # alphabetize term_fixes, print to console and paste back into code for ease of parsing
     # dict_alpha = sorted(term_fixes.items())
     
@@ -2410,6 +2421,7 @@ def nlp_skill_lists():
                          'hyperparameter',
                          'hypothesis', 
                          'ide',
+                         'identification',
                          'imagery',
                          'implement',
                          'imputation', 
@@ -2869,6 +2881,7 @@ def nlp_skill_lists():
                            'change', 
                            'chosen',
                            'client',
+                           'communicate',
                            'complexity', 
                            'crossfunctional',
                            'data',
@@ -2895,21 +2908,11 @@ def nlp_skill_lists():
                            'functional',
                            'gdpr',
                            'governance',
-              !!!             'impact',
-                           'identify', 
-                           'identifies',
-                           'identifying',
-                           'identification',
-                           'impact',
                            'impactful',
-                           'improve',
-                           'improvement',
-                           'inform',
                            'innovative',
                            'insight',
-                           'interdisciplinary',
                            'jaic',
-                           'kaggle',
+               !!!            'kaggle',
                            'kanban',
                            'knowledge',
                            'leadership',
