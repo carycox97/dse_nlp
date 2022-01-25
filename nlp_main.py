@@ -2122,7 +2122,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'stream': 'workstreams',
                   'subjectmatter': 'subject matter',
                   'success': 'impact',
-                  '': '',
+                  'think': 'problem-solving',
                   '': '',
                   '': '',
                   '': '',
@@ -2131,7 +2131,7 @@ def clean_terms_for_nlp(series_of_interest):
                   '': '',
                   }
         
-                        
+                    
                          
                            
     # alphabetize term_fixes, print to console and paste back into code for ease of parsing
@@ -2995,18 +2995,9 @@ def nlp_skill_lists():
                            'stakeholder',
                            'storytelling',
                            'strategy',
-                !!!           'subject',
-                           'teambased',
-                           'teamdriven',
-                           'teamfirst',
-                           'teaming',
-                           'teammate',
-                           'teamwork',
-                           'teamoriented',
-                           'teamplayer',
+                           'subject',
                            'technical',
-                           'tell', 
-                           'think', 
+                !!!           'tell', 
                            'thought',
                            'thoughtleadership',
                            'track',
