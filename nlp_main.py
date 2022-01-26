@@ -230,6 +230,9 @@ def clean_terms_for_nlp(series_of_interest):
     -------
     terms_for_nlp : list
         A list containing all terms (fully cleaned and processed) extracted from the series_of_interest Series.
+    
+    additional_stopwords : list
+        A list to capture all domain-specific stopwords and 'stop-lemma'
 
     '''
     
@@ -334,7 +337,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'effort', 'define', 'conduct', 'potential', 'used', 'patient', 'inc',
                                             'find', 'documentation', 'finance', 'similar', 'first', 'specific', 'share',
                                             'deployment', 'includes', 'require', 'focused', 'act', 'implementing', 'desired',
-                                            'organizational', 'person', 'many', 'brand', 'search', 'content', 'address',
+                                            'organizational', 'person', 'many', 'brand', 'content', 'address',
                                             'directly', 'driving', 'execution', 'colleague', 'general', 'online', 'addition',
                                             'asset', 'commercial', 'meaningful', 'purpose', 'ideal', 'today', 'investment',
                                             'monitoring', 'provider', 'interest', 'event', 'seek', 'assessment', 'necessary',
@@ -2122,15 +2125,15 @@ def clean_terms_for_nlp(series_of_interest):
     dict(sorted(term_fixes.items(), key=lambda item: item[1]))
         
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
-    print('   Correcting misspellings, eroneous concatenations, ambiguities, etc...')
+    print('   Correcting misspellings, eroneous concatenations, ambiguities, etc...\n')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
     df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
         
-    return terms_for_nlp
+    return terms_for_nlp, additional_stopwords
 
 
-def nlp_skill_lists():
+def nlp_skill_lists(additional_stopwords):
     # probably best to keep this a separate function given how much interaction I'll have with these lists
     # once complete with the initial cleaning, move this function down to be with the nlp functions
     
@@ -2992,6 +2995,15 @@ def nlp_skill_lists():
                            'workstreams'] 
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
+
+    ####### !!!!!!!! START HERE NEXT  #########
+    # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
+    print('***** Stopword and Skill List Testing ***** \n')
+    print(f'Test for Stopword pollution in skill lists: {not set(ds_skills_combined).isdisjoint(additional_stopwords)}\n')
+    stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
+    print(f'Stopword pollutants: {stopword_pollutants}\n')
+        
+    # measure overlap among three key lists
     
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined
 
@@ -3227,10 +3239,10 @@ def main_program(csv_path):
     series_of_interest = df['job_description']
     
     # execute all NLP data conditioning (e.g., lowercasing, lemmatization, etc.)
-    terms_for_nlp = clean_terms_for_nlp(series_of_interest)
+    terms_for_nlp, additional_stopwords = clean_terms_for_nlp(series_of_interest)
     
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
-    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists()
+    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
     
     # count n_grams 
     n_gram_count = 1
@@ -3256,7 +3268,7 @@ print(f'\nTotal Processing Time: {(time.time() - start_time) / 60:.2f} minutes')
 # clean up intermediate dataframes and variables
 del start_time, end_time
 
-####### !!!!!!!! START HERE NEXT  #########
+
 
 
 #######  ARCHIVE ######
