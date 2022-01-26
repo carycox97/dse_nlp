@@ -250,16 +250,16 @@ def clean_terms_for_nlp(series_of_interest):
     # add additional stopwords to nltk default stopword list; counts between 20 and 50 are evaluated but not included in the lists
     # counts of 19 and below are neither evaluated nor included in the stopword list or skill lists
     additional_stopwords = sorted(list(set(['14042', '3rd', '401k', '50', '500', 'a16z', 'able', 'accepted',
-                                            'access', 'accommodation', 'accomodation', 'account', 'across',
+                                            'accommodation', 'accomodation', 'account', 'across',
                                             'action', 'additional', 'adhering', 'affiliation', 'affirmative',
                                             'age', 'allen', 'also', 'amazecon', 'america', 'amount', 'ancestry',
-                                            'andor', 'angeles', 'another', 'applicable', 'applicant', 'application',
+                                            'andor', 'angeles', 'another', 'applicable', 'applicant',
                                             'apply', 'applyaccommodationschangehealthcarecom', 'area', 'around',
                                             'arrest', 'assigned', 'assistance', 'assurance', 'authentic', 'authorization',
                                             'authorized', 'background', 'balance', 'base', 'based', 'basic', 'basis',
-                                            'belief', 'belonging', 'benefit', 'best', 'beyond', 'billion', 'bonus',
+                                            'belief', 'belonging', 'benefit', 'beyond', 'billion', 'bonus',
                                             'booz', 'broad', 'california', 'call', 'candidate', 'cannot', 'capital',
-                                            'card', 'care', 'chain', 'chance', 'characteristic', 'chase', 'check',
+                                            'card', 'care', 'chance', 'characteristic', 'chase', 'check',
                                             'chicago', 'childbirth', 'citizen', 'citizenship', 'city', 'civil',
                                             'classified', 'click', 'clinical', 'closely', 'color', 'colorado', 'come',
                                             'comfortable', 'commitment', 'committed', 'commuter', 'company', 'compensation',
@@ -270,23 +270,23 @@ def clean_terms_for_nlp(series_of_interest):
                                             'currently', 'date', 'day', 'dc', 'december', 'dedicated', 'defense',
                                             'demand', 'dental', 'deploying', 'description', 'disability', 'disclose',
                                             'disclosed', 'disclosure', 'discriminate', 'discrimination', 'discussed',
-                                            'disruption', 'distributed', 'diverse', 'diversity', 'domestic', 'drive',
+                                            'disruption', 'diverse', 'diversity', 'domestic', 'drive',
                                             'drugfree', 'drugtesting', 'due', 'duty', 'eeo', 'eg', 'eligibility',
                                             'eligible', 'email', 'embracing', 'employee', 'employeeled', 'employer',
                                             'employment', 'encouraged', 'enjoy', 'ensure', 'equal', 'equity', 'essential',
-                                            'estate', 'etc', 'every', 'everyone', 'executive', 'existing', 'expression',
+                                            'estate', 'etc', 'every', 'everyone', 'existing', 'expression',
                                             'extensive', 'external', 'fair', 'family', 'fargo', 'federal', 'feel', 'following',
-                                            'fortune', 'francisco', 'friday', 'full', 'fulltime', 'fully', 'furnish',
+                                            'fortune', 'francisco', 'friday', 'fulltime', 'fully', 'furnish',
                                             'furtherance', 'gender', 'genetic', 'genetics', 'getty', 'globe', 'go',
                                             'good', 'group', 'growing', 'hand', 'harassment', 'health', 'healthcare',
                                             'hearing', 'high', 'highly', 'hire', 'hiring', 'history', 'holiday', 'home',
                                             'host', 'hour', 'httpswwwamazonjobsendisabilityus', 
                                             'httpswwwdolgovofccpregscomplianceposterspdfofccp_eeo_supplement_final_jrf_qa_508cpdf',
                                             'httpswwweeocgovemployerseeolawposter', 'human', 'ibm', 'id', 'identity',
-                                            'il', 'include', 'including', 'inclusion', 'inclusive', 'indepth', 'industry',
+                                            'il', 'include', 'including', 'inclusion', 'inclusive', 'indepth',
                                             'inquired', 'inside', 'insurance', 'internal', 'job', 'johnson', 'join',
                                             'jpmorgan', 'kept', 'key', 'kpmg', 'largest', 'law', 'laws', 'least', 'leave',
-                                            'legally', 'letter', 'level', 'leverage', 'life', 'lightspeed', 'like', 'limited',
+                                            'legally', 'letter', 'leverage', 'life', 'lightspeed', 'like', 'limited',
                                             'local', 'location', 'lockheed', 'long', 'looking', 'los', 'love', 'm', 'made',
                                             'maintaining', 'make', 'mandate', 'manner', 'marital', 'martin', 'match',
                                             'matching', 'mature', 'may', 'medical', 'medium', 'mental', 'million', 'minimum',
@@ -295,19 +295,19 @@ def clean_terms_for_nlp(series_of_interest):
                                             'opportunity', 'opportunityaffirmative', 'order', 'ordinance', 'orientation',
                                             'origin', 'outside', 'overview', 'package', 'paid', 'pandemic', 'parental',
                                             'part', 'participate', 'party', 'pay', 'per', 'perform', 'performed',
-                                            'perk', 'personal', 'phone', 'physical', 'place', 'plan', 'please', 'plus',
+                                            'perk', 'personal', 'phone', 'place', 'plan', 'please', 'plus',
                                             'point', 'policy', 'political', 'position', 'posse', 'poster', 'preemployment',
                                             'preferred', 'pregnancy', 'premier', 'prescribe', 'previous', 'primary', 'prior',
-                                            'privacy', 'privilege', 'proceeding', 'process', 'proof', 'protected', 'proud',
+                                            'privacy', 'privilege', 'proceeding', 'proof', 'protected', 'proud',
                                             'provide', 'providing', 'public', 'puerto', 'purchase', 'qualification', 'qualified',
                                             'race', 'range', 'rapidly', 'real', 'reasonable', 'receive', 'recruiter',
                                             'recruiting', 'recruitment', 'referral', 'regard', 'regarding', 'regardless',
                                             'regulation', 'regulatory', 'reimbursement', 'relic', 'religion', 'religious',
-                                            'relocation', 'remote', 'remotely', 'reporting', 'req', 'request', 'required',
-                                            'requirement', 'requires', 'resource', 'responsibility', 'responsible', 'resume',
+                                            'relocation', 'remotely', 'reporting', 'req', 'request', 'required',
+                                            'requires', 'resource', 'responsibility', 'responsible', 'resume',
                                             'retirement', 'reward', 'rico', 'role', 'safety', 'salary', 'salesforcecom',
                                             'salesforceorg', 'san', 'saving', 'schedule', 'scratch', 'secret', 'seeking',
-                                            'self', 'sending', 'senior', 'sense', 'sequoia', 'set', 'sex', 'sexual', 'shape',
+                                            'self', 'sending', 'senior', 'sense', 'sequoia', 'sex', 'sexual', 'shape',
                                             'shift', 'show', 'sincerely', 'small', 'social', 'someone', 'sound', 'spending',
                                             'sponsorship', 'sr', 'standard', 'start', 'state', 'statement', 'status', 'stay',
                                             'stock', 'suite', 'summary', 'supplemental', 'supply', 'support', 'sure',
@@ -323,7 +323,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'government', 'agency', 'financial', 'institution', 'resolve', 'issue', 'active',
                                             'leveraging', 'drug', 'free', 'monitor', 'successful', 'completion', 'community', 'serve',
                                             'hired', 'accenture', 'chief', 'officer', 'investigation', 'otherwise', 'unless',
-                                            'right', 'thing', 'better', 'function', 'response', 'formal', 'charge', 'b', '2021',
+                                            'right', 'thing', 'better', 'response', 'formal', 'charge', 'b', '2021',
                                             'conducted', 'legal', 'placing', 'manager', 'talent', 'firm', '100', 'ongoing',
                                             'ethnicity', 'conference', 'resident', 'submitting', 'acknowledge', 'mix', 'building',
                                             'celebrates', 'httpswwwdolgovofccppdfpaytransp_20english_formattedesqa508cpdf',
@@ -331,7 +331,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'top', 'internally', 'externally', 'performance', 'indicator', 'thrive',
                                             'continue', 'grow', 'faculty', 'staff', 'bring', 'closer', 'result', 'space',
                                             'virtual', 'assistant', 'approved', 'save', 'money', 'create',
-                                            'understand', 'various', 'production', 'activity', 'take', 'department', 'provides',
+                                            'various', 'production', 'activity', 'take', 'department', 'provides',
                                             'familiarity', 'others', 'assist', 'needed', 'enable', 'believe', 'effective',
                                             'different', 'planning', 'task', 'want', 'supporting', 'appropriate', 'consumer',
                                             'effort', 'define', 'conduct', 'potential', 'used', 'patient', 'inc',
@@ -382,7 +382,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'factor', 'starting', 'influenced', 'path', 'us', 'discover', 'possibility',
                                             'unleash', 'ready', 'express', 'craving', 'prepared', 'actual', 'influenced',
                                             'carves', 'ibmare', 'possibility', 'voice', 'cocreate', 'individuality', 'add',
-                                            'alter', 'fabric', 'truly', 'personally', 'hundred', 'thousand', 'six', 'month',
+                                            'alter', 'fabric', 'truly', 'personally', 'hundred', 'thousand', 'month',
                                             'layoff', 'recall', 'ethnic', 'sensory', 'past', 'operate', 'there', 'always',
                                             'edward', 'jones', 'nice', 'have', 'determine', 'exceed', 'expectation', 'harmony',
                                             'predisposition', 'carrier', 'dealing', 'listing', 'figure', 'backwards',
@@ -514,7 +514,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'circle', 'mode', 'supervisor', 'extremely', 'receiving', 'organizing', 'magazine',
                                             'outlined', 'commensurate', 'florida', 'isnt', 'factory', 'district',
                                             'parttime', 'pressure', 'occasional', 'pas', 'utilizes', 'calculation',
-                                            'promoting', 'extended', 'dna', 'quarterly', 'snack', 'deeper', 'courage', 'schema',
+                                            'promoting', 'extended', 'dna', 'quarterly', 'snack', 'deeper', 'courage', 
                                             'acceptance', 'qa', 'perception', 'mitigate', 'nasdaq', 'attend', 'prospect', '24',
                                             'arm', 'air', 'shipping', 'fleet', 'score', 'penn', 'oh', 'gym', 'babs', '11', '60',
                                             'era', 'mitigation', 'introduction', 'civilian', '1st',  'surface', 'league', 'stored',
@@ -1198,7 +1198,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             '75year', 'geo', 'oura', 'eeocompliancespglobalcom', 'forrester', 'arrow', 'accrual',
                                             'multilevel', 'gb', 'secrecy', 'drg', 'eighty', 'differentiator', 'acquires', 'avp',
                                             'ipsos', 'daunting', 'republic', 'carfax', 'outpatient', 'xsell',
-                                            '74000', 'lowest', 'cashierless', 'highscale', 'finicity', 'retrain', 'mdg', 'digest',
+                                            '74000', 'lowest', 'cashierless', 'highscale', 'finicity', 'mdg', 'digest',
                                             'stewarding', 'lsi', 'blacksky', '131', 'kelly', 'reset', 'george', 'autoimmune',
                                             'hcpcs', 'reuters', 'neurodegenerative', 'coolest', 'salient', 'daiichi', 'achiever',
                                             'employerveteransdisabled', 'lateral', 'hobby', 'shehe', 'wired', 'alexis', 'sarah',
@@ -1325,7 +1325,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'intelligenesis', 'signet', 'pak', 'glean', 'nbc', 'horiba', 'rfp', 'milwaukee',
                                             'auditable', 'wwwaccenturecom', 'ro', 'neon', 'englishspanish', 'rewire', 'wafer',
                                             'seedinvest', 'cohesion', '43', 'sondermind', 'aerial', 'lime', 'recurlys', '42',
-                                            'moore', 'ulta', 'cbs', 'americorps', 'phenotype', 'oakland', 'tyson', 'confluence',
+                                            'moore', 'ulta', 'cbs', 'americorps', 'phenotype', 'oakland', 'tyson', 
                                             'essentially', 'passive', 'dentalvision', 'bag', 'noncompete', 'lumedic', 'groupons',
                                             'disparity', 'visualized', 'touched', 'juggling', 'datto', '18000', 'interactivity', 
                                             'versioned', 'salesforces', 'cdp', 'biorad', 'ben', 'disseminating', 'readability',
@@ -1365,7 +1365,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'licensures', 'budgetary', '119880', 'httpswwwlinkedincomcompany1603', 'patreon', 
                                             'ihub', 'acrobat', 'attrition', 'eventbrite', 'samara', 'sentar', 'infra',
                                             'combination', 'handson', 'high', 'higher', '35', 'military', 'militaryveteran',
-                                            'molecular', 'prior', 'track', 'service', 'solid', 'track', 'asaservice', 'ad', 
+                                            'molecular', 'prior', 'track', 'solid', 'track', 'asaservice', 'ad', 
                                             'transform', 'natural', 'next', 'ppas', 'maker', 'sparkcognition', 'flow',
                                             'fast', 'faster','high', 'highly', 'oriented']))) 
     
@@ -2996,14 +2996,13 @@ def nlp_skill_lists(additional_stopwords):
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
 
-    ####### !!!!!!!! START HERE NEXT  #########
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('***** Stopword and Skill List Testing ***** \n')
     print(f'Test for Stopword pollution in skill lists: {not set(ds_skills_combined).isdisjoint(additional_stopwords)}\n')
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
     print(f'Stopword pollutants: {stopword_pollutants}\n')
-        
-    # measure overlap among three key lists
+    
+    ####### !!!!!!!! START HERE NEXT  #########
     
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined
 
@@ -3022,7 +3021,8 @@ def visualize_indeed_metadata(df):
     None. Directly outputs visuaizations.
 
     '''
-    print('\nVisualizing Indeed data charts...')
+    print('\n***** Visualization *****\n')
+    print('Visualizing Indeed data charts...')
     
     # configure plot size, seaborne style and font scale
     plt.figure(figsize=(7, 10))
@@ -3179,11 +3179,12 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
 
     '''
     # indicate processing status in the console
+    print('\n***** Natural Language Processing *****')
     print('\nIdentifying n_grams...')
     
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
-    print(n_grams)
+    # print(n_grams)
     
     # visualize n_grams
     visualize_n_grams(n_grams)
