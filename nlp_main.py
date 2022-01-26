@@ -2117,14 +2117,10 @@ def clean_terms_for_nlp(series_of_interest):
                   'write': 'written',
                   'writing': 'written',
                   'writtenverbal': 'written verbal'}
-    ###!!! Confirm key and value uniqueness  
-
     
     # alphabetize term_fixes by value, print to console and paste back into code for ease of parsing
     dict(sorted(term_fixes.items(), key=lambda item: item[1]))
-    
-    
-    
+        
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
     print('   Correcting misspellings, eroneous concatenations, ambiguities, etc...')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
@@ -3058,10 +3054,6 @@ def visualize_n_grams(n_grams):
     # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
     ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     ax.set_title('n grams')
-    
-    ###!!! Start here and create a visualization just for the credentials list
-    
-
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
@@ -3265,59 +3257,9 @@ print(f'\nTotal Processing Time: {(time.time() - start_time) / 60:.2f} minutes')
 del start_time, end_time
 
 ####### !!!!!!!! START HERE NEXT  #########
-# NEXT: NEED TO DECONFLICT SKILL LISTS AND STOPWORD LISTS, and create assertion gates to make sure every word is accounted for and every list overlap is accounted for
-# NEXT: MUST CONSOLIDATE/CREATE TOOLS/UTILITIES FOR BRINGING IN NEW JOB LISTINGS/TERMS
-# FOR EACH SKILLS MASTER CHART: will need to combine counts of unigrams and bigrams and trigrams (attention to detail)
-# will definitely have to make sublists of skills only, libraries only, languages only, etc.
-# will need a breakout for sub-skillsets, like deep learning, neural networks
-# will need to a breakout for all the SAS tooling
-# consider the top bigrams, both fore and aft, of the term 'data'
-# will need to break out all of AWS's tools; sometimes need to roll them all up into AWS; other times tagged AWS-x, other times full granularity
-# need to figure out how to capture 'self confidence'
-# need to clear all of the technical debt I hav accrued
-# need to make sure all functions have comments and doc strings
-# probably need a specific breakout for aglile scrum
-# reexamine stopword 'punctual'
-# probably should measure which is most common and use that one: crossfunction; multidisciplinary
-# can create breakout charts for major terms and all the terms that are rolled up underneath that term
-
-# build a tool where you can put in a term(s) and return the top n phrases containing that term(s), maybe +/- 5 terms in either direction
-# maybe another term for 'novel'
-# for a deep dive on nlp, will need to atomize nlp into nlu and nlg, which are currently relabeled as nlp
-# need to check on flags for HPC; high performance computing
-# probably need to do a final processing step to turn key acronyms into all-caps (e.g., ai to AI, mlp to NLP, etc.)
-# finalize bar plot of count of jobs in states
-# for visualization: branded for NLP/ML insights 
-# find a better mask for the word cloud
-# create searches for key lists
-# create list of cloud tech
-# word clouds based only on the verbs in the job descriptions
-# hold = df[df['job_description'].str.contains('attention to detail')]
-# hold = df[df['job_description'].str.contains('|'.join(['passion','collaborate','teamwork','team work', 'interpersonal','flexibility','flexible','listening','listener','listen','empathy','empathetic']))]
-# create seaborne charts for n-grams
-# figure out how to brand-color the word clouds (probably just use the mako colors as my brand colors)
-# select favorite sns color pallete, and maybe use that for the branding colors!
-# determine optimal sns chat size
-# think about grouping/stacking compaisons of n_grams based on job type/title
-# consider a function to identify and collapse key terms, like 'scientist' and 'science', 'analytics' and 'analysis', 'algorithm' and 'technique', 'oral' and 'verbal',
-#     'model' and 'modeling', 'strong', 'excellent', 'writing' and 'written', 'discipline' and 'field',
-#     'collaborate' and 'collaboratively' and 'work together' and 'work closely'; all numbers (1 vs one);
-#     'cloud' and 'cloudbased'; 'gcp' into google cloud platform;  'sa' back into 'sas'; scrub the alphabetical lists;
-#     'speech recognition' to 'nlp'; 'ai' 'ml' and 'aiml'; 'latest', 'newest', 'novel'; 'recommender' and 'recommendation
-#     in the systems;'making decison' bigram to 'decisionmaking'; 'approach' and 'method' and all cousins; 'principle', 'method, apprach, etc.
-#     'experience' and 'experienced'; ETL with extract transform and load; 'bachelor' undergraduate'; 'time' and 'timeseries'
-#     'hpc' for all high powered computing; "sklearn" and scikitlearn and their variants; 
-# consider a swarm plot for ....something, with job title or skill along the x_axis and some count/value along the y-axis,
-  # maybe count of ds skills FOR THE UNICORN INDEX; yes, count the number of skills cited in each job listing, parsed by job title (which
-  # has been collapsed and simplified)
-# create a functionality to count how many jobs cite a specifc term I searched; probably just search the series with lov=c
-# can break skill lists into why/how/what subsets later
-# think about a graphic showing a tree from a key word, like 'experience' linking to the highest bigrams on the right
-
 
 
 #######  ARCHIVE ######
-
 # original -> df_term_fixes['terms'].replace(dict(zip(list(term_fixes.values()), list(term_fixes.keys()))), regex=False, inplace=True)
 # code for inverting the dictionary and sorting it alphabetically by key; then switch them
 # inv_map = {v: k for k, v in term_fixes.items()}
@@ -3328,3 +3270,5 @@ del start_time, end_time
 
 # dict_alpha = sorted(term_fixes.items())
 
+# hold = df[df['job_description'].str.contains('attention to detail')]
+# hold = df[df['job_description'].str.contains('|'.join(['passion','collaborate','teamwork','team work', 'interpersonal','flexibility','flexible','listening','listener','listen','empathy','empathetic']))]
