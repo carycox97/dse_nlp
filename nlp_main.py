@@ -3002,8 +3002,6 @@ def nlp_skill_lists(additional_stopwords):
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
     print(f'Stopword pollutants: {stopword_pollutants}\n')
     
-    ####### !!!!!!!! START HERE NEXT  #########
-    
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined
 
 
@@ -3180,11 +3178,11 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     '''
     # indicate processing status in the console
     print('\n***** Natural Language Processing *****')
-    print('\nIdentifying n_grams...')
+    print('Identifying n_grams...\n')
     
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
-    # print(n_grams)
+    print(f'List of ngrams for new data parsing:\n{n_grams}\n')
     
     # visualize n_grams
     visualize_n_grams(n_grams)
@@ -3207,10 +3205,7 @@ def nlp_filter_terms():
 
 def utilities(terms_for_nlp):
     
-    # count the volume of n-grams according to the series_of_interest and the given range (used for data conditioning)
-    n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 200 # 3900, 4000 # NEXT - advance the range
-    n_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+
 
     # script for cleaning up the n_grams series and converting it to a list that can be appended to additional_stop-words
     strip_end = [x[:-3] for x in n_grams.index]
@@ -3221,6 +3216,22 @@ def utilities(terms_for_nlp):
     pal = sns.color_palette('mako')
     print(pal.as_hex())
     
+####### !!!!!!!! START HERE NEXT  #########
+# create function for bringing in and parsing new data
+def parse_new_data(terms_for_nlp, ds_skills_combined):    
+    # redact ds_skills_combined from terms_for_nlp
+    new_terms_for_nlp = [x for x in terms_for_nlp if x not in ds_skills_combined] 
+    
+    # count the volume of n-grams according to the series_of_interest and the given range (used for data conditioning)
+    n_gram_count = 1
+    n_gram_range_start, n_gram_range_stop  = 0, 10 # 3900, 4000 # NEXT - advance the range
+    n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    
+    #### SHOULDN'T THE ABOVE PRINT AN EMPTY LIST? OH MAYBE NOT SINCE IT'S AFTER THE TERM FIXES; MAYBE WANT TO 
+    ### REMOVE ALL VALUES FROM THE TERM_FIXES dictionary
+    
+    pass
+
 
 ###### MAIN EXECUTION BELOW ######
 
