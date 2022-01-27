@@ -3224,7 +3224,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined):
     
     # count the volume of n-grams according to the series_of_interest and the given range (used for data conditioning)
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 10 # 3900, 4000 # NEXT - advance the range
+    n_gram_range_start, n_gram_range_stop  = 0, 20 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     #### SHOULDN'T THE ABOVE PRINT AN EMPTY LIST? OH MAYBE NOT SINCE IT'S AFTER THE TERM FIXES; MAYBE WANT TO 
