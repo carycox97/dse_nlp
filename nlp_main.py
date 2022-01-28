@@ -2130,7 +2130,7 @@ def clean_terms_for_nlp(series_of_interest):
     df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
         
-    return terms_for_nlp, additional_stopwords
+    return terms_for_nlp, additional_stopwords, term_fixes
 
 
 def nlp_skill_lists(additional_stopwords):
@@ -3204,9 +3204,6 @@ def nlp_filter_terms():
 
 
 def utilities(terms_for_nlp):
-    
-
-
     # script for cleaning up the n_grams series and converting it to a list that can be appended to additional_stop-words
     strip_end = [x[:-3] for x in n_grams.index]
     clean_ngram_list = [x[2:] for x in strip_end]
@@ -3218,18 +3215,19 @@ def utilities(terms_for_nlp):
     
 ####### !!!!!!!! START HERE NEXT  #########
 # create function for bringing in and parsing new data
-def parse_new_data(terms_for_nlp, ds_skills_combined):    
-    # redact ds_skills_combined from terms_for_nlp
+def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):    
+    # Step #1: redact ds_skills_combined from terms_for_nlp
     new_terms_for_nlp = [x for x in terms_for_nlp if x not in ds_skills_combined] 
     
-    # count the volume of n-grams according to the series_of_interest and the given range (used for data conditioning)
+    # Step #2: redact term_fixes values (i.e., the values from the term_fixes dictionary)
+    new_terms_for_nlp = [x for x in new_terms_for_nlp if x not in list(set((term_fixes.values())))]
+    
+    # Step #3: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
     n_gram_range_start, n_gram_range_stop  = 0, 20 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
-    #### SHOULDN'T THE ABOVE PRINT AN EMPTY LIST? OH MAYBE NOT SINCE IT'S AFTER THE TERM FIXES; MAYBE WANT TO 
-    ### REMOVE ALL VALUES FROM THE TERM_FIXES dictionary
-    
+       
     pass
 
 
@@ -3251,7 +3249,7 @@ def main_program(csv_path):
     series_of_interest = df['job_description']
     
     # execute all NLP data conditioning (e.g., lowercasing, lemmatization, etc.)
-    terms_for_nlp, additional_stopwords = clean_terms_for_nlp(series_of_interest)
+    terms_for_nlp, additional_stopwords, term_fixes = clean_terms_for_nlp(series_of_interest)
     
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
     ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
