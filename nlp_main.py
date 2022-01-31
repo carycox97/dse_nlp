@@ -1367,7 +1367,17 @@ def clean_terms_for_nlp(series_of_interest):
                                             'combination', 'handson', 'high', 'higher', '35', 'military', 'militaryveteran',
                                             'molecular', 'prior', 'track', 'solid', 'track', 'asaservice', 'ad', 
                                             'transform', 'natural', 'next', 'ppas', 'maker', 'sparkcognition', 'flow',
-                                            'fast', 'faster','high', 'highly', 'oriented']))) 
+                                            'fast', 'faster','high', 'highly', 'oriented', 'geli', 'sephora', 'serco', 'faire',
+                                            'mirati', 'upwork', 'jpl', 'totus', 'quantcast', 'fermentation', 'irap', 'rady',
+                                            'bolt', 'dexcom', 'zest', 'terawatt', 'barbara', 'pinner', 'usra', 'ritual',
+                                            'jgi', 'moloco', 'airtable', 'moonshot', 'ericsson', 'blackberry', 'tri', 
+                                            'sarscov2', 'tinder', 'vida', 'sunnyvale', 'nauto', 'mst', 'shortform', 'bambee',
+                                            'thirdlove', 'bric', 'nitro', 'jakarta', 'metabolomics', 'kp', 'atomwise',
+                                            '1823', 'goodrx', 'grail', 'franciscos', 'freenome', 'netskope', 'medimpact',
+                                            'nvidias', 'viant', 'bsba', 'descript', 'jerry', 'openx', 'bouqs', 'setsail',
+                                            'cdph', 'ox', 'iron', 'apd', 'multiplechoice', 'driscolls', 'deferral',
+                                            'updater', 'mlds', 'smoke', 'topps', 'ax', 'softbank', 'remodeling']))) 
+ 
     
     # create stop_words object and toggle on/off additional stop words
     # stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
@@ -1391,6 +1401,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'hoc': 'adhoc',
                   'impromptu': 'adhoc',
                   'advance': 'advanced',
+                  'aggregate': 'aggregation',
                   'aggregating': 'aggregation',
                   'aggregated': 'aggregation',
                   'agilescrum': 'agile scrum',
@@ -1441,6 +1452,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'bsc': 'bachelors',
                   'bsms': 'bachelors masters',
                   'bsmsphd': 'bachelors masters phd',
+                  'undergraduate': 'bachelors',
                   'master': 'masters',
                   'bayesian': 'bayes',
                   'bestpractices': 'best practice',
@@ -1452,6 +1464,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'bigquery': 'big query',
                   'biology': 'bioscience',
                   'biological': 'bioscience',
+                  'epidemiology': 'bioscience',
                   'neuroscience': 'bioscience',
                   'biostatisticians': 'biostatistics',
                   'biotechnology': 'biotech',
@@ -1460,6 +1473,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'caffe2': 'caffe',
                   'categorization': 'categorize',
                   'licensecertification': 'certification',
+                  'certified': 'certification',
                   'challenging': 'challenge',
                   'chatbots': 'chatbot',
                   'classifier': 'classification',
@@ -1684,11 +1698,13 @@ def clean_terms_for_nlp(series_of_interest):
                   'explainability': 'explain',
                   'explanation': 'explain',
                   'exploration': 'exploratory',
+                  'everchanging': 'fast-paced',
                   'fastmoving': 'fast-paced',
                   'fastpaced': 'fast-paced',
                   'quickly': 'fast-paced',
                   'quicker': 'fast-paced',
                   'quick': 'fast-paced',
+                  'pace': 'fast-paced',
                   'paced': 'fast-paced',
                   'speed': 'fast-paced',
                   'highspeed': 'fast-paced',
@@ -1728,6 +1744,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'gitlab': 'git',
                   'glms': 'glm',
                   'glmregression': 'glm regression',
+                  'cpugpu': 'gpu',
                   'gpus': 'gpu',
                   'graduatelevel': 'graduate',
                   'graphbased': 'graph',
@@ -1775,6 +1792,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'innovatively': 'innovative',
                   'creativity': 'innovative',
                   'creative': 'innovative',
+                  'creatively': 'innovative',
                   'innovatives': 'innovative',
                   'innovates': 'innovative',
                   'innovation': 'innovative',
@@ -1842,6 +1860,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'managing': 'management',
                   'managed': 'management',
                   'map': 'mapping',
+                  'msc': 'masters',
                   'msma': 'masters',
                   'msphd': 'masters phd',
                   'mathematician': 'mathematics',
@@ -1859,6 +1878,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'medidata': 'metadata',
                   'methodology': 'method',
                   'methodological': 'method',
+                  'rigor': 'meticulous',
                   'rigorous': 'meticulous',
                   'attention': 'meticulous',
                   'attentiontodetail': 'meticulous',
@@ -2108,6 +2128,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'troubleshoots': 'troubleshoot',
                   'troubleshooting': 'troubleshoot',
                   'understands': 'understand',
+                  'understood': 'understand',
                   'unixshell': 'unix shell',
                   'use': 'user',
                   'oral': 'verbal',
@@ -2199,6 +2220,8 @@ def nlp_skill_lists(additional_stopwords):
                      'field',
                      'ged',
                      'genomics',
+                     'geophysical',
+                     'geospatial',
                      'gpa',
                      'graduate',
                      'industry',
@@ -3192,6 +3215,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
+    # n_grams = [x[2:-3] for x in list(n_grams.index)]
     print(f'List of ngrams for new data parsing:\n{n_grams}\n')
     
     # visualize n_grams
