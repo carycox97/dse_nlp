@@ -3085,7 +3085,7 @@ def visualize_n_grams(n_grams):
 
     '''
     ####### !!!!!!!! START HERE NEXT  - Visualize credential list; probably need subfunctions for each list #########
-    def visualize_all(n_grams):
+    def visualize_all(n_grams, ds_cred_terms):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -3095,7 +3095,7 @@ def visualize_n_grams(n_grams):
         n_grams_cols = ['count']
         n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
         
-        # pull the n_grams out of the index, clean terms, and bound the count of records to be visualized
+        # pull the n_grams out of the index, clean the terms, and bound the count of records to be visualized
         n_grams_df['grams'] = n_grams_df.index.astype('string')
         n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
         n_grams_df_sns = n_grams_df.iloc[:20] # toggle how many records to show in the visualization
@@ -3104,7 +3104,7 @@ def visualize_n_grams(n_grams):
         ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('n grams')
     
-    def visualize_credentials():
+    def visualize_credentials(ds_cred_terms):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -3114,11 +3114,23 @@ def visualize_n_grams(n_grams):
         n_grams_cols = ['count']
         n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
         
-        # from n_grams, subset only the terms that also appear in the credentials list
-        # n_grams is coming into thhe parent function already filtered down...
+        # pull the n_grams out of the index and clean the terms
+        n_grams_df['grams'] = n_grams_df.index.astype('string')
+        n_grams_df.reset_index(inplace=True, drop=True)
+        n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
+        
+        # from n_grams_df, subset only the terms that also appear in the credentials list
+        mask = n_grams_df.grams.isin(ds_cred_terms)
+        n_grams_df_sns = n_grams_df[mask]
+        
+        
+        
+    
+
         
     
     visualize_all(n_grams)
+    visualize_credentials(ds_cred_terms)
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
@@ -3337,13 +3349,13 @@ def main_program(csv_path):
     visualize_indeed_metadata(df)
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
-    # visualize n_grams as a horizontal bar plot
-    visualize_n_grams(n_grams)
+    # visualize n_grams and skill lists as horizontal bar plots
+    visualize_n_grams(n_grams, ds_cred_terms)
 
-    return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams
+    return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
 
-df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams = main_program(csv_path)
+df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path)
 
 # close time calculation
 end_time = time.time()
