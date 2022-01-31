@@ -424,7 +424,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'marketplace', 'specialized', 'kpis', 'electronic', 'capacity', 'file',
                                             'consistently', 'nature', 'valued', 'informed', 'american', 'oversight', 'valuable',
                                             'spectrum', 'campus', 'highest', 'desirable', 'exemption', 'verification', 'supported',
-                                            'reduce',  'align', 'broader', 'integrating', 'entity', 'succeed', 
+                                            'reduce',  'align', 'broader', 'integrating', 'entity', 'succeed', 'demonstrates',
                                             'economic', 'enhancement', 'executing', 'capable', 'internet', 'allow', 'joining',
                                             'advancement', 'transaction', 'inventory', 'capture', 'involved', 'reference', 'much',
                                             'whole', 'institute', 'industryleading', 'contributing', 'food', 'gap', 'compelling',
@@ -1450,6 +1450,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'terabyte': 'big data',
                   'teradata': 'big data',
                   'bigquery': 'big query',
+                  'biology': 'bioscience',
+                  'biological': 'bioscience',
                   'neuroscience': 'bioscience',
                   'biostatisticians': 'biostatistics',
                   'biotechnology': 'biotech',
@@ -1503,6 +1505,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'cooperative': 'collaborate',
                   'cooperate': 'collaborate',
                   'coworkers': 'collaborate',
+                  'inform': 'collaborate',
                   'interact': 'collaborate',
                   'partnering': 'collaborate',
                   'partnership': 'collaborate',
@@ -1533,6 +1536,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'communicator': 'communicate',
                   'complex': 'complexity',
                   'computation': 'computer',
+                  'computational': 'computer',
                   'cs': 'computer science',
                   'cv': 'computer vision',
                   'concisely': 'concise',
@@ -1688,7 +1692,6 @@ def clean_terms_for_nlp(series_of_interest):
                   'paced': 'fast-paced',
                   'speed': 'fast-paced',
                   'highspeed': 'fast-paced',
-                  'time': 'fast-paced',
                   'timeliness': 'fast-paced',
                   'rapid': 'fast-paced',
                   'discipline': 'field',
@@ -1978,6 +1981,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'programing': 'programming',
                   'programmingscripting': 'programming scripting',
                   'prototype': 'prototyping',
+                  'fluency': 'proven',
+                  'fluent': 'proven',
                   'record': 'proven',
                   'python3': 'python',
                   'pythonbased': 'python',
@@ -2692,6 +2697,7 @@ def nlp_skill_lists(additional_stopwords):
                          'sensitivity',
                          'sentiment',
                          'seo',
+                         'series',
                          'server',
                          'service',
                          'set',
@@ -3220,17 +3226,19 @@ def utilities(terms_for_nlp):
 ####### !!!!!!!! START HERE NEXT  #########
 # create function for bringing in and parsing new data
 def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):    
-    # Step #1: redact ds_skills_combined from terms_for_nlp
+    # Step 1: create the skill lists
+    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
+     
+    # Step 2: redact ds_skills_combined from terms_for_nlp
     new_terms_for_nlp = [x for x in terms_for_nlp if x not in ds_skills_combined] 
     
-    # Step #2: redact term_fixes values (i.e., the values from the term_fixes dictionary)
+    # Step 3: redact term_fixes values (i.e., the values from the term_fixes dictionary)
     new_terms_for_nlp = [x for x in new_terms_for_nlp if x not in list(set((term_fixes.values())))]
     
-    # Step #3: count the volume of n-grams from the job_description field and the given range
+    # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
     n_gram_range_start, n_gram_range_stop  = 0, 100 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-    
     
     pass
 
@@ -3260,7 +3268,7 @@ def main_program(csv_path):
     
     # count n_grams 
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 200 # 3900, 4000 # NEXT - advance the range
+    n_gram_range_start, n_gram_range_stop  = 0, 10 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # visualize results of NLP
@@ -3270,10 +3278,10 @@ def main_program(csv_path):
     # visualize n_grams as a horizontal bar plot
     visualize_n_grams(n_grams)
 
-    return df, series_of_interest, terms_for_nlp, n_grams
+    return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams
 
 
-df, series_of_interest, terms_for_nlp, n_grams = main_program(csv_path)
+df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams = main_program(csv_path)
 
 # close time calculation
 end_time = time.time()
