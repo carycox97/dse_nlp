@@ -303,7 +303,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'race', 'range', 'rapidly', 'real', 'reasonable', 'receive', 'recruiter',
                                             'recruiting', 'recruitment', 'referral', 'regard', 'regarding', 'regardless',
                                             'regulation', 'regulatory', 'reimbursement', 'relic', 'religion', 'religious',
-                                            'relocation', 'remotely', 'reporting', 'req', 'request', 'required',
+                                            'relocation', 'remotely', 'reporting', 'report', 'req', 'request', 'required',
                                             'requires', 'resource', 'responsibility', 'responsible', 'resume',
                                             'retirement', 'reward', 'rico', 'role', 'safety', 'salary', 'salesforcecom',
                                             'salesforceorg', 'san', 'saving', 'schedule', 'scratch', 'secret', 'seeking',
@@ -441,9 +441,9 @@ def clean_terms_for_nlp(series_of_interest):
                                             'accountable', 'influencing', 'massive', 'typical', 'treatment', 'commerce',
                                             'manipulating', 'backend', 'querying', 'handling', 'amazing', 'award', 'hold', 
                                             'weekly', 'retention', 'bias', 'immediate', 'teaching', 'resolution', 'spend',
-                                            'hear', 'easy', 'superior', 'tuning', 'nearly', 'promotes',
+                                            'hear', 'easy', 'superior', 'tuning', 'nearly', 'promotes', 'demonstrate',
                                             'satisfaction', 'unlock', 'behind', 'screening', 'begin', 'inquiry',  'page',
-                                            'particularly', 'bestinclass', 'demonstrating', 'element', 'ask', 
+                                            'particularly', 'bestinclass', 'demonstrating', 'element', 'ask', 'demonstrated',
                                             'availability', 'oncology', 'specialization', 'empowering', 'criterion', 'loan',
                                             'pioneering', 'advancing', 'exploring', 'aptitude', 'stand', 'institutional', 
                                             'comply', 'respond', 'derive', 'message',  'easily', 'recent', 'journal', 'lending',
@@ -1437,9 +1437,11 @@ def clean_terms_for_nlp(series_of_interest):
                   'autonomously': 'automate',
                   'fullyautonomous': 'automate',
                   'autonomous': 'automate',
+                  'bachelor': 'bachelors',
                   'bsc': 'bachelors',
                   'bsms': 'bachelors masters',
                   'bsmsphd': 'bachelors masters phd',
+                  'master': 'masters',
                   'bayesian': 'bayes',
                   'bestpractices': 'best practice',
                   'bigdata': 'big data',
@@ -1523,6 +1525,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'collected': 'collection',
                   'collecting': 'collection',
                   'school': 'college',
+                  'university': 'college',
                   'communicated': 'communicate',
                   'communicates': 'communicate',
                   'communicating': 'communicate',
@@ -1768,8 +1771,10 @@ def clean_terms_for_nlp(series_of_interest):
                   'innovating': 'innovative',
                   'innovatively': 'innovative',
                   'creativity': 'innovative',
+                  'creative': 'innovative',
                   'innovatives': 'innovative',
                   'innovates': 'innovative',
+                  'innovation': 'innovative',
                   'insights': 'insight',
                   'savvy': 'intelligence',
                   'intelligenceinsights': 'intelligence insight',
@@ -1965,6 +1970,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'professionalism': 'professional',
                   'proficiently': 'proficient',
                   'literate': 'proficient',
+                  'proficiency': 'proficient',
                   'profitable': 'profitability',
                   'profit': 'profitability',
                   'profitably': 'profitability',
@@ -2347,7 +2353,6 @@ def nlp_skill_lists(additional_stopwords):
                          'decomposition',  
                          'deep',
                          'delfi',
-                         'demonstrate',
                          'deploy',
                          'design',
                          'detection',
@@ -2909,7 +2914,6 @@ def nlp_skill_lists(additional_stopwords):
                            'data',
                            'decision',
                            'delivery',
-                           'demonstrate', 
                            'development',
                            'digital',
                            'domain',
@@ -3224,10 +3228,10 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step #3: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 20 # 3900, 4000 # NEXT - advance the range
+    n_gram_range_start, n_gram_range_stop  = 0, 100 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
-       
+    
     pass
 
 
