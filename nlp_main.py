@@ -3084,22 +3084,41 @@ def visualize_n_grams(n_grams):
     None. Directly outputs visualizations.
 
     '''
-    # configure plot size, seaborne style and font scale
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.3)
+    ####### !!!!!!!! START HERE NEXT  - Visualize credential list; probably need subfunctions for each list #########
+    def visualize_all(n_grams):
+        # configure plot size, seaborne style and font scale
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)
+        
+        # convert the n_grams Series to a Dataframe for seaborne visualization
+        n_grams_cols = ['count']
+        n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
+        
+        # pull the n_grams out of the index, clean terms, and bound the count of records to be visualized
+        n_grams_df['grams'] = n_grams_df.index.astype('string')
+        n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
+        n_grams_df_sns = n_grams_df.iloc[:20] # toggle how many records to show in the visualization
+        
+        # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
+        ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax.set_title('n grams')
     
-    # convert the n_grams Series to a Dataframe for seaborne visualization
-    n_grams_cols = ['count']
-    n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
+    def visualize_credentials():
+        # configure plot size, seaborne style and font scale
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)
+        
+        # convert the n_grams Series to a Dataframe for seaborne visualization
+        n_grams_cols = ['count']
+        n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
+        
+        # from n_grams, subset only the terms that also appear in the credentials list
+        # n_grams is coming into thhe parent function already filtered down...
+        
     
-    # pull the n_grams out of the index and bound the count of records to be visualized
-    n_grams_df['grams'] = n_grams_df.index.astype('string')
-    n_grams_df_sns = n_grams_df.iloc[:20]
-    
-    # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
-    ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-    ax.set_title('n grams')
+    visualize_all(n_grams)
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
@@ -3219,10 +3238,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
     # n_grams = [x[2:-3] for x in list(n_grams.index)]
-    print(f'List of ngrams for new data parsing:\n{n_grams}\n')
-    
-    # visualize n_grams
-    visualize_n_grams(n_grams)
+    print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
     
     return n_grams
 
@@ -3250,9 +3266,26 @@ def utilities(terms_for_nlp):
     pal = sns.color_palette('mako')
     print(pal.as_hex())
     
-####### !!!!!!!! START HERE NEXT  #########
-# create function for bringing in and parsing new data
-def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):    
+def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
+    '''
+    Parse new Indeed data for key terms, additional stopwords and term fixes.
+
+    Parameters
+    ----------
+    terms_for_nlp : list
+        List containing scraped and cleaned terms from the series of interest; created
+        in the clean_for nlp function.
+    ds_skills_combined : list
+        Combination of the credentials, technical, soft and professional skills lists.
+    term_fixes : dictionary
+        Mapping of misspellings, concatentions and term rollups used as a final
+        repair of n_grams.
+
+    Returns
+    -------
+    None.
+
+    '''    
     # Step 1: create the skill lists
     ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
      
@@ -3295,9 +3328,9 @@ def main_program(csv_path):
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
     ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
     
-    # count n_grams 
+    # count all n_grams 
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 10 # 3900, 4000 # NEXT - advance the range
+    n_gram_range_start, n_gram_range_stop  = 0, 100 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # visualize results of NLP
