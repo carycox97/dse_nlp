@@ -1450,6 +1450,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'autonomous': 'automate',
                   'bachelor': 'bachelors',
                   'bsc': 'bachelors',
+                  'bachelorsmasters': 'bachelors masters',
                   'bsms': 'bachelors masters',
                   'bsmsphd': 'bachelors masters phd',
                   'undergraduate': 'bachelors',
@@ -1473,6 +1474,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'caffe2': 'caffe',
                   'categorization': 'categorize',
                   'licensecertification': 'certification',
+                  'certificate': 'certification',
                   'certified': 'certification',
                   'challenging': 'challenge',
                   'chatbots': 'chatbot',
@@ -1862,6 +1864,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'map': 'mapping',
                   'msc': 'masters',
                   'msma': 'masters',
+                  'mastersphd': 'masters phd',
                   'msphd': 'masters phd',
                   'mathematician': 'mathematics',
                   'mathematical': 'mathematics',
@@ -2157,7 +2160,7 @@ def clean_terms_for_nlp(series_of_interest):
     dict(sorted(term_fixes.items(), key=lambda item: item[1]))
         
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
-    print('   Correcting misspellings, eroneous concatenations, ambiguities, etc...\n')
+    print('   Correcting misspellings, erroneous concatenations, ambiguities, etc...\n')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
     df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
@@ -3264,7 +3267,9 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     n_gram_range_start, n_gram_range_stop  = 0, 100 # 3900, 4000 # NEXT - advance the range
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
-    pass
+    # Step 5: Print in convenient form for addition to additional_stopword list
+    n_grams = [x[2:-3] for x in list(n_grams.index)]
+    print(f'List of ngrams for new data parsing:\n{n_grams}\n')
 
 
 ###### MAIN EXECUTION BELOW ######
