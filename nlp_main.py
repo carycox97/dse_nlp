@@ -3070,7 +3070,7 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams):
+def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -3084,8 +3084,8 @@ def visualize_n_grams(n_grams):
     None. Directly outputs visualizations.
 
     '''
-    ####### !!!!!!!! START HERE NEXT  - Visualize credential list; probably need subfunctions for each list #########
-    def visualize_all(n_grams, ds_cred_terms):
+    
+    def visualize_all(n_grams, ds_cred_terms, terms_for_nlp):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -3103,8 +3103,9 @@ def visualize_n_grams(n_grams):
         # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
         ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('n grams')
-    
-    def visualize_credentials(ds_cred_terms):
+
+####### !!!!!!!! WORKING HERE - Visualize credential list; probably need subfunctions for each list #########
+    def visualize_credentials(ds_cred_terms, terms_for_nlp):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -3119,18 +3120,27 @@ def visualize_n_grams(n_grams):
         n_grams_df.reset_index(inplace=True, drop=True)
         n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
         
-        # from n_grams_df, subset only the terms that also appear in the credentials list
+        # from n_grams_df, subset only the unigrams (the default) that also appear in the credentials list
         mask = n_grams_df.grams.isin(ds_cred_terms)
         n_grams_df_sns = n_grams_df[mask]
         
+        # create a horizontal barplot visualizing data science credentials
+        ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax.set_title('n grams')
         
+        # SOMEWHERE IN HERE NEED TO GET THE BIGRAMS AND ADD THEM TO THE UNIGRAMS 
+        # THEN INTELLIGENTLY FILTER THEM DOWN, PERHAPS IF AT LEAST ONE OF THE TERMS IS IN THE CREDENTIALS LIST
+        n_gram_count = 2
+        n_gram_range_start, n_gram_range_stop  = 0, 100
+        bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+        # next line needs to clean the bigrams....maybe I need to go back and just clean n_grams at the beginning
         
     
 
         
     
     visualize_all(n_grams)
-    visualize_credentials(ds_cred_terms)
+    visualize_credentials(ds_cred_terms, terms_for_nlp)
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
@@ -3248,8 +3258,24 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     print('Identifying n_grams...\n')
     
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
-    n_grams = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
+    n_grams_raw = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
+    
+    # convert n_grams series into a dataframe, clean the terms and reset the index
+    n_grams_cols = ['count']
+    n_grams = pd.DataFrame(n_grams_raw, columns=n_grams_cols)
+    
+    # pull the n_grams out of the index, clean the terms, and bound the count of records to be visualized
+    n_grams['grams'] = n_grams.index.astype('string')
+    n_grams['grams'] = [x[2:-3] for x in n_grams['grams']]
+    n_grams.reset_index(inplace=True, drop=True)
+    
+    
+    
+    
+    
+    
     # n_grams = [x[2:-3] for x in list(n_grams.index)]
+    # n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
     print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
     
     return n_grams
@@ -3350,7 +3376,7 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms)
+    visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
