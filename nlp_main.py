@@ -3120,15 +3120,11 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # THEN INTELLIGENTLY FILTER THEM DOWN, PERHAPS IF AT LEAST ONE OF THE TERMS IS IN THE CREDENTIALS LIST
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
-        bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+        n_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         # next line needs to clean the bigrams....maybe I need to go back and just clean n_grams at the beginning
-        
     
-
-        
-    
-    visualize_all(n_grams)
-    visualize_credentials(ds_cred_terms, terms_for_nlp)
+    visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
+    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
