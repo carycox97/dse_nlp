@@ -3076,7 +3076,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
     Parameters
     ----------
-    n_grams : Series
+    n_grams : dataframe
         Contains the processed n_grams; sorted by count from highest to lowest; converted to a df in this function.
 
     Returns
@@ -3091,44 +3091,32 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         sns.set_style('dark')
         sns.set(font_scale = 1.3)
         
-        # convert the n_grams Series to a Dataframe for seaborne visualization
-        n_grams_cols = ['count']
-        n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
-        
-        # pull the n_grams out of the index, clean the terms, and bound the count of records to be visualized
-        n_grams_df['grams'] = n_grams_df.index.astype('string')
-        n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
-        n_grams_df_sns = n_grams_df.iloc[:20] # toggle how many records to show in the visualization
+        # bound the count of ngram records to be visualized
+        n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
         
         # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
-        ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('n grams')
+        ax = sns.barplot(x='count', y='grams', data=n_grams_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        plt.figtext(0.325, 0.475, '← and this is a red pointer', fontsize=16, color='r', fontweight='demibold')
+        ax.set_title('Key Terms & Phrases for Data Scientist Job Listings', fontsize=19)
+        ax.set(ylabel=None)
+        ax.set_xlabel('Count', fontsize=16)
 
-####### !!!!!!!! WORKING HERE - Visualize credential list; probably need subfunctions for each list #########
-    def visualize_credentials(ds_cred_terms, terms_for_nlp):
+    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.3)
         
-        # convert the n_grams Series to a Dataframe for seaborne visualization
-        n_grams_cols = ['count']
-        n_grams_df = pd.DataFrame(n_grams, columns=n_grams_cols)
-        
-        # pull the n_grams out of the index and clean the terms
-        n_grams_df['grams'] = n_grams_df.index.astype('string')
-        n_grams_df.reset_index(inplace=True, drop=True)
-        n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
-        
-        # from n_grams_df, subset only the unigrams (the default) that also appear in the credentials list
-        mask = n_grams_df.grams.isin(ds_cred_terms)
-        n_grams_df_sns = n_grams_df[mask]
+        # from n_grams_df, subset only the monograms (the default) that also appear in the credentials list
+        mask = n_grams.grams.isin(ds_cred_terms)
+        n_grams_df_sns = n_grams[mask]
         
         # create a horizontal barplot visualizing data science credentials
         ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('n grams')
+        ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
         
-        # SOMEWHERE IN HERE NEED TO GET THE BIGRAMS AND ADD THEM TO THE UNIGRAMS 
+####### !!!!!!!! WORKING HERE - Visualize credential list; probably need subfunctions for each list #########
+        # SOMEWHERE IN HERE NEED TO GET THE BIGRAMS AND ADD THEM TO THE MONOGRAMS 
         # THEN INTELLIGENTLY FILTER THEM DOWN, PERHAPS IF AT LEAST ONE OF THE TERMS IS IN THE CREDENTIALS LIST
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
@@ -3249,14 +3237,14 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
 
     Returns
     -------
-    n_grams : Series
+    n_grams : 
         Contains the processed n_grams; sorted by count from highest to lowest.
 
     '''
     # indicate processing status in the console
     print('\n***** Natural Language Processing *****')
     print('Identifying n_grams...\n')
-    
+
     # count n grams in the field of interest, bounding the count according to n_gram_range_start and n_gram_range_stop
     n_grams_raw = (pd.Series(nltk.ngrams(terms_for_nlp, n_gram_count)).value_counts())[n_gram_range_start:n_gram_range_stop]
     
@@ -3264,20 +3252,13 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     n_grams_cols = ['count']
     n_grams = pd.DataFrame(n_grams_raw, columns=n_grams_cols)
     
-    # pull the n_grams out of the index, clean the terms, and bound the count of records to be visualized
+    # pull the n_grams out of the index, reset the index and extract only the ngrams
     n_grams['grams'] = n_grams.index.astype('string')
-    n_grams['grams'] = [x[2:-3] for x in n_grams['grams']]
     n_grams.reset_index(inplace=True, drop=True)
+    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z]+", x)) for x in n_grams['grams']]
     
-    
-    
-    
-    
-    
-    # n_grams = [x[2:-3] for x in list(n_grams.index)]
-    # n_grams_df['grams'] = [x[2:-3] for x in n_grams_df['grams']]
     print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
-    
+
     return n_grams
 
 
