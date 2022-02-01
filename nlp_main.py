@@ -3107,46 +3107,32 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         sns.set_style('dark')
         sns.set(font_scale = 1.3)
         
-        # from n_grams_df, subset only the monograms (the default) that also appear in the credentials list
+        # subset the monograms that appear in the credentials list
         mask_monogram = n_grams.grams.isin(ds_cred_terms)
-        n_grams_df_sns = n_grams[mask_monogram]
+        monograms_df_sns = n_grams[mask_monogram]
         
-        # now that you have monograms, get the bigrams
+        # generate bigrams from the full terms_for_nlp list
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
-        # add the bigrams to the monograms in n_grams_df_sns; MAKE SURE YOU ARE ADDING THE RIGHT THINGS
-        # MIGHT NEED TO FILTER THE BIGRAMS AFTER YOU GET THEM
+        # subset the bigrams for which at least one term appears in the credentials list
+        bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+        mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+        bigrams_df_sns = bigrams[mask_bigram]
+
+####### !!!!!!!! WORKING HERE - Visualize credential list; probably need subfunctions for each list #########        
+        # MIGHT NEED TO DROP MONOGRAMS THAT ALSO APPEAR IN BIGRAM LIST
         
-        # filter bigrams
-        # if any bigram contains any term from the credentials list, include it in the bigrams_for_sns list
-        bigram_list_for_sns = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
-        # THINK I HAVE TO GO BACK AND SUBSET bi_grams dataframe TO MATCH ANYTHING FROM THIS LIST IN ORDER TO GET COUNTS
-        mask_bigram = bigrams.grams.isin(bigram_list_for_sns)
-        bigrams_df_sns = bigrams[mask_bigram] # THIS IS CORRECT NOW GO CLEAN UP VARIABLE NAMES
-        
-        
-        
-        
-        # turn size into its own count field and create a dataframe
+        # add the monograms and bigrams
+        mono_bi_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
         
         # filter down to exclude noisy terms, like collaborate
-        
-        # add filtered bigrams to existing monograms in n_grams_df_sns
-        
-        
+
         # create a horizontal barplot visualizing data science credentials
-        ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax = sns.barplot(x='count', y='grams', data=monograms_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
         
-####### !!!!!!!! WORKING HERE - Visualize credential list; probably need subfunctions for each list #########
-        # SOMEWHERE IN HERE NEED TO GET THE BIGRAMS AND ADD THEM TO THE MONOGRAMS 
-        # THEN INTELLIGENTLY FILTER THEM DOWN, PERHAPS IF AT LEAST ONE OF THE TERMS IS IN THE CREDENTIALS LIST
-        n_gram_count = 2
-        n_gram_range_start, n_gram_range_stop  = 0, 100
-        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-    
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
 
