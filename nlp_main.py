@@ -3111,6 +3111,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         mask = n_grams.grams.isin(ds_cred_terms)
         n_grams_df_sns = n_grams[mask]
         
+        # now that you have monograms, get the bigrams
+        n_gram_count = 2
+        n_gram_range_start, n_gram_range_stop  = 0, 100
+        bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+        
+        # add the bigrams to the monograms in n_grams_df_sns
+        
         # create a horizontal barplot visualizing data science credentials
         ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
@@ -3120,8 +3127,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # THEN INTELLIGENTLY FILTER THEM DOWN, PERHAPS IF AT LEAST ONE OF THE TERMS IS IN THE CREDENTIALS LIST
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
-        n_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-        # next line needs to clean the bigrams....maybe I need to go back and just clean n_grams at the beginning
+        bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
@@ -3251,7 +3257,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     # pull the n_grams out of the index, reset the index and extract only the ngrams
     n_grams['grams'] = n_grams.index.astype('string')
     n_grams.reset_index(inplace=True, drop=True)
-    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z]+", x)) for x in n_grams['grams']]
+    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
     
     print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
