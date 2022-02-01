@@ -3116,7 +3116,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         n_gram_range_start, n_gram_range_stop  = 0, 100
         bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
-        # add the bigrams to the monograms in n_grams_df_sns
+        # add the bigrams to the monograms in n_grams_df_sns; MAKE SURE YOU ARE ADDING THE RIGHT THINGS
+        # MIGHT NEED TO FILTER THE BIGRAMS AFTER YOU GET THEM
+        
+        # filter bigrams
+        
+        # add filtered bigrams to existing monograms in n_grams_df_sns
+        
         
         # create a horizontal barplot visualizing data science credentials
         ax = sns.barplot(x='count', y='grams', data=n_grams_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
