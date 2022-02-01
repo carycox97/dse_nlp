@@ -3121,7 +3121,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
-####### !!!!!!!! WORKING HERE - Visualize credential list; probably need subfunctions for each list #########        
+####### !!!!!!!! WORKING HERE - Visualize credential list | NEXT STEP: deconflict mono and bi #########        
         # MIGHT NEED TO DROP MONOGRAMS THAT ALSO APPEAR IN BIGRAM LIST
         
         # add the monograms and bigrams
