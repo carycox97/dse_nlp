@@ -3108,18 +3108,30 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         sns.set(font_scale = 1.3)
         
         # from n_grams_df, subset only the monograms (the default) that also appear in the credentials list
-        mask = n_grams.grams.isin(ds_cred_terms)
-        n_grams_df_sns = n_grams[mask]
+        mask_monogram = n_grams.grams.isin(ds_cred_terms)
+        n_grams_df_sns = n_grams[mask_monogram]
         
         # now that you have monograms, get the bigrams
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
-        bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
         # add the bigrams to the monograms in n_grams_df_sns; MAKE SURE YOU ARE ADDING THE RIGHT THINGS
         # MIGHT NEED TO FILTER THE BIGRAMS AFTER YOU GET THEM
         
         # filter bigrams
+        # if any bigram contains any term from the credentials list, include it in the bigrams_for_sns list
+        bigram_list_for_sns = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+        # THINK I HAVE TO GO BACK AND SUBSET bi_grams dataframe TO MATCH ANYTHING FROM THIS LIST IN ORDER TO GET COUNTS
+        mask_bigram = bigrams.grams.isin(bigram_list_for_sns)
+        bigrams_df_sns = bigrams[mask_bigram] # THIS IS CORRECT NOW GO CLEAN UP VARIABLE NAMES
+        
+        
+        
+        
+        # turn size into its own count field and create a dataframe
+        
+        # filter down to exclude noisy terms, like collaborate
         
         # add filtered bigrams to existing monograms in n_grams_df_sns
         
@@ -3133,7 +3145,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # THEN INTELLIGENTLY FILTER THEM DOWN, PERHAPS IF AT LEAST ONE OF THE TERMS IS IN THE CREDENTIALS LIST
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
-        bi_grams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
@@ -3282,17 +3294,7 @@ def nlp_filter_terms():
     # inverse_boolean_series = ~pd.Series(terms_for_nlp).isin(value_list)
     # inverse_filtered_df = pd.Series(terms_for_nlp)[inverse_boolean_series]
 
-
-def utilities(terms_for_nlp):
-    # script for cleaning up the n_grams series and converting it to a list that can be appended to additional_stop-words
-    strip_end = [x[:-3] for x in n_grams.index]
-    clean_ngram_list = [x[2:] for x in strip_end]
-    print(clean_ngram_list)
-    
-    # working on extracting hex colors from seaborn palletes
-    pal = sns.color_palette('mako')
-    print(pal.as_hex())
-    
+ 
 def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     '''
     Parse new Indeed data for key terms, additional stopwords and term fixes.
@@ -3328,7 +3330,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # Step 5: Print in convenient form for addition to additional_stopword list
-    n_grams = [x[2:-3] for x in list(n_grams.index)]
+    n_grams = [x[2:-3] for x in list(n_grams.index)] # This can be swapped for the regex code
     print(f'List of ngrams for new data parsing:\n{n_grams}\n')
 
 
@@ -3395,3 +3397,8 @@ del start_time, end_time
 
 # hold = df[df['job_description'].str.contains('attention to detail')]
 # hold = df[df['job_description'].str.contains('|'.join(['passion','collaborate','teamwork','team work', 'interpersonal','flexibility','flexible','listening','listener','listen','empathy','empathetic']))]
+
+# def utilities(terms_for_nlp):
+#     # working on extracting hex colors from seaborn palletes
+#     pal = sns.color_palette('mako')
+#     print(pal.as_hex())
