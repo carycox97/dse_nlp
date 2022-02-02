@@ -3121,16 +3121,24 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
-####### !!!!!!!! WORKING HERE - Visualize credential list | NEXT STEP: deconflict mono and bi, probably a manual curation #########        
-        
         # add the monograms and bigrams
-        mono_bi_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+        ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+
+####### !!!!!!!! WORKING HERE - Visualize credential list | NEXT STEP: manual curation #########          
+        # identify noisy, duplicate or unhelpful terms and phrases
+        ngrams_to_silence = ['data', 'data analytics', 'experience', 'business', 'science', 'year', 'ability',
+                            'system', '', '', '', '', '', '', '', '', '', '', '',]
         
-        # filter down to exclude noisy, duplicate or unhelpful terms and phrases
-        terms_redacted = ['data', 'data analytics']
+        # exclude unwanted terms and phrases
+        ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
 
         # create a horizontal barplot visualizing data science credentials
-        ax = sns.barplot(x='count', y='grams', data=monograms_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax = sns.barplot(x='count',
+                         y='grams',
+                         data=ngram_combined_sns,
+                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:20],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
         
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
@@ -3388,3 +3396,7 @@ del start_time, end_time
 #     # working on extracting hex colors from seaborn palletes
 #     pal = sns.color_palette('mako')
 #     print(pal.as_hex())
+
+# ngram_combined_sns = [x for x in ngram_combined_sns.grams if x not in ngrams_to_redact]
+# ngram_combined_sns['grams'] = ngram_combined_sns.grams.apply(lambda x: [i for i in x if i != ngram_combined_sns])
+
