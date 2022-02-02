@@ -3153,7 +3153,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         import pandas as pd
         import numpy as np
         import nltk
-        import string 
+        import string
         import fasttext
         import contractions
         from nltk.tokenize import word_tokenize    #  nltk.download('punkt') in shell after import nltk
@@ -3175,6 +3175,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # remove punctuation
         punc = string.punctuation
         df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in punc])
+
+        # remove standard NLTK stopwords
+        stop_words = set(stopwords.words('english'))
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words])
+        
+        # remove additional industry-specific NLTK stopwords
+
 
         #### !!! END SANDBOX
         
