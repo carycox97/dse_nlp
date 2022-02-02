@@ -239,7 +239,7 @@ def clean_terms_for_nlp(series_of_interest):
     
     print('\nCleaning data for nlp:')
     
-    # convert parsed series to a single string
+    # convert parsed series to a single string; not that this destroys the integrity between term and job listing
     text_as_string = ''.join(str(series_of_interest.tolist()))
     
     # normalize, split and lowercase the parsed text
@@ -3136,10 +3136,37 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ax = sns.barplot(x='count',
                          y='grams',
                          data=ngram_combined_sns,
-                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:20],
+                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
+        
+        # convert the sns.barplots to percentage along the x-axis
+        # might have to do a conditional that pegs out the terms that occur more times than you have job listings
+        # what you are really doing is converting to an at-least-once metric
+        # maybe a faster way is to count the percentage of jobs that flag for just the first [:25]
+        # do I need to do this:
+        # 1) flag job listings if they contain the credential term
+        # 2) visualize the percentage, not the count, of job listings citing the key term
+        # NEXT: hunt the last place you had the full listings
+        #### !!! BEGIN SANDBOX
+        import pandas as pd
+        import numpy as np
+        import nltk
+        import string
+        import fasttext
+        import contractions
+        from nltk.tokenize import word_tokenize
+        from nltk.corpus import stopwords, wordnet
+        from nltk.stem import WordNetLemmatizer
+        plt.xticks(rotation=70)
+        pd.options.mode.chained_assignment = None
+        pd.set_option('display.max_colwidth', 100)
+        
+        
+        
+
+        #### !!! END SANDBOX
         
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
@@ -3399,4 +3426,15 @@ del start_time, end_time
 
 # ngram_combined_sns = [x for x in ngram_combined_sns.grams if x not in ngrams_to_redact]
 # ngram_combined_sns['grams'] = ngram_combined_sns.grams.apply(lambda x: [i for i in x if i != ngram_combined_sns])
+
+# import nltk
+
+# w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
+# lemmatizer = nltk.stem.WordNetLemmatizer()
+
+# def lemmatize_text(text):
+#     return [lemmatizer.lemmatize(w) for w in w_tokenizer.tokenize(text)]
+
+# df_test = pd.DataFrame(series_of_interest.str.lower())
+# df_test['job_description'] = df_test.job_description.apply(lemmatize_text)
 
