@@ -3153,18 +3153,28 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         import pandas as pd
         import numpy as np
         import nltk
-        import string
+        import string 
         import fasttext
         import contractions
-        from nltk.tokenize import word_tokenize
+        from nltk.tokenize import word_tokenize    #  nltk.download('punkt') in shell after import nltk
         from nltk.corpus import stopwords, wordnet
         from nltk.stem import WordNetLemmatizer
         plt.xticks(rotation=70)
         pd.options.mode.chained_assignment = None
         pd.set_option('display.max_colwidth', 100)
         
+        # get a clean df
+        df_jobs = pd.DataFrame(series_of_interest)
         
+        # tokenize
+        df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
         
+        # convert to lowercase
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.lower() for word in x])
+        
+        # remove punctuation
+        punc = string.punctuation
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in punc])
 
         #### !!! END SANDBOX
         
