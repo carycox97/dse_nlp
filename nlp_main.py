@@ -3121,13 +3121,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
-####### !!!!!!!! WORKING HERE - Visualize credential list | NEXT STEP: deconflict mono and bi #########        
-        # MIGHT NEED TO DROP MONOGRAMS THAT ALSO APPEAR IN BIGRAM LIST
+####### !!!!!!!! WORKING HERE - Visualize credential list | NEXT STEP: deconflict mono and bi, probably a manual curation #########        
         
         # add the monograms and bigrams
         mono_bi_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
         
-        # filter down to exclude noisy terms, like collaborate
+        # filter down to exclude noisy, duplicate or unhelpful terms and phrases
+        terms_redacted = ['data', 'data analytics']
 
         # create a horizontal barplot visualizing data science credentials
         ax = sns.barplot(x='count', y='grams', data=monograms_df_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
