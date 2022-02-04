@@ -3181,7 +3181,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words])
         
         # remove additional industry-specific NLTK stopwords
-
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
+        
+        # execute term fixes next
 
         #### !!! END SANDBOX
         
