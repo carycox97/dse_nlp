@@ -3185,6 +3185,11 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # execute term fixes next
         # Need to link to the same code for term fixes, replacing values based on keys
+        # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
+        print('   Correcting misspellings, erroneous concatenations, ambiguities, etc...\n')
+        df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
+        df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
+        terms_for_nlp = list(df_term_fixes['terms'])
 
         #### !!! END SANDBOX
         
