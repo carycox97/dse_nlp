@@ -3149,13 +3149,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # 1) flag job listings if they contain the credential term
         # 2) visualize the percentage, not the count, of job listings citing the key term
         # NEXT: hunt the last place you had the full listings
-        #### !!! BEGIN SANDBOX
+        # !!! BEGIN SANDBOX
         import pandas as pd
         import numpy as np
         import nltk
         import string
-        import fasttext
-        import contractions
+        # import fasttext
+        # import contractions
         from nltk.tokenize import word_tokenize    #  nltk.download('punkt') in shell after import nltk
         from nltk.corpus import stopwords, wordnet
         from nltk.stem import WordNetLemmatizer
@@ -3192,14 +3192,40 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # convert text from list of strings to a single string; need to convert to individual strings?
         df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
         
+
+        # seeking help
+        # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
+        # 'Age':[20, 21, 19, 18]}
+        # df = pd.DataFrame(data)
+
+        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
+        # GETTING CLOSER!! This replaces, but gets partials, like if 'rf' is part of a word it gets replaced with 'random forest'
+
+
+
+
         
         
-        df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
-        # this above did not work!! probably need to convert the lists to strings
+        df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace(term_fixes, regex=True) for word in x])
+        df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
         
         
+
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
+ 
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace(str(term_fixes.keys()), str(term_fixes.values())) for word in x])
+ 
+        # The originals
         df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
         terms_for_nlp = list(df_term_fixes['terms'])
+
+        # Failures
+        df_jobs['job_description'].replace(list(term_fixes.keys()), list(term_fixes.values()), regex=False, inplace=True)
+        df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
+        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
+        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False)
+        df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # failed when df records are lists
+        df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # still fails
         
         #### !!! END SANDBOX
         
