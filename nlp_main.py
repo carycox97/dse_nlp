@@ -3208,8 +3208,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
         lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
         pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')      # YES, just point at term_fixes
-        output = pattern.sub(lambda x: lookup_dict[x.group()], w)                  # Not yet, need to make this loop
-
+        output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 # Not yet, need to make this loop
+        
+        # try #1
+        w = "Where are we one today two twos them"                                
+        lookup_dict = term_fixes                         
+        pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')     
+        output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 
+        
+        # boooooooooooooooooo
+        df_jobs['test'] = df_jobs['job_description'].apply(lambda x: pattern.sub(lambda x: lookup_dict[x.group()], word) for word in df_jobs['job_description'])
 
 
 
