@@ -3191,15 +3191,25 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # convert text from list of strings to a single string; need to convert to individual strings?
         df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
+
+        # GETTING CLOSER!! This replaces, but gets partials, like if 'rf' is part of a word it gets replaced with 'random forest'
+        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
+        
+        # this did not work at all; didn't replace anything
+        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False) 
+        
+        # trying this - threw an error
+        df_jobs['test'] = df_jobs['job_description'].str.replace(term_fixes, regex=False)
+        
+        # trying this - didn't work
+        df_jobs['test'] = df_jobs['job_description'].str.replace(str(term_fixes.keys()), str(term_fixes.values()), regex=True)
         
 
-        # seeking help
-        # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
-        # 'Age':[20, 21, 19, 18]}
-        # df = pd.DataFrame(data)
+        w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
+        lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
+        pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')      # YES, just point at term_fixes
+        output = pattern.sub(lambda x: lookup_dict[x.group()], w)                  # Not yet, need to make this loop
 
-        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
-        # GETTING CLOSER!! This replaces, but gets partials, like if 'rf' is part of a word it gets replaced with 'random forest'
 
 
 
@@ -3226,6 +3236,12 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False)
         df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # failed when df records are lists
         df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # still fails
+        
+        
+        # seeking help
+        # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
+        # 'Age':[20, 21, 19, 18]}
+        # df = pd.DataFrame(data)
         
         #### !!! END SANDBOX
         
