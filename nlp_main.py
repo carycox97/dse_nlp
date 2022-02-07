@@ -3188,12 +3188,19 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
         # DONT THINK I NEED THIS -> df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
         # might need to bring in term_fixes to the function
+        
+        # convert text from list of strings to a single string; need to convert to individual strings?
+        df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
+        
+        
+        
         df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
-        # this above did not work!!
+        # this above did not work!! probably need to convert the lists to strings
+        
         
         df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
         terms_for_nlp = list(df_term_fixes['terms'])
-
+        
         #### !!! END SANDBOX
         
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
