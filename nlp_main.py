@@ -2,10 +2,20 @@
 """
 Created on Mon Nov 29 12:53:56 2021
 
-@author: ca007843
+@author: Cary Cox, Ph.D.
+
+This program performs a range of natural language processing and visuzalization tasks for a large dataset comprised 
+of job listings scraped from the Indeed.com website. The general data flow is as follows:
+    
+                       raw csv Indeed data ingested ->
+    raw csv Indeed data cleaned and readied for nlp ->
+      visualizations generated for the raw csv data ->
+                        natural language processing -> 
+                      visualization of nlp findings    
+    
 """
 
-# import libraries for admin
+# import libraries for admin tasks
 import os
 import time
 import warnings
@@ -2168,9 +2178,280 @@ def clean_terms_for_nlp(series_of_interest):
     return terms_for_nlp, additional_stopwords, term_fixes
 
 
+def visualize_indeed_metadata(df):
+    '''
+    Generate basic visualizations for data exploration of the scraped Indeed csv data.
+
+    Parameters
+    ----------
+    df : dataframe
+        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
+
+    Returns
+    -------
+    None. Directly outputs visuaizations.
+
+    '''
+    print('\n***** Visualization *****\n')
+    print('Visualizing Indeed data charts...')
+    
+    # configure plot size, seaborne style and font scale
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.30)
+    
+    # create countplot for state counts
+    ax = sns.countplot(y='state_name', data=df, palette='gist_gray', 
+                       order = df['state_name'].value_counts().index) # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    ax.set_title('Jobs by State')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    
+
+def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
+    '''
+    Visualize the n_grams created by the nlp_count_n_grams function.
+
+    Parameters
+    ----------
+    n_grams : dataframe
+        Contains the processed n_grams; sorted by count from highest to lowest; converted to a df in this function.
+    
+    ds_cred_terms : list
+        Contains keywords pertaining to data science credentials (e.g., 'bachelors', 'experience', etc.)
+        
+    terms_for_nlp : list
+        List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+
+    Returns
+    -------
+    None. Directly outputs visualizations.
+
+    '''
+    
+    def visualize_all(n_grams, ds_cred_terms, terms_for_nlp):
+        # configure plot size, seaborne style and font scale
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)
+        
+        # bound the count of ngram records to be visualized
+        n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
+        
+        # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
+        ax = sns.barplot(x='count', y='grams', data=n_grams_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        plt.figtext(0.325, 0.475, '← and this is a red pointer', fontsize=16, color='r', fontweight='demibold')
+        ax.set_title('Key Terms & Phrases for Data Scientist Job Listings', fontsize=19)
+        ax.set(ylabel=None)
+        ax.set_xlabel('Count', fontsize=16)
+
+    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp):
+        # configure plot size, seaborne style and font scale
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)
+        
+        # subset the monograms that appear in the credentials list
+        mask_monogram = n_grams.grams.isin(ds_cred_terms)
+        monograms_df_sns = n_grams[mask_monogram]
+        
+        # generate bigrams from the full terms_for_nlp list
+        n_gram_count = 2
+        n_gram_range_start, n_gram_range_stop  = 0, 100
+        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+        
+        # subset the bigrams for which at least one term appears in the credentials list
+        bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+        mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+        bigrams_df_sns = bigrams[mask_bigram]
+
+        # add the monograms and bigrams
+        ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+
+        # identify noisy, duplicate or unhelpful terms and phrases
+        ngrams_to_silence = ['data', 'data analytics', 'experience', 'business', 'science', 'year', 'ability',
+                            'system', '', '', '', '', '', '', '', '', '', '', '',]
+        
+        # exclude unwanted terms and phrases
+        ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+
+        # create a horizontal barplot visualizing data science credentials
+        ax = sns.barplot(x='count',
+                         y='grams',
+                         data=ngram_combined_sns,
+                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
+
+        ####### !!!!!!!! WORKING HERE        
+        # convert the sns.barplots to percentage along the x-axis
+        # might have to do a conditional that pegs out the terms that occur more times than you have job listings
+        # what you are really doing is converting to an at-least-once metric
+        # maybe a faster way is to count the percentage of jobs that flag for just the first [:25]
+        # do I need to do this:
+        # 1) flag job listings if they contain the credential term
+        # 2) visualize the percentage, not the count, of job listings citing the key term
+        # NEXT: hunt the last place you had the full listings
+        
+        #### !!! BEGIN SANDBOX
+        import pandas as pd
+        import numpy as np
+        import nltk
+        import string
+        # import fasttext
+        # import contractions
+        from nltk.tokenize import word_tokenize    #  nltk.download('punkt') in shell after import nltk
+        from nltk.corpus import stopwords, wordnet
+        from nltk.stem import WordNetLemmatizer
+        plt.xticks(rotation=70)
+        pd.options.mode.chained_assignment = None
+        pd.set_option('display.max_colwidth', 100)
+        
+        # get a clean df
+        df_jobs = pd.DataFrame(series_of_interest)
+        
+        # tokenize
+        df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
+        
+        # convert to lowercase
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.lower() for word in x])
+        
+        # remove punctuation
+        punc = string.punctuation
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in punc])
+
+        # remove standard NLTK stopwords
+        stop_words = set(stopwords.words('english'))
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words])
+        
+        # remove additional industry-specific NLTK stopwords
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
+        
+        # convert text from list of strings to a single string; need to convert to individual strings?
+        df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
+
+       # execute term_fixes 
+      
+        #### !!! END SANDBOX
+        
+    visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
+    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
+
+
+def visualize_word_clouds(terms_for_nlp, series_of_interest):
+    '''
+    Generate masked and unmasked word clouds from the processed terms extracted from the 
+    series of interest (e.g., job_description, company, etc.)
+
+    Parameters
+    ----------
+    terms_for_nlp : list
+        List containing scraped and cleaned terms from the series of interest; created
+        in the clean_for nlp function.
+
+    Returns
+    -------
+    None. Directly outputs and saves visualizations as pngs.
+
+    '''
+    print('\nCreating word clouds...')
+    
+    # convert the terms_for_nlp list into a string, which is what WordCloud expects
+    word_cloud_terms = ' '.join(terms_for_nlp)
+       
+    # create a WordCloud object and optimize the terms for display; tune the Dunning collocation_threshold
+    # to increase or decrease bigram frequency (low threshold=more bigrams)
+    
+    word_cloud = WordCloud(max_font_size=50,
+                           max_words=100,
+                           background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
+                           colormap='crest',                  # mako, crest
+                           collocations=False).generate(word_cloud_terms)
+    
+    # display the word cloud
+    plt.figure()
+    plt.imshow(word_cloud, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis('off')
+    plt.show()
+    
+    # save the word cloud to a png
+    word_cloud.to_file(f'word_clouds/word_cloud_{series_of_interest.name}.png')
+    
+    # create a word cloud that allows for bigrams
+    word_cloud_bigrams = WordCloud(max_font_size=50,
+                                   max_words=100,
+                                   background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
+                                   colormap='crest',                  # mako, crest
+                                   collocation_threshold=30).generate(word_cloud_terms)
+    
+    # display the bigram word cloud
+    plt.figure()
+    plt.imshow(word_cloud_bigrams, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis('off')
+    plt.show()
+    
+    # save the bigram word cloud to a png
+    word_cloud.to_file(f'word_clouds/word_cloud_bigram_{series_of_interest.name}.png')
+    
+   
+    # read in mask for a word cloud canvassed on a mask outline
+    word_cloud_mask = np.array(Image.open('bear.png'))
+
+    # if needed, use this function and the lines below to convert a mask to white=255, black=0
+    # def transform_mask_pixel_values(val):
+    #     if val == 0:
+    #         return 255
+    #     else:
+    #         return val   
+    # Transform your mask into a new one that will work with the function:
+    # transformed_word_cloud_mask = np.ndarray((word_cloud_mask.shape[0], word_cloud_mask.shape[1]), np.int32)
+    # for i in range(len(word_cloud_mask)):
+    #     transformed_word_cloud_mask[i] = list(map(transform_mask_pixel_values, word_cloud_mask[i]))    
+
+    # create a masked WordCloud object and optimize the terms for display
+    word_cloud_masked = WordCloud(max_font_size=50,
+                                  max_words=100,
+                                  background_color='lightgray',
+                                  colormap='mako',                # crest
+                                  mask=word_cloud_mask,
+                                  contour_width=2, 
+                                  contour_color='black').generate(word_cloud_terms)    
+
+    # display the masked word cloud
+    plt.figure()
+    plt.imshow(word_cloud_masked, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
+    plt.axis('off')
+    plt.show()
+    
+    # save the masked cloud to a png
+    word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
+
+
 def nlp_skill_lists(additional_stopwords):
-    # probably best to keep this a separate function given how much interaction I'll have with these lists
-    # once complete with the initial cleaning, move this function down to be with the nlp functions
+    '''
+    Generate lists of keywords for each job title's: credentials, technical skills, soft skills and professional skills.
+    These lists are used by other functions to filter the job_description field, visualize key terms, etc.
+
+    Parameters
+    ----------
+    additional_stopwords : list
+        A list to capture all domain-specific stopwords and 'stop-lemma'. Created in the clean_terms_for_nlp function.
+
+    Returns
+    -------
+    ds_cred_terms : list
+        Contains keywords pertaining to data science credentials (e.g., 'bachelors', 'experience', etc.).
+    ds_tech_skill_terms : list
+        Contains keywords pertaining to data science technical skills (e.g., 'python', 'tableau', etc.).
+    ds_soft_skill_terms : list
+        Contains keywords pertaining to data science soft skills (e.g., 'collaboration', 'self-motivation', etc.).
+    ds_prof_skill_terms : list
+        Contains keywords pertaining to data science processional skills (e.g., 'client interaction', 'leadership', etc.).
+    ds_skills_combined : list
+        Contains combination of all keywords from ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, 
+        and ds_prof_skill_terms.
+
+    '''
     
     # establish credential and skill lists for nlp filtering
     ds_cred_terms = ['ability', 
@@ -3041,320 +3322,6 @@ def nlp_skill_lists(additional_stopwords):
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined
 
 
-def visualize_indeed_metadata(df):
-    '''
-    Generate basic visualizations for data exploration of the scraped Indeed csv data.
-
-    Parameters
-    ----------
-    df : dataframe
-        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
-
-    Returns
-    -------
-    None. Directly outputs visuaizations.
-
-    '''
-    print('\n***** Visualization *****\n')
-    print('Visualizing Indeed data charts...')
-    
-    # configure plot size, seaborne style and font scale
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.30)
-    
-    # create countplot for state counts
-    ax = sns.countplot(y='state_name', data=df, palette='gist_gray', 
-                       order = df['state_name'].value_counts().index) # Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-    ax.set_title('Jobs by State')
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
-    
-
-def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
-    '''
-    Visualize the n_grams created by the nlp_count_n_grams function.
-
-    Parameters
-    ----------
-    n_grams : dataframe
-        Contains the processed n_grams; sorted by count from highest to lowest; converted to a df in this function.
-
-    Returns
-    -------
-    None. Directly outputs visualizations.
-
-    '''
-    
-    def visualize_all(n_grams, ds_cred_terms, terms_for_nlp):
-        # configure plot size, seaborne style and font scale
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.3)
-        
-        # bound the count of ngram records to be visualized
-        n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
-        
-        # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
-        ax = sns.barplot(x='count', y='grams', data=n_grams_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        plt.figtext(0.325, 0.475, '← and this is a red pointer', fontsize=16, color='r', fontweight='demibold')
-        ax.set_title('Key Terms & Phrases for Data Scientist Job Listings', fontsize=19)
-        ax.set(ylabel=None)
-        ax.set_xlabel('Count', fontsize=16)
-
-    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp):
-        # configure plot size, seaborne style and font scale
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.3)
-        
-        # subset the monograms that appear in the credentials list
-        mask_monogram = n_grams.grams.isin(ds_cred_terms)
-        monograms_df_sns = n_grams[mask_monogram]
-        
-        # generate bigrams from the full terms_for_nlp list
-        n_gram_count = 2
-        n_gram_range_start, n_gram_range_stop  = 0, 100
-        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-        
-        # subset the bigrams for which at least one term appears in the credentials list
-        bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
-        mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
-        bigrams_df_sns = bigrams[mask_bigram]
-
-        # add the monograms and bigrams
-        ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-
-####### !!!!!!!! WORKING HERE - Visualize credential list | NEXT STEP: manual curation #########          
-        # identify noisy, duplicate or unhelpful terms and phrases
-        ngrams_to_silence = ['data', 'data analytics', 'experience', 'business', 'science', 'year', 'ability',
-                            'system', '', '', '', '', '', '', '', '', '', '', '',]
-        
-        # exclude unwanted terms and phrases
-        ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
-
-        # create a horizontal barplot visualizing data science credentials
-        ax = sns.barplot(x='count',
-                         y='grams',
-                         data=ngram_combined_sns,
-                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
-                         orient='h',
-                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
-        
-        # convert the sns.barplots to percentage along the x-axis
-        # might have to do a conditional that pegs out the terms that occur more times than you have job listings
-        # what you are really doing is converting to an at-least-once metric
-        # maybe a faster way is to count the percentage of jobs that flag for just the first [:25]
-        # do I need to do this:
-        # 1) flag job listings if they contain the credential term
-        # 2) visualize the percentage, not the count, of job listings citing the key term
-        # NEXT: hunt the last place you had the full listings
-        #### !!! BEGIN SANDBOX
-        import pandas as pd
-        import numpy as np
-        import nltk
-        import string
-        # import fasttext
-        # import contractions
-        from nltk.tokenize import word_tokenize    #  nltk.download('punkt') in shell after import nltk
-        from nltk.corpus import stopwords, wordnet
-        from nltk.stem import WordNetLemmatizer
-        plt.xticks(rotation=70)
-        pd.options.mode.chained_assignment = None
-        pd.set_option('display.max_colwidth', 100)
-        
-        # get a clean df
-        df_jobs = pd.DataFrame(series_of_interest)
-        
-        # tokenize
-        df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
-        
-        # convert to lowercase
-        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.lower() for word in x])
-        
-        # remove punctuation
-        punc = string.punctuation
-        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in punc])
-
-        # remove standard NLTK stopwords
-        stop_words = set(stopwords.words('english'))
-        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words])
-        
-        # remove additional industry-specific NLTK stopwords
-        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
-        
-        # execute term fixes next
-        # Need to link to the same code for term fixes, replacing values based on keys
-        # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
-        # DONT THINK I NEED THIS -> df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
-        # might need to bring in term_fixes to the function
-        
-        # convert text from list of strings to a single string; need to convert to individual strings?
-        df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
-
-        # GETTING CLOSER!! This replaces, but gets partials, like if 'rf' is part of a word it gets replaced with 'random forest'
-        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
-        
-        # this did not work at all; didn't replace anything
-        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False) 
-        
-        # trying this - threw an error
-        df_jobs['test'] = df_jobs['job_description'].str.replace(term_fixes, regex=False)
-        
-        # trying this - didn't work
-        df_jobs['test'] = df_jobs['job_description'].str.replace(str(term_fixes.keys()), str(term_fixes.values()), regex=True)
-        
-
-        # w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
-        # lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
-        # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')      # YES, just point at term_fixes
-        # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 # Not yet, need to make this loop
-        
-        # # try #1
-        # w = "Where are we one today two twos them"                                
-        # lookup_dict = term_fixes                         
-        # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')     
-        # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 
-        
-        # # boooooooooooooooooo
-        # df_jobs['test'] = df_jobs['job_description'].apply(lambda x: pattern.sub(lambda x: lookup_dict[x.group()], word) for word in df_jobs['job_description'])
-
-        # setting up for stackoverflow
-        df = pd.DataFrame(data={'job_description': ['knowledge of algorithm like rf',
-                                                    'must have a mastersphd',
-                                                    'must be trustworthy and possess curiosity',
-                                                    'we realise performance is critical']})
-        
-        df = pd.DataFrame(data={'job_description': [['knowledge', 'of', 'algorithm', 'like', 'rf'],
-                                                    ['must', 'have', 'a', 'mastersphd'],
-                                                    ['must', 'be', 'trustworthy', 'and', 'possess', 'curiosity'],
-                                                    ['we', 'realise', 'performance', 'is', 'critical']]})
-
-
-
-        
-        
-        df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace(term_fixes, regex=True) for word in x])
-        df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
-        
-        
-
-        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
- 
-        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace(str(term_fixes.keys()), str(term_fixes.values())) for word in x])
- 
-        # The originals
-        df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
-        terms_for_nlp = list(df_term_fixes['terms'])
-
-        # Failures
-        df_jobs['job_description'].replace(list(term_fixes.keys()), list(term_fixes.values()), regex=False, inplace=True)
-        df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
-        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
-        df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False)
-        df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # failed when df records are lists
-        df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # still fails
-        
-        
-        # seeking help
-        # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
-        # 'Age':[20, 21, 19, 18]}
-        # df = pd.DataFrame(data)
-        
-        #### !!! END SANDBOX
-        
-    visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
-    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
-
-def visualize_word_clouds(terms_for_nlp, series_of_interest):
-    '''
-    Generate masked and unmasked word clouds from the processed terms extracted from the 
-    series of interest (e.g., job_description, company, etc.)
-
-    Parameters
-    ----------
-    terms_for_nlp : list
-        List containing scrapped and cleaned terms from the series of interest; created
-        in the clean_for nlp function..
-
-    Returns
-    -------
-    None. Directly outputs and saves visualizations as pngs.
-
-    '''
-    print('\nCreating word clouds...')
-    
-    # convert the terms_for_nlp list into a string, which is what WordCloud expects
-    word_cloud_terms = ' '.join(terms_for_nlp)
-       
-    # create a WordCloud object and optimize the terms for display; tune the Dunning collocation_threshold
-    # to increase or decrease bigram frequency (low threshold=more bigrams)
-    
-    word_cloud = WordCloud(max_font_size=50,
-                           max_words=100,
-                           background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
-                           colormap='crest',                  # mako, crest
-                           collocations=False).generate(word_cloud_terms)
-    
-    # display the word cloud
-    plt.figure()
-    plt.imshow(word_cloud, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
-    plt.axis('off')
-    plt.show()
-    
-    # save the word cloud to a png
-    word_cloud.to_file(f'word_clouds/word_cloud_{series_of_interest.name}.png')
-    
-    # create a word cloud that allows for bigrams
-    word_cloud_bigrams = WordCloud(max_font_size=50,
-                                   max_words=100,
-                                   background_color='lightgray',      # whitesmoke, gainsboro, lightgray, silver
-                                   colormap='crest',                  # mako, crest
-                                   collocation_threshold=30).generate(word_cloud_terms)
-    
-    # display the bigram word cloud
-    plt.figure()
-    plt.imshow(word_cloud_bigrams, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
-    plt.axis('off')
-    plt.show()
-    
-    # save the bigram word cloud to a png
-    word_cloud.to_file(f'word_clouds/word_cloud_bigram_{series_of_interest.name}.png')
-    
-   
-    # read in mask for a word cloud canvassed on a mask outline
-    word_cloud_mask = np.array(Image.open('bear.png'))
-
-    # if needed, use this function and the lines below to convert a mask to white=255, black=0
-    # def transform_mask_pixel_values(val):
-    #     if val == 0:
-    #         return 255
-    #     else:
-    #         return val   
-    # Transform your mask into a new one that will work with the function:
-    # transformed_word_cloud_mask = np.ndarray((word_cloud_mask.shape[0], word_cloud_mask.shape[1]), np.int32)
-    # for i in range(len(word_cloud_mask)):
-    #     transformed_word_cloud_mask[i] = list(map(transform_mask_pixel_values, word_cloud_mask[i]))    
-
-    # create a masked WordCloud object and optimize the terms for display
-    word_cloud_masked = WordCloud(max_font_size=50,
-                                  max_words=100,
-                                  background_color='lightgray',
-                                  colormap='mako',                # crest
-                                  mask=word_cloud_mask,
-                                  contour_width=2, 
-                                  contour_color='black').generate(word_cloud_terms)    
-
-    # display the masked word cloud
-    plt.figure()
-    plt.imshow(word_cloud_masked, interpolation='lanczos') # bilinear, sinc, catrom, bessel, lanczos
-    plt.axis('off')
-    plt.show()
-    
-    # save the masked cloud to a png
-    word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')
-        
-
 def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop):
     '''
     Count the volume of n_grams present within the job_description field of the Indeed data.
@@ -3399,21 +3366,30 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
 
 
 def nlp_filter_terms():
+    '''
+    (in development and not currently used) Filter datafames for specific terms of interest
+
+    Returns
+    -------
+    None.
+
+    '''
+    # get only rows without the key terms - not sure if this works
+    # inverse_boolean_series = ~pd.Series(terms_for_nlp).isin(value_list)
+    # inverse_filtered_df = pd.Series(terms_for_nlp)[inverse_boolean_series]
+    
     value_list = ['advance']#['data', 'science', 'python']
     boolean_series = pd.Series(terms_for_nlp).isin(value_list)
     filtered_series = pd.Series(terms_for_nlp)[boolean_series]
     print(len(filtered_series))
     print(filtered_series.value_counts())
     print(filtered_series[:10])
-    
-    # get only rows without the key terms - not sure if this works
-    # inverse_boolean_series = ~pd.Series(terms_for_nlp).isin(value_list)
-    # inverse_filtered_df = pd.Series(terms_for_nlp)[inverse_boolean_series]
 
  
 def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     '''
-    Parse new Indeed data for key terms, additional stopwords and term fixes.
+    Parse new Indeed data for key terms, additional stopwords and term fixes. Not yet called, so currently
+    just a holding tank for code to run when bringing in new data.
 
     Parameters
     ----------
@@ -3455,7 +3431,6 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
-# execute main program
 def main_program(csv_path):
     # load and concatenate the raw csvs collected from Indeed and stored in a data_xx directory
     df_raw = load_and_concat_csvs(csv_path)
@@ -3488,6 +3463,7 @@ def main_program(csv_path):
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
 
+# execute main program
 df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path)
 
 # close time calculation
@@ -3496,6 +3472,11 @@ print(f'\nTotal Processing Time: {(time.time() - start_time) / 60:.2f} minutes')
 
 # clean up intermediate dataframes and variables
 del start_time, end_time
+
+
+
+
+
 
 
 
@@ -3533,3 +3514,76 @@ del start_time, end_time
 # df_test = pd.DataFrame(series_of_interest.str.lower())
 # df_test['job_description'] = df_test.job_description.apply(lemmatize_text)
 
+# failed attempt at term_fixes find/replace
+# # GETTING CLOSER!! This replaces, but gets partials, like if 'rf' is part of a word it gets replaced with 'random forest'
+# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
+
+# # this did not work at all; didn't replace anything
+# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False) 
+
+# # trying this - threw an error
+# df_jobs['test'] = df_jobs['job_description'].str.replace(term_fixes, regex=False)
+
+# # trying this - didn't work
+# df_jobs['test'] = df_jobs['job_description'].str.replace(str(term_fixes.keys()), str(term_fixes.values()), regex=True)
+
+
+# # w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
+# # lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
+# # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')      # YES, just point at term_fixes
+# # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 # Not yet, need to make this loop
+
+# # # try #1
+# # w = "Where are we one today two twos them"                                
+# # lookup_dict = term_fixes                         
+# # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')     
+# # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 
+
+# # # boooooooooooooooooo
+# # df_jobs['test'] = df_jobs['job_description'].apply(lambda x: pattern.sub(lambda x: lookup_dict[x.group()], word) for word in df_jobs['job_description'])
+
+# # setting up for stackoverflow
+# df = pd.DataFrame(data={'job_description': ['knowledge of algorithm like rf',
+#                                             'must have a mastersphd',
+#                                             'must be trustworthy and possess curiosity',
+#                                             'we realise performance is critical']})
+
+# df = pd.DataFrame(data={'job_description': [['knowledge', 'of', 'algorithm', 'like', 'rf'],
+#                                             ['must', 'have', 'a', 'mastersphd'],
+#                                             ['must', 'be', 'trustworthy', 'and', 'possess', 'curiosity'],
+#                                             ['we', 'realise', 'performance', 'is', 'critical']]})
+
+
+
+# df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace(term_fixes, regex=True) for word in x])
+# df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
+
+
+
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
+
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace(str(term_fixes.keys()), str(term_fixes.values())) for word in x])
+
+# # The originals
+# df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
+# terms_for_nlp = list(df_term_fixes['terms'])
+
+# # Failures
+# df_jobs['job_description'].replace(list(term_fixes.keys()), list(term_fixes.values()), regex=False, inplace=True)
+# df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
+# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
+# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False)
+# df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # failed when df records are lists
+# df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # still fails
+
+
+# # seeking help
+# # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
+# # 'Age':[20, 21, 19, 18]}
+# # df = pd.DataFrame(data)
+       
+        
+# trying from stackoverflow
+# for k in term_fixes:
+#     df_jobs['test'] = (df_jobs['job_description'].str.replace(r'(^|(?<= )){}((?= )|$)'.format(k), term_fixes[k]))
+ 
