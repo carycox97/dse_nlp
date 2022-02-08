@@ -3149,7 +3149,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # 1) flag job listings if they contain the credential term
         # 2) visualize the percentage, not the count, of job listings citing the key term
         # NEXT: hunt the last place you had the full listings
-        # !!! BEGIN SANDBOX
+        #### !!! BEGIN SANDBOX
         import pandas as pd
         import numpy as np
         import nltk
@@ -3205,20 +3205,25 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs['test'] = df_jobs['job_description'].str.replace(str(term_fixes.keys()), str(term_fixes.values()), regex=True)
         
 
-        w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
-        lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
-        pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')      # YES, just point at term_fixes
-        output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 # Not yet, need to make this loop
+        # w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
+        # lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
+        # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')      # YES, just point at term_fixes
+        # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 # Not yet, need to make this loop
         
-        # try #1
-        w = "Where are we one today two twos them"                                
-        lookup_dict = term_fixes                         
-        pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')     
-        output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 
+        # # try #1
+        # w = "Where are we one today two twos them"                                
+        # lookup_dict = term_fixes                         
+        # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')     
+        # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 
         
-        # boooooooooooooooooo
-        df_jobs['test'] = df_jobs['job_description'].apply(lambda x: pattern.sub(lambda x: lookup_dict[x.group()], word) for word in df_jobs['job_description'])
+        # # boooooooooooooooooo
+        # df_jobs['test'] = df_jobs['job_description'].apply(lambda x: pattern.sub(lambda x: lookup_dict[x.group()], word) for word in df_jobs['job_description'])
 
+        # setting up for stackoverflow
+        df = pd.DataFrame(data={'job_description': ['knowledge of algorithm like rf',
+                                                    'must have a mastersphd',
+                                                    'must be trustworthy and possess curiosity',
+                                                    'we realise performance is critical']})
 
 
 
