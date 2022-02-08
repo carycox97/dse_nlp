@@ -3224,6 +3224,11 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
                                                     'must have a mastersphd',
                                                     'must be trustworthy and possess curiosity',
                                                     'we realise performance is critical']})
+        
+        df = pd.DataFrame(data={'job_description': [['knowledge', 'of', 'algorithm', 'like', 'rf'],
+                                                    ['must', 'have', 'a', 'mastersphd'],
+                                                    ['must', 'be', 'trustworthy', 'and', 'possess', 'curiosity'],
+                                                    ['we', 'realise', 'performance', 'is', 'critical']]})
 
 
 
