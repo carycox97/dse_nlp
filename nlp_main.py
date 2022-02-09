@@ -2200,7 +2200,7 @@ def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
     print('\nCreating dataframe of tokenized job listings...')
     
     # convert series_of_interest to a dataframe
-    df_jobs = pd.DataFrame(series_of_interest, term_fixes)
+    df_jobs = pd.DataFrame(series_of_interest)
     
     # remove contractions
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [contractions.fix(word) for word in x.split()])
@@ -2336,13 +2336,24 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
 
-        ####### !!!!!!!! WORKING HERE        
-        # convert the sns.barplots to percentage along the x-axis
-        
+        ####### !!!!!!!! WORKING HERE: convert the sns.barplots to percentage along the x-axis        
+  
         # create a clean dataframe where each record is a unique listing, and each term is tokenized
         df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
         
-        # flag job listings if they contain the credential term
+        # flag job listings if they contain the credential term; MIGHT NEED ALTERNATE TO ds_cred_terms
+        # maybe create and visualize a new dataframe where each record is the cred term of interest, paired with a count field
+        # new dataframe: each record is a ds_jobs listing, with additional fields and flags for each term in ds_cred_terms
+        df_test = pd.DataFrame(columns=ds_cred_terms)
+        df_test_2 = pd.concat([df_jobs, df_test], axis=1)
+        df_test_2.fillna(0, inplace=True)
+        df_test_2['ability'] = df_test_2['cred_flags'].str.contains('ability').astype(int, errors='ignore')
+        df_test_2.loc[df_test_2['cred_flags'].str.contains('ability'),'ability'] = 1
+
+
+        
+        df_jobs['cred_flags'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word in ds_cred_terms])
+        # maybe detokenize then flag....
         
         # visualize the percentage, not the count, of job listings citing the key term
         
