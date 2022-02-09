@@ -237,7 +237,7 @@ def clean_terms_for_nlp(series_of_interest):
     Parameters
     ----------
     series_of_interest : Series
-        A variable set in the main program, series_of_interest contains the series of interest for NLP processing.
+        A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
 
     Returns
     -------
@@ -2181,25 +2181,40 @@ def clean_terms_for_nlp(series_of_interest):
     return terms_for_nlp, additional_stopwords, term_fixes
 
 
-def clean_listings_for_nlp():
- 
-    plt.xticks(rotation=70)
+def clean_listings_for_nlp(series_of_interest):
+    '''
+    Create a dataframe of cleaned Indeed job listings. The dataframe maintains listing integrity by keeping the 
+    1:1 relationiship between job listing and dataframe record.
+
+    Parameters
+    ----------
+    series_of_interest : Series
+        A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
+
+    Returns
+    -------
+    df_jobs : dataframe
+        Contains the cleaned and parsed job listings in a 1:1 data structure (i.e., each listing is its own record).
+
+    '''
+    # plt.xticks(rotation=70)
     pd.options.mode.chained_assignment = None
     pd.set_option('display.max_colwidth', 100)
     
-    # get a clean df
+    # convert series_of_interest to a dataframe
     df_jobs = pd.DataFrame(series_of_interest)
     
     # tokenize
     df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
     
-    # convert to lowercase
+    # convert tokenized text to lowercase
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.lower() for word in x])
     
-    # remove punctuation; nltk.download('punkt')
-    punc = string.punctuation
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in punc])
-
+    # remove punctuation
+    other_punctuation = ['...', '’', '–', '``', '“', '”']
+    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in string.punctuation])
+    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in other_punctuation])
+    
     # remove standard NLTK stopwords
     stop_words = set(stopwords.words('english'))
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words])
