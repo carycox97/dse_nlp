@@ -2326,9 +2326,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
         
         # execute term_fixes 
-            # which is proving to be a problem - seeking help on Fiverr
-            # convert text from list of strings to a single string; need to convert to individual strings?
-            # df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
+        df_jobs['test'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
         
         # apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
         df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
