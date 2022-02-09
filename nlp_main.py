@@ -2293,16 +2293,14 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # 2) visualize the percentage, not the count, of job listings citing the key term
         # NEXT: hunt the last place you had the full listings
         
-        #### !!! BEGIN SANDBOX
-        import pandas as pd
-        import numpy as np
-        import nltk
+        #### !!! BEGIN SANDBOX based on https://towardsdatascience.com/preprocessing-text-data-using-python-576206753c28
         import string
         # import fasttext
         # import contractions
         from nltk.tokenize import word_tokenize    #  nltk.download('punkt') in shell after import nltk
         from nltk.corpus import stopwords, wordnet
         from nltk.stem import WordNetLemmatizer
+        
         plt.xticks(rotation=70)
         pd.options.mode.chained_assignment = None
         pd.set_option('display.max_colwidth', 100)
@@ -2316,7 +2314,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # convert to lowercase
         df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.lower() for word in x])
         
-        # remove punctuation
+        # remove punctuation; nltk.download('punkt')
         punc = string.punctuation
         df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in punc])
 
@@ -2327,15 +2325,42 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # remove additional industry-specific NLTK stopwords
         df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
         
-        # convert text from list of strings to a single string; need to convert to individual strings?
-        df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
+        # execute term_fixes 
+            # which is proving to be a problem - seeking help on Fiverr
+            # convert text from list of strings to a single string; need to convert to individual strings?
+            # df_jobs['job_description'] = [' '.join(x) for x in df_jobs['job_description']]
+        
+        # apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
+        df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
+        
+        # function to apply parts of speech tags
+        def get_wordnet_pos(tag):
+            if tag.startswith('J'):
+                return wordnet.ADJ
+            elif tag.startswith('V'):
+                return wordnet.VERB
+            elif tag.startswith('N'):
+                return wordnet.NOUN
+            elif tag.startswith('R'):
+                return wordnet.ADV
+            else:
+                return wordnet.NOUN
+        
+        # tag parts of speech
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [(word, get_wordnet_pos(pos_tag)) for (word, pos_tag) in x])
+        
+        # lemmatize
+        wnl = WordNetLemmatizer()
+        df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
+            
+        return df_jobs
 
-       # execute term_fixes 
+        
       
         #### !!! END SANDBOX
         
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
-    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
+    # df_jobs = visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
@@ -3378,7 +3403,7 @@ def nlp_filter_terms():
     # inverse_boolean_series = ~pd.Series(terms_for_nlp).isin(value_list)
     # inverse_filtered_df = pd.Series(terms_for_nlp)[inverse_boolean_series]
     
-    value_list = ['advance']#['data', 'science', 'python']
+    value_list = ['python']#['data', 'science', 'python']
     boolean_series = pd.Series(terms_for_nlp).isin(value_list)
     filtered_series = pd.Series(terms_for_nlp)[boolean_series]
     print(len(filtered_series))
