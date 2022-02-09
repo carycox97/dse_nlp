@@ -32,9 +32,9 @@ import seaborn as sns
 from wordcloud import WordCloud #, STOPWORDS, ImageColorGenerator
 
 # import libraries for nlp
+import contractions
 import nltk
-from nltk.corpus import stopwords, wordnet
-from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize  #  nltk.download('punkt') in shell after import nltk
 import re
 import string
@@ -2197,14 +2197,16 @@ def clean_listings_for_nlp(series_of_interest):
         Contains the cleaned and parsed job listings in a 1:1 data structure (i.e., each listing is its own record).
 
     '''
-    # plt.xticks(rotation=70)
-    pd.options.mode.chained_assignment = None
-    pd.set_option('display.max_colwidth', 100)
+    print('\nCreating dataframe of tokenized job listings...')
     
     # convert series_of_interest to a dataframe
     df_jobs = pd.DataFrame(series_of_interest)
     
-    # tokenize
+    # remove contractions
+    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [contractions.fix(word) for word in x.split()])
+    df_jobs['job_description'] = [' '.join(map(str, l)) for l in df_jobs['job_description']]
+    
+    # tokenize the new jf_jobs dataframe
     df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
     
     # convert tokenized text to lowercase
@@ -2216,39 +2218,17 @@ def clean_listings_for_nlp(series_of_interest):
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in other_punctuation])
     
     # remove standard NLTK stopwords
-    stop_words = set(stopwords.words('english'))
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words])
+    stop_words_nltk = set(stopwords.words('english'))
+    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words_nltk])
     
     # remove additional industry-specific NLTK stopwords
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
     
     # execute term_fixes 
-    df_jobs['test'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
+    df_jobs['job_description'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
     
-    # apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
-    df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
-    
-    # function to apply parts of speech tags
-    def get_wordnet_pos(tag):
-        if tag.startswith('J'):
-            return wordnet.ADJ
-        elif tag.startswith('V'):
-            return wordnet.VERB
-        elif tag.startswith('N'):
-            return wordnet.NOUN
-        elif tag.startswith('R'):
-            return wordnet.ADV
-        else:
-            return wordnet.NOUN
-    
-    # tag parts of speech
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [(word, get_wordnet_pos(pos_tag)) for (word, pos_tag) in x])
-    
-    # lemmatize
-    wnl = WordNetLemmatizer()
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
-        
-    return df_jobs
+    return df_jobs  #df_jobs = clean_listings_for_nlp(series_of_interest)
+
 
 
 def visualize_indeed_metadata(df):
@@ -3625,4 +3605,28 @@ del start_time, end_time
 # trying from stackoverflow
 # for k in term_fixes:
 #     df_jobs['test'] = (df_jobs['job_description'].str.replace(r'(^|(?<= )){}((?= )|$)'.format(k), term_fixes[k]))
+
+# DON'T THINK I NEED THIS STUFF BELOW    
+# apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
+# df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
+
+# # function to apply parts of speech tags
+# def get_wordnet_pos(tag):
+#     if tag.startswith('J'):
+#         return wordnet.ADJ
+#     elif tag.startswith('V'):
+#         return wordnet.VERB
+#     elif tag.startswith('N'):
+#         return wordnet.NOUN
+#     elif tag.startswith('R'):
+#         return wordnet.ADV
+#     else:
+#         return wordnet.NOUN
+
+# # tag parts of speech
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [(word, get_wordnet_pos(pos_tag)) for (word, pos_tag) in x])
+
+# # lemmatize
+# wnl = WordNetLemmatizer()
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
  
