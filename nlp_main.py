@@ -2181,7 +2181,7 @@ def clean_terms_for_nlp(series_of_interest):
     return terms_for_nlp, additional_stopwords, term_fixes
 
 
-def clean_listings_for_nlp(series_of_interest):
+def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes):
     '''
     Create a dataframe of cleaned Indeed job listings. The dataframe maintains listing integrity by keeping the 
     1:1 relationiship between job listing and dataframe record.
@@ -2200,7 +2200,7 @@ def clean_listings_for_nlp(series_of_interest):
     print('\nCreating dataframe of tokenized job listings...')
     
     # convert series_of_interest to a dataframe
-    df_jobs = pd.DataFrame(series_of_interest)
+    df_jobs = pd.DataFrame(series_of_interest, term_fixes)
     
     # remove contractions
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [contractions.fix(word) for word in x.split()])
@@ -2227,7 +2227,7 @@ def clean_listings_for_nlp(series_of_interest):
     # execute term_fixes 
     df_jobs['job_description'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
     
-    return df_jobs  #df_jobs = clean_listings_for_nlp(series_of_interest)
+    return df_jobs  
 
 
 
@@ -2297,7 +2297,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=16)
 
-    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp):
+    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -2338,24 +2338,19 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
         ####### !!!!!!!! WORKING HERE        
         # convert the sns.barplots to percentage along the x-axis
-        # might have to do a conditional that pegs out the terms that occur more times than you have job listings
-        # what you are really doing is converting to an at-least-once metric
-        # maybe a faster way is to count the percentage of jobs that flag for just the first [:25]
-        # do I need to do this:
-        # 1) flag job listings if they contain the credential term
-        # 2) visualize the percentage, not the count, of job listings citing the key term
-        # NEXT: hunt the last place you had the full listings
         
-        #### !!! BEGIN SANDBOX based on https://towardsdatascience.com/preprocessing-text-data-using-python-576206753c28
+        # create a clean dataframe where each record is a unique listing, and each term is tokenized
+        df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
+        
+        # flag job listings if they contain the credential term
+        
+        # visualize the percentage, not the count, of job listings citing the key term
+        
         
 
-        
-      
-        #### !!! END SANDBOX
         
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
-    # df_jobs = visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp)
-
+    
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
