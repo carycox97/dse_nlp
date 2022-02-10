@@ -2347,17 +2347,24 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         terms = ['innovative', 'data', 'rf', 'orion']
         
-        df_jobs[terms] = [[any(w==term for w in lst) for term in terms] for lst in df_jobs['job_description']]
+
         
         
+        start_time = time.time()
+        e = df_jobs['job_description'].explode()
+        df_jobs[ds_cred_terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in ds_cred_terms], axis=1)
+        print(time.time() - start_time)
+        
+        start_time = time.time()
+        e = df_jobs['job_description'].explode()
+        df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
+        print(time.time() - start_time)
 
 
-
-
-
-
-
-
+        df_jobs_2 = df_jobs
+        start_time = time.time()
+        df_jobs_2[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_2['job_description']]
+        print(time.time() - start_time)
 
 
 
