@@ -2341,53 +2341,11 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # create a clean dataframe where each record is a unique listing, and each term is tokenized
         df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
         
-        # flag job listings if they contain the credential term; MIGHT NEED ALTERNATE TO ds_cred_terms
-        # maybe create and visualize a new dataframe where each record is the cred term of interest, paired with a count field
-        # new dataframe: each record is a ds_jobs listing, with additional fields and flags for each term in ds_cred_terms
-        
-        terms = ['innovative', 'data', 'rf', 'orion']
-        
+        # flag job listings if they contain the credential term
+        df_jobs[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs['job_description']]
 
-        
-        
-        start_time = time.time()
-        e = df_jobs['job_description'].explode()
-        df_jobs[ds_cred_terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in ds_cred_terms], axis=1)
-        print(time.time() - start_time)
-        
-        start_time = time.time()
-        e = df_jobs['job_description'].explode()
-        df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
-        print(time.time() - start_time)
-
-
-        df_jobs_2 = df_jobs
-        start_time = time.time()
-        df_jobs_2[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_2['job_description']]
-        print(time.time() - start_time)
-
-
-
-        
-        # below = not working
-        # df_jobs[terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in terms], axis=1) from stack
-        df_test = pd.DataFrame(columns=ds_cred_terms)
-        df_test_2 = pd.concat([df_jobs, df_test], axis=1)
-        df_test_2.fillna(0, inplace=True)
-        df_test_2['ability'] = df_test_2['cred_flags'].str.contains('ability').astype(int, errors='ignore')
-        df_test_2.loc[df_test_2['cred_flags'].str.contains('ability'),'ability'] = 1
-        df_jobs['innovative'] = df_jobs['job_description'].explode().str.contains(r'innovative').groupby(level=-1).agg(list)
-
-        df_jobs['mask'] = df_jobs['job_description'].str.contains(r'innovative')
-        
-        df_jobs['cred_flags'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word in ds_cred_terms])
-        # maybe detokenize then flag....
-        
         # visualize the percentage, not the count, of job listings citing the key term
-        
-        
-
-        
+   
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
     
 
@@ -3665,10 +3623,21 @@ del start_time, end_time
 # df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
 
 # second stackoverflow question
-df = pd.DataFrame(data={'job_description': [['innovative', 'data', 'science'],
-                                            ['scientist', 'have', 'a', 'masters'],
-                                            ['database', 'rf', 'innovative'],
-                                            ['sciencebased', 'data', 'performance']],
-                        'innovative': [True, False, True, False],
-                        'data': [True, False, False, True],
-                        'rf': [False, False, True, False]})
+# df = pd.DataFrame(data={'job_description': [['innovative', 'data', 'science'],
+#                                             ['scientist', 'have', 'a', 'masters'],
+#                                             ['database', 'rf', 'innovative'],
+#                                             ['sciencebased', 'data', 'performance']],
+#                         'innovative': [True, False, True, False],
+#                         'data': [True, False, False, True],
+#                         'rf': [False, False, True, False]})
+
+# alternate solutions to the skill list flagging operation
+# start_time = time.time()
+# e = df_jobs['job_description'].explode()
+# df_jobs[ds_cred_terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in ds_cred_terms], axis=1)
+# print(time.time() - start_time)
+
+# start_time = time.time()
+# e = df_jobs['job_description'].explode()
+# df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
+# print(time.time() - start_time)
