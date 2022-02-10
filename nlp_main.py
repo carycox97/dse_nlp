@@ -2524,6 +2524,7 @@ def nlp_skill_lists(additional_stopwords):
                      'knowledge',
                      'linkedin',
                      'major',
+                     'masters',
                      'mathematics',
                      'mba',
                      'mpp',
@@ -3641,3 +3642,4 @@ del start_time, end_time
 # e = df_jobs['job_description'].explode()
 # df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
 # print(time.time() - start_time)
+
