@@ -2344,6 +2344,14 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # flag job listings if they contain the credential term; MIGHT NEED ALTERNATE TO ds_cred_terms
         # maybe create and visualize a new dataframe where each record is the cred term of interest, paired with a count field
         # new dataframe: each record is a ds_jobs listing, with additional fields and flags for each term in ds_cred_terms
+        df_jobs['mask'] = df_jobs['job_description'].str.contains(r'innovative')
+        
+        
+        
+        
+        
+        
+        
         df_test = pd.DataFrame(columns=ds_cred_terms)
         df_test_2 = pd.concat([df_jobs, df_test], axis=1)
         df_test_2.fillna(0, inplace=True)
