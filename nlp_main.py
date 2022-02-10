@@ -2345,19 +2345,31 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # maybe create and visualize a new dataframe where each record is the cred term of interest, paired with a count field
         # new dataframe: each record is a ds_jobs listing, with additional fields and flags for each term in ds_cred_terms
         
-        df_jobs['mask'] = df_jobs['job_description'].explode().str.contains(r'innovative').groupby(level=-1).agg(list)
+        terms = ['innovative', 'data', 'rf', 'orion']
+        
+        df_jobs[terms] = [[any(w==term for w in lst) for term in terms] for lst in df_jobs['job_description']]
         
         
-        
-        
+
+
+
+
+
+
+
+
+
+
+
         
         # below = not working
+        # df_jobs[terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in terms], axis=1) from stack
         df_test = pd.DataFrame(columns=ds_cred_terms)
         df_test_2 = pd.concat([df_jobs, df_test], axis=1)
         df_test_2.fillna(0, inplace=True)
         df_test_2['ability'] = df_test_2['cred_flags'].str.contains('ability').astype(int, errors='ignore')
         df_test_2.loc[df_test_2['cred_flags'].str.contains('ability'),'ability'] = 1
-
+        df_jobs['innovative'] = df_jobs['job_description'].explode().str.contains(r'innovative').groupby(level=-1).agg(list)
 
         df_jobs['mask'] = df_jobs['job_description'].str.contains(r'innovative')
         
@@ -3644,4 +3656,12 @@ del start_time, end_time
 # # lemmatize
 # wnl = WordNetLemmatizer()
 # df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
- 
+
+# second stackoverflow question
+df = pd.DataFrame(data={'job_description': [['innovative', 'data', 'science'],
+                                            ['scientist', 'have', 'a', 'masters'],
+                                            ['database', 'rf', 'innovative'],
+                                            ['sciencebased', 'data', 'performance']],
+                        'innovative': [True, False, True, False],
+                        'data': [True, False, False, True],
+                        'rf': [False, False, True, False]})
