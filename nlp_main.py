@@ -2344,12 +2344,26 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # flag job listings if they contain the credential term
         df_jobs[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs['job_description']]
         
-        # calculate sum of all credential terms
+        # calculate sum of all credential terms for both rows and columns
         df_jobs = df_jobs.drop('job_description', axis=1)
-        df_jobs.loc[:,'total'] = df_jobs.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-        df_jobs.loc['total',:]= df_jobs.sum(axis=0) # this does columns; need to drop the job_description field
+        df_jobs.loc[:, 'total'] = df_jobs.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs.loc['total', :] = df_jobs.sum(axis=0) # this does columns; need to drop the job_description field
         
-        # calculate a percentage row
+        # calculate percentages
+        # transform dataframe first
+        df_jobs_totals = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0 )
+        
+        
+        
+        df_jobs.loc['percent'] = (df['column_name'] / df['column_name'].sum()) * 100
+        
+
+
+
+
+
+
+
         # check pre-processing 'credential' vs. 'credentials'
         
 
