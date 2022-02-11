@@ -2348,12 +2348,15 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs = df_jobs.drop('job_description', axis=1)
         df_jobs.loc[:, 'total'] = df_jobs.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
         df_jobs.loc['total', :] = df_jobs.sum(axis=0) # this does columns; need to drop the job_description field
-        
-        # calculate percentages
-        # transform dataframe first
-        
-        # drop all rows except the total row and swap columns and rows
+             
+        # drop all rows except the total row, transform columns and rows and rename the new field
         df_jobs_total = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0).melt()
+        #
+        
+        # calculate a percentages field; will need to divide by len(df_jobs) * 100
+        df_jobs_total('percentage') = [for x in ]
+        
+        # visualize based on top 25 or so
         
         
         
@@ -2365,14 +2368,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         
         
-        df_jobs.loc['percent'] = (df['column_name'] / df['column_name'].sum()) * 100
-        
-
-
-
-
-
-
 
         # check pre-processing 'credential' vs. 'credentials'
         
