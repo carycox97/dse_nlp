@@ -2349,14 +2349,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs.loc[:, 'total'] = df_jobs.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
         df_jobs.loc['total', :] = df_jobs.sum(axis=0) # this does columns; need to drop the job_description field
              
-        # drop all rows except the total row, transform columns and rows and rename the new field
-        df_jobs_total = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0).melt()
-        #
+        # drop all rows except the total row, transform columns and rows and rename the fields
+        df_jobs_sns = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0).melt()
+        df_jobs_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
         
         # calculate a percentages field; will need to divide by len(df_jobs) * 100
-        df_jobs_total('percentage') = [for x in ]
+        df_jobs_sns['percentage'] = [(x / len(df_jobs)*100).round(2) for x in df_jobs_sns['count']]
         
         # visualize based on top 25 or so
+        
+        # will need to bring in bigrams, which I think I had already done for another part, maybe viz all
         
         
         
