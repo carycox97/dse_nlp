@@ -2351,7 +2351,17 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # calculate percentages
         # transform dataframe first
-        df_jobs_totals = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0 )
+        
+        # drop all rows except the total row and swap columns and rows
+        df_jobs_total = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0).melt()
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
