@@ -2356,9 +2356,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # calculate a percentages field; will need to divide by len(df_jobs) * 100
         df_jobs_sns['percentage'] = [(x / len(df_jobs)*100).round(2) for x in df_jobs_sns['count']]
         
-        # visualize based on top 25 or so
+        # create a horizontal barplot visualizing data science credentials as a percentage of job listings
+        ax = sns.barplot(x='percentage',
+                         y='ds_cred_term',
+                         data=df_jobs_sns,
+                         order=df_jobs_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
         
-        # will need to bring in bigrams, which I think I had already done for another part, maybe viz all
+        # will need to bring in bigrams, which I've already done above; so need to carry over or recreate
         
         
         
