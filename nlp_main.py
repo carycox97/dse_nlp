@@ -2336,7 +2336,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
 
-        ####### !!!!!!!! WORKING HERE: convert the sns.barplots to percentage along the x-axis        
+        ####### !!!!!!!! WORKING HERE: convert the sns.barplots to PERCENTAGE along the x-axis        
   
         # create a clean dataframe where each record is a unique listing, and each term is tokenized
         df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
@@ -2357,6 +2357,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs_sns['percentage'] = [(x / len(df_jobs)*100).round(2) for x in df_jobs_sns['count']]
         
         # create a horizontal barplot visualizing data science credentials as a percentage of job listings
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)        
         ax = sns.barplot(x='percentage',
                          y='ds_cred_term',
                          data=df_jobs_sns,
@@ -2365,8 +2368,26 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
         
-        # will need to bring in bigrams, which I've already done above; so need to carry over or recreate
         
+        # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
+        
+        # will need to bring in bigrams, which I've already done above; so need to carry over or recreate
+        # will want to add a 50% line for reference
+        # will need to tidy up the plot axis names and title
+        # might need to make a different version of df_jobs before all the transforms so they can be used for bigrams,
+        # or just identify bigrams much higher up than here, before the transforms
+        
+        
+        # subset the bigrams for which at least one term appears in the credentials list
+        # this didn't work on tokenized - maybe try the explode approach, or try the untokenized version just to get counts...
+        df_jobs[bigram_match_to_cred_list] = [[any(w==term for w in lst) for term in bigram_match_to_cred_list] for lst in df_jobs['job_description']]
+        
+        
+        
+        
+        bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+        mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+        bigrams_df_sns = bigrams[mask_bigram]
         
         
         
