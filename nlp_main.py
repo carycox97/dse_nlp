@@ -2377,13 +2377,30 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # might need to make a different version of df_jobs before all the transforms so they can be used for bigrams,
         # or just identify bigrams much higher up than here, before the transforms
         
+        # 1) subset the bigrams for which at least one term appears in the credentials list
+            # already done above with bigram_match_to_cred_list
+            
+        # 2) flag listings in df_jobs for bigrams
+        mask_bigram_for_listings = df_jobs.job_description.isin(bigram_match_to_cred_list)
         
-        # subset the bigrams for which at least one term appears in the credentials list
+        # ALTERNATE APPROACH
+        
+        # convert df_jobs.job_description to a single string
+        df_jobs['jobs_for_mask'] = [' '.join(map(str, l)) for l in df_jobs['job_description']]
+        
+        # create a boolean mask for bigram matches
+        mask_bigram_for_listings = df_jobs.jobs_for_mask.isin(bigram_match_to_cred_list)
+        
+        # append the boolean mask to the original df_jobs dataframe (no need to convert back; just temporarily
+        # visit an untokenized version)
+        
+        
+        
+        
+        
+        
         # this didn't work on tokenized - maybe try the explode approach, or try the untokenized version just to get counts...
         df_jobs[bigram_match_to_cred_list] = [[any(w==term for w in lst) for term in bigram_match_to_cred_list] for lst in df_jobs['job_description']]
-        
-        
-        
         
         bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
         mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
