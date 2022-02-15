@@ -2371,10 +2371,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # ok, starting over. Goal: flag for bigrams of interest in job_description
-        from nltk.util import ngrams
-        for line in df_jobs['jobs_for_mask']:
-            token = nltk.word_tokenize(line)
-            bigram = list(ngrams(token, 2)) 
+        
+        def bigram_sequence(text_lst):
+            result = [a for ls in text_lst for a in zip(ls.split(" ")[:-1], ls.split(" ")[1:])]
+            return result
+        
+        text = ["Sum all the items in a list", "Find the second smallest number in a list"]
+        print("Original list:")
+        print(text)
+        print("\nBigram sequence of the said list:")
+        print(bigram_sequence(text))
         
         
         
