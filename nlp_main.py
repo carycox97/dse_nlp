@@ -2388,6 +2388,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # 1) try using terms as a single list: convert df_jobs.job_description to a single string
         df_jobs['jobs_for_mask'] = [' '.join(map(str, l)) for l in df_jobs['job_description']]
         
+        # if any(x in df_jobs['jobs_for_mask'] for x in bigram_match_to_cred_list):
+        hold = [x for x in df_jobs['jobs_for_mask'] if x in bigram_match_to_cred_list]
         # 2) try using the tokenized version with df_jobs.job_description
         
         
