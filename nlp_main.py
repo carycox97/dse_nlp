@@ -2370,6 +2370,28 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
+        # ok, starting over. Goal: flag for bigrams of interest in job_description
+        from nltk.util import ngrams
+        for line in df_jobs['jobs_for_mask']:
+            token = nltk.word_tokenize(line)
+            bigram = list(ngrams(token, 2)) 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         # will need to bring in bigrams, which I've already done above; so need to carry over or recreate
         # will want to add a 50% line for reference
