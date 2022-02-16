@@ -2354,9 +2354,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
         
         # calculate a percentages field; will need to divide by len(df_jobs) * 100
-        df_jobs_sns['percentage'] = [(x / len(df_jobs)*100).round(2) for x in df_jobs_sns['count']]
+        df_jobs_sns['percentage'] = [round(x / len(df_jobs)*100, 2) for x in df_jobs_sns['count']]
         
         # create a horizontal barplot visualizing data science credentials as a percentage of job listings
+        df_jobs_sns = df_jobs_sns[df_jobs_sns['ds_cred_term'].str.contains('total')==False]
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.3)        
@@ -2371,6 +2372,18 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # ok, starting over. Goal: flag for bigrams of interest in job_description
+
+
+
+
+
+
+
+
+        
+        
+        
+        
         
         def bigram_sequence(text_lst):
             result = [a for ls in text_lst for a in zip(ls.split(" ")[:-1], ls.split(" ")[1:])]
@@ -2381,23 +2394,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         print(text)
         print("\nBigram sequence of the said list:")
         print(bigram_sequence(text))
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
         
         # will need to bring in bigrams, which I've already done above; so need to carry over or recreate
         # will want to add a 50% line for reference
