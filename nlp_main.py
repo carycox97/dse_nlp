@@ -2371,15 +2371,66 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
-        # ok, starting over. Goal: flag for bigrams of interest in job_description
+        # SOLIDIFY BIGRAM SOLUTION HERE!!
 
-        # TRYING STACKOVERFLOW REGEX ANSWER
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # TRYING STACKOVERFLOW REGEX ANSWER #1
         #regex = '|'.join('(%s)' % b.replace(' ', r'\s+') for b in bigram_match_to_cred_list)
         regex = '|'.join('(%s)' % b for b in bigram_match_to_cred_list)
-        matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
+        # matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
+        matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna().groupby(level=0).max())
         matches.columns = bigram_match_to_cred_list
 
         out = df_jobs.join(matches).fillna(False)
+        
+        # TRYING STACKOVERFLOW REGEX ANSWER #2
+        import pandas as pd
+        import numpy as np
+        import nltk
+        
+        bigrams = ['data science', 'computer science', 'bachelors degree']
+        df = pd.DataFrame(data={'job_description': [['data', 'science', 'degree', 'expert'],
+                                                    ['computer', 'science', 'degree', 'masters'],
+                                                    ['bachelors', 'degree', 'computer', 'vision'],
+                                                    ['data', 'processing', 'science']]})
+        
+        # ORIGINAL
+        def find_bigrams(data):
+            output = np.zeros((data.shape[0], len(bigrams)), dtype=bool)
+            for i, d in enumerate(data):
+                possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+                indices = np.where(np.isin(bigrams, list(set(bigrams).intersection(set(possible_bigrams)))))
+                output[i, indices] = True
+            return list(output.T)
+        
+        output = find_bigrams(df['job_description'].to_numpy())
+        df = df.assign(**dict(zip(bigrams, output)))
+        
+        # MY IMPLEMENTATION AND YES THIS WORKS!!
+        def find_bigram_match_to_cred_list(data):
+            output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
+            for i, d in enumerate(data):
+                possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+                indices = np.where(np.isin(bigram_match_to_cred_list, list(set(bigram_match_to_cred_list).intersection(set(possible_bigrams)))))
+                output[i, indices] = True
+            return list(output.T)
+        
+        output = find_bigram_match_to_cred_list(df_jobs['job_description'].to_numpy())
+        df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
 
 
 
