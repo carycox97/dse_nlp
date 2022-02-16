@@ -2373,6 +2373,39 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # ok, starting over. Goal: flag for bigrams of interest in job_description
 
+        # TRYING STACKOVERFLOW REGEX ANSWER
+        #regex = '|'.join('(%s)' % b.replace(' ', r'\s+') for b in bigram_match_to_cred_list)
+        regex = '|'.join('(%s)' % b for b in bigram_match_to_cred_list)
+        matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
+        matches.columns = bigram_match_to_cred_list
+
+        out = df_jobs.join(matches).fillna(False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         # 1) subset the bigrams for which at least one term appears in the credentials list
             # already done above with bigram_match_to_cred_list
 
