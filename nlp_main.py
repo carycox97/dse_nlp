@@ -2372,6 +2372,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # SOLIDIFY BIGRAM SOLUTION HERE!!
+        # need to redo df_jobs here? Or make a working copy above with the monograms
 
 
 
@@ -2388,14 +2389,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
 
 
-        # TRYING STACKOVERFLOW REGEX ANSWER #1
-        #regex = '|'.join('(%s)' % b.replace(' ', r'\s+') for b in bigram_match_to_cred_list)
-        regex = '|'.join('(%s)' % b for b in bigram_match_to_cred_list)
-        # matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
-        matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna().groupby(level=0).max())
-        matches.columns = bigram_match_to_cred_list
 
-        out = df_jobs.join(matches).fillna(False)
+
+        
         
         # TRYING STACKOVERFLOW REGEX ANSWER #2
         import pandas as pd
@@ -2465,14 +2461,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
 
 
-        bigrams = [[('some','text')], [('text','here')]]
-        stringList = ['there is some text', 'text here, there is']
-
-        for b in bigrams:
-            for s in stringList:
-                if ' '.join(b[0]) in s:
-                    print(f"found '{' '.join(b[0])}' in '{s}'")
-
 
 
 
@@ -2481,15 +2469,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         
         
-        def bigram_sequence(text_lst):
-            result = [a for ls in text_lst for a in zip(ls.split(" ")[:-1], ls.split(" ")[1:])]
-            return result
-        
-        text = ["Sum all the items in a list", "Find the second smallest number in a list"]
-        print("Original list:")
-        print(text)
-        print("\nBigram sequence of the said list:")
-        print(bigram_sequence(text))
+
 
         
         # will need to bring in bigrams, which I've already done above; so need to carry over or recreate
@@ -2497,54 +2477,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # will need to tidy up the plot axis names and title
         # might need to make a different version of df_jobs before all the transforms so they can be used for bigrams,
         # or just identify bigrams much higher up than here, before the transforms
-        
-        
-            
-        # 2) flag listings in df_jobs for bigrams
-        mask_bigram_for_listings = df_jobs.job_description.isin(bigram_match_to_cred_list)
-        
-        # ALTERNATE APPROACH
-        
-        # 1) try using terms as a single list: convert df_jobs.job_description to a single string
-        df_jobs['jobs_for_mask'] = [' '.join(map(str, l)) for l in df_jobs['job_description']]
-        
-        # if any(x in df_jobs['jobs_for_mask'] for x in bigram_match_to_cred_list):
-        hold = [x for x in df_jobs['jobs_for_mask'] if x in bigram_match_to_cred_list]
-        # 2) try using the tokenized version with df_jobs.job_description
-        
-        
-        # create a boolean mask for bigram matches
-        mask_bigram_for_listings = df_jobs.jobs_for_mask.isin(bigram_match_to_cred_list)
-        
-        # append the boolean mask to the original df_jobs dataframe (no need to convert back; just temporarily
-        # visit an untokenized version)
-        
-        
-        
-        
-        
-        
-        # this didn't work on tokenized - maybe try the explode approach, or try the untokenized version just to get counts...
-        df_jobs[bigram_match_to_cred_list] = [[any(w==term for w in lst) for term in bigram_match_to_cred_list] for lst in df_jobs['job_description']]
-        
-        bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
-        mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
-        bigrams_df_sns = bigrams[mask_bigram]
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
         # check pre-processing 'credential' vs. 'credentials'
-        
 
-        # visualize the percentage, not the count, of job listings citing the key term
    
     visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
     
@@ -3842,4 +3776,12 @@ del start_time, end_time
 # e = df_jobs['job_description'].explode()
 # df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
 # print(time.time() - start_time)
+
+# # TRYING STACKOVERFLOW REGEX ANSWER #1
+# #regex = '|'.join('(%s)' % b.replace(' ', r'\s+') for b in bigram_match_to_cred_list)
+# regex = '|'.join('(%s)' % b for b in bigram_match_to_cred_list)
+# # matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
+# matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna().groupby(level=0).max())
+# matches.columns = bigram_match_to_cred_list
+# out = df_jobs.join(matches).fillna(False)
 
