@@ -2341,7 +2341,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # create a clean dataframe where each record is a unique listing, and each term is tokenized
         df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
         
-        # flag job listings if they contain the credential term
+        # flag job listings if they contain the credential term (from stack question)
         df_jobs[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs['job_description']]
         
         # calculate sum of all credential terms for both rows and columns
@@ -2373,9 +2373,21 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # ok, starting over. Goal: flag for bigrams of interest in job_description
 
+        # 1) subset the bigrams for which at least one term appears in the credentials list
+            # already done above with bigram_match_to_cred_list
+
+        # 2) flag listings in df_jobs['job_description'] for bigrams
+        # create a clean dataframe where each record is a unique listing, and each term is tokenized
+        df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
 
 
+        bigrams = [[('some','text')], [('text','here')]]
+        stringList = ['there is some text', 'text here, there is']
 
+        for b in bigrams:
+            for s in stringList:
+                if ' '.join(b[0]) in s:
+                    print(f"found '{' '.join(b[0])}' in '{s}'")
 
 
 
@@ -2402,8 +2414,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # might need to make a different version of df_jobs before all the transforms so they can be used for bigrams,
         # or just identify bigrams much higher up than here, before the transforms
         
-        # 1) subset the bigrams for which at least one term appears in the credentials list
-            # already done above with bigram_match_to_cred_list
+        
             
         # 2) flag listings in df_jobs for bigrams
         mask_bigram_for_listings = df_jobs.job_description.isin(bigram_match_to_cred_list)
