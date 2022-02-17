@@ -2392,13 +2392,29 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_cred_list, output)))
         
         # 3) calculate sum of all credential terms for both rows and columns
+        df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
+        df_jobs_bigrams.loc[:, 'total'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs_bigrams.loc['total', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
         
         # 4) drop all rows except the total row, transform columns and rows and rename the fields
+        df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
+        df_jobs_bigrams_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
         
         # 5) calculate a percentages field; will need to divide by len(df_jobs) * 100
+        df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
         
         # 6) create a horizontal barplot visualizing data science credentials as a percentage of job listings
-        
+        df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_cred_term'].str.contains('total')==False]
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)        
+        ax = sns.barplot(x='percentage',
+                         y='ds_cred_term',
+                         data=df_jobs_bigrams_sns,
+                         order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
 
         # flag job listings if they contain the credential term (from stack question)
         
