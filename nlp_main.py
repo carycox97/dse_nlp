@@ -2299,6 +2299,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest):
         # configure plot size, seaborne style and font scale
+        # THIS SECTION GENERATES PLOTS WITH RAW COUNTS ONLY
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.3)
@@ -2339,37 +2340,38 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ####### !!!!!!!! WORKING HERE: convert the sns.barplots to PERCENTAGE along the x-axis        
   
         # create a clean dataframe where each record is a unique listing, and each term is tokenized
-        df_jobs = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
+        df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
         
         # flag job listings if they contain the credential term (from stack question)
-        df_jobs[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs['job_description']]
+        df_jobs_mono = df_jobs_raw.copy()
+        df_jobs_mono[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_mono['job_description']]
         
         # calculate sum of all credential terms for both rows and columns
-        df_jobs = df_jobs.drop('job_description', axis=1)
-        df_jobs.loc[:, 'total'] = df_jobs.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-        df_jobs.loc['total', :] = df_jobs.sum(axis=0) # this does columns; need to drop the job_description field
+        df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
+        df_jobs_mono.loc[:, 'total'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs_mono.loc['total', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
              
         # drop all rows except the total row, transform columns and rows and rename the fields
-        df_jobs_sns = df_jobs.drop(df_jobs.index.to_list()[:-1], axis = 0).melt()
-        df_jobs_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
+        df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
+        df_jobs_mono_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
         
         # calculate a percentages field; will need to divide by len(df_jobs) * 100
-        df_jobs_sns['percentage'] = [round(x / len(df_jobs)*100, 2) for x in df_jobs_sns['count']]
+        df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
         
         # create a horizontal barplot visualizing data science credentials as a percentage of job listings
-        df_jobs_sns = df_jobs_sns[df_jobs_sns['ds_cred_term'].str.contains('total')==False]
+        df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.3)        
         ax = sns.barplot(x='percentage',
                          y='ds_cred_term',
-                         data=df_jobs_sns,
-                         order=df_jobs_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                         data=df_jobs_mono_sns,
+                         order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
         
-        
+         
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # SOLIDIFY BIGRAM SOLUTION HERE!!
         # need to redo df_jobs here? Or make a working copy above with the monograms
