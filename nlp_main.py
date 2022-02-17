@@ -2375,12 +2375,33 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # WORKING HERE WITH BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form
         # SOLIDIFY BIGRAM SOLUTION HERE!!
         # need to redo df_jobs here? Or make a working copy above with the monograms
+        
+        # 1) create df_jobs_bigrams from a copy of df_jobs_raw
+        df_jobs_bigrams = df_jobs_raw.copy()
+        
+        # 2) flag job listings if they contain the credential term (from stack question)
+        def find_bigram_match_to_cred_list(data):
+            output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
+            for i, d in enumerate(data):
+                possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+                indices = np.where(np.isin(bigram_match_to_cred_list, list(set(bigram_match_to_cred_list).intersection(set(possible_bigrams)))))
+                output[i, indices] = True
+            return list(output.T)
 
+        output = find_bigram_match_to_cred_list(df_jobs_bigrams['job_description'].to_numpy())
+        df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_cred_list, output)))
+        
+        # 3) calculate sum of all credential terms for both rows and columns
+        
+        # 4) drop all rows except the total row, transform columns and rows and rename the fields
+        
+        # 5) calculate a percentages field; will need to divide by len(df_jobs) * 100
+        
+        # 6) create a horizontal barplot visualizing data science credentials as a percentage of job listings
+        
 
-
-
-
-
+        # flag job listings if they contain the credential term (from stack question)
+        
 
 
 
