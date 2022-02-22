@@ -2340,7 +2340,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
 
         ####### !!!!!!!! WORKING HERE: convert the sns.barplots to PERCENTAGE along the x-axis  
-        # NEXT: curate bigrams (started above; probably will need to move down; maybe need a bigram stopword list like for monograms)
+        # NEXT: DONE FOR NOW curate bigrams (started above; probably will need to move down; maybe need a bigram stopword list like for monograms)
         #       combine bigrams and monograms into single chart (started above; probably will need to move down)
         #       clean up the sns chart
         #       clean up the function
@@ -2432,7 +2432,12 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         ax.set_title('Percentage Key Bigrams for Data Scientist Credentials', fontsize=19)
 
-
+        # THIS IS WHERE WE ADD THE TOP N BIGRAMS TO THE MONGRAMS AND COMBINE INTO A SINGLE SNS CHART
+        # 1) subset the monograms and bigrams dataframes to the top 30 or so terms
+        
+        # 2) combine monograms and bigrams into a single dataframe
+        
+        # 3) visualize combined mongrams and bigrams
 
 
    
