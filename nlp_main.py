@@ -1470,6 +1470,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'master': 'masters',
                   'bayesian': 'bayes',
                   'bestpractices': 'best practice',
+                  'large': 'big',
                   'bigdata': 'big data',
                   'multiterabyte': 'big data',
                   'petabyte': 'big data',
@@ -2299,7 +2300,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest):
         # configure plot size, seaborne style and font scale
-        # THIS SECTION GENERATES PLOTS WITH RAW COUNTS ONLY
+        
+        # THIS IS MONOGRAMS BY COUNT
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.3)
@@ -2344,7 +2346,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         #       clean up the function
         #       done
         
-        # THIS IS MONOGRAMS
+        # THIS IS MONOGRAMS BY PERCENTAGE
         # create a clean dataframe where each record is a unique listing, and each term is tokenized
         df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
         
@@ -2381,7 +2383,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
         
          
-        # THIS IS BIGRAMS, which will then be moved up; need to detect bigrams in tokenized form        
+        # THIS IS BIGRAMS BY PERCENTAGE, which will then be moved up; need to detect bigrams in tokenized form        
         
         # 1) create df_jobs_bigrams from a copy of df_jobs_raw
         df_jobs_bigrams = df_jobs_raw.copy()
@@ -2400,9 +2402,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # 3) identify and silence noisy, duplicate or unhelpful bigrams 
         # make a list of bigrams to silence
-        bigrams_to_silence = ['science data', 'analytics data', 'experience experience', 'collaborate data']
-        
-        # silence (i.e.,drop) fields that correspond to the to-drop bigrams
+        bigrams_to_silence = ['science data', 'analytics data', 'experience experience', 'collaborate data', 'ability work',
+                              'experience knowledge', 'statistics analytics', 'development data', 'management data',
+                              'mathematics statistics', 'experience collaborate', 'data data']
         df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
         
         # 4) calculate sum of all credential terms for both rows and columns
@@ -2897,7 +2899,6 @@ def nlp_skill_lists(additional_stopwords):
                          'kubernetes',
                          'label',
                          'lake',
-                         'large',
                          'lda', 
                          'learning',
                          'lex',
