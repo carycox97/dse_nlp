@@ -2356,8 +2356,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # calculate sum of all credential terms for both rows and columns
         df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
-        df_jobs_mono.loc[:, 'total'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-        df_jobs_mono.loc['total', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
+        df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
              
         # drop all rows except the total row, transform columns and rows and rename the fields
         df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
@@ -2409,8 +2409,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         # 4) calculate sum of all credential terms for both rows and columns
         df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
-        df_jobs_bigrams.loc[:, 'total'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-        df_jobs_bigrams.loc['total', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
+        df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
         
         # 5) drop all rows except the total row, transform columns and rows and rename the fields
         df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
@@ -2433,9 +2433,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ax.set_title('Percentage Key Bigrams for Data Scientist Credentials', fontsize=19)
 
         # THIS IS WHERE WE ADD THE TOP N BIGRAMS TO THE MONGRAMS AND COMBINE INTO A SINGLE SNS CHART
-        # 1) subset the monograms and bigrams dataframes to the top 30 or so terms
+        # 1) combine monograms and bigrams into a single dataframe
         
-        # 2) combine monograms and bigrams into a single dataframe
+        
+        # 2) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
         
         # 3) visualize combined mongrams and bigrams
 
