@@ -2434,9 +2434,12 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
         # THIS IS WHERE WE ADD THE TOP N BIGRAMS TO THE MONGRAMS AND COMBINE INTO A SINGLE SNS CHART
         # 1) combine monograms and bigrams into a single dataframe
+        df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
         
         
         # 2) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
+        
+        
         
         # 3) visualize combined mongrams and bigrams
 
