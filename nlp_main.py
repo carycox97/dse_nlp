@@ -2436,12 +2436,20 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # 1) combine monograms and bigrams into a single dataframe
         df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
         
+        # 2) transform into a melted dataframe ready for visualization
+        df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
+        df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+
+
+
+
         
-        # 2) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
+        
+        # 3) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
         
         
         
-        # 3) visualize combined mongrams and bigrams
+        # 4) visualize combined mongrams and bigrams
 
 
    
