@@ -2436,20 +2436,32 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         # 1) combine monograms and bigrams into a single dataframe
         df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
         
-        # 2) transform into a melted dataframe ready for visualization
+        # 2) melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
         df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
         df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+        df_jobs_combined_sns.rename(columns={'variable': 'ds_cred_term_phrase','value': 'count'}, inplace=True)
+        df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_cred_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
+        
+        
+        
+        
+        
+        
+        df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns["ds_cred_term_phrase"].str.contains(['total_mono_in_list', 'total_bigram_in_list'])]
+        df_jobs_combined_sns = df_jobs_combined_sns.ds_cred_term_phrase.drop(['total_mono_in_list', 'total_bigram_in_list'], axis=0)
+        
+
+        # 3) calculate a percentages field; will need to divide by len(df_jobs) * 100
+        df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
 
 
-
-
         
         
-        # 3) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
+        # 4) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
         
         
         
-        # 4) visualize combined mongrams and bigrams
+        # 5) visualize combined mongrams and bigrams
 
 
    
