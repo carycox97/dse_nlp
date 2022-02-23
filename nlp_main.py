@@ -2442,17 +2442,20 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         df_jobs_combined_sns.rename(columns={'variable': 'ds_cred_term_phrase','value': 'count'}, inplace=True)
         df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_cred_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
 
-        # 3) calculate a percentages field; will need to divide by len(df_jobs) * 100
+        # 3) calculate a percentages field
         df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
-
-
-        
-        
-        # 4) subset the combined monograms and bigrams dataframes to the top 30 or so terms 
-        
-        
-        
-        # 5) visualize combined mongrams and bigrams
+  
+        # 4) visualize combined mongrams and bigrams
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.3)        
+        ax = sns.barplot(x='percentage',
+                         y='ds_cred_term_phrase',
+                         data=df_jobs_combined_sns,
+                         order=df_jobs_combined_sns.sort_values('percentage', ascending = False).ds_cred_term_phrase[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax.set_title('Percentage Key Monograms and Bigrams for Data Scientist Credentials', fontsize=19)
 
 
    
