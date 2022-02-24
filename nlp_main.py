@@ -2282,7 +2282,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
 
     '''
     
-    def visualize_all(n_grams, ds_cred_terms, terms_for_nlp):
+    def visualize_all_monograms(n_grams):
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -2299,168 +2299,177 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ax.set_xlabel('Count', fontsize=16)
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest):
-        # configure plot size, seaborne style and font scale
+        # it doesn't look like I have/need a function for just credential monograms; just need the combined probably
         
-        # THIS IS MONOGRAMS BY COUNT
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.3)
-        
-        # subset the monograms that appear in the credentials list
-        mask_monogram = n_grams.grams.isin(ds_cred_terms)
-        monograms_df_sns = n_grams[mask_monogram]
-        
-        # generate bigrams from the full terms_for_nlp list
-        n_gram_count = 2
-        n_gram_range_start, n_gram_range_stop  = 0, 100
-        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-        
-        # subset the bigrams for which at least one term appears in the credentials list
-        bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
-        mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
-        bigrams_df_sns = bigrams[mask_bigram]
-
-        # add the monograms and bigrams
-        ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-
-        # identify noisy, duplicate or unhelpful terms and phrases
-        ngrams_to_silence = ['data', 'data analytics', 'experience', 'business', 'science', 'year', 'ability',
-                            'system', '', '', '', '', '', '', '', '', '', '', '',]
-        
-        # exclude unwanted terms and phrases
-        ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
-
-        # create a horizontal barplot visualizing data science credentials
-        ax = sns.barplot(x='count',
-                         y='grams',
-                         data=ngram_combined_sns,
-                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
-                         orient='h',
-                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
-
-        ####### !!!!!!!! WORKING HERE: convert the sns.barplots to PERCENTAGE along the x-axis  
-        # NEXT: DONE FOR NOW curate bigrams (started above; probably will need to move down; maybe need a bigram stopword list like for monograms)
-        #       combine bigrams and monograms into single chart (started above; probably will need to move down)
-        #       clean up the sns chart
-        #       clean up the function
-        #       done
-        
-        # THIS IS MONOGRAMS BY PERCENTAGE
-        # create a clean dataframe where each record is a unique listing, and each term is tokenized
-        df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
-        
-        # flag job listings if they contain the credential term (from stack question)
-        df_jobs_mono = df_jobs_raw.copy()
-        df_jobs_mono[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_mono['job_description']]
-        
-        # calculate sum of all credential terms for both rows and columns
-        df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
-        df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-        df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
-             
-        # drop all rows except the total row, transform columns and rows and rename the fields
-        df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
-        df_jobs_mono_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
-        
-        # calculate a percentages field; will need to divide by len(df_jobs) * 100
-        df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
-        
-        # create a horizontal barplot visualizing data science credential monograms as a percentage of job listings
-        df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.3)        
-        ax = sns.barplot(x='percentage',
-                         y='ds_cred_term',
-                         data=df_jobs_mono_sns,
-                         order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
-                         orient='h',
-                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
-
-
-
-        
-         
-        # THIS IS BIGRAMS BY PERCENTAGE, which will then be moved up; need to detect bigrams in tokenized form        
-        
-        # 1) create df_jobs_bigrams from a copy of df_jobs_raw
-        df_jobs_bigrams = df_jobs_raw.copy()
-        
-        # 2) flag job listings if they contain the credential term (from stack question)
-        def find_bigram_match_to_cred_list(data):
-            output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
-            for i, d in enumerate(data):
-                possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
-                indices = np.where(np.isin(bigram_match_to_cred_list, list(set(bigram_match_to_cred_list).intersection(set(possible_bigrams)))))
-                output[i, indices] = True
-            return list(output.T)
-
-        output = find_bigram_match_to_cred_list(df_jobs_bigrams['job_description'].to_numpy())
-        df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_cred_list, output)))
-        
-        # 3) identify and silence noisy, duplicate or unhelpful bigrams 
-        # make a list of bigrams to silence
-        bigrams_to_silence = ['science data', 'analytics data', 'experience experience', 'collaborate data', 'ability work',
-                              'experience knowledge', 'statistics analytics', 'development data', 'management data',
-                              'mathematics statistics', 'experience collaborate', 'data data']
-        df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
-        
-        # 4) calculate sum of all credential terms for both rows and columns
-        df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
-        df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-        df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
-        
-        # 5) drop all rows except the total row, transform columns and rows and rename the fields
-        df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
-        df_jobs_bigrams_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
-        
-        # 6) calculate a percentages field; will need to divide by len(df_jobs) * 100
-        df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
-        
-        # 7) create a horizontal barplot visualizing data science credentials as a percentage of job listings
-        df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_cred_term'].str.contains('total')==False]
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.3)        
-        ax = sns.barplot(x='percentage',
-                         y='ds_cred_term',
-                         data=df_jobs_bigrams_sns,
-                         order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
-                         orient='h',
-                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('Percentage Key Bigrams for Data Scientist Credentials', fontsize=19)
-
-        # THIS IS WHERE WE ADD THE TOP N BIGRAMS TO THE MONGRAMS AND COMBINE INTO A SINGLE SNS CHART
-        # 1) combine monograms and bigrams into a single dataframe
-        df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
-        
-        # 2) melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
-        df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
-        df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
-        df_jobs_combined_sns.rename(columns={'variable': 'ds_cred_term_phrase','value': 'count'}, inplace=True)
-        df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_cred_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
-
-        # 3) calculate a percentages field
-        df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
-  
-        # 4) visualize combined mongrams and bigrams
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.3)        
-        ax = sns.barplot(x='percentage',
-                         y='ds_cred_term_phrase',
-                         data=df_jobs_combined_sns,
-                         order=df_jobs_combined_sns.sort_values('percentage', ascending = False).ds_cred_term_phrase[:25],
-                         orient='h',
-                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        ax.set_title('Percentage Key Monograms and Bigrams for Data Scientist Credentials', fontsize=19)
-
-
-   
-    visualize_all(n_grams, ds_cred_terms, terms_for_nlp)
+        def monograms_and_bigrams_by_count():
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.3)
+            
+            # subset the monograms that appear in the credentials list
+            mask_monogram = n_grams.grams.isin(ds_cred_terms)
+            monograms_df_sns = n_grams[mask_monogram]
+            
+            # generate bigrams from the full terms_for_nlp list
+            n_gram_count = 2
+            n_gram_range_start, n_gram_range_stop  = 0, 100
+            bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+            
+            # subset the bigrams for which at least one term appears in the credentials list
+            bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+            mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+            bigrams_df_sns = bigrams[mask_bigram]
     
+            # add the monograms and bigrams
+            ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+    
+            # identify noisy, duplicate or unhelpful terms and phrases
+            ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability',
+                                'system']
+            
+            # exclude unwanted terms and phrases
+            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+    
+            # create a horizontal barplot visualizing data science credentials
+            ax = sns.barplot(x='count',
+                             y='grams',
+                             data=ngram_combined_sns,
+                             order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
+            
+            return bigram_match_to_cred_list
+               
+        
+        def monograms_by_percentage(df_jobs_raw):
+            # flag job listings if they contain the credential term (from stack question)
+            df_jobs_mono = df_jobs_raw.copy()
+            df_jobs_mono[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_mono['job_description']]
+            
+            # calculate sum of all credential terms for both rows and columns
+            df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
+            df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+            df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
+                 
+            # drop all rows except the total row, transform columns and rows and rename the fields
+            df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
+            df_jobs_mono_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
+            
+            # calculate a percentages field; will need to divide by len(df_jobs) * 100
+            df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
+            
+            # create a horizontal barplot visualizing data science credential monograms as a percentage of job listings
+            df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.3)        
+            ax = sns.barplot(x='percentage',
+                             y='ds_cred_term',
+                             data=df_jobs_mono_sns,
+                             order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
+            
+            return df_jobs_mono
+        
+        
+        def bigrams_by_percentage(df_jobs_raw, bigram_match_to_cred_list): 
+            # THIS IS BIGRAMS BY PERCENTAGE, which will then be moved up; need to detect bigrams in tokenized form        
+            
+            # create df_jobs_bigrams from a copy of df_jobs_raw
+            df_jobs_bigrams = df_jobs_raw.copy()
+            
+            # flag job listings if they contain the credential term (from stack question)
+            def find_bigram_match_to_cred_list(data):
+                output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
+                for i, d in enumerate(data):
+                    possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+                    indices = np.where(np.isin(bigram_match_to_cred_list, list(set(bigram_match_to_cred_list).intersection(set(possible_bigrams)))))
+                    output[i, indices] = True
+                return list(output.T)
+    
+            output = find_bigram_match_to_cred_list(df_jobs_bigrams['job_description'].to_numpy())
+            df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_cred_list, output)))
+            
+            # identify and silence noisy, duplicate or unhelpful bigrams 
+            # make a list of bigrams to silence
+            bigrams_to_silence = ['analytics data', 'experience experience', 'collaborate data', 'ability work',
+                                  'experience knowledge', 'statistics analytics', 'development data', 'management data',
+                                  'mathematics statistics', 'experience collaborate', 'data data']
+            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
+            
+            # calculate sum of all credential terms for both rows and columns
+            df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
+            df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+            df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
+            
+            # drop all rows except the total row, transform columns and rows and rename the fields
+            df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
+            df_jobs_bigrams_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
+            
+            # calculate a percentages field; will need to divide by len(df_jobs) * 100
+            df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
+            
+            # create a horizontal barplot visualizing data science credentials as a percentage of job listings
+            df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_cred_term'].str.contains('total')==False]
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.3)        
+            ax = sns.barplot(x='percentage',
+                             y='ds_cred_term',
+                             data=df_jobs_bigrams_sns,
+                             order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            ax.set_title('Percentage Key Bigrams for Data Scientist Credentials', fontsize=19)
+            
+            return df_jobs_bigrams
+
+
+        def monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams):
+            # THIS IS WHERE WE ADD THE TOP N BIGRAMS TO THE MONGRAMS AND COMBINE INTO A SINGLE SNS CHART
+            # 1) combine monograms and bigrams into a single dataframe
+            df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
+            
+            # 2) melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
+            df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+            df_jobs_combined_sns.rename(columns={'variable': 'ds_cred_term_phrase','value': 'count'}, inplace=True)
+            df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_cred_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
+    
+            # 3) calculate a percentages field
+            df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
+      
+            # 4) visualize combined mongrams and bigrams
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.3)        
+            ax = sns.barplot(x='percentage',
+                             y='ds_cred_term_phrase',
+                             data=df_jobs_combined_sns,
+                             order=df_jobs_combined_sns.sort_values('percentage', ascending = False).ds_cred_term_phrase[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            ax.set_title('Percentage Key Monograms and Bigrams for Data Scientist Credentials', fontsize=19)
+        
+        ####### !!!!!!!! WORKING HERE: NEXT STEP IS TO FULLY TEST THE CREDENTIAL FUNCTION FROM A COLD START
+       
+        # visualize by count
+        bigram_match_to_cred_list = monograms_and_bigrams_by_count()
+                
+        # create a clean dataframe where each record is a unique listing, and each term is tokenized
+        df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
+
+        # visualize by percentage
+        df_jobs_mono = monograms_by_percentage(df_jobs_raw)
+        df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_cred_list)
+        monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
+        
+        
+    visualize_all_monograms(n_grams)
+    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest)
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
