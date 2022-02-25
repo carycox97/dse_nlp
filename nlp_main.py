@@ -3806,3 +3806,18 @@ del start_time, end_time
 
 # output = find_bigram_match_to_cred_list(df_jobs['job_description'].to_numpy())
 # df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
