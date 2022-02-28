@@ -236,7 +236,7 @@ def clean_terms_for_nlp(series_of_interest):
 
     Parameters
     ----------
-    series_of_interest : Series
+    series_of_interest : series
         A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
 
     Returns
@@ -246,6 +246,9 @@ def clean_terms_for_nlp(series_of_interest):
     
     additional_stopwords : list
         A list to capture all domain-specific stopwords and 'stop-lemma'
+    
+    term_fixes : dictionary
+        A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest
 
     '''
     
@@ -2289,12 +2292,12 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
 
         Parameters
         ----------
-        n_grams : Dataframe
+        n_grams : dataframe
             Contains the cleaned and processed n_grams; sorted by count from highest to lowest.
 
         Returns
         -------
-        Directly outputs visualizations.
+        None. Directly outputs visualizations.
 
         '''
         # configure plot size, seaborne style and font scale
@@ -2317,7 +2320,29 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         ax.set_xlabel('Count', fontsize=16)
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
-        # it doesn't look like I have/need a function for just credential monograms; just need the combined probably
+        '''
+        Create visualizations for monograms and bigrams assoicated with the credential skill list.
+
+        Parameters
+        ----------
+        n_grams : dataframe
+            Contains the processed n_grams; sorted by count from highest to lowest.
+        ds_cred_terms : list
+            Contains keywords pertaining to data science credentials (e.g., 'bachelors', 'experience', etc.).
+        terms_for_nlp : list
+            List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+        series_of_interest : series
+            A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
+        additional_stopwords : list
+            A list to capture all domain-specific stopwords and 'stop-lemma'
+        term_fixes : dictionary
+            A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest
+
+        Returns
+        -------
+        None. Directly outputs visualizations.
+
+        '''
         
         def monograms_and_bigrams_by_count():
             plt.figure(figsize=(7, 10))
@@ -3478,8 +3503,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     Parameters
     ----------
     terms_for_nlp : list
-        List containing scraped and cleaned terms from the series of interest; created
-        in the clean_for nlp function.
+        List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
     n_gram_count : integer
         A parameter representing the dimensionality of the n_grams of interest (e.g., 2 = bigram, 3 = trigram, etc.).
     n_gram_range_start : integer
