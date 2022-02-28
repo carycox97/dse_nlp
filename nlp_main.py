@@ -2345,6 +2345,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         '''
         
         def monograms_and_bigrams_by_count():
+            '''
+            Visualize the top n combined list of monograms and bigrams according to how many times they appear
+            in the series of interest. Visualizes only the raw counts.
+
+            Returns
+            -------
+            bigram_match_to_cred_list : list
+                A list of bigrams in which each bigram has at least one term matching a term in the ds_cred_terms list.
+
+            '''
             plt.figure(figsize=(7, 10))
             sns.set_style('dark')
             sns.set(font_scale = 1.3)
