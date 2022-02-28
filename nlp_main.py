@@ -2396,6 +2396,25 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                
         
         def monograms_by_percentage(df_jobs_raw):
+            '''
+            Visualize the credential monograms as a function of percentage of listings in which the monogram appears.
+            This function makes first use of dataframes wherein each record is a job listing.
+
+            Parameters
+            ----------
+            df_jobs_raw : dataframe
+                A dataframe wherein each record is a unique listing, and each term in each listing is tokenized. df_jobs_raw is
+                created just before the call to this function so that it can be used in other subfunctions of visualize_credentials.
+
+            Returns
+            -------
+            df_jobs_mono : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                monogram in the ds_cred_terms list.  The final row and column each contain totals for their 
+                respective job listing and credential term, respectively. The job_description field is dropped
+                before the summations.
+
+            '''
             # flag job listings if they contain the credential term (from stack question)
             df_jobs_mono = df_jobs_raw.copy()
             df_jobs_mono[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_mono['job_description']]
