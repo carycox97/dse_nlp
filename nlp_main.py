@@ -2281,8 +2281,22 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
     None. Directly outputs visualizations.
 
     '''
-    
+####### !!!!!!!! WORKING HERE: NEXT STEP IS TO ADD DOCSTRINGS AND FINALIZE FUNCTION    
     def visualize_all_monograms(n_grams):
+        '''
+        Visualize all monograms across all skillsets (e.g., crednetials, technical, soft and professional). Can also
+        be tuned to produce bigrams only based on the n_gram_count variable set in the main function.
+
+        Parameters
+        ----------
+        n_grams : Dataframe
+            Contains the cleaned and processed n_grams; sorted by count from highest to lowest.
+
+        Returns
+        -------
+        Directly outputs visualizations.
+
+        '''
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -2292,7 +2306,11 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
         
         # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
-        ax = sns.barplot(x='count', y='grams', data=n_grams_sns, orient='h', palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        ax = sns.barplot(x='count',
+                         y='grams',
+                         data=n_grams_sns,
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         plt.figtext(0.325, 0.475, '← and this is a red pointer', fontsize=16, color='r', fontweight='demibold')
         ax.set_title('Key Terms & Phrases for Data Scientist Job Listings', fontsize=19)
         ax.set(ylabel=None)
@@ -2454,8 +2472,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             ax.set_title('Percentage Key Monograms and Bigrams for Data Scientist Credentials', fontsize=19)
         
-        ####### !!!!!!!! WORKING HERE: NEXT STEP IS TO FULLY TEST THE CREDENTIAL FUNCTION FROM A COLD START
-       
         # visualize by count
         bigram_match_to_cred_list = monograms_and_bigrams_by_count()
                 
@@ -3473,8 +3489,8 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
 
     Returns
     -------
-    n_grams : 
-        Contains the processed n_grams; sorted by count from highest to lowest.
+    n_grams : Dataframe
+        Contains the cleaned and processed n_grams; sorted by count from highest to lowest.
 
     '''
     # indicate processing status in the console
