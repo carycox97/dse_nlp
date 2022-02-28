@@ -2261,7 +2261,7 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
+def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -2298,7 +2298,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=16)
 
-    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest):
+    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
         # it doesn't look like I have/need a function for just credential monograms; just need the combined probably
         
         def monograms_and_bigrams_by_count():
@@ -2469,7 +2469,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp):
         
         
     visualize_all_monograms(n_grams)
-    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest)
+    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes) 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
@@ -3591,7 +3591,7 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp)
+    visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
