@@ -2448,6 +2448,22 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         
         
         def bigrams_by_percentage(df_jobs_raw, bigram_match_to_cred_list): 
+            '''
+            Visualize the credential bigrams as a function of percentage of listings in which the monogram appears.
+
+            Parameters
+            ----------
+            df_jobs_raw : dataframe
+                A dataframe wherein each record is a unique listing, and each term in each listing is tokenized. df_jobs_raw is
+                created just before the call to this function so that it can be used in other subfunctions of visualize_credentials.
+            bigram_match_to_cred_list : list
+                A list of bigrams in which each bigram has at least one term matching a term in the ds_cred_terms list.
+
+            Returns
+            -------
+            None. Directly outputs visualizations.
+
+            '''
             # THIS IS BIGRAMS BY PERCENTAGE, which will then be moved up; need to detect bigrams in tokenized form        
             
             # create df_jobs_bigrams from a copy of df_jobs_raw
