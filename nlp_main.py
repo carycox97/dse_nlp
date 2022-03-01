@@ -250,9 +250,7 @@ def clean_terms_for_nlp(series_of_interest):
     term_fixes : dictionary
         A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest
 
-    '''
-    
-    
+    '''    
     print('\nCleaning data for nlp:')
     
     # convert parsed series to a single string; not that this destroys the integrity between term and job listing
@@ -2234,7 +2232,6 @@ def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
     return df_jobs  
 
 
-
 def visualize_indeed_metadata(df):
     '''
     Generate basic visualizations for data exploration of the scraped Indeed csv data.
@@ -2283,8 +2280,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
     -------
     None. Directly outputs visualizations.
 
-    '''
-####### !!!!!!!! WORKING HERE: NEXT STEP IS TO ADD DOCSTRINGS AND FINALIZE FUNCTION    
+    ''' 
     def visualize_all_monograms(n_grams):
         '''
         Visualize all monograms across all skillsets (e.g., crednetials, technical, soft and professional). Can also
@@ -2300,6 +2296,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         None. Directly outputs visualizations.
 
         '''
+####### !!!!!!!! WORKING HERE: NEXT STEP IS TO CLEAN UP CHARTS, THEN VISUALIZE TECHNICAL SKILLS
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -2314,10 +2311,34 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                          data=n_grams_sns,
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        plt.figtext(0.325, 0.475, '← and this is a red pointer', fontsize=16, color='r', fontweight='demibold')
-        ax.set_title('Key Terms & Phrases for Data Scientist Job Listings', fontsize=19)
+        plt.figtext(0.325, 0.475,
+                    '← and this is a red pointer',
+                    fontsize=16,
+                    color='r',
+                    fontweight='demibold')
+        txt = ax.text(.2, .8, 'Data: N Indeed job listings for "data scientist" collected between X and Y',
+                      ha='left', va='top', wrap=True,
+                      bbox=dict(boxstyle='square', fc='w', ec='r'))
+        txt._get_wrap_line_width = lambda : 300.
+        
+        # plt.text(0.1, 0.1,
+        #          'Data: N Indeed job listings for "data scientist" collected between X and Y',
+        #          ha='center',
+        #          wrap=True)
+        # plt.figtext(0.510, 0.040,
+        #             'Data: N Indeed job listings for "data scientist" collected between X and Y',
+        #             bbox=dict(facecolor='wheat',boxstyle='square',edgecolor='none',pad=0.2),
+        #             fontsize=12,
+        #             color='black',
+        #             fontweight='regular',
+        #             style='italic',
+        #             ha='center',
+        #             in_layout=True,
+        #             wrap=True)
+        ax.set_title('Key Terms for Data Scientist Job Listings', fontsize=19)
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=16)
+
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
         '''
@@ -2342,8 +2363,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         -------
         None. Directly outputs visualizations.
 
-        '''
-        
+        '''        
         def monograms_and_bigrams_by_count():
             '''
             Visualize the top n combined list of monograms and bigrams according to how many times they appear
@@ -2461,11 +2481,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
 
             Returns
             -------
-            None. Directly outputs visualizations.
+            df_jobs_bigrams : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                bigram in the bigram_match_to_cred_list list.  The final row and column each contain totals for their 
+                respective job listing and credential bigram, respectively. The job_description field is dropped
+                before the summations.
 
-            '''
-            # THIS IS BIGRAMS BY PERCENTAGE, which will then be moved up; need to detect bigrams in tokenized form        
-            
+            '''               
             # create df_jobs_bigrams from a copy of df_jobs_raw
             df_jobs_bigrams = df_jobs_raw.copy()
             
@@ -2482,7 +2504,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
             df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_cred_list, output)))
             
             # identify and silence noisy, duplicate or unhelpful bigrams 
-            # make a list of bigrams to silence
             bigrams_to_silence = ['analytics data', 'experience experience', 'collaborate data', 'ability work',
                                   'experience knowledge', 'statistics analytics', 'development data', 'management data',
                                   'mathematics statistics', 'experience collaborate', 'data data']
@@ -2517,17 +2538,38 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
 
 
         def monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams):
-            # THIS IS WHERE WE ADD THE TOP N BIGRAMS TO THE MONGRAMS AND COMBINE INTO A SINGLE SNS CHART
-            # 1) combine monograms and bigrams into a single dataframe
+            '''
+            Visualize the combined credential monograms bigrams as a function of percentage of listings in which either the
+            monogram or bigram appears.
+
+            Parameters
+            ----------
+            df_jobs_mono : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                monogram in the ds_cred_terms list.  The final row and column each contain totals for their 
+                respective job listing and credential term, respectively. The job_description field is dropped
+                before the summations.
+            df_jobs_bigrams : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                bigram in the bigram_match_to_cred_list list.  The final row and column each contain totals for their 
+                respective job listing and credential bigram, respectively. The job_description field is dropped
+                before the summations.
+
+            Returns
+            -------
+            None. Directly outputs visualizations.
+
+            '''
+            # combine monograms and bigrams into a single dataframe
             df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
             
-            # 2) melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
             df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
             df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
             df_jobs_combined_sns.rename(columns={'variable': 'ds_cred_term_phrase','value': 'count'}, inplace=True)
             df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_cred_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
     
-            # 3) calculate a percentages field
+            # calculate a percentages field
             df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
       
             # 4) visualize combined mongrams and bigrams
@@ -2556,6 +2598,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         
     visualize_all_monograms(n_grams)
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes) 
+
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
