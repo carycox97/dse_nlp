@@ -2307,45 +2307,50 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         
         # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
         ax = sns.barplot(x='count',
-                         y='grams',
-                         data=n_grams_sns,
-                         orient='h',
-                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+                          y='grams',
+                          data=n_grams_sns,
+                          orient='h',
+                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         plt.figtext(0.325, 0.475,
                     '← and this is a red pointer',
                     fontsize=16,
                     color='r',
                     fontweight='demibold')
-        txt = ax.text(50, 20, 'Data: N Indeed job listings for "data scientist" collected between X and Y',
-                      wrap=True,  #ha='center', #  va='top',
-                      bbox=dict(boxstyle='square', fc='w', ec='none'))
-        txt._get_wrap_line_width = lambda : 200.
+
+        ax.set_title('Key Terms for Data Scientist Job Listings', fontsize=19)
+        ax.set(ylabel=None)
+        ax.set_xlabel('Count', fontsize=16)
         
-        # these are matplotlib.patch.Patch properties
-        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        import textwrap
+        plt.figtext(0.510, 0.040,
+                    textwrap.fill('Data: N Indeed job listings for "data scientist" collected between X and Y', width=50),
+                    bbox=dict(facecolor='wheat',boxstyle='square',edgecolor='none',pad=0.2),
+                    fontsize=12,
+                    color='black',
+                    fontweight='regular',
+                    style='italic',
+                    ha='center',
+                    in_layout=True,
+                    wrap=True)        
         
-        # place a text box in upper left in axes coords
-        textstr = 'Data: N Indeed job listings for "data scientist" collected between X and Y'
-        ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14,
-                verticalalignment='top', bbox=props)
+        # txt = ax.text(50, 20, 'Data: N Indeed job listings for "data scientist" collected between X and Y',
+        #               wrap=True,  #ha='center', #  va='top',
+        #               bbox=dict(boxstyle='square', fc='w', ec='none'))
+        # txt._get_wrap_line_width = lambda : 200.
+        
+        # # these are matplotlib.patch.Patch properties
+        # props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        
+        # # place a text box in upper left in axes coords
+        # textstr = 'Data: N Indeed job listings for "data scientist" collected between X and Y'
+        # ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14,
+        #         verticalalignment='top', bbox=props)
         
         # plt.text(0.1, 0.1,
         #          'Data: N Indeed job listings for "data scientist" collected between X and Y',
         #          ha='center',
         #          wrap=True)
-        # plt.figtext(0.510, 0.040,
-        #             'Data: N Indeed job listings for "data scientist" collected between X and Y',
-        #             bbox=dict(facecolor='wheat',boxstyle='square',edgecolor='none',pad=0.2),
-        #             fontsize=12,
-        #             color='black',
-        #             fontweight='regular',
-        #             style='italic',
-        #             ha='center',
-        #             in_layout=True,
-        #             wrap=True)
-        ax.set_title('Key Terms for Data Scientist Job Listings', fontsize=19)
-        ax.set(ylabel=None)
-        ax.set_xlabel('Count', fontsize=16)
+
 
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
