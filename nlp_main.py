@@ -2322,14 +2322,14 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         ax.set_xlabel('Count', fontsize=16)
         
         import textwrap
-        plt.figtext(0.510, 0.040,
+        plt.figtext(0.410, 0.020,
                     textwrap.fill('Data: N Indeed job listings for "data scientist" collected between X and Y', width=50),
-                    bbox=dict(facecolor='wheat',boxstyle='square',edgecolor='none',pad=0.2),
+                    bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                     fontsize=12,
                     color='black',
                     fontweight='regular',
                     style='italic',
-                    ha='center',
+                    ha='left',
                     in_layout=True,
                     wrap=True)        
         
