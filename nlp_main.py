@@ -2316,10 +2316,18 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                     fontsize=16,
                     color='r',
                     fontweight='demibold')
-        txt = ax.text(.2, .8, 'Data: N Indeed job listings for "data scientist" collected between X and Y',
-                      ha='left', va='top', wrap=True,
-                      bbox=dict(boxstyle='square', fc='w', ec='r'))
-        txt._get_wrap_line_width = lambda : 300.
+        txt = ax.text(50, 20, 'Data: N Indeed job listings for "data scientist" collected between X and Y',
+                      wrap=True,  #ha='center', #  va='top',
+                      bbox=dict(boxstyle='square', fc='w', ec='none'))
+        txt._get_wrap_line_width = lambda : 200.
+        
+        # these are matplotlib.patch.Patch properties
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+        
+        # place a text box in upper left in axes coords
+        textstr = 'Data: N Indeed job listings for "data scientist" collected between X and Y'
+        ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14,
+                verticalalignment='top', bbox=props)
         
         # plt.text(0.1, 0.1,
         #          'Data: N Indeed job listings for "data scientist" collected between X and Y',
