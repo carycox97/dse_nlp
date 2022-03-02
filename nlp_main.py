@@ -29,6 +29,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 import seaborn as sns
+import textwrap
 from wordcloud import WordCloud #, STOPWORDS, ImageColorGenerator
 
 # import libraries for nlp
@@ -2321,9 +2322,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=16)
         
-        import textwrap
-        plt.figtext(0.410, 0.020,
-                    textwrap.fill('Data: N Indeed job listings for "data scientist" collected between X and Y', width=50),
+        plt.figtext(0.390, 0.020,
+                    textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                  width=60),
                     bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                     fontsize=12,
                     color='black',
@@ -2331,26 +2332,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                     style='italic',
                     ha='left',
                     in_layout=True,
-                    wrap=True)        
-        
-        # txt = ax.text(50, 20, 'Data: N Indeed job listings for "data scientist" collected between X and Y',
-        #               wrap=True,  #ha='center', #  va='top',
-        #               bbox=dict(boxstyle='square', fc='w', ec='none'))
-        # txt._get_wrap_line_width = lambda : 200.
-        
-        # # these are matplotlib.patch.Patch properties
-        # props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-        
-        # # place a text box in upper left in axes coords
-        # textstr = 'Data: N Indeed job listings for "data scientist" collected between X and Y'
-        # ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=14,
-        #         verticalalignment='top', bbox=props)
-        
-        # plt.text(0.1, 0.1,
-        #          'Data: N Indeed job listings for "data scientist" collected between X and Y',
-        #          ha='center',
-        #          wrap=True)
-
+                    wrap=True)          
 
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
