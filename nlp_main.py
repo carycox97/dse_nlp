@@ -2262,7 +2262,7 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
+def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -2307,21 +2307,22 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         
         # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
         ax = sns.barplot(x='count',
-                          y='grams',
-                          data=n_grams_sns,
-                          orient='h',
-                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        plt.figtext(0.325, 0.475,
-                    '← and this is a red pointer',
-                    fontsize=16,
-                    color='r',
-                    fontweight='demibold')
-
+                         y='grams',
+                         data=n_grams_sns,
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        
         ax.set_title('Key Terms for Data Scientist Jobs',
                      loc='center',
                      fontsize=24)
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=18)
+
+        plt.figtext(0.325, 0.475,
+                    '← and this is a red pointer',
+                    fontsize=16,
+                    color='r',
+                    fontweight='demibold')
         
         plt.figtext(0.300, 0.010,
                     textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
@@ -2336,7 +2337,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                     wrap=True)          
 
 
-    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
+    def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
         '''
         Create visualizations for monograms and bigrams assoicated with the credential skill list.
 
@@ -2373,7 +2374,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
             '''
             plt.figure(figsize=(7, 10))
             sns.set_style('dark')
-            sns.set(font_scale = 1.3)
+            sns.set(font_scale = 1.8)
             
             # subset the monograms that appear in the credentials list
             mask_monogram = n_grams.grams.isin(ds_cred_terms)
@@ -2394,7 +2395,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
     
             # identify noisy, duplicate or unhelpful terms and phrases
             ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability',
-                                'system']
+                                'system', 'experience experience']
             
             # exclude unwanted terms and phrases
             ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
@@ -2403,10 +2404,27 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
             ax = sns.barplot(x='count',
                              y='grams',
                              data=ngram_combined_sns,
-                             order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                             order=ngram_combined_sns.sort_values('count', ascending = False).grams[:20],
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-            ax.set_title('Key Terms for Data Scientist Credentials', fontsize=19)
+                       
+            ax.set_title('Key Terms for Data Scientist Credentials',
+                         loc='center',
+                         fontsize=24)   
+            ax.set(ylabel=None)
+            ax.set_xlabel('Count', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True)  
             
             return bigram_match_to_cred_list
                
@@ -2583,21 +2601,124 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         # visualize by count
         bigram_match_to_cred_list = monograms_and_bigrams_by_count()
                 
-        # create a clean dataframe where each record is a unique listing, and each term is tokenized
-        df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
-
         # visualize by percentage
         df_jobs_mono = monograms_by_percentage(df_jobs_raw)
         df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_cred_list)
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
         
 
-####### !!!!!!!! WORKING HERE: VISUALIZE TECHNICAL SKILLS    
-    def visualize_technicals():
-        pass
+####### !!!!!!!! WORKING HERE: VISUALIZE TECHNICAL SKILLS
+    def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
+        
+        def monograms_and_bigrams_by_count():
+            '''
+            Visualize the top n combined list of monograms and bigrams according to how many times they appear
+            in the series of interest. Visualizes only the raw counts.
+
+            Returns
+            -------
+            bigram_match_to_cred_list : list
+                A list of bigrams in which each bigram has at least one term matching a term in the ds_tech_skill_terms list.
+
+            '''
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.3)
+            
+            # subset the monograms that appear in the credentials list
+            mask_monogram = n_grams.grams.isin(ds_tech_skill_terms)
+            monograms_df_sns = n_grams[mask_monogram]
+            
+            # generate bigrams from the full terms_for_nlp list
+            n_gram_count = 2
+            n_gram_range_start, n_gram_range_stop  = 0, 100
+            bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+            
+            # subset the bigrams for which at least one term appears in the credentials list
+            bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_tech_skill_terms)]
+            mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+            bigrams_df_sns = bigrams[mask_bigram]
+    
+            # add the monograms and bigrams
+            ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+    
+            # identify noisy, duplicate or unhelpful terms and phrases
+            # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system'] # these from cred
+            ngrams_to_silence = ['system'] 
+            
+            # exclude unwanted terms and phrases
+            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+    
+            # create a horizontal barplot visualizing data science credentials
+            ax = sns.barplot(x='count',
+                             y='grams',
+                             data=ngram_combined_sns,
+                             order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            ax.set_title('Key Terms for Data Scientist Technical Skills', fontsize=19)
+            
+            return bigram_match_to_cred_list
+    
+    
+        def monograms_by_percentage(df_jobs_raw): 
+            '''
+            Visualize the credential monograms as a function of percentage of listings in which the monogram appears.
+            This function makes first use of dataframes wherein each record is a job listing.
+
+            Parameters
+            ----------
+            df_jobs_raw : dataframe
+                A dataframe wherein each record is a unique listing, and each term in each listing is tokenized. df_jobs_raw is
+                created just before the call to this function so that it can be used in other subfunctions of visualize_credentials.
+
+            Returns
+            -------
+            df_jobs_mono : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                monogram in the ds_tech_skill_terms list.  The final row and column each contain totals for their 
+                respective job listing and credential term, respectively. The job_description field is dropped
+                before the summations.
+
+            '''
+            # flag job listings if they contain the credential term (from stack question)
+            df_jobs_mono = df_jobs_raw.copy()
+            df_jobs_mono[ds_tech_skill_terms] = [[any(w==term for w in lst) for term in ds_tech_skill_terms] for lst in df_jobs_mono['job_description']]
+            
+            # calculate sum of all credential terms for both rows and columns
+            df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
+            df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+            df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
+                 
+            # drop all rows except the total row, transform columns and rows and rename the fields
+            df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
+            df_jobs_mono_sns.rename(columns={'variable': 'ds_tech_skill_term','value': 'count'}, inplace=True)
+            
+            # calculate a percentages field; will need to divide by len(df_jobs) * 100
+            df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
+            
+            # create a horizontal barplot visualizing data science credential monograms as a percentage of job listings
+            df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_tech_skill_term'].str.contains('total')==False]
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.3)        
+            ax = sns.barplot(x='percentage',
+                             y='ds_tech_skill_term',
+                             data=df_jobs_mono_sns,
+                             order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_tech_skill_term[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            ax.set_title('Percentage Key Terms for Data Scientist Technical Skills', fontsize=19)
+            
+            return df_jobs_mono
+    
+    
+    # create a clean dataframe where each record is a unique listing, and each term is tokenized
+    df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
     
     visualize_all_monograms(n_grams)
-    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes) 
+    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw) 
+    visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
@@ -3719,7 +3840,7 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes)
+    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
