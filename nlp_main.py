@@ -2318,15 +2318,17 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                     color='r',
                     fontweight='demibold')
 
-        ax.set_title('Key Terms for Data Scientist Job Listings', fontsize=19)
+        ax.set_title('Key Terms for Data Scientist Job Listings',
+                     loc='center',
+                     fontsize=22)
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=16)
         
-        plt.figtext(0.390, 0.020,
+        plt.figtext(0.350, 0.010,
                     textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
                                   width=60),
                     bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-                    fontsize=12,
+                    fontsize=14,
                     color='black',
                     fontweight='regular',
                     style='italic',
