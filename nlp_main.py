@@ -2297,11 +2297,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         None. Directly outputs visualizations.
 
         '''
-####### !!!!!!!! WORKING HERE: NEXT STEP IS TO CLEAN UP CHARTS, THEN VISUALIZE TECHNICAL SKILLS
         # configure plot size, seaborne style and font scale
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
-        sns.set(font_scale = 1.3)
+        sns.set(font_scale = 1.8)
         
         # bound the count of ngram records to be visualized
         n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
@@ -2318,13 +2317,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
                     color='r',
                     fontweight='demibold')
 
-        ax.set_title('Key Terms for Data Scientist Job Listings',
+        ax.set_title('Key Terms for Data Scientist Jobs',
                      loc='center',
-                     fontsize=22)
+                     fontsize=24)
         ax.set(ylabel=None)
-        ax.set_xlabel('Count', fontsize=16)
+        ax.set_xlabel('Count', fontsize=18)
         
-        plt.figtext(0.350, 0.010,
+        plt.figtext(0.300, 0.010,
                     textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
                                   width=60),
                     bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
@@ -2592,7 +2591,11 @@ def visualize_n_grams(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest,
         df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_cred_list)
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
         
-        
+
+####### !!!!!!!! WORKING HERE: VISUALIZE TECHNICAL SKILLS    
+    def visualize_technicals():
+        pass
+    
     visualize_all_monograms(n_grams)
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes) 
 
