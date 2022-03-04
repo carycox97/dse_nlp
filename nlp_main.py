@@ -2408,7 +2408,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
                        
-            ax.set_title('Key Terms for Data Scientist Credentials',
+            ax.set_title(textwrap.fill('Key Terms and Phrases for Data Scientist Credentials', width=30),
                          loc='center',
                          fontsize=24)   
             ax.set(ylabel=None)
@@ -2608,6 +2608,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
         
 
 ####### !!!!!!!! WORKING HERE: VISUALIZE TECHNICAL SKILLS
+# FINISH CLEANING CREDENTIAL VIZ
+# BEFORE DOING THE TECHNICALS
+# GET A STANDARD FIRST
     def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
         
         def monograms_and_bigrams_by_count():
