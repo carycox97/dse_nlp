@@ -2262,7 +2262,7 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes):
+def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -3843,7 +3843,7 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes)
+    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
