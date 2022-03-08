@@ -2551,19 +2551,37 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
             
             # calculate a percentages field; will need to divide by len(df_jobs) * 100
             df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
+            df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_cred_term'].str.contains('total')==False]
             
             # create a horizontal barplot visualizing data science credentials as a percentage of job listings
-            df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_cred_term'].str.contains('total')==False]
             plt.figure(figsize=(7, 10))
             sns.set_style('dark')
-            sns.set(font_scale = 1.3)        
+            sns.set(font_scale = 1.8)               
+       
             ax = sns.barplot(x='percentage',
                              y='ds_cred_term',
                              data=df_jobs_bigrams_sns,
                              order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-            ax.set_title('Percentage Key Bigrams for Data Scientist Credentials', fontsize=19)
+            
+            ax.set_title(textwrap.fill('Focus Your Credentialing on High-Priority Areas (bigram)', width=30), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                         fontsize=24,
+                         loc='center')
+            ax.set(ylabel=None)
+            ax.set_xlabel('Percentage', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True) 
             
             return df_jobs_bigrams
 
