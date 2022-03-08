@@ -2413,6 +2413,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                          fontsize=24)   
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
+            # Alternate Title Brainstorm
+            # What Credentials Employers are Looking For 
+            # What You Need to Know for Credentials
+            # Credentials to Focus on 
+            # Breaking Down Credentials
+            # Credential Focus Points
+            # Priority Items for Data Scientist Credentials
+            # Priority Objects for Credentials
+            # Where to Focus Your Credentialing Efforts
+            # 
             
             plt.figtext(0.330, 0.010,
                         textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
