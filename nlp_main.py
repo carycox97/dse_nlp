@@ -2408,12 +2408,14 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
                        
-            ax.set_title(textwrap.fill('Key Terms and Phrases for Data Scientist Credentials', width=30),
+            ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Credential Focus Area', width=40),
                          loc='center',
                          fontsize=24)   
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
             # Alternate Title Brainstorm
+            # Consider making each chart a call to action
+            # Original: Key Terms and Phrases for Data Scientist Credentials
             # What Credentials Employers are Looking For 
             # What You Need to Know for Credentials
             # Credentials to Focus on 
@@ -2422,7 +2424,17 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
             # Priority Items for Data Scientist Credentials
             # Priority Objects for Credentials
             # Where to Focus Your Credentialing Efforts
-            # 
+            # Focus Areas for Your Credentialing
+            # Where to Prioritize Your Credentialing
+            # Maximizing Your Credentials
+            # Maximizing the Value of Your Credentials
+            # Getting Your Credentials to Excellence
+            # Where to Focus Your Credentials
+            # Focus Your Credentialing on These Key Areas ##############
+            # Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
+            # Credential Intensity: A Measure of How Deeply Employers Care
+            # Consider How Intensely Employers Care about Each Credential Focus Area
+            
             
             plt.figtext(0.330, 0.010,
                         textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
@@ -2621,6 +2633,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
 # FINISH CLEANING CREDENTIAL VIZ
 # BEFORE DOING THE TECHNICALS
 # GET A STANDARD FIRST
+# DO THEY CARE ABOUT IT AT ALL (PERCENTAGE CHARTS), AND IF SO HOW MUCH DO THEY CARE (COUNT CHARTS)
     def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
         
         def monograms_and_bigrams_by_count():
