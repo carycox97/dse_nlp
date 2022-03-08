@@ -2297,15 +2297,14 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
         None. Directly outputs visualizations.
 
         '''
-        # configure plot size, seaborne style and font scale
-        plt.figure(figsize=(7, 10))
-        sns.set_style('dark')
-        sns.set(font_scale = 1.8)
-        
         # bound the count of ngram records to be visualized
         n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
         
         # create a horizontal barplot visualizing n_gram counts from greatest to least across all skills, companies and job titles
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.8)
+        
         ax = sns.barplot(x='count',
                          y='grams',
                          data=n_grams_sns,
@@ -2372,10 +2371,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                 A list of bigrams in which each bigram has at least one term matching a term in the ds_cred_terms list.
 
             '''
-            plt.figure(figsize=(7, 10))
-            sns.set_style('dark')
-            sns.set(font_scale = 1.8)
-            
             # subset the monograms that appear in the credentials list
             mask_monogram = n_grams.grams.isin(ds_cred_terms)
             monograms_df_sns = n_grams[mask_monogram]
@@ -2401,6 +2396,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
             ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
     
             # create a horizontal barplot visualizing data science credentials
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.8)
+            
             ax = sns.barplot(x='count',
                              y='grams',
                              data=ngram_combined_sns,
@@ -2413,29 +2412,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                          fontsize=24)   
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
-            # Alternate Title Brainstorm
-            # Consider making each chart a call to action
-            # Original: Key Terms and Phrases for Data Scientist Credentials
-            # What Credentials Employers are Looking For 
-            # What You Need to Know for Credentials
-            # Credentials to Focus on 
-            # Breaking Down Credentials
-            # Credential Focus Points
-            # Priority Items for Data Scientist Credentials
-            # Priority Objects for Credentials
-            # Where to Focus Your Credentialing Efforts
-            # Focus Areas for Your Credentialing
-            # Where to Prioritize Your Credentialing
-            # Maximizing Your Credentials
-            # Maximizing the Value of Your Credentials
-            # Getting Your Credentials to Excellence
-            # Where to Focus Your Credentials
-            # Focus Your Credentialing on These Key Areas ##############
-            # Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
-            # Credential Intensity: A Measure of How Deeply Employers Care
-            # Consider How Intensely Employers Care about Each Credential Focus Area
-            
-            
+                      
             plt.figtext(0.330, 0.010,
                         textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
                                       width=60),
@@ -2486,18 +2463,22 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
             
             # calculate a percentages field; will need to divide by len(df_jobs) * 100
             df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
+            df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]      
             
             # create a horizontal barplot visualizing data science credential monograms as a percentage of job listings
-            df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]
             plt.figure(figsize=(7, 10))
             sns.set_style('dark')
-            sns.set(font_scale = 1.3)        
+            sns.set(font_scale = 1.8)            
+            
+
+            
             ax = sns.barplot(x='percentage',
                              y='ds_cred_term',
                              data=df_jobs_mono_sns,
                              order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            
             ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
             
             return df_jobs_mono
@@ -2634,6 +2615,30 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
 # BEFORE DOING THE TECHNICALS
 # GET A STANDARD FIRST
 # DO THEY CARE ABOUT IT AT ALL (PERCENTAGE CHARTS), AND IF SO HOW MUCH DO THEY CARE (COUNT CHARTS)
+# CHART TITLES NEED TO BE EDGE CONSULTING HEADLINES
+# MIGHT NEED TO ADDRESS TWO MULTIPLE TRACKS: DATA SCIENTIST, DATA SCIENTIST/MACHINE LEARNING, DATA ANALYST
+
+# Alternate Title Brainstorm
+# Consider making each chart a call to action
+# Original: Key Terms and Phrases for Data Scientist Credentials
+# What Credentials Employers are Looking For 
+# What You Need to Know for Credentials
+# Credentials to Focus on 
+# Breaking Down Credentials
+# Credential Focus Points
+# Priority Items for Data Scientist Credentials
+# Priority Objects for Credentials
+# Where to Focus Your Credentialing Efforts
+# Focus Areas for Your Credentialing
+# Where to Prioritize Your Credentialing
+# Maximizing Your Credentials
+# Maximizing the Value of Your Credentials
+# Getting Your Credentials to Excellence
+# Where to Focus Your Credentials
+# Focus Your Credentialing on These Key Areas ##############
+# Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
+# Credential Intensity: A Measure of How Deeply Employers Care
+# Consider How Intensely Employers Care about Each Credential Focus Area
     def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
         
         def monograms_and_bigrams_by_count():
