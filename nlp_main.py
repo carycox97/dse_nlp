@@ -2312,8 +2312,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         
         ax.set_title('Key Terms for Data Scientist Jobs',
-                     loc='center',
-                     fontsize=24)
+                     fontsize=24,
+                     loc='center')
         ax.set(ylabel=None)
         ax.set_xlabel('Count', fontsize=18)
 
@@ -2408,8 +2408,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
                        
             ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Credential Focus Area', width=40),
-                         loc='center',
-                         fontsize=24)   
+                         fontsize=24,
+                         loc='center')   
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
                       
@@ -2469,9 +2469,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
             plt.figure(figsize=(7, 10))
             sns.set_style('dark')
             sns.set(font_scale = 1.8)            
-            
-
-            
+           
             ax = sns.barplot(x='percentage',
                              y='ds_cred_term',
                              data=df_jobs_mono_sns,
@@ -2479,7 +2477,23 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             
-            ax.set_title('Percentage Key Terms for Data Scientist Credentials', fontsize=19)
+            ax.set_title(textwrap.fill('Focus Your Credentialing on High-Priority Areas (mono)', width=30), # original title: Percentage Key Terms for Data Scientist Credentials
+                         fontsize=24,
+                         loc='center')
+            ax.set(ylabel=None)
+            ax.set_xlabel('Percentage', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True)  
             
             return df_jobs_mono
         
