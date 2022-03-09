@@ -2262,7 +2262,7 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
+def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -2994,7 +2994,97 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
 
 ####### !!!!!!!! WORKING HERE: VISUALIZE SOFT SKILLS AFTER UPDATING DOC STRINGS
     def visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
-        pass
+        '''
+        Create visualizations for monograms and bigrams assoicated with the soft skill list.
+
+        Parameters
+        ----------
+        n_grams : dataframe
+            Contains the processed n_grams; sorted by count from highest to lowest.
+        ds_soft_skill_terms : list
+            Contains keywords pertaining to data science soft skills (e.g., 'collaborate', 'enthusiastic', etc.).
+        terms_for_nlp : list
+            List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+        series_of_interest : series
+            A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
+        additional_stopwords : list
+            A list to capture all domain-specific stopwords and 'stop-lemma'.
+        term_fixes : dictionary
+            A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest.
+
+        Returns
+        -------
+        None. Directly outputs visualizations.
+
+        '''
+        print('\nVisualizing Soft Skills...')
+        
+        def monograms_and_bigrams_by_count():
+            '''
+            Visualize the top n combined list of monograms and bigrams according to how many times they appear
+            in the series of interest. Visualizes only the raw counts.
+
+            Returns
+            -------
+            bigram_match_to_soft_list : list
+                A list of bigrams in which each bigram has at least one term matching a term in the ds_soft_skill_terms list.
+
+            '''          
+            # subset the monograms that appear in the technical skills list
+            mask_monogram = n_grams.grams.isin(ds_soft_skill_terms)
+            monograms_df_sns = n_grams[mask_monogram]
+            
+            # generate bigrams from the full terms_for_nlp list
+            n_gram_count = 2
+            n_gram_range_start, n_gram_range_stop  = 0, 100
+            bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+            
+            # subset the bigrams for which at least one term appears in the technical skills list
+            bigram_match_to_soft_list = [x for x in bigrams.grams if any(b in x for b in ds_soft_skill_terms)]
+            mask_bigram = bigrams.grams.isin(bigram_match_to_soft_list)
+            bigrams_df_sns = bigrams[mask_bigram]
+    
+            # add the monograms and bigrams
+            ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+    
+            # identify noisy, duplicate or unhelpful terms and phrases
+            # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system'] # these from cred
+            ngrams_to_silence = ['system'] 
+            
+            # exclude unwanted terms and phrases
+            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+    
+            # create a horizontal barplot visualizing data science technical skills
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.8) 
+                
+            ax = sns.barplot(x='count',
+                             y='grams',
+                             data=ngram_combined_sns,
+                             order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            
+            ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Soft Skill', width=40),
+                         fontsize=24,
+                         loc='center')   
+            ax.set(ylabel=None)
+            ax.set_xlabel('Count', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True) 
+                       
+            return bigram_match_to_soft_list
 
 
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
@@ -4030,7 +4120,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     n_grams.reset_index(inplace=True, drop=True)
     n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
     
-    print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
+    # print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
     return n_grams
 
@@ -4128,7 +4218,7 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
+    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
