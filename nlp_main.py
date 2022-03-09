@@ -2480,7 +2480,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             
-            ax.set_title(textwrap.fill('**For Parsing: Monograms by Percentage', width=50), # original title: Percentage Key Terms for Data Scientist Credentials
+            ax.set_title(textwrap.fill('**For Cred Parsing: Monograms by Percentage', width=40), # original title: Percentage Key Terms for Data Scientist Credentials
                          fontsize=24,
                          loc='center')
             ax.set(ylabel=None)
@@ -2568,7 +2568,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             
-            ax.set_title(textwrap.fill('**For Parsing: Bigrams by Percentage', width=50), # original title: Percentage Key Bigrams for Data Scientist Credentials
+            ax.set_title(textwrap.fill('**For Cred Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
                          fontsize=24,
                          loc='center')
             ax.set(ylabel=None)
@@ -2664,34 +2664,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
         
 
-####### !!!!!!!! WORKING HERE: VISUALIZE TECHNICAL SKILLS
-# OPTIMIZE THE TECHNICAL SKILLS VISUALIZATIONS
-# DO THEY CARE ABOUT IT AT ALL (PERCENTAGE CHARTS), AND IF SO HOW MUCH DO THEY CARE (COUNT CHARTS)
-# CHART TITLES NEED TO BE EDGE CONSULTING HEADLINES
-# MIGHT NEED TO ADDRESS TWO MULTIPLE TRACKS: DATA SCIENTIST, DATA SCIENTIST/MACHINE LEARNING, DATA ANALYST
-# CREATED 'PARSED' DIRECTORY IN GOOGLE DRIVE; CAN START GOING CHUNK BY CHUNK FOR PARSING
 
-# Alternate Title Brainstorm
-# Consider making each chart a call to action
-# Original: Key Terms and Phrases for Data Scientist Credentials
-# What Credentials Employers are Looking For 
-# What You Need to Know for Credentials
-# Credentials to Focus on 
-# Breaking Down Credentials
-# Credential Focus Points
-# Priority Items for Data Scientist Credentials
-# Priority Objects for Credentials
-# Where to Focus Your Credentialing Efforts
-# Focus Areas for Your Credentialing
-# Where to Prioritize Your Credentialing
-# Maximizing Your Credentials
-# Maximizing the Value of Your Credentials
-# Getting Your Credentials to Excellence
-# Where to Focus Your Credentials
-# Focus Your Credentialing on These Key Areas ##############
-# Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
-# Credential Intensity: A Measure of How Deeply Employers Care
-# Consider How Intensely Employers Care about Each Credential Focus Area
+
+
+
 
     def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
         print('\nVisualizing Technical Skills...')
@@ -2814,7 +2790,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             
             
-            ax.set_title(textwrap.fill('**For Parsing: Monograms by Percentage', width=50), # original title: Percentage Key Terms for Data Scientist Credentials
+            ax.set_title(textwrap.fill('**For Tech Parsing: Monograms by Percentage', width=40), # original title: Percentage Key Terms for Data Scientist Credentials
                          fontsize=24,
                          loc='center')
             ax.set(ylabel=None)
@@ -2902,7 +2878,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             
-            ax.set_title(textwrap.fill('**For Parsing: Bigrams by Percentage', width=50), # original title: Percentage Key Bigrams for Data Scientist Credentials
+            ax.set_title(textwrap.fill('**For Tech Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
                          fontsize=24,
                          loc='center')
             ax.set(ylabel=None)
@@ -2921,13 +2897,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                         wrap=True) 
             
             return df_jobs_bigrams    
-    
-        # visualize technical skills by count
-        bigram_match_to_tech_list = monograms_and_bigrams_by_count()
-        
-        # visualize technical skills by percentage
-        df_jobs_mono = monograms_by_percentage(df_jobs_raw)
-        df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_tech_list)
 
 
         def monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams):
@@ -2996,6 +2965,20 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
                         wrap=True)
 
     
+        # visualize technical skills by count
+        bigram_match_to_tech_list = monograms_and_bigrams_by_count()
+        
+        # visualize technical skills by percentage
+        df_jobs_mono = monograms_by_percentage(df_jobs_raw)
+        df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_tech_list)
+        monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
+
+
+####### !!!!!!!! WORKING HERE: VISUALIZE SOFT SKILLS AFTER UPDATING DOC STRINGS
+    def visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
+        pass
+
+
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
     
@@ -3005,6 +2988,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
     # visualize credentials, technical skills, soft skills and professional skills
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw) 
     visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
+    visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
@@ -4342,7 +4326,27 @@ del start_time, end_time
 # output = find_bigram_match_to_cred_list(df_jobs['job_description'].to_numpy())
 # df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
 
-
+# Alternate Title Brainstorm for Skill Bar Charts
+# Consider making each chart a call to action
+# Original: Key Terms and Phrases for Data Scientist Credentials
+# What Credentials Employers are Looking For 
+# What You Need to Know for Credentials
+# Credentials to Focus on 
+# Breaking Down Credentials
+# Credential Focus Points
+# Priority Items for Data Scientist Credentials
+# Priority Objects for Credentials
+# Where to Focus Your Credentialing Efforts
+# Focus Areas for Your Credentialing
+# Where to Prioritize Your Credentialing
+# Maximizing Your Credentials
+# Maximizing the Value of Your Credentials
+# Getting Your Credentials to Excellence
+# Where to Focus Your Credentials
+# Focus Your Credentialing on These Key Areas ##############
+# Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
+# Credential Intensity: A Measure of How Deeply Employers Care
+# Consider How Intensely Employers Care about Each Credential Focus Area
 
 
 
