@@ -2352,9 +2352,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
         series_of_interest : series
             A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
         additional_stopwords : list
-            A list to capture all domain-specific stopwords and 'stop-lemma'
+            A list to capture all domain-specific stopwords and 'stop-lemma'.
         term_fixes : dictionary
-            A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest
+            A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest.
 
         Returns
         -------
@@ -2664,12 +2664,30 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, terms_for_nlp
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
         
 
-
-
-
-
-
     def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
+        '''
+        Create visualizations for monograms and bigrams assoicated with the technical skill list.
+
+        Parameters
+        ----------
+        n_grams : dataframe
+            Contains the processed n_grams; sorted by count from highest to lowest.
+        ds_tech_skill_terms : list
+            Contains keywords pertaining to data science technical skills (e.g., 'python', 'tableau', etc.).
+        terms_for_nlp : list
+            List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+        series_of_interest : series
+            A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
+        additional_stopwords : list
+            A list to capture all domain-specific stopwords and 'stop-lemma'.
+        term_fixes : dictionary
+            A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest.
+
+        Returns
+        -------
+        None. Directly outputs visualizations.
+
+        '''
         print('\nVisualizing Technical Skills...')
         
         def monograms_and_bigrams_by_count():
