@@ -24,6 +24,8 @@ import warnings
 import glob
 import numpy as np
 import pandas as pd
+from progressbar import progressbar
+from tqdm import tqdm
 
 # import libraries for visualization
 import matplotlib.pyplot as plt
@@ -51,6 +53,9 @@ pd.set_option('display.max_rows', None)
 # suspend filter warnings
 warnings.filterwarnings("ignore")
 
+# configure tqdm progress bars for pandas commands
+tqdm.pandas()
+
 def load_and_concat_csvs(csv_path):
     '''
     Load and concatenate the corpus of Indeed csvs containing job data. Generates and displays high-level stats for 
@@ -67,9 +72,11 @@ def load_and_concat_csvs(csv_path):
         Contains the raw concatenated csvs.
 
     '''
+    print('\nLoading and concatenating Indeed csvs...')
+    
     # load and concatenate all Indeed csvs while adding a field for each record's parent csv name
     all_csvs = glob.glob(csv_path + "/*.csv")
-    df_raw = pd.concat([pd.read_csv(fp).assign(csv_name=os.path.basename(fp)) for fp in all_csvs])
+    df_raw = pd.concat([pd.read_csv(fp).assign(csv_name=os.path.basename(fp)) for fp in progressbar(all_csvs)])
 
     # calculate and display high-level statistics for the imported data
     print('***** Data Ingest Statistics ***** \n')
@@ -1402,11 +1409,11 @@ def clean_terms_for_nlp(series_of_interest):
     # initialize lemmatizer and execute lemmatization; this is the sloest part of the processing
     print('   Lemmatizing...')
     wnl = nltk.stem.WordNetLemmatizer()
-    terms_for_nlp = [wnl.lemmatize(word) for word in words if word not in stop_words]
+    terms_for_nlp = [wnl.lemmatize(word) for word in progressbar(words) if word not in stop_words]
  
     # execute post-lemmatization stopword removal to drop unnecessary lemma
     print('   Post-lemmatization stopword removal...')
-    terms_for_nlp = [x for x in terms_for_nlp if x not in additional_stopwords]
+    terms_for_nlp = [x for x in progressbar(terms_for_nlp) if x not in additional_stopwords]
 
     # create a dictionary for term corrections (e.g., misspellings, etc.); values are final form for each term
     term_fixes = {'accreditation': 'accredited',
@@ -2176,7 +2183,7 @@ def clean_terms_for_nlp(series_of_interest):
     dict(sorted(term_fixes.items(), key=lambda item: item[1]))
         
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
-    print('   Correcting misspellings, erroneous concatenations, ambiguities, etc...\n')
+    print('Correcting misspellings, erroneous concatenations, ambiguities, etc...\n')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
     df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
@@ -2209,25 +2216,35 @@ def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
     df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [contractions.fix(word) for word in x.split()])
     df_jobs['job_description'] = [' '.join(map(str, l)) for l in df_jobs['job_description']]
     
+    # # tokenize the new df_jobs dataframe
+    # df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
+
     # tokenize the new jf_jobs dataframe
-    df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
+    print('\nTokenizing the new df_jobs dataframe...')
+    
+    df_jobs['job_description'] = df_jobs['job_description'].progress_apply(word_tokenize)
     
     # convert tokenized text to lowercase
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.lower() for word in x])
+    print('\nConverting tokenized text to lowercase...')
+    df_jobs['job_description'] = df_jobs['job_description'].progress_apply(lambda x: [word.lower() for word in x])
     
     # remove punctuation
+    print('\nRemoving punctuation...')
     other_punctuation = ['...', '’', '–', '``', '“', '”']
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in string.punctuation])
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in other_punctuation])
+    df_jobs['job_description'] = df_jobs['job_description'].progress_apply(lambda x: [word for word in x if word not in string.punctuation])
+    df_jobs['job_description'] = df_jobs['job_description'].progress_apply(lambda x: [word for word in x if word not in other_punctuation])
     
     # remove standard NLTK stopwords
+    print('\nRemoving standard NLTK stopwords...')
     stop_words_nltk = set(stopwords.words('english'))
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in stop_words_nltk])
+    df_jobs['job_description'] = df_jobs['job_description'].progress_apply(lambda x: [word for word in x if word not in stop_words_nltk])
     
     # remove additional industry-specific NLTK stopwords
-    df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word for word in x if word not in additional_stopwords])
+    print('\nRemoving additional industry-specific NLTK stopwords...')
+    df_jobs['job_description'] = df_jobs['job_description'].progress_apply(lambda x: [word for word in x if word not in additional_stopwords])
     
     # execute term_fixes 
+    print('\nExecuting term fixes...')
     df_jobs['job_description'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
     
     return df_jobs  
@@ -2262,7 +2279,7 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
+def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -2992,7 +3009,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
 
 
-####### !!!!!!!! WORKING HERE: VISUALIZE SOFT SKILLS AFTER UPDATING DOC STRINGS
     def visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw):
         '''
         Create visualizations for monograms and bigrams assoicated with the soft skill list.
@@ -3157,8 +3173,263 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             
             return df_jobs_mono
 
-        # PUT IN CALLS TO THE SOFT SKILL VISUALIZATIONS HERE        
 
+        def bigrams_by_percentage(df_jobs_raw, bigram_match_to_soft_list): 
+            '''
+            Visualize the soft skills bigrams as a function of percentage of listings in which the monogram appears.
+
+            Parameters
+            ----------
+            df_jobs_raw : dataframe
+                A dataframe wherein each record is a unique listing, and each term in each listing is tokenized. df_jobs_raw is
+                created in the visualize_n_grams function so that it can be used in subfunctions.
+            bigram_match_to_soft_list : list
+                A list of bigrams in which each bigram has at least one term matching a term in the ds_tech_skill_terms list.
+
+            Returns
+            -------
+            df_jobs_bigrams : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                bigram in the bigram_match_to_soft_list list.  The final row and column each contain totals for their 
+                respective job listing and soft skill bigram, respectively. The job_description field is dropped
+                before the summations.
+
+            '''               
+            # create df_jobs_bigrams from a copy of df_jobs_raw
+            df_jobs_bigrams = df_jobs_raw.copy()
+            
+            # flag job listings if they contain the technical skill term (from stack question)
+            def find_bigram_match_to_soft_list(data):
+                output = np.zeros((data.shape[0], len(bigram_match_to_soft_list)), dtype=bool)
+                for i, d in enumerate(data):
+                    possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+                    indices = np.where(np.isin(bigram_match_to_soft_list, list(set(bigram_match_to_soft_list).intersection(set(possible_bigrams)))))
+                    output[i, indices] = True
+                return list(output.T)
+    
+            output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
+            df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_soft_list, output)))
+            
+            # identify and silence noisy, duplicate or unhelpful bigrams 
+            bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
+            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
+            
+            # calculate sum of all technical skill terms for both rows and columns
+            df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
+            df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+            df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
+            
+            # drop all rows except the total row, transform columns and rows and rename the fields
+            df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
+            df_jobs_bigrams_sns.rename(columns={'variable': 'ds_soft_term','value': 'count'}, inplace=True)
+            
+            # calculate a percentages field
+            df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
+            df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_soft_term'].str.contains('total')==False]
+            
+            # create a horizontal barplot visualizing data science credentials as a percentage of job listings
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.8)               
+       
+            ax = sns.barplot(x='percentage',
+                             y='ds_soft_term',
+                             data=df_jobs_bigrams_sns,
+                             order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_soft_term[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            
+            ax.set_title(textwrap.fill('**For Soft Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                         fontsize=24,
+                         loc='center')
+            ax.set(ylabel=None)
+            ax.set_xlabel('Percentage', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True) 
+            
+            return df_jobs_bigrams
+
+
+        def monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams):
+            '''
+            Visualize the combined soft skill monograms and bigrams as a function of percentage of listings in which
+            either the monogram or bigram appears.
+    
+            Parameters
+            ----------
+            df_jobs_mono : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                monogram in the ds_soft_skill_terms list.  The final row and column each contain totals for their 
+                respective job listing and soft skill term, respectively. The job_description field is dropped
+                before the summations.
+            df_jobs_bigrams : dataframe
+                A dataframe wherein each record is a job listing, and each column is a boolean flag for each
+                bigram in the bigram_match_to_soft_list list.  The final row and column each contain totals for their 
+                respective job listing and soft skill bigram, respectively. The job_description field is dropped
+                before the summations.
+    
+            Returns
+            -------
+            None. Directly outputs visualizations.
+    
+            '''
+            # combine monograms and bigrams into a single dataframe
+            df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
+            
+            # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
+            df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+            df_jobs_combined_sns.rename(columns={'variable': 'ds_soft_term_phrase','value': 'count'}, inplace=True)
+            df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_soft_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
+    
+            # calculate a percentages field
+            df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
+      
+            # visualize combined mongrams and bigrams
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.8)  
+       
+            ax = sns.barplot(x='percentage',
+                             y='ds_soft_term_phrase',
+                             data=df_jobs_combined_sns,
+                             order=df_jobs_combined_sns.sort_values('percentage', ascending = False).ds_soft_term_phrase[:20],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            
+            ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Soft Skills', width=30), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                         fontsize=24,
+                         loc='center')
+            ax.set(ylabel=None)
+            ax.set_xlabel('Percentage', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True)        
+        
+        # PUT IN CALLS TO THE SOFT SKILL VISUALIZATIONS HERE        
+        # visualize soft skills by count
+        bigram_match_to_soft_list = monograms_and_bigrams_by_count()
+        
+        # visualize soft skills by percentage
+        df_jobs_mono = monograms_by_percentage(df_jobs_raw)
+        df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_soft_list)
+        monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
+
+####### !!!!!!!! WORKING HERE: VISUALIZE PROFESSIONAL SKILLS AFTER UPDATING DOC STRINGS
+# Add progress bars at 'Correcting misspellings, erroneous concatenations, ambiguities, etc...'
+# maybe standardize these progress bars to tqdm
+    def visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, 
+                               additional_stopwords, term_fixes, df_jobs_raw):
+        '''
+        Create visualizations for monograms and bigrams assoicated with the professional skill list.
+
+        Parameters
+        ----------
+        n_grams : dataframe
+            Contains the processed n_grams; sorted by count from highest to lowest.
+        ds_prof_skill_terms : list
+            Contains keywords pertaining to data science professional skills (e.g., 'management', 'thought-leadership', etc.).
+        terms_for_nlp : list
+            List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+        series_of_interest : series
+            A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
+        additional_stopwords : list
+            A list to capture all domain-specific stopwords and 'stop-lemma'.
+        term_fixes : dictionary
+            A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest.
+
+        Returns
+        -------
+        None. Directly outputs visualizations.
+
+        '''
+        print('\nVisualizing Professional Skills...')
+
+        def monograms_and_bigrams_by_count():
+            '''
+            Visualize the top n combined list of monograms and bigrams according to how many times they appear
+            in the series of interest. Visualizes only the raw counts.
+
+            Returns
+            -------
+            bigram_match_to_prof_list : list
+                A list of bigrams in which each bigram has at least one term matching a term in the ds_prof_skill_terms list.
+
+            '''          
+            # subset the monograms that appear in the technical skills list
+            mask_monogram = n_grams.grams.isin(ds_prof_skill_terms)
+            monograms_df_sns = n_grams[mask_monogram]
+            
+            # generate bigrams from the full terms_for_nlp list
+            n_gram_count = 2
+            n_gram_range_start, n_gram_range_stop  = 0, 100
+            bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+            
+            # subset the bigrams for which at least one term appears in the technical skills list
+            bigram_match_to_prof_list = [x for x in bigrams.grams if any(b in x for b in ds_prof_skill_terms)]
+            mask_bigram = bigrams.grams.isin(bigram_match_to_prof_list)
+            bigrams_df_sns = bigrams[mask_bigram]
+    
+            # add the monograms and bigrams
+            ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+    
+            # identify noisy, duplicate or unhelpful terms and phrases
+            # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system'] # these from cred
+            ngrams_to_silence = ['system'] 
+            
+            # exclude unwanted terms and phrases
+            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+    
+            # create a horizontal barplot visualizing data science technical skills
+            plt.figure(figsize=(7, 10))
+            sns.set_style('dark')
+            sns.set(font_scale = 1.8) 
+                
+            ax = sns.barplot(x='count',
+                             y='grams',
+                             data=ngram_combined_sns,
+                             order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                             orient='h',
+                             palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+            
+            ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Professional Skill', width=40),
+                         fontsize=24,
+                         loc='center')   
+            ax.set(ylabel=None)
+            ax.set_xlabel('Count', fontsize=18)
+            
+            plt.figtext(0.330, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=60),
+                        bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                        fontsize=14,
+                        color='black',
+                        fontweight='regular',
+                        style='italic',
+                        ha='left',
+                        in_layout=True,
+                        wrap=True) 
+                       
+            return bigram_match_to_prof_list
 
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
@@ -3170,7 +3441,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
     visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw) 
     visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
     visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
-
+    visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
@@ -4191,7 +4462,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     # pull the n_grams out of the index, reset the index and extract only the ngrams
     n_grams['grams'] = n_grams.index.astype('string')
     n_grams.reset_index(inplace=True, drop=True)
-    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
+    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in progressbar(n_grams['grams'])]
     
     # print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
@@ -4291,7 +4562,7 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
+    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
