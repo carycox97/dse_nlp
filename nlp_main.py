@@ -3655,6 +3655,14 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         in_layout=True,
                         wrap=True) 
 
+        # visualize professional skills by count
+        bigram_match_to_prof_list = monograms_and_bigrams_by_count()
+        
+        # visualize professional skills by percentage
+        df_jobs_mono = monograms_by_percentage(df_jobs_raw)
+        df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_prof_list)
+        monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
+
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
     
