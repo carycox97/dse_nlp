@@ -79,13 +79,13 @@ def load_and_concat_csvs(csv_path):
     df_raw = pd.concat([pd.read_csv(fp).assign(csv_name=os.path.basename(fp)) for fp in progressbar(all_csvs)])
 
     # calculate and display high-level statistics for the imported data
-    print('***** Data Ingest Statistics ***** \n')
+    print('\n***** Data Ingest Statistics ***** \n')
     print(f'Records imported: {df_raw.shape[0]} \n')
     print(f'Unique job titles: {df_raw.job_title.nunique()} \n')
     print(f'Nulls are present:\n{df_raw.isna().sum()} \n')
     print(f'Records missing job_title field: {(df_raw.job_title.isna().sum() / df_raw.shape[0] * 100).round(3)}%')
     print(f'Records missing job_Description field: {(df_raw.job_Description.isna().sum() / df_raw.shape[0] * 100).round(3)}% \n')
-    print('***** Data Cleaning Statistics ***** \n')
+    print('***** Data Cleaning ***** \n')
     print(f"Count of duplicates based on company, location, title and description: {df_raw.duplicated(subset=['job_title', 'company', 'location', 'job_Description']).sum()}")
     print(f"Duplication rate: {((df_raw.duplicated(subset=['job_title', 'company', 'location', 'job_Description']).sum()) / df_raw.shape[0] * 100).round(3) }% \n")
 
@@ -2183,11 +2183,11 @@ def clean_terms_for_nlp(series_of_interest):
     dict(sorted(term_fixes.items(), key=lambda item: item[1]))
         
     # correct misspellings, erroneous concatenations, term ambiguities, etc.; collapse synonyms into single terms
-    print('Correcting misspellings, erroneous concatenations, ambiguities, etc...\n')
+    print('\nCorrecting misspellings, erroneous concatenations, ambiguities, etc...')
     df_term_fixes = pd.DataFrame(terms_for_nlp, columns=['terms'])
     df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
     terms_for_nlp = list(df_term_fixes['terms'])
-        
+     
     return terms_for_nlp, additional_stopwords, term_fixes
 
 
@@ -2246,7 +2246,7 @@ def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
     # execute term_fixes 
     print('\nExecuting term fixes...')
     df_jobs['job_description'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
-    
+####### !!!!!!!! WORKING HERE:         
     return df_jobs  
 
 
@@ -3336,9 +3336,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_soft_list)
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
 
-####### !!!!!!!! WORKING HERE: VISUALIZE PROFESSIONAL SKILLS AFTER UPDATING DOC STRINGS
-# Add progress bars at 'Correcting misspellings, erroneous concatenations, ambiguities, etc...'
-# maybe standardize these progress bars to tqdm
+
     def visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, 
                                additional_stopwords, term_fixes, df_jobs_raw):
         '''
@@ -4651,7 +4649,7 @@ def nlp_skill_lists(additional_stopwords):
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
-    print('***** Stopword and Skill List Testing ***** \n')
+    print('\n***** Stopword and Skill List Testing ***** \n')
     print(f'Test for Stopword pollution in skill lists: {not set(ds_skills_combined).isdisjoint(additional_stopwords)}\n')
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
     print(f'Stopword pollutants: {stopword_pollutants}\n')
@@ -4694,7 +4692,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     # pull the n_grams out of the index, reset the index and extract only the ngrams
     n_grams['grams'] = n_grams.index.astype('string')
     n_grams.reset_index(inplace=True, drop=True)
-    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in progressbar(n_grams['grams'])]
+    n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
     
     # print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
