@@ -1362,7 +1362,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'gendernonbinary', 'rudeness', 'photographer', 'reused', 'firstplace', 'healthtech',
                                             'potff', 'crisp', 'exploding', 'slate', 'concertai', 'foresight', 'regulartemporary',
                                             '35000', 'geometry', 'underpin', 'morse', 'usb', 'apac', 'doctrine', 'lawrence',
-                                            'podcast', 'referenced', 'wwwistockcom', 'punctual', 'industrialization', 'nielseniq',
+                                            'podcast', 'referenced', 'wwwistockcom', 'industrialization', 'nielseniq',
                                             '275', 'athletic', 'hyperion', 'genre', 'upandcoming', 'interpretive', 'gone', 
                                             'monfri', 'caribbean', 'necessity', 'declaration', 'multibilliondollar', 'compose',
                                             'pinnacle', 'un', 'nba', 'mentally', 'oportuns', 'oportun', 'retire', 'removal',
@@ -1398,7 +1398,8 @@ def clean_terms_for_nlp(series_of_interest):
                                             '1823', 'goodrx', 'grail', 'franciscos', 'freenome', 'netskope', 'medimpact',
                                             'nvidias', 'viant', 'bsba', 'descript', 'jerry', 'openx', 'bouqs', 'setsail',
                                             'cdph', 'ox', 'iron', 'apd', 'multiplechoice', 'driscolls', 'deferral',
-                                            'updater', 'mlds', 'smoke', 'topps', 'ax', 'softbank', 'remodeling']))) 
+                                            'updater', 'mlds', 'smoke', 'topps', 'ax', 'softbank', 'remodeling',
+                                            'annapolis',]))) 
  
     
     # create stop_words object and toggle on/off additional stop words
@@ -1486,11 +1487,14 @@ def clean_terms_for_nlp(series_of_interest):
                   'terabyte': 'big data',
                   'teradata': 'big data',
                   'bigquery': 'big query',
+                  'biochemistry': 'bioscience',
                   'biology': 'bioscience',
                   'biological': 'bioscience',
                   'epidemiology': 'bioscience',
                   'neuroscience': 'bioscience',
                   'biostatisticians': 'biostatistics',
+                  'biostatistician': 'biostatistics', 
+                  'biostatistical': 'biostatistics',
                   'biotechnology': 'biotech',
                   'bootcamps': 'bootcamp',
                   'bootstrapping': 'bootstrap',
@@ -1566,6 +1570,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'collect': 'collection',
                   'collected': 'collection',
                   'collecting': 'collection',
+                  'collegeuniversity': 'college',
                   'school': 'college',
                   'university': 'college',
                   'communicated': 'communicate',
@@ -1606,6 +1611,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'd3': 'd3js',
                   'reportsdashboards': 'dashboard',
                   'dashboarding': 'dashboard',
+                  'dataai': 'data ai',
                   'dataset': 'data',
                   'datasets': 'data',
                   'dataanalytics': 'data analytics',
@@ -1811,6 +1817,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'inferencing': 'inference',
                   'ingest': 'ingestion',
                   'ingesting': 'ingestion',
+                  'ingested': 'ingestion',
+                  'ingests': 'ingestion',
                   'innovate': 'innovative',
                   'innovator': 'innovative',
                   'innovating': 'innovative',
@@ -1927,6 +1935,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'modelsmethods': 'model method',
                   'mongo': 'mongodb',
                   'multiarm': 'multiarmed',
+                  'multitasking': 'multitask',
                   'tasking': 'multitask',
                   'simultaneously': 'multitask',
                   'simultaneous': 'multitask',
@@ -1978,6 +1987,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'pearsons': 'pearson',
                   'peerreviewed': 'peer-reviewed',
                   'doctorate': 'phd',
+                  'doctoral': 'phd',
                   'phdms': 'phd masters',
                   'physic': 'physics',
                   'pipelining': 'pipeline',
@@ -2039,6 +2049,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'quantifying': 'quantitative',
                   'quantify': 'quantitative',
                   'quantitatively': 'quantitative',
+                  'quantification': 'quantitative',
+                  'quantifiable':'quantitative',
                   'rpython': 'r python',
                   'rrstudio': 'r rstudio',
                   'rshiny': 'r shiny',
@@ -2246,7 +2258,7 @@ def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
     # execute term_fixes 
     print('\nExecuting term fixes...')
     df_jobs['job_description'] = df_jobs['job_description'].explode().replace(term_fixes).groupby(level=-1).agg(list)
-####### !!!!!!!! WORKING HERE:         
+      
     return df_jobs  
 
 
@@ -2559,7 +2571,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             bigrams_to_silence = ['analytics data', 'experience experience', 'collaborate data', 'ability work',
                                   'experience knowledge', 'statistics analytics', 'development data', 'management data',
                                   'mathematics statistics', 'experience collaborate', 'data data']
-            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
+            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, axis=0, errors='ignore')
             
             # calculate sum of all credential terms for both rows and columns
             df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
@@ -2888,7 +2900,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             bigrams_to_silence = ['analytics data', 'experience experience', 'collaborate data', 'ability work',
                                   'experience knowledge', 'statistics analytics', 'development data', 'management data',
                                   'mathematics statistics', 'experience collaborate', 'data data']
-            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
+            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, axis=0, errors='ignore')
             
             # calculate sum of all technical skill terms for both rows and columns
             df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
@@ -3673,6 +3685,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
     visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
     visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
 
+
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
     '''
     Generate masked and unmasked word clouds from the processed terms extracted from the 
@@ -3761,6 +3774,29 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     # save the masked cloud to a png
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
+####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  
+def visualize_subtopic():
+    # bring in the sublist and the main dataframe
+    
+    # probably need to create the data for the percentage calculation, or perhaps reuse what was already made, df_jobs_raw?
+    
+    # visualize by count
+    
+    # visualize by percentage    
+    pass
+
+subtopic_python = ['anaconda',]
+subtopic_aws = ['amazon',]
+subtopic_cloud = ['amazon',]
+subtopic_sas = []
+subtopic_agile = ['agile',]
+subtopic_language = []
+subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
+subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
+
+
+
+visualize_subtopic()    
 
 def nlp_skill_lists(additional_stopwords):
     '''
@@ -3904,7 +3940,7 @@ def nlp_skill_lists(additional_stopwords):
                          'anomaly', 
                          'anova',
                          'ansible',
-                         'ansys',
+                         'ansys', ###
                          'apache', 
                          'api',
                          'application',
@@ -3996,6 +4032,7 @@ def nlp_skill_lists(additional_stopwords):
                          'datarobot',
                          'database',
                          'datamining',
+                         'dataminr',
                          'data-driven',
                          'dax', 
                          'decomposition',  
@@ -4175,6 +4212,7 @@ def nlp_skill_lists(additional_stopwords):
                          'microsoft', 
                          'mlflow',
                          'mlib',
+                         'mllib',
                          'model',
                          'mongodb',
                          'monte',
@@ -4616,6 +4654,7 @@ def nlp_skill_lists(additional_stopwords):
                            'proposal',
                            'prototype',
                            'proven',
+                           'punctual',
                            'recommendation',
                            'requirement',
                            'review',
@@ -4694,7 +4733,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     n_grams.reset_index(inplace=True, drop=True)
     n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
     
-    # print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
+    print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
     return n_grams
 
@@ -4741,6 +4780,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     None.
 
     '''    
+####### !!!!!!!! WORKING HERE: Iron out and master the import process for new data     
     # Step 1: create the skill lists
     ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
      
@@ -4752,11 +4792,12 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 100 # 3900, 4000 # NEXT - advance the range
+    n_gram_range_start, n_gram_range_stop  = 100, 300
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # Step 5: Print in convenient form for addition to additional_stopword list
-    n_grams = [x[2:-3] for x in list(n_grams.index)] # This can be swapped for the regex code
+    # n_grams = [x[2:-3] for x in list(n_grams.index)] # This can be swapped for the regex code; this stopped working on 2022-03-10
+    n_grams = [x for x in list(n_grams.grams)]
     print(f'List of ngrams for new data parsing:\n{n_grams}\n')
 
 
