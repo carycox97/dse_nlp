@@ -80,7 +80,8 @@ def load_and_concat_csvs(csv_path):
 
     # calculate and display high-level statistics for the imported data
     print('\n***** Data Ingest Statistics ***** \n')
-    print(f'Records imported: {df_raw.shape[0]} \n')
+    print(f'csvs imported: {len(all_csvs)} \n')
+    print(f'Job listings imported: {df_raw.shape[0]} \n')
     print(f'Unique job titles: {df_raw.job_title.nunique()} \n')
     print(f'Nulls are present:\n{df_raw.isna().sum()} \n')
     print(f'Records missing job_title field: {(df_raw.job_title.isna().sum() / df_raw.shape[0] * 100).round(3)}%')
@@ -1052,24 +1053,22 @@ def clean_terms_for_nlp(series_of_interest):
                                             'wellestablished', 'faulttolerant', 'cheminformatics', 'hpe', 'ev', 'consultings',
                                             'agronomic', '2010', 'midb', 'invision', 'didnt', 'valueadd', 'cap', 'laserfocused',
                                             'aetna', 'freelancer', 'prospecting', 'ra', 'despite', 'refresh', 'replenishment',
-                                            'seasonal', 'codebases', 'httpcareerstravelerscomlifeattravelersbenefits', 'ace',
+                                            'seasonal', 'codebases',  'ace',
                                             'multiplier', 'b2c', 'reynolds', 'infinite', 'undertaking', 'schwab', '1500',
                                             'omnicell', 'lipost', 'albertsons', '65000','teleworking', 'koch', 'apiai',
                                             'console', 'telehealth', 'columnar', 'metlife', 'mam', 'workrelated',
                                             'preparedness', 'arl', 'com', 'approaching', 'raceethnicity', 'nicetohaves',
-                                            'biweekly', 'statisticstechnologyscienceengineeringapplied', 'super', 'kid',
+                                            'biweekly', 'super', 'kid',
                                             'categorical', 'largely', 'hilton', 'vha', 'skin', 'cb', 'longrange', 'commander', 
                                             'followthrough', 'psychological', 'np', 'c4it', 'amphibious', 'middleware', 'rush',
                                             'erwin', 'httpspearsonbenefitsuscom', 'breakneck', 'digitalfirst', 'mash',
                                             'quizlet', 'reject', 'lowes', 'memorable', 'vested', 'splitting',
                                             'allergan', 'tcpip', 'esteemed', 'steinberg', 'goat', 'protiviti', 'collector',
                                             'devising', 'parse', 'epidemiologist', 'familyfriendly', 'softwareasaservice',
-                                            'deserves', 'reconnaissance', 'earliest', 'sculley', 'shoulder', 'shipt',
-                                            'httpswwwprnewswirecomnewsreleaseszetaglobalopensaidatalabsinsanfranciscoandnyc300945353html',
+                                            'deserves', 'reconnaissance', 'earliest', 'sculley', 'shoulder', 'shipt',                                            
                                             'jack', 'globalreach', 'deepening', 'pson', 'whilst', 'wwwpearsoncom', 'mgb',
                                             'usageperformance', 'stoop', 'emea', 'serial', 'vcs', 'itil', 'behaviorresults',
-                                            'quiet', 'somewhere', 'solidity', 'malicious', 'cecl', 'graduated', 'cst',                                            
-                                            'httpswwwprnewswirecomnewsreleaseszetaglobalrecognizedinenterprisemarketingsoftwareandcrosschannelcampaignmanagementreportsbyindependentresearchfirm300938241html',
+                                            'quiet', 'somewhere', 'solidity', 'malicious', 'cecl', 'graduated', 'cst',                                                                                        
                                             'citrine', 'quadrant', '101', 'identifier', '03', 'miningdata', 'infrastructureascode',
                                             'achieves', 'governed', 'resumescvs', 'overlap', 'confusion', 'witai', 'os', 'flock',
                                             'massively', 'singlecell', 'granularity', 'egoless', 'imagined', 'mechanic',
@@ -1111,7 +1110,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'ingested', 'bigbearais', 'importing', 'passport', 'topoftheline', 'cooking',
                                             'playercoach', 'northwestern', 'icf', 'multithreaded', 'jvm', 'golf',
                                             'calibrated', 'touchpoint', 'filling', 'commercialize', '28',
-                                            'httpsnewreliccomtermsandconditionsapplicantprivacypolicy', 'philanthropy',
+                                            'philanthropy',
                                             'intentional', 'accrued', 'granular', 'initiation', 'denial', 'subset',
                                             '7039838226', 'contributed', 'sam', 'cornerstone', 'adwords', 'mrna', 'pentaho',
                                             'toprated', 'statute', 'disabilitymedical', 'similarity', 'liquid', 'allocated',
@@ -1270,7 +1269,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'labelling', 'combatant', 'tandem', 'aspen', 'communitybased', 'castle', 'alwayson', 
                                             'aaai', 'consumercentric', 'definitive', 'im', 'inapp', 'kentucky', 'assuring', 'tiny',
                                             'highfidelity', 'wwwmotionalcom', 'aledade', 'characterbased', 'gogetter', 
-                                            'hardwaresoftware', 'httpswwwfacebookcomastrazenecacareers', 'leaguers', 'tfl', 
+                                            'hardwaresoftware', 'leaguers', 'tfl', 
                                             'atlassians', '2025', 'universitywide', 'luis', 'guardrail', 'pleasant', 'at', 
                                             'maritime', 'lover', 'satisfying', 'zeppelin', 'fidelitycareerscom',
                                             'generic', 'ky', 'roche', 'defending', 'swe', 'cytel', 'rev', 'synchronization',
@@ -1554,12 +1553,14 @@ def clean_terms_for_nlp(series_of_interest):
                   'partnership': 'collaborate',
                   'partnered': 'collaborate',
                   'partner': 'collaborate',
+                  'personable': 'collaborate',
                   'player': 'collaborate',
                   'team': 'collaborate',
                   'teambased': 'collaborate',
                   'teamdriven': 'collaborate',
                   'teaming': 'collaborate',
                   'teamfirst': 'collaborate',
+                  'teamfocused': 'collaborate',
                   'teammate': 'collaborate',
                   'teamwork': 'collaborate',
                   'teamoriented': 'collaborate',
@@ -1612,6 +1613,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'reportsdashboards': 'dashboard',
                   'dashboarding': 'dashboard',
                   'dataai': 'data ai',
+                  'databasesdata': 'database data',
                   'dataset': 'data',
                   'datasets': 'data',
                   'dataanalytics': 'data analytics',
@@ -1718,6 +1720,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'greatly': 'excellence',
                   'greatness': 'excellence',
                   'working': 'experience',
+                  'experienceeducation': 'experience',
                   'experienced': 'experience',
                   'experimental': 'experiment',
                   'experimentation': 'experiment',
@@ -4792,7 +4795,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 100, 300
+    n_gram_range_start, n_gram_range_stop  = 0, 100
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # Step 5: Print in convenient form for addition to additional_stopword list
