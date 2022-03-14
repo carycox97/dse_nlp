@@ -1646,6 +1646,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'develops': 'development',
                   'developer': 'development',
                   'developing': 'development',
+                  'devopsfocused': 'devops',
                   'devsecops': 'devops',
                   'hardworking': 'diligent',
                   'hard': 'diligent',
@@ -2041,6 +2042,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'prototype': 'prototyping',
                   'fluency': 'proven',
                   'fluent': 'proven',
+                  'fluently': 'proven',
                   'record': 'proven',
                   'python3': 'python',
                   'pythonbased': 'python',
@@ -2066,6 +2068,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'reliability': 'reliable',
                   'repeatability': 'repeatable',
                   'researcher': 'research',
+                  'fortitude': 'resilient',
                   'persistent': 'resilient',
                   'persistence': 'resilient',
                   'resilience': 'resilient',
@@ -2131,6 +2134,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'statisticalmachine': 'statistics machine',
                   'statisticalml': 'statistics machine learning',
                   'statisticalmathematical': 'statistics mathematics',
+                  'stochasticprocesses': 'stochastic',
                   'present': 'storytelling',
                   'presentation': 'storytelling',
                   'storyboarding': 'storytelling',
@@ -4794,7 +4798,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 100
+    n_gram_range_start, n_gram_range_stop  = 100, 300
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # Step 5: Print in convenient form for addition to additional_stopword list
