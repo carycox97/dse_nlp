@@ -1451,10 +1451,11 @@ def clean_terms_for_nlp(series_of_interest):
                   'analyzed': 'analytics',
                   'analyzing': 'analytics',
                   'analyze': 'analytics',
-                  'dataanalyticsinformation': 'data analytics',
                   'reportinganalytics': 'analytics',
+                  'dataanalyticsinformation': 'analytics data',
                   'analyticsdata': 'analytics data',
                   'analysismodeling': 'analytics model',
+                  'processinganalyticsscience': 'analytics science',
                   'apis': 'api',
                   'applying': 'applied',
                   'esri': 'arcgis',
@@ -4814,7 +4815,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 400, 600
+    n_gram_range_start, n_gram_range_stop  = 0, 200
     n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # Step 5: Print in convenient form for addition to additional_stopword list
