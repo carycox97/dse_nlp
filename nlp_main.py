@@ -1378,7 +1378,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             '607415a', 'discovers', 'comp', 'multimedia', 'opportunityaffirmative',
                                             'strauss', 'ribbon', 'outfit', 'uscentcom', 'scientistengineer', 'hyperpersonalized',
                                             'sow', 'rebellion', 'unposting', 'artifactory', 'subsequently', 'out', 'c2c', 'mph',
-                                            'surrogacy', 'kwx', 'replicate', 'bioinformatic', 'distributes', 'inter', 
+                                            'surrogacy', 'kwx', 'replicate', 'distributes', 'inter', 
                                             'abnormality', 'installed', 'basket', 'agendasetting', 'iowa', 'expertly', 
                                             'wwwguidehousecom', 'briefly', 'persuasion', 'commencing', 'productionalizing',
                                             'licensures', 'budgetary', '119880','patreon', 
@@ -1431,6 +1431,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'aidata': 'ai data',
                   'aimachine': 'ai machine',
                   'aiml': 'ai machine learning',
+                  'aimldata': 'ai machine learning data',
                   'aimlnlp': 'ai machine learning nlp',
                   'ainlp': 'ai nlp',
                   'aipytorch': 'ai pytorch',
@@ -1472,6 +1473,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'autonomously': 'automate',
                   'fullyautonomous': 'automate',
                   'autonomous': 'automate',
+                  'awsazure': 'aws azure',
+                  'baccalaureate': 'bachelors',
                   'bachelor': 'bachelors',
                   'bsc': 'bachelors',
                   'bachelorsmasters': 'bachelors masters',
@@ -1480,18 +1483,23 @@ def clean_terms_for_nlp(series_of_interest):
                   'undergraduate': 'bachelors',
                   'master': 'masters',
                   'bayesian': 'bayes',
+                  'bestpractice': 'best practice',
                   'bestpractices': 'best practice',
                   'large': 'big',
                   'bigdata': 'big data',
                   'multiterabyte': 'big data',
                   'petabyte': 'big data',
+                  'petabytescale': 'big data',
                   'terabyte': 'big data',
                   'teradata': 'big data',
                   'bigquery': 'big query',
+                  'bioinformatic': 'bioinformatics',
+                  'bioinformatician': 'bioinformatics',
                   'biochemistry': 'bioscience',
                   'bioengineering': 'bioscience',
                   'biology': 'bioscience',
                   'biological': 'bioscience',
+                  'biophysics': 'bioscience',
                   'epidemiology': 'bioscience',
                   'neuroscience': 'bioscience',
                   'biostatisticians': 'biostatistics',
@@ -1533,6 +1541,8 @@ def clean_terms_for_nlp(series_of_interest):
                   'decisionmaker': 'client',
                   'decisionmaking': 'client',
                   'decisionmakers': 'client',
+                  'firmsclients' : 'client',
+                  'usercentered' : 'client',
                   'cloudbased': 'cloud',
                   'cloudnative': 'cloud',
                   'cloudready': 'cloud',
@@ -1550,6 +1560,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'cooperative': 'collaborate',
                   'cooperate': 'collaborate',
                   'coworkers': 'collaborate',
+                  'downtoearth': 'collaborate',
                   'inform': 'collaborate',
                   'interact': 'collaborate',
                   'partnering': 'collaborate',
@@ -1663,6 +1674,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'containerbased': 'docker',
                   'containerization': 'docker',
                   'containerized': 'docker',
+                  'containerizing': 'docker',
                   'container': 'docker',
                   'document': 'documenting',
                   'domainspecific': 'domain knowledge',
@@ -1790,13 +1802,16 @@ def clean_terms_for_nlp(series_of_interest):
                   'gpus': 'gpu',
                   'graduatelevel': 'graduate',
                   'graphbased': 'graph',
+                  'hadoopdata': 'hadoop data',
                   'hadoopspark': 'hadoop spark',
+                  'lakehadoop' : 'data lake hadoop',
                   'help': 'helpful',
                   'helped': 'helpful',
                   'helping': 'helpful',
                   'holistically': 'holistic',
                   'highperformance': 'hpc',
                   'html5': 'html',
+                  'htmlcss': 'html',
                   'hypothesisdriven': 'hypothesis',
                   'identify': 'identification',
                   'identifies': 'identification',
@@ -1838,6 +1853,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'creativity': 'innovative',
                   'creative': 'innovative',
                   'creatively': 'innovative',
+                  'outsidethebox': 'innovative',
                   'innovatives': 'innovative',
                   'innovates': 'innovative',
                   'innovation': 'innovative',
@@ -1855,6 +1871,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'iteration': 'iterate',
                   'iterative': 'iterate',
                   'iteratively': 'iterate',
+                  'javascripttypescript': 'java script',
                   'javac': 'java c',
                   'kera': 'keras',
                   'largescale': 'large',
@@ -1890,6 +1907,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'logically': 'logic',
                   'lstms': 'lstm',
                   'machinedeep': 'machine deep',
+                  'learningenhanced': 'machine learning',
                   'machinelearning': 'machine learning',
                   'ml': 'machine learning',
                   'mldriven': 'machine learning',
@@ -2006,6 +2024,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'doctoral': 'phd',
                   'phdms': 'phd masters',
                   'physic': 'physics',
+                  'physicsbased': 'physics',
                   'pipelining': 'pipeline',
                   'platformtensor': 'platform tensor',
                   'postgres': 'postgresql',
@@ -2061,8 +2080,9 @@ def clean_terms_for_nlp(series_of_interest):
                   'pythonbased': 'python',
                   'pythonr': 'python r',
                   'pythonrscala': 'python r scala',
+                  'qliksense': 'qlik',
                   'qlikview': 'qlik',
-                  'qlikviewpower': 'qlik power ',
+                  'qlikviewpower': 'qlik power bi',
                   'quantifying': 'quantitative',
                   'quantify': 'quantitative',
                   'quantitatively': 'quantitative',
@@ -2132,8 +2152,10 @@ def clean_terms_for_nlp(series_of_interest):
                   'sparkml': 'spark machine learning',
                   'sparksql': 'spark sql',
                   'speechlanguage': 'speech',
+                  'spectroscopy': 'spectrometry',
                   'sqlbased': 'sql',
                   'slq': 'sql',
+                  'sqlonhadoop':'sql hadoop',
                   'transactsql': 'sql',
                   'tsql': 'sql',
                   'sqlnosql': 'sql nosql',
@@ -2152,6 +2174,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'present': 'storytelling',
                   'presentation': 'storytelling',
                   'storyboarding': 'storytelling',
+                  'storyboards': 'storytelling',
                   'storyteller': 'storytelling',
                   'story': 'storytelling',
                   'presenting': 'storytelling',
@@ -2165,6 +2188,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'smes': 'subject matter expert',
                   'supervisedunsupervised': 'supervised unsupervised',
                   'svms': 'svm',
+                  'tableausplunkcvent': 'tableau splunk computer vision',
                   'tech': 'technical',
                   'technically': 'technical',
                   'technological': 'technology',
@@ -2313,7 +2337,8 @@ def visualize_indeed_metadata(df):
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     
 
-def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
+def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
+                      terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -3959,6 +3984,7 @@ def nlp_skill_lists(additional_stopwords):
                            'amazon',
                            'anaconda',
                          'analytics',
+                         'angularjs',
                          'anomaly', 
                          'anova',
                          'ansible',
@@ -3982,6 +4008,7 @@ def nlp_skill_lists(additional_stopwords):
                          'automate',
                          'auto',
                          'automl',
+                         'avro',
                          'aws', 
                          'azure',
                          'bandit',
@@ -3998,6 +4025,7 @@ def nlp_skill_lists(additional_stopwords):
                          'breakthrough',
                          'build', 
                          'c',
+                         'cad',
                          'caffe',
                          'calculus',
                          'carlo',
@@ -4005,6 +4033,7 @@ def nlp_skill_lists(additional_stopwords):
                          'categorize',
                          'causal', 
                          'center',
+                         'centos',
                          'cicd',
                          'chain',
                          'chart',
@@ -4040,6 +4069,7 @@ def nlp_skill_lists(additional_stopwords):
                          'cplex',
                          'crf',
                          'crm',
+                         'crowdstrike',
                          'csv',
                          'cuda',
                          'curate',
@@ -4112,6 +4142,9 @@ def nlp_skill_lists(additional_stopwords):
                          'forecast',
                          'forest',
                          'formulation',
+                         'fortify',
+                         'fortran',
+                         'fpga',
                          'framework',
                          'fraud', 
                          'full', 
@@ -4135,6 +4168,7 @@ def nlp_skill_lists(additional_stopwords):
                          'gradient', 
                          'graph',
                          'graphql',
+                         'groovy',
                          'grpc',
                          'gtm',
                          'h2o',
@@ -4142,6 +4176,7 @@ def nlp_skill_lists(additional_stopwords):
                          'hana',
                          'hardware',
                          'hbase',
+                         'hcatalog',
                          'hdfs',
                          'hidden',
                          'hierarchical',
@@ -4150,6 +4185,7 @@ def nlp_skill_lists(additional_stopwords):
                          'hpcml',
                          'html', 
                          'hyperparameter',
+                         'hyperv',
                          'hypothesis', 
                          'ide',
                          'identification',
@@ -4193,6 +4229,7 @@ def nlp_skill_lists(additional_stopwords):
                          'label',
                          'lake',
                          'lda', 
+                         'ldap',
                          'learning',
                          'lex',
                          'library',
@@ -4250,6 +4287,7 @@ def nlp_skill_lists(additional_stopwords):
                          'neo4j',
                          'network',
                          'neural', 
+                         'nginx',
                          'nifi',
                          'nlp',
                          'nltk',
@@ -4343,6 +4381,7 @@ def nlp_skill_lists(additional_stopwords):
                          'recognition',
                          'recommendation', 
                          'recommender',
+                         'redhat',
                          'redis',
                          'redshift', 
                          'reduction',
@@ -4412,6 +4451,7 @@ def nlp_skill_lists(additional_stopwords):
                          'skewness',
                          'skill',
                          'sklearn',
+                         'snaplogic',
                          'snowflake',
                          'soa',
                          'software',
@@ -4433,6 +4473,7 @@ def nlp_skill_lists(additional_stopwords):
                          'sql',
                          'sqoop',
                          'sqs',
+                         'sre',
                          'ssis',
                          'stack',
                          'statsmodels',
@@ -4471,6 +4512,7 @@ def nlp_skill_lists(additional_stopwords):
                          'tree',
                          'trend',
                          'typescript',
+                         'ubuntu',
                          'uncover', 
                          'unix',
                          'univariate',
@@ -4720,7 +4762,7 @@ def nlp_skill_lists(additional_stopwords):
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined
 
 
-def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop):
+def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop, print_flag=False):
     '''
     Count the volume of n_grams present within the job_description field of the Indeed data.
 
@@ -4757,7 +4799,9 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     n_grams.reset_index(inplace=True, drop=True)
     n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
     
-    print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
+    print_flag=True
+    if print_flag == True:
+        print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
     return n_grams
 
@@ -4815,13 +4859,13 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 200
-    n_grams = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    n_gram_range_start, n_gram_range_stop  = 600, 800
+    _ = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop, print_flag=True)
     
-    # Step 5: Print in convenient form for addition to additional_stopword list
+    # (Optional) Step 5: Print in convenient form for addition to additional_stopword list
     # n_grams = [x[2:-3] for x in list(n_grams.index)] # This can be swapped for the regex code; this stopped working on 2022-03-10
-    n_grams = [x for x in list(n_grams.grams)]
-    print(f'List of ngrams for new data parsing:\n{n_grams}\n')
+    # n_grams = [x for x in list(n_grams.grams)]
+    # print(f'List of ngrams for new data parsing:\n{n_grams}\n')
 
 
 ###### MAIN EXECUTION BELOW ######
