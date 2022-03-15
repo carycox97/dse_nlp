@@ -4799,7 +4799,6 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     n_grams.reset_index(inplace=True, drop=True)
     n_grams['grams'] = [" ".join(re.findall("[a-zA-Z0-9]+", x)) for x in n_grams['grams']]
     
-    print_flag=True
     if print_flag == True:
         print(f'Count of ngrams for new data parsing:\n{n_grams}\n')
 
