@@ -3274,7 +3274,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             
             # identify and silence noisy, duplicate or unhelpful bigrams 
             bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
-            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
+            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
             
             # calculate sum of all technical skill terms for both rows and columns
             df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
@@ -3599,7 +3599,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             
             # identify and silence noisy, duplicate or unhelpful bigrams 
             bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
-            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence)
+            df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
             
             # calculate sum of all technical skill terms for both rows and columns
             df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
