@@ -3825,15 +3825,44 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 ####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  
-def visualize_subtopic():
+def visualize_subtopic(subtopic_list): #subtopic_python
+    # generate monograms from the full terms_for_nlp list
+    n_gram_count = 1
+    n_gram_range_start, n_gram_range_stop  = 0, 1000
+    monograms = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)    
+
+
+
+
+
+
+    # subset the monograms that appear in the subtopic list
+    mask_monogram = n_grams.grams.isin(subtopic_python)
+    monograms_df_sns = n_grams[mask_monogram]    
+    
+    # generate bigrams from the full terms_for_nlp list
+    n_gram_count = 2
+    n_gram_range_start, n_gram_range_stop  = 0, 100
+    bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    
+    # subset the bigrams for which at least one term appears in the technical skills list
+    bigram_match_to_prof_list = [x for x in bigrams.grams if any(b in x for b in ds_prof_skill_terms)]
+    mask_bigram = bigrams.grams.isin(bigram_match_to_prof_list)
+    bigrams_df_sns = bigrams[mask_bigram]
+    
+    
+    
+    
+    
     # bring in the sublist and the main dataframe
+    print(subtopic_list)
     
     # probably need to create the data for the percentage calculation, or perhaps reuse what was already made, df_jobs_raw?
     
     # visualize by count
     
     # visualize by percentage    
-    pass
+
 
 subtopic_python = ['anaconda', 'python', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch',
                    'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv']
@@ -3845,9 +3874,11 @@ subtopic_language = []
 subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
 subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
 
+visualize_subtopic()
 
 
-visualize_subtopic()    
+
+visualize_subtopic(subtopic_python)    
 
 def nlp_skill_lists(additional_stopwords):
     '''
