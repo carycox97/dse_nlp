@@ -3824,7 +3824,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     # save the masked cloud to a png
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
-####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  
+
 def visualize_subtopic(subtopic_list, viz_title): #subtopic_python
     # generate monograms from the full terms_for_nlp list
     n_gram_count = 1
@@ -3864,12 +3864,18 @@ def visualize_subtopic(subtopic_list, viz_title): #subtopic_python
                 ha='left',
                 in_layout=True,
                 wrap=True)
-    
+####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  by percentage
     # create a percentage viz that shows, for every job listing citing 'python', this is the percentage of times each term appears
+    # subset job listings dataframe to only those listings containing 'python'
+    
+    # visualize based on percentage citing each subtopic skill
+    
+    
 
-
-subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch',
-                   'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy']
+subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
+                   'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
+                   'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
+                   'theano', 'word2vec']
 subtopic_aws = ['amazon',]
 subtopic_cloud = ['amazon',]
 subtopic_sas = []
