@@ -3825,19 +3825,17 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 ####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  
-def visualize_subtopic(subtopic_list): #subtopic_python
-    # maybe filter first to the technical skills, then subset those...
-
+def visualize_subtopic(subtopic_list, viz_title): #subtopic_python
     # generate monograms from the full terms_for_nlp list
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, (len(terms_for_nlp) / 2)
+    n_gram_range_start, n_gram_range_stop  = 0, int((len(terms_for_nlp) / 2))
     monograms = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)    
 
     # subset the monograms that appear in the subtopic list
-    mask_monogram = monograms.grams.isin(subtopic_python)
+    mask_monogram = monograms.grams.isin(subtopic_list)
     monograms_df_sns = monograms[mask_monogram]  
 
-    # create a horizontal barplot visualizing data science skills in the subtopic list
+    # create a horizontal barplot visualizing data science skills in the subtopic list - by count
     plt.figure(figsize=(7, 10))
     sns.set_style('dark')
     sns.set(font_scale = 1.8) 
@@ -3849,7 +3847,7 @@ def visualize_subtopic(subtopic_list): #subtopic_python
                      orient='h',
                      palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
-    ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Professional Skill', width=40),
+    ax.set_title(textwrap.fill(viz_title, width=40),
                  fontsize=24,
                  loc='center')   
     ax.set(ylabel=None)
@@ -3866,21 +3864,8 @@ def visualize_subtopic(subtopic_list): #subtopic_python
                 ha='left',
                 in_layout=True,
                 wrap=True)
-
-
-
     
-    
-    
-    
-    
-    # bring in the sublist and the main dataframe
-    
-    # probably need to create the data for the percentage calculation, or perhaps reuse what was already made, df_jobs_raw?
-    
-    # visualize by count
-    
-    # visualize by percentage    
+    # create a percentage viz that shows, for every job listing citing 'python', this is the percentage of times each term appears
 
 
 subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch',
@@ -3893,11 +3878,8 @@ subtopic_language = []
 subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
 subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
 
-visualize_subtopic()
 
-
-
-visualize_subtopic(subtopic_python)    
+visualize_subtopic(subtopic_python, viz_title='Python Subtopic')   
 
 def nlp_skill_lists(additional_stopwords):
     '''
