@@ -3826,36 +3826,55 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
 
 ####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  
 def visualize_subtopic(subtopic_list): #subtopic_python
+    # maybe filter first to the technical skills, then subset those...
+
     # generate monograms from the full terms_for_nlp list
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 1000
+    n_gram_range_start, n_gram_range_stop  = 0, (len(terms_for_nlp) / 2)
     monograms = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)    
 
-
-
-
-
-
     # subset the monograms that appear in the subtopic list
-    mask_monogram = n_grams.grams.isin(subtopic_python)
-    monograms_df_sns = n_grams[mask_monogram]    
+    mask_monogram = monograms.grams.isin(subtopic_python)
+    monograms_df_sns = monograms[mask_monogram]  
+
+    # create a horizontal barplot visualizing data science skills in the subtopic list
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.8) 
+        
+    ax = sns.barplot(x='count',
+                     y='grams',
+                     data=monograms_df_sns,
+                     order=monograms_df_sns.sort_values('count', ascending = False).grams[:25],
+                     orient='h',
+                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
-    # generate bigrams from the full terms_for_nlp list
-    n_gram_count = 2
-    n_gram_range_start, n_gram_range_stop  = 0, 100
-    bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Professional Skill', width=40),
+                 fontsize=24,
+                 loc='center')   
+    ax.set(ylabel=None)
+    ax.set_xlabel('Count', fontsize=18)
     
-    # subset the bigrams for which at least one term appears in the technical skills list
-    bigram_match_to_prof_list = [x for x in bigrams.grams if any(b in x for b in ds_prof_skill_terms)]
-    mask_bigram = bigrams.grams.isin(bigram_match_to_prof_list)
-    bigrams_df_sns = bigrams[mask_bigram]
+    plt.figtext(0.330, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=60),
+                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                fontsize=14,
+                color='black',
+                fontweight='regular',
+                style='italic',
+                ha='left',
+                in_layout=True,
+                wrap=True)
+
+
+
     
     
     
     
     
     # bring in the sublist and the main dataframe
-    print(subtopic_list)
     
     # probably need to create the data for the percentage calculation, or perhaps reuse what was already made, df_jobs_raw?
     
@@ -3864,8 +3883,8 @@ def visualize_subtopic(subtopic_list): #subtopic_python
     # visualize by percentage    
 
 
-subtopic_python = ['anaconda', 'python', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch',
-                   'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv']
+subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch',
+                   'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy']
 subtopic_aws = ['amazon',]
 subtopic_cloud = ['amazon',]
 subtopic_sas = []
