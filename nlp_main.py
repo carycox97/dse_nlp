@@ -3835,7 +3835,8 @@ def visualize_subtopic():
     # visualize by percentage    
     pass
 
-subtopic_python = ['anaconda',]
+subtopic_python = ['anaconda', 'python', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch',
+                   'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv']
 subtopic_aws = ['amazon',]
 subtopic_cloud = ['amazon',]
 subtopic_sas = []
