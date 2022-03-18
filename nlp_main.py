@@ -3825,7 +3825,22 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(subtopic_list, viz_title): #subtopic_python
+def visualize_subtopic(subtopic_list, viz_title):
+    '''
+    Visualize counts and percentages of monograms for subtopics of interest.
+
+    Parameters
+    ----------
+    subtopic_list : list
+        List containing monograms of interest for the subtopic (e.g., 'pandas' amd 'numpy' for python libraries).
+    viz_title : string
+        String containing the title for the outputted visualization.
+
+    Returns
+    -------
+    None. Directly outputs visualizations.
+
+    ''' 
     # generate monograms from the full terms_for_nlp list
     n_gram_count = 1
     n_gram_range_start, n_gram_range_stop  = 0, int((len(terms_for_nlp) / 2))
@@ -3864,6 +3879,7 @@ def visualize_subtopic(subtopic_list, viz_title): #subtopic_python
                 ha='left',
                 in_layout=True,
                 wrap=True)
+
 ####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  by percentage
     # create a percentage viz that shows, for every job listing citing 'python', this is the percentage of times each term appears
     # subset job listings dataframe to only those listings containing 'python'
