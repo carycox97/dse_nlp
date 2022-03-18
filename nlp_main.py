@@ -3885,7 +3885,54 @@ def visualize_subtopic(subtopic_list, viz_title):
     # subset job listings dataframe to only those listings containing 'python'
     
     # visualize based on percentage citing each subtopic skill
+    # flag job listings if they contain the credential term (from stack question)
+    ####### !!!!!!!! ON THIS LINE BELOW, WHICH BEGINS THE COPY FROM A PERCENTAGE SECTION ABOVE
+    # will need to bring in df_jobs_raw, into the function
+    df_jobs_mono = df_jobs_raw.copy()
+    df_jobs_mono[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_mono['job_description']]
     
+    # calculate sum of all credential terms for both rows and columns
+    df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
+    df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+    df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
+         
+    # drop all rows except the total row, transform columns and rows and rename the fields
+    df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
+    df_jobs_mono_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
+    
+    # calculate a percentages field; will need to divide by len(df_jobs) * 100
+    df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
+    df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]      
+    
+    # create a horizontal barplot visualizing data science credential monograms as a percentage of job listings
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.8)            
+   
+    ax = sns.barplot(x='percentage',
+                     y='ds_cred_term',
+                     data=df_jobs_mono_sns,
+                     order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                     orient='h',
+                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    
+    ax.set_title(textwrap.fill('**For Cred Parsing: Monograms by Percentage', width=40), # original title: Percentage Key Terms for Data Scientist Credentials
+                 fontsize=24,
+                 loc='center')
+    ax.set(ylabel=None)
+    ax.set_xlabel('Percentage', fontsize=18)
+    
+    plt.figtext(0.330, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=60),
+                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                fontsize=14,
+                color='black',
+                fontweight='regular',
+                style='italic',
+                ha='left',
+                in_layout=True,
+                wrap=True)    
     
 
 subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
