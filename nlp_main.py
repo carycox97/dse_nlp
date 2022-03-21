@@ -3827,7 +3827,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(subtopic_list, viz_title, df_jobs_raw):
+def visualize_subtopic(df_jobs_raw, subtopic_list, viz_title):
     '''
     Visualize counts and percentages of monograms for subtopics of interest.
 
@@ -3891,7 +3891,7 @@ def visualize_subtopic(subtopic_list, viz_title, df_jobs_raw):
     ####### !!!!!!!! ON THIS LINE BELOW, WHICH BEGINS THE COPY FROM A PERCENTAGE SECTION ABOVE
     # will need to bring in df_jobs_raw, into the function
     df_jobs_mono = df_jobs_raw.copy()
-    df_jobs_mono[ds_cred_terms] = [[any(w==term for w in lst) for term in ds_cred_terms] for lst in df_jobs_mono['job_description']]
+    df_jobs_mono[subtopic_list] = [[any(w==term for w in lst) for term in subtopic_list] for lst in df_jobs_mono['job_description']]
     
     # calculate sum of all credential terms for both rows and columns
     df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
@@ -3900,11 +3900,11 @@ def visualize_subtopic(subtopic_list, viz_title, df_jobs_raw):
          
     # drop all rows except the total row, transform columns and rows and rename the fields
     df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
-    df_jobs_mono_sns.rename(columns={'variable': 'ds_cred_term','value': 'count'}, inplace=True)
+    df_jobs_mono_sns.rename(columns={'variable': 'subtopic_term','value': 'count'}, inplace=True)
     
     # calculate a percentages field; will need to divide by len(df_jobs) * 100
     df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
-    df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['ds_cred_term'].str.contains('total')==False]      
+    df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['subtopic_term'].str.contains('total')==False]      
     
     # create a horizontal barplot visualizing data science credential monograms as a percentage of job listings
     plt.figure(figsize=(7, 10))
@@ -3912,13 +3912,13 @@ def visualize_subtopic(subtopic_list, viz_title, df_jobs_raw):
     sns.set(font_scale = 1.8)            
    
     ax = sns.barplot(x='percentage',
-                     y='ds_cred_term',
+                     y='subtopic_term',
                      data=df_jobs_mono_sns,
-                     order=df_jobs_mono_sns.sort_values('percentage', ascending = False).ds_cred_term[:25],
+                     order=df_jobs_mono_sns.sort_values('percentage', ascending = False).subtopic_term[:25],
                      orient='h',
                      palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
-    ax.set_title(textwrap.fill('**For Cred Parsing: Monograms by Percentage', width=40), # original title: Percentage Key Terms for Data Scientist Credentials
+    ax.set_title(textwrap.fill(viz_title, width=40), 
                  fontsize=24,
                  loc='center')
     ax.set(ylabel=None)
@@ -3937,20 +3937,20 @@ def visualize_subtopic(subtopic_list, viz_title, df_jobs_raw):
                 wrap=True)    
     
 
-subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
-                   'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
-                   'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                   'theano', 'word2vec']
-subtopic_aws = ['amazon',]
-subtopic_cloud = ['amazon',]
-subtopic_sas = []
-subtopic_agile = ['agile',]
-subtopic_language = []
-subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
-subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
+# subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
+#                    'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
+#                    'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
+#                    'theano', 'word2vec']
+# subtopic_aws = ['amazon',]
+# subtopic_cloud = ['amazon',]
+# subtopic_sas = []
+# subtopic_agile = ['agile',]
+# subtopic_language = []
+# subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
+# subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
 
 
-visualize_subtopic(subtopic_python, viz_title='Python Subtopic')   
+# visualize_subtopic(subtopic_python, viz_title='Python Subtopic')   
 
 def nlp_skill_lists(additional_stopwords):
     '''
@@ -5017,7 +5017,12 @@ def main_program(csv_path):
     df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
                       terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
     
-    visualize_subtopic(subtopic_list, viz_title, df_jobs_raw)
+    # will need to move subtopic_lists to the nlp_skill_lists function call above, then pass in here
+    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
+                       'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
+                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
+                       'theano', 'word2vec']    
+    visualize_subtopic(df_jobs_raw, subtopic_python, viz_title='Python Subtopic')
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
