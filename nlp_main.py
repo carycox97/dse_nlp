@@ -3734,6 +3734,8 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
     visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
     visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
     visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
+    
+    return df_jobs_raw
 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
@@ -3825,7 +3827,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(subtopic_list, viz_title):
+def visualize_subtopic(subtopic_list, viz_title, df_jobs_raw):
     '''
     Visualize counts and percentages of monograms for subtopics of interest.
 
@@ -5012,8 +5014,10 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
+    df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
                       terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
+    
+    visualize_subtopic(subtopic_list, viz_title, df_jobs_raw)
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
