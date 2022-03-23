@@ -3827,7 +3827,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(df_jobs_raw, subtopic_list, viz_title):
+def visualize_subtopic(df_jobs_raw, terms_for_nlp, subtopic_list, viz_title):
     '''
     Visualize counts and percentages of monograms for subtopics of interest.
 
@@ -3870,17 +3870,18 @@ def visualize_subtopic(df_jobs_raw, subtopic_list, viz_title):
     ax.set(ylabel=None)
     ax.set_xlabel('Count', fontsize=18)
     
-    plt.figtext(0.330, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=60),
-                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-                fontsize=14,
-                color='black',
-                fontweight='regular',
-                style='italic',
-                ha='left',
-                in_layout=True,
-                wrap=True)
+    # TURN THIS BACK ON BEFORE FINALIZING THE FUNCTION
+    # plt.figtext(0.330, 0.010,
+    #             textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+    #                           width=60),
+    #             bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+    #             fontsize=14,
+    #             color='black',
+    #             fontweight='regular',
+    #             style='italic',
+    #             ha='left',
+    #             in_layout=True,
+    #             wrap=True)
 
 ####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  by percentage
     # create a percentage viz that shows, for every job listing citing 'python', this is the percentage of times each term appears
@@ -5022,7 +5023,7 @@ def main_program(csv_path):
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec']    
-    visualize_subtopic(df_jobs_raw, subtopic_python, viz_title='Python Subtopic')
+    visualize_subtopic(df_jobs_raw, terms_for_nlp, subtopic_python, viz_title='Python Subtopic')
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
