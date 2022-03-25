@@ -3882,6 +3882,7 @@ def visualize_subtopic(df_jobs_raw, terms_for_nlp, subtopic_list, viz_title):
     #             ha='left',
     #             in_layout=True,
     #             wrap=True)
+     
 
 ####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  by percentage
     # create a percentage viz that shows, for every job listing citing 'python', this is the percentage of times each term appears
@@ -5264,6 +5265,147 @@ del start_time, end_time
 # shell command to count total lines of code:
 # pygount --format=summary .
 
+
+
+######DOUBLE
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
+
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [word.replace(str(term_fixes.keys()), str(term_fixes.values())) for word in x])
+
+# # The originals
+# df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
+# terms_for_nlp = list(df_term_fixes['terms'])
+
+# # Failures
+# df_jobs['job_description'].replace(list(term_fixes.keys()), list(term_fixes.values()), regex=False, inplace=True)
+# df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
+# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
+# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False)
+# df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # failed when df records are lists
+# df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # still fails
+
+
+# # seeking help
+# # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
+# # 'Age':[20, 21, 19, 18]}
+# # df = pd.DataFrame(data)
+       
+        
+# trying from stackoverflow
+# for k in term_fixes:
+#     df_jobs['test'] = (df_jobs['job_description'].str.replace(r'(^|(?<= )){}((?= )|$)'.format(k), term_fixes[k]))
+
+# DON'T THINK I NEED THIS STUFF BELOW    
+# apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
+# df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
+
+# # function to apply parts of speech tags
+# def get_wordnet_pos(tag):
+#     if tag.startswith('J'):
+#         return wordnet.ADJ
+#     elif tag.startswith('V'):
+#         return wordnet.VERB
+#     elif tag.startswith('N'):
+#         return wordnet.NOUN
+#     elif tag.startswith('R'):
+#         return wordnet.ADV
+#     else:
+#         return wordnet.NOUN
+
+# # tag parts of speech
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [(word, get_wordnet_pos(pos_tag)) for (word, pos_tag) in x])
+
+# # lemmatize
+# wnl = WordNetLemmatizer()
+# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
+
+# second stackoverflow question
+# df = pd.DataFrame(data={'job_description': [['innovative', 'data', 'science'],
+#                                             ['scientist', 'have', 'a', 'masters'],
+#                                             ['database', 'rf', 'innovative'],
+#                                             ['sciencebased', 'data', 'performance']],
+#                         'innovative': [True, False, True, False],
+#                         'data': [True, False, False, True],
+#                         'rf': [False, False, True, False]})
+
+# alternate solutions to the skill list flagging operation
+# start_time = time.time()
+# e = df_jobs['job_description'].explode()
+# df_jobs[ds_cred_terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in ds_cred_terms], axis=1)
+# print(time.time() - start_time)
+
+# start_time = time.time()
+# e = df_jobs['job_description'].explode()
+# df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
+# print(time.time() - start_time)
+
+# # TRYING STACKOVERFLOW REGEX ANSWER #1
+# #regex = '|'.join('(%s)' % b.replace(' ', r'\s+') for b in bigram_match_to_cred_list)
+# regex = '|'.join('(%s)' % b for b in bigram_match_to_cred_list)
+# # matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
+# matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna().groupby(level=0).max())
+# matches.columns = bigram_match_to_cred_list
+# out = df_jobs.join(matches).fillna(False)
+
+# TRYING STACKOVERFLOW REGEX ANSWER #2
+# import pandas as pd
+# import numpy as np
+# import nltk
+
+# bigrams = ['data science', 'computer science', 'bachelors degree']
+# df = pd.DataFrame(data={'job_description': [['data', 'science', 'degree', 'expert'],
+#                                             ['computer', 'science', 'degree', 'masters'],
+#                                             ['bachelors', 'degree', 'computer', 'vision'],
+#                                             ['data', 'processing', 'science']]})
+
+# # ORIGINAL
+# def find_bigrams(data):
+#     output = np.zeros((data.shape[0], len(bigrams)), dtype=bool)
+#     for i, d in enumerate(data):
+#         possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+#         indices = np.where(np.isin(bigrams, list(set(bigrams).intersection(set(possible_bigrams)))))
+#         output[i, indices] = True
+#     return list(output.T)
+
+# output = find_bigrams(df['job_description'].to_numpy())
+# df = df.assign(**dict(zip(bigrams, output)))
+
+# # MY IMPLEMENTATION AND YES THIS WORKS!!
+# def find_bigram_match_to_cred_list(data):
+#     output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
+#     for i, d in enumerate(data):
+#         possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+#         indices = np.where(np.isin(bigram_match_to_cred_list, list(set(bigram_match_to_cred_list).intersection(set(possible_bigrams)))))
+#         output[i, indices] = True
+#     return list(output.T)
+
+# output = find_bigram_match_to_cred_list(df_jobs['job_description'].to_numpy())
+# df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
+
+# Alternate Title Brainstorm for Skill Bar Charts
+# Consider making each chart a call to action
+# Original: Key Terms and Phrases for Data Scientist Credentials
+# What Credentials Employers are Looking For 
+# What You Need to Know for Credentials
+# Credentials to Focus on 
+# Breaking Down Credentials
+# Credential Focus Points
+# Priority Items for Data Scientist Credentials
+# Priority Objects for Credentials
+# Where to Focus Your Credentialing Efforts
+# Focus Areas for Your Credentialing
+# Where to Prioritize Your Credentialing
+# Maximizing Your Credentials
+# Maximizing the Value of Your Credentials
+# Getting Your Credentials to Excellence
+# Where to Focus Your Credentials
+# Focus Your Credentialing on These Key Areas ##############
+# Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
+# Credential Intensity: A Measure of How Deeply Employers Care
+# Consider How Intensely Employers Care about Each Credential Focus Area
+
+# shell command to count total lines of code:
+# pygount --format=summary .
 
 
 
