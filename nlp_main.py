@@ -4876,7 +4876,13 @@ def nlp_skill_lists(additional_stopwords):
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
     print(f'Stopword pollutants: {stopword_pollutants}\n')
     
-    return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined
+    # create lists for subtopics of interest
+    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
+                       'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
+                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
+                       'theano', 'word2vec'] 
+    
+    return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python
 
 
 def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop, print_flag=False):
@@ -5004,7 +5010,7 @@ def main_program(csv_path):
     terms_for_nlp, additional_stopwords, term_fixes = clean_terms_for_nlp(series_of_interest)
     
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
-    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
+    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python = nlp_skill_lists(additional_stopwords)
     
     # count all n_grams 
     n_gram_count = 1
@@ -5018,12 +5024,6 @@ def main_program(csv_path):
     # visualize n_grams and skill lists as horizontal bar plots
     df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
                       terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
-    
-    # will need to move subtopic_lists to the nlp_skill_lists function call above, then pass in here
-    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
-                       'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
-                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec']    
     
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, viz_title='Python Subtopic')
 
