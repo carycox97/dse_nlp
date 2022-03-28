@@ -3870,28 +3870,19 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, viz_title)
     ax.set(ylabel=None)
     ax.set_xlabel('Count', fontsize=18)
     
-    # TURN THIS BACK ON BEFORE FINALIZING THE FUNCTION
-    # plt.figtext(0.330, 0.010,
-    #             textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-    #                           width=60),
-    #             bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-    #             fontsize=14,
-    #             color='black',
-    #             fontweight='regular',
-    #             style='italic',
-    #             ha='left',
-    #             in_layout=True,
-    #             wrap=True)
+    plt.figtext(0.330, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=60),
+                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                fontsize=14,
+                color='black',
+                fontweight='regular',
+                style='italic',
+                ha='left',
+                in_layout=True,
+                wrap=True)
      
-
-####### !!!!!!!! WORKING HERE: Create function to visualize subtopic lists  by percentage
-    # create a percentage viz that shows, for every job listing citing 'python', this is the percentage of times each term appears
-    # subset job listings dataframe to only those listings containing 'python'
-    
-    # visualize based on percentage citing each subtopic skill
-    # flag job listings if they contain the credential term (from stack question)
-    ####### !!!!!!!! ON THIS LINE BELOW, WHICH BEGINS THE COPY FROM A PERCENTAGE SECTION ABOVE
-    # will need to bring in df_jobs_raw, into the function
+    # create a horizontal barplot visualizing data science skills in the subtopic list - by percentage
     df_jobs_mono = df_jobs_raw.copy()
     df_jobs_mono[subtopic_list] = [[any(w==term for w in lst) for term in subtopic_list] for lst in df_jobs_mono['job_description']]
     
@@ -3937,22 +3928,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, viz_title)
                 ha='left',
                 in_layout=True,
                 wrap=True)    
-    
 
-# subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
-#                    'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
-#                    'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-#                    'theano', 'word2vec']
-# subtopic_aws = ['amazon',]
-# subtopic_cloud = ['amazon',]
-# subtopic_sas = []
-# subtopic_agile = ['agile',]
-# subtopic_language = []
-# subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
-# subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
-
-
-# visualize_subtopic(subtopic_python, viz_title='Python Subtopic')   
 
 def nlp_skill_lists(additional_stopwords):
     '''
@@ -3977,7 +3953,8 @@ def nlp_skill_lists(additional_stopwords):
     ds_skills_combined : list
         Contains combination of all keywords from ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, 
         and ds_prof_skill_terms.
-
+    subtopic_python : list
+        Contains keywords pertaining only to python-specific tech (e.g., 'pandas', 'numpy', 'anaconda', etc.)
     '''
     
     # establish credential and skill lists for nlp filtering
@@ -4881,6 +4858,13 @@ def nlp_skill_lists(additional_stopwords):
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec'] 
+    # subtopic_aws = ['amazon',]
+    # subtopic_cloud = ['amazon',]
+    # subtopic_sas = []
+    # subtopic_agile = ['agile',]
+    # subtopic_language = []
+    # subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
+    # subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
     
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python
 
@@ -4991,7 +4975,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 
 
 ###### MAIN EXECUTION BELOW ######
-
+####### !!!!!!!! WORKING HERE: 
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
@@ -5010,7 +4994,8 @@ def main_program(csv_path):
     terms_for_nlp, additional_stopwords, term_fixes = clean_terms_for_nlp(series_of_interest)
     
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
-    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python = nlp_skill_lists(additional_stopwords)
+    (ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms,
+     ds_prof_skill_terms, ds_skills_combined, subtopic_python) = nlp_skill_lists(additional_stopwords)
     
     # count all n_grams 
     n_gram_count = 1
@@ -5023,7 +5008,7 @@ def main_program(csv_path):
     
     # visualize n_grams and skill lists as horizontal bar plots
     df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
-                      terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
+                                    terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
     
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, viz_title='Python Subtopic')
 
