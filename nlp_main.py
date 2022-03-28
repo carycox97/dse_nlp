@@ -4050,6 +4050,22 @@ def nlp_skill_lists(additional_stopwords):
                      'training',
                      'understand',
                      'year']  
+####### !!!!!!!! WORKING HERE: create subtopic lists
+    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
+                       'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
+                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
+                       'theano', 'word2vec'] 
+    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora',]
+    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure',]
+    subtopic_sas = []
+    subtopic_agile = ['agile',]
+    subtopic_language = ['python', 'r', 'sql', 'julia']
+    subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet',]
+    subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'arima']
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp']
+    subtopic_deep_learning = ['autoencoder', 'automl',]
+    
+    print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling, subtopic_math_models, subtopic_nlp)
     
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -4074,7 +4090,7 @@ def nlp_skill_lists(additional_stopwords):
                          'anomaly', 
                          'anova',
                          'ansible',
-                         'ansys', ###
+                         'ansys', 
                          'apache', 
                          'api',
                          'application',
@@ -4096,7 +4112,7 @@ def nlp_skill_lists(additional_stopwords):
                          'automl',
                          'avro',
                          'aws', 
-                         'azure',
+                         'azure',   ###
                          'bandit',
                          'bash',
                          'batch',
@@ -4975,7 +4991,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 
 
 ###### MAIN EXECUTION BELOW ######
-####### !!!!!!!! WORKING HERE: 
+
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
