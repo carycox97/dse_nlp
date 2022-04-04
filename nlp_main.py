@@ -4060,10 +4060,10 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_sas = []
     subtopic_agile = ['agile',]
     subtopic_language = ['python', 'r', 'sql', 'julia']
-    subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet',]
-    subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'arima']
+    subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',]
+    subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes',]
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp']
-    subtopic_deep_learning = ['autoencoder', 'automl',]
+    subtopic_deep_learning = ['autoencoder', 'automl']
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling, subtopic_math_models, subtopic_nlp)
     
@@ -4112,11 +4112,11 @@ def nlp_skill_lists(additional_stopwords):
                          'automl',
                          'avro',
                          'aws', 
-                         'azure',   ###
+                         'azure',
                          'bandit',
                          'bash',
                          'batch',
-                         'bayes',
+                         'bayes',   ###
                          'behavioral',
                          'bi',
                          'big',
