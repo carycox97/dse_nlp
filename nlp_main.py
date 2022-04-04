@@ -4110,18 +4110,6 @@ def nlp_skill_lists(additional_stopwords):
                          'automate',
                          'auto',
                          'automl',
-                         
-                         
-                         
-                         
-                         
-                         
-                         
-                         
-                         
-                         
-                         
-                         
                          'avro',
                          'aws', 
                          'azure',   ###
