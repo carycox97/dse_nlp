@@ -4054,21 +4054,23 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'bokeh', 'caffe'] 
+                       'theano', 'word2vec', 'corenlp', 'dash',] 
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora',]
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud',]
     subtopic_sas = []
     subtopic_agile = ['agile',]
-    subtopic_language = ['python', 'r', 'sql', 'julia', 'c']
+    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'dax',]
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
-                        'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos',]
-    subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
-                            'carlo', 'classifiction', 'clustering']
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp']
+                        'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
+                        'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi',]
+    subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
+                            'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential',]
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus']
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional',]
+    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib',]
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
-          subtopic_math_models, subtopic_nlp, subtopic_deep_learning)
+          subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz)
     
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -4166,7 +4168,7 @@ def nlp_skill_lists(additional_stopwords):
                          'continuous',
                          'control',
                          'convex',
-                         'convolutional',     ###
+                         'convolutional',
                          'corenlp',
                          'corpus',
                          'correlation',
@@ -4206,7 +4208,7 @@ def nlp_skill_lists(additional_stopwords):
                          'dimensional',
                          'dimensionality', 
                          'disparate',
-                         'distributed', 
+                         'distributed',      ###
                          'dlp',
                          'docker',
                          'domo',
