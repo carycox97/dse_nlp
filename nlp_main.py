@@ -4050,11 +4050,11 @@ def nlp_skill_lists(additional_stopwords):
                      'training',
                      'understand',
                      'year']  
-####### !!!!!!!! WORKING HERE: create subtopic lists
+####### !!!!!!!! WORKING HERE: create subtopic lists; will want to work backwards for each topic, too
     subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'corenlp', 'dash',] 
+                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask',] 
     
     subtopic_r = ['caret', 'dplyr']
    
@@ -4066,20 +4066,24 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_agile = ['agile',]
     
-    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'dax',]
+    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'dax', 'fortran',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
-                        'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo',]
+                        'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
+                        'fivetran', 'flume', 'fortify',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
-                            'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',]
+                            'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
+                            'ensemble', 'forest', 'gaussian', 'gbm',] # will need to figure out monograms/bigrams
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus']
     
-    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional',]
+    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan',]
     
     subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo',]
+    
+    # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r)
@@ -4239,7 +4243,7 @@ def nlp_skill_lists(additional_stopwords):
                          'empirical',
                          'endtoend',
                          'engine',
-                         'engineering',      ###
+                         'engineering', 
                          'ensemble',
                          'enterprise',
                          'environment',
@@ -4257,7 +4261,7 @@ def nlp_skill_lists(additional_stopwords):
                          'feature',
                          'filter', 
                          'filtering',
-                         'fivetran', 
+                         'fivetran',
                          'flask',
                          'flume',
                          'forecast',
@@ -4277,7 +4281,7 @@ def nlp_skill_lists(additional_stopwords):
                          'gaussian',
                          'gbm',
                          'gensim',
-                         'geospatial',
+                         'geospatial',      ###
                          'gcp',
                          'ggplot',
                          'git',
