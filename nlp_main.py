@@ -4056,16 +4056,16 @@ def nlp_skill_lists(additional_stopwords):
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec', 'bokeh', 'caffe'] 
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora',]
-    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure',]
+    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud',]
     subtopic_sas = []
     subtopic_agile = ['agile',]
     subtopic_language = ['python', 'r', 'sql', 'julia', 'c']
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
-                        'bitbucket', 'cad',]
+                        'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos',]
     subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
-                            'carlo']
+                            'carlo', 'classifiction', 'clustering']
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp']
-    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe']
+    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional',]
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning)
@@ -4133,7 +4133,7 @@ def nlp_skill_lists(additional_stopwords):
                          'cad',
                          'caffe',
                          'calculus',
-                         'carlo',    ###
+                         'carlo',
                          'cassandra',
                          'categorize',
                          'causal', 
@@ -4146,7 +4146,7 @@ def nlp_skill_lists(additional_stopwords):
                          'classification',
                          'cleaning',
                          'cli',
-                         'cloud', 
+                         'cloud',
                          'cloudera',
                          'clustering',
                          'code', 
@@ -4166,7 +4166,7 @@ def nlp_skill_lists(additional_stopwords):
                          'continuous',
                          'control',
                          'convex',
-                         'convolutional',
+                         'convolutional',     ###
                          'corenlp',
                          'corpus',
                          'correlation',
