@@ -4054,17 +4054,18 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec'] 
+                       'theano', 'word2vec', 'bokeh', 'caffe'] 
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora',]
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure',]
     subtopic_sas = []
     subtopic_agile = ['agile',]
-    subtopic_language = ['python', 'r', 'sql', 'julia']
+    subtopic_language = ['python', 'r', 'sql', 'julia', 'c']
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
-                        'bitbucket']
-    subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes',]
+                        'bitbucket', 'cad',]
+    subtopic_math_models = ['algebra', 'lnear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
+                            'carlo']
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp']
-    subtopic_deep_learning = ['autoencoder', 'automl']
+    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe']
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning)
@@ -4122,17 +4123,17 @@ def nlp_skill_lists(additional_stopwords):
                          'behavioral',
                          'bi', 
                          'big',
-                         'bitbucket',   ###
+                         'bitbucket',
                          'blockchain',
                          'bokeh',
                          'bootstrap',
                          'breakthrough',
-                         'build', 
+                         'build',
                          'c',
                          'cad',
                          'caffe',
                          'calculus',
-                         'carlo',
+                         'carlo',    ###
                          'cassandra',
                          'categorize',
                          'causal', 
