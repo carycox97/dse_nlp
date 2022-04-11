@@ -4060,7 +4060,7 @@ def nlp_skill_lists(additional_stopwords):
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch',]
     
-    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud',]
+    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp']
     
     subtopic_sas = []
     
@@ -4282,7 +4282,7 @@ def nlp_skill_lists(additional_stopwords):
                          'gbm',
                          'gensim',
                          'geospatial',      ###
-                         'gcp',
+                         'gcp', # google cloud platform
                          'ggplot',
                          'git',
                          'glm',
