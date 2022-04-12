@@ -4056,7 +4056,7 @@ def nlp_skill_lists(additional_stopwords):
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask',] 
     
-    subtopic_r = ['caret', 'dplyr']
+    subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch',]
     
@@ -4071,7 +4071,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
-                        'fivetran', 'flume', 'fortify',]
+                        'fivetran', 'flume', 'fortify', 'git',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
                             'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4281,11 +4281,11 @@ def nlp_skill_lists(additional_stopwords):
                          'gaussian',
                          'gbm',
                          'gensim',
-                         'geospatial',      ###
-                         'gcp', # google cloud platform
+                         'geospatial',
+                         'gcp', 
                          'ggplot',
                          'git',
-                         'glm',
+                         'glm',      ###
                          'glue',
                          'golang',
                          'gpt',
