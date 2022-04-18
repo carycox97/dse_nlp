@@ -4060,13 +4060,14 @@ def nlp_skill_lists(additional_stopwords):
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue',]
     
-    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp']
+    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o',]
     
     subtopic_sas = []
     
     subtopic_agile = ['agile',]
     
-    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'dax', 'fortran',]
+    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
+                         'hpcml',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4075,9 +4076,9 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
                             'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
-                            'ensemble', 'forest', 'gaussian', 'gbm',] # will need to figure out monograms/bigrams
+                            'ensemble', 'forest', 'gaussian', 'gbm', 'gradient',] # will need to figure out monograms/bigrams
     
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus']
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt',]
     
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan',]
     
@@ -4286,11 +4287,11 @@ def nlp_skill_lists(additional_stopwords):
                          'ggplot',
                          'git',
                          'glm',
-                         'glue',      ###
+                         'glue',
                          'golang',
                          'gpt',
                          'gpu',
-                         'gradient', 
+                         'gradient',
                          'graph',
                          'graphql',
                          'groovy',
@@ -4307,8 +4308,9 @@ def nlp_skill_lists(additional_stopwords):
                          'hidden',
                          'hierarchical',
                          'hive',
+                         'hiveql',
                          'hpc',
-                         'hpcml',
+                         'hpcml',       # !!!###
                          'hris',
                          'html', 
                          'hyperparameter',
