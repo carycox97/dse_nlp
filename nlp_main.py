@@ -4058,7 +4058,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
-    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch',]
+    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue',]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp']
     
@@ -4285,8 +4285,8 @@ def nlp_skill_lists(additional_stopwords):
                          'gcp', 
                          'ggplot',
                          'git',
-                         'glm',      ###
-                         'glue',
+                         'glm',
+                         'glue',      ###
                          'golang',
                          'gpt',
                          'gpu',
