@@ -4055,11 +4055,11 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask',] 
+                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', ] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
-    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis',]
+    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica',]
     
@@ -4068,23 +4068,25 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_agile = ['agile',]
     
     subtopic_language = ['python', 'r', 'sql', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml', 'html', 'java', 'javascript', 'julia',]
+                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
-                        'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr',]
+                        'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
+                        'knime', 'kubeflow', 'kubernetes', 'linux',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
                             'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
-                            'inference', 'inferential',] # will need to figure out monograms/bigrams
+                            'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
+                            'logic', 'logistic',] # will need to figure out monograms/bigrams
     
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt',]
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
     
-    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan',]
+    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm',]
     
-    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive',]
+    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana',]
     
     subtopic_starfish = ['ingestion',]
     
@@ -4346,13 +4348,13 @@ def nlp_skill_lists(additional_stopwords):
                          'ivr',
                          'kinesis',
                          'java',
-                         'javascript',         # !!!###
+                         'javascript',
                          'jenkins', 
-                         'jira', 
+                         'jira',
                          'jquery',
                          'json',
                          'julia',
-                         'jupyter', 
+                         'jupyter',
                          'keras',
                          'kernel',
                          'kibana',
@@ -4373,13 +4375,13 @@ def nlp_skill_lists(additional_stopwords):
                          'lifecycle',
                          'lightgbm',
                          'likelihood',
-                         'linear', 
+                         'linear',
                          'linux',
                          'literacy', 
                          'load',
                          'localization',
                          'logic',
-                         'logistic', 
+                         'logistic',            # !!!### 
                          'looker',
                          'loss',
                          'lstm',
