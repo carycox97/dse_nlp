@@ -4073,11 +4073,12 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
-                        'fivetran', 'flume', 'fortify', 'git',]
+                        'fivetran', 'flume', 'fortify', 'git', 'ide',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
                             'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
-                            'ensemble', 'forest', 'gaussian', 'gbm', 'gradient',] # will need to figure out monograms/bigrams
+                            'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
+                            'inference',] # will need to figure out monograms/bigrams
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt',]
     
@@ -4314,17 +4315,17 @@ def nlp_skill_lists(additional_stopwords):
                          'hpc',
                          'hpcml',
                          'hris',
-                         'html',        # !!!###
+                         'html',
                          'hyperparameter',
                          'hyperv',
-                         'hypothesis', 
+                         'hypothesis',
                          'ide',
                          'identification',
                          'imagery',
                          'implement',
-                         'imputation', 
-                         'indexing',
-                         'inference',
+                         'imputation',
+                         'indexing', 
+                         'inference',         # !!!###
                          'inferential',
                          'informatica',
                          'information',
