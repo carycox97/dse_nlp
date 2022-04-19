@@ -1323,7 +1323,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'computerworld', '8008355099', 'stephen', 'photocopier', 'variability', 'inappropriate',
                                             'storagecomputedb', 'cleanlogical', 'intrinsic', 'platformsolutions', 'reignite',
                                             'measurably', 'dmi', 'nextbest', 'organizationwide', 'massage', 'multithreading',
-                                            'faq', 'straight', 'spd', 'civic', '711', 'circleci', 'assembled', 'css3', 'medifast',
+                                            'faq', 'straight', 'spd', 'civic', '711', 'circleci', 'assembled', 'medifast',
                                             'en', 'objectivity', 'renewed', 'diner', 'xerox', 'bny', 'farthest', 'cognite',
                                             'chime', 'paint', 'thoughtprovoking', 'in', 'bought', '32', 'actionemployer',
                                             'suntrust', 'swp', 'suspected', 'fostered', 'discriminating', 'ae', 
@@ -1617,6 +1617,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'multidisciplinary': 'crossfunctional',
                   'multifunctional': 'crossfunctional',
                   'cross': 'crossfunctional',
+                  'css3': 'css',
                   'curated': 'curate',
                   'curation': 'curate',
                   'curiosity': 'curious',
@@ -1813,7 +1814,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'holistically': 'holistic',
                   'highperformance': 'hpc',
                   'html5': 'html',
-                  'htmlcss': 'html',
+                  'htmlcss': 'html css',
                   'hypothesisdriven': 'hypothesis',
                   'identify': 'identification',
                   'identifies': 'identification',
@@ -4066,8 +4067,8 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_agile = ['agile',]
     
-    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml',]
+    subtopic_language = ['python', 'r', 'sql', 'julia', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
+                         'hpcml', 'html',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4196,6 +4197,7 @@ def nlp_skill_lists(additional_stopwords):
                          'crf',
                          'crm',
                          'crowdstrike',
+                         'css',
                          'csv',
                          'cuda',
                          'curate',
@@ -4310,9 +4312,9 @@ def nlp_skill_lists(additional_stopwords):
                          'hive',
                          'hiveql',
                          'hpc',
-                         'hpcml',       # !!!###
+                         'hpcml',
                          'hris',
-                         'html', 
+                         'html',        # !!!###
                          'hyperparameter',
                          'hyperv',
                          'hypothesis', 
