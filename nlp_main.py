@@ -1934,6 +1934,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'msma': 'masters',
                   'mastersphd': 'masters phd',
                   'msphd': 'masters phd',
+                  'math': 'mathematics',
                   'mathematician': 'mathematics',
                   'mathematical': 'mathematics',
                   'mathematicsstatistics': 'mathematics statistics',
@@ -4055,11 +4056,12 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', ] 
+                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
-    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',]
+    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
+                    'mapreduce',]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica',]
     
@@ -4074,19 +4076,19 @@ def nlp_skill_lists(additional_stopwords):
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
                         'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
-                        'knime', 'kubeflow', 'kubernetes', 'linux',]
+                        'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
                             'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
-                            'logic', 'logistic',] # will need to figure out monograms/bigrams
+                            'logic', 'logistic', 'loss', 'markov', 'mathematics',] # will need to figure out monograms/bigrams
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
     
-    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm',]
+    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm']
     
-    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana',]
+    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',]
     
     subtopic_starfish = ['ingestion',]
     
@@ -4381,7 +4383,7 @@ def nlp_skill_lists(additional_stopwords):
                          'load',
                          'localization',
                          'logic',
-                         'logistic',            # !!!### 
+                         'logistic',
                          'looker',
                          'loss',
                          'lstm',
@@ -4391,10 +4393,9 @@ def nlp_skill_lists(additional_stopwords):
                          'maintain',
                          'mapping',
                          'mapreduce',
-                         'markov',
-                         'math',
+                         'markov',           # !!!### 
                          'mathematica',
-                         'mathematics',
+                         'mathematics', # NEED TO RECONCILE MATH AND MATHEMATICS
                          'matlab',
                          'matplotlib', 
                          'matrix',
