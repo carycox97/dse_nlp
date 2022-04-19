@@ -1963,6 +1963,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'precise': 'meticulous',
                   'thorough': 'meticulous',
                   'microservices': 'microservice',
+                  'mlib': 'mllib',
                   'modelbased': 'model',
                   'modeldriven': 'model',
                   'modelintent': 'model',
@@ -4070,19 +4071,19 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_agile = ['agile',]
     
     subtopic_language = ['python', 'r', 'sql', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin',]
+                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
                         'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
-                        'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana',]
+                        'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'bandit', 'arima', 'bayes', 'calculus',
                             'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
-                            'logic', 'logistic', 'loss', 'markov', 'mathematics',] # will need to figure out monograms/bigrams
+                            'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum',] # will need to figure out monograms/bigrams
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
     
@@ -4393,11 +4394,11 @@ def nlp_skill_lists(additional_stopwords):
                          'maintain',
                          'mapping',
                          'mapreduce',
-                         'markov',           # !!!### 
+                         'markov',
                          'mathematica',
-                         'mathematics', # NEED TO RECONCILE MATH AND MATHEMATICS
+                         'mathematics',
                          'matlab',
-                         'matplotlib', 
+                         'matplotlib',
                          'matrix',
                          'maven',
                          'maximum',
@@ -4407,9 +4408,8 @@ def nlp_skill_lists(additional_stopwords):
                          'method',
                          'metric',
                          'microservice',
-                         'microsoft', 
-                         'mlflow',
-                         'mlib',
+                         'microsoft',
+                         'mlflow',            # !!!###  
                          'mllib',
                          'model',
                          'mongodb',
