@@ -4058,12 +4058,12 @@ def nlp_skill_lists(additional_stopwords):
                        'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
-                       'python', 'pyspark', 'pytorch',] 
+                       'python', 'pyspark', 'pytorch', 'rasa',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
-                    'mapreduce',]
+                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition',]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas',]
     
@@ -4073,7 +4073,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_language = ['python', 'r', 'sql', 'bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
                          'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
-                         'programming',]
+                         'ruby', 'rust',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4082,7 +4082,8 @@ def nlp_skill_lists(additional_stopwords):
                         'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',
                         'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
                         'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
-                        'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython',] # maybe split into TOOLS and DATABASES
+                        'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython', 'qgis', 'qlik',
+                        'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',] # maybe split into TOOLS and DATABASES
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4091,32 +4092,38 @@ def nlp_skill_lists(additional_stopwords):
                             'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 'probability',
-                            'pso',] # will need to figure out monograms/bigrams
+                            'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 'regression',
+                            'regularization', 'reinforcement', 'rms',] # will need to figure out monograms/bigrams
     
     # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
     
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa',]
     
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
-                              'network', 'neural', 'nvidia', 'pipeline', 'pla',]
+                              'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn',]
     
     subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',
-                    'palantir',]
+                    'palantir', 'qlik',]
     
-    subtopic_starfish = ['ingestion', 'preprocessing',]
+    subtopic_starfish = ['ingestion', 'preprocessing', 'retrain',]
     
     subtopic_containers = ['docker', 'openshift']
     
     subtopic_datatypes = ['json', 'csv']
     
+    subtopic_ide = ['anaconda', 'pycharm', 'rstudio']
+    
     # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
     # maybe a subtopic for the SQL ecosystem
     # maybe a subtopic for IDEs
+    # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
+    # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
+    # might need to split math_models into math and models
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish,
-          subtopic_containers, subtopic_datatypes)
+          subtopic_containers, subtopic_datatypes, subtopic_ide)
     
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -4517,18 +4524,18 @@ def nlp_skill_lists(additional_stopwords):
                          'ipython',
                          'python',
                          'pyspark',
-                         'pytorch',                #!!!### 
+                         'pytorch',
                          'qgis',
                          'qlik',
                          'qualitative',
                          'quantitative',
                          'quantum',
-                         'query',
+                         'query', 
                          'quicksight',
                          'relational', 
                          'r',
                          'radar',
-                         'r&d',
+                         'r&d',  
                          'rabbitmq',
                          'rancher',
                          'random',
@@ -4537,14 +4544,14 @@ def nlp_skill_lists(additional_stopwords):
                          'raw',
                          'rdbms',
                          'rds',
-                         'reasoning',
+                         'reasoning', 
                          'reactjs',
                          'recognition',
                          'recommendation', 
                          'recommender',
                          'redhat',
                          'redis',
-                         'redshift', 
+                         'redshift',
                          'reduction',
                          'regression',
                          'regularization',
@@ -4556,7 +4563,7 @@ def nlp_skill_lists(additional_stopwords):
                          'repeatable',
                          'repository', 
                          'reproducible',
-                         'research',
+                         'research', 
                          'rest', 
                          'retrain',
                          'review',
@@ -4566,7 +4573,7 @@ def nlp_skill_lists(additional_stopwords):
                          'rpa',
                          'rstudio',
                          'ruby',
-                         'rust',
+                         'rust',             #!!!###
                          's3', 
                          'sas',
                          'saas',
