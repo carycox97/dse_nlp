@@ -4057,21 +4057,21 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
                        'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi',] 
+                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
                     'mapreduce',]
     
-    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica',]
+    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas',]
     
     subtopic_sas = []
     
     subtopic_agile = ['agile',]
     
     subtopic_language = ['python', 'r', 'sql', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab',]
+                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4079,28 +4079,38 @@ def nlp_skill_lists(additional_stopwords):
                         'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
                         'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',
                         'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
-                        'opencl',]
+                        'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
+                        'pipeline',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
                             'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',
-                            'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',] # will need to figure out monograms/bigrams
+                            'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
+                            'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson',] # will need to figure out monograms/bigrams
+    
+    # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
     
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
-                              'network', 'neural', 'nvidia',]
+                              'network', 'neural', 'nvidia', 'pipeline',]
     
-    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',]
+    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',
+                    'palantir',]
     
     subtopic_starfish = ['ingestion',]
+    
+    subtopic_containers = ['docker', 'openshift']
+    
+    subtopic_datatypes = ['json', 'csv']
     
     # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
-          subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish)
+          subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish,
+          subtopic_containers, subtopic_datatypes)
     
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -4452,7 +4462,7 @@ def nlp_skill_lists(additional_stopwords):
                          'oozie',
                          'open', 
                          'opencl',
-                         'opencv',                   # !!!### 
+                         'opencv', 
                          'openshift',
                          'optical',
                          'optimization',
@@ -4462,20 +4472,20 @@ def nlp_skill_lists(additional_stopwords):
                          'outlier',
                          'paas',
                          'palantir',
-                         'pandas', 
+                         'pandas',
                          'parallel',
                          'parametric',
                          'parquet',
                          'parsing',
                          'pattern', 
                          'pca',
-                         'pearson',
+                         'pearson', 
                          'peoplesoft',
                          'periscope',
                          'perl',
                          'php',
                          'pig',
-                         'pipeline',
+                         'pipeline',              #!!!###
                          'pivot', 
                          'pla',
                          'platform',
