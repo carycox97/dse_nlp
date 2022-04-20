@@ -4054,10 +4054,11 @@ def nlp_skill_lists(additional_stopwords):
                      'understand',
                      'year']  
 ####### !!!!!!!! WORKING HERE: create subtopic lists; will want to work backwards for each topic, too
-    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
-                       'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
+    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'django',
+                       'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus',] 
+                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
+                       'python', 'pyspark', 'pytorch',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
@@ -4070,8 +4071,9 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_agile = ['agile',]
     
-    subtopic_language = ['python', 'r', 'sql', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig',]
+    subtopic_language = ['python', 'r', 'sql', 'bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
+                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
+                         'programming',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4080,7 +4082,7 @@ def nlp_skill_lists(additional_stopwords):
                         'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',
                         'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
                         'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
-                        'pipeline',]
+                        'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython',] # maybe split into TOOLS and DATABASES
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4088,25 +4090,29 @@ def nlp_skill_lists(additional_stopwords):
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
                             'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
-                            'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson',] # will need to figure out monograms/bigrams
+                            'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 'probability',
+                            'pso',] # will need to figure out monograms/bigrams
     
     # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
     
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
-                              'network', 'neural', 'nvidia', 'pipeline',]
+                              'network', 'neural', 'nvidia', 'pipeline', 'pla',]
     
     subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',
                     'palantir',]
     
-    subtopic_starfish = ['ingestion',]
+    subtopic_starfish = ['ingestion', 'preprocessing',]
     
     subtopic_containers = ['docker', 'openshift']
     
     subtopic_datatypes = ['json', 'csv']
     
     # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
+    # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
+    # maybe a subtopic for the SQL ecosystem
+    # maybe a subtopic for IDEs
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish,
@@ -4485,14 +4491,14 @@ def nlp_skill_lists(additional_stopwords):
                          'perl',
                          'php',
                          'pig',
-                         'pipeline',              #!!!###
-                         'pivot', 
+                         'pipeline',
+                         'pivot',
                          'pla',
                          'platform',
                          'plc',
                          'plotly',
                          'plsql',
-                         'postgresql', 
+                         'postgresql',
                          'power',
                          'powershell',
                          'predictive',
@@ -4505,13 +4511,13 @@ def nlp_skill_lists(additional_stopwords):
                          'procedure',
                          'processing',
                          'proficient',
-                         'programming', 
+                         'programming',
                          'pso',
                          'pycharm',
                          'ipython',
                          'python',
                          'pyspark',
-                         'pytorch',
+                         'pytorch',                #!!!### 
                          'qgis',
                          'qlik',
                          'qualitative',
