@@ -4063,11 +4063,11 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
-                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition',]
+                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker',]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas',]
     
-    subtopic_sas = []
+    subtopic_sas = ['sas',]
     
     subtopic_agile = ['agile',]
     
@@ -4083,7 +4083,8 @@ def nlp_skill_lists(additional_stopwords):
                         'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
                         'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
                         'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython', 'qgis', 'qlik',
-                        'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',] # maybe split into TOOLS and DATABASES
+                        'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',
+                        'sas', 'sagemaker', 'sap',] # maybe split into TOOLS and DATABASES
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4093,7 +4094,7 @@ def nlp_skill_lists(additional_stopwords):
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 'probability',
                             'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 'regression',
-                            'regularization', 'reinforcement', 'rms',] # will need to figure out monograms/bigrams
+                            'regularization', 'reinforcement', 'rms', 'sampling',] # will need to figure out monograms/bigrams
     
     # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
     
@@ -4573,14 +4574,14 @@ def nlp_skill_lists(additional_stopwords):
                          'rpa',
                          'rstudio',
                          'ruby',
-                         'rust',             #!!!###
-                         's3', 
+                         'rust', 
+                         's3',
                          'sas',
                          'saas',
                          'sagemaker',
                          'sampling',
                          'sap',
-                         'satellite',
+                         'satellite',             #!!!###
                          'scada',
                          'scala',
                          'scale',
