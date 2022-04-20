@@ -4078,17 +4078,20 @@ def nlp_skill_lists(additional_stopwords):
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
                         'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
                         'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',
-                        'mongodb',]
+                        'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
+                        'opencl',]
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
-                            'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',] # will need to figure out monograms/bigrams
+                            'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',
+                            'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',] # will need to figure out monograms/bigrams
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda',]
     
-    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',]
+    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
+                              'network', 'neural', 'nvidia',]
     
     subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',]
     
@@ -4419,20 +4422,20 @@ def nlp_skill_lists(additional_stopwords):
                          'multiarmed',
                          'multivariate',
                          'municipal',
-                         'mxnet',               # !!!###  
+                         'mxnet',
                          'mssql',
                          'mysql',
-                         'naive', 
+                         'naive',
                          'nearest',
                          'neighbor',
                          'neo4j',
                          'network',
-                         'neural', 
+                         'neural',
                          'nginx',
                          'nifi',
                          'nlp',
                          'nltk',
-                         'nodejs', 
+                         'nodejs',
                          'nonlinear',
                          'nonparametric',
                          'normalize',
@@ -4449,7 +4452,7 @@ def nlp_skill_lists(additional_stopwords):
                          'oozie',
                          'open', 
                          'opencl',
-                         'opencv',
+                         'opencv',                   # !!!### 
                          'openshift',
                          'optical',
                          'optimization',
