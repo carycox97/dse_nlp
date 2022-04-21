@@ -4073,7 +4073,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_language = ['python', 'r', 'sql', 'bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
                          'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
-                         'ruby', 'rust',]
+                         'ruby', 'rust', 'scala',]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4581,14 +4581,14 @@ def nlp_skill_lists(additional_stopwords):
                          'sagemaker',
                          'sampling',
                          'sap',
-                         'satellite',             #!!!###
+                         'satellite',
                          'scada',
                          'scala',
                          'scale',
                          'scenario',
                          'schema',
                          'science',
-                         'scientific',
+                         'scientific',             #!!!###
                          'scrapy',
                          'scripting',
                          'scrum',
