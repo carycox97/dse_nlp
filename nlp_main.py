@@ -4058,7 +4058,7 @@ def nlp_skill_lists(additional_stopwords):
                        'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
-                       'python', 'pyspark', 'pytorch', 'rasa',] 
+                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
@@ -4073,7 +4073,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_language = ['python', 'r', 'sql', 'bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
                          'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
-                         'ruby', 'rust', 'scala',]
+                         'ruby', 'rust', 'scala',] #'scripting',
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4588,9 +4588,9 @@ def nlp_skill_lists(additional_stopwords):
                          'scenario',
                          'schema',
                          'science',
-                         'scientific',             #!!!###
+                         'scientific',
                          'scrapy',
-                         'scripting',
+                         'scripting',             #!!!###
                          'scrum',
                          'scikitimage',
                          'scipy',
