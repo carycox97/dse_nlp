@@ -300,7 +300,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'estate', 'etc', 'every', 'everyone', 'existing', 'expression',
                                             'extensive', 'external', 'fair', 'family', 'fargo', 'federal', 'feel', 'following',
                                             'fortune', 'francisco', 'friday', 'fulltime', 'fully', 'furnish',
-                                            'furtherance', 'gender', 'genetic', 'genetics', 'getty', 'globe', 'go',
+                                            'furtherance', 'gender', 'genetic', 'genetics', 'getty', 'globe', 
                                             'good', 'group', 'growing', 'hand', 'harassment', 'health', 'healthcare',
                                             'hearing', 'high', 'highly', 'hire', 'hiring', 'history', 'holiday', 'home',
                                             'host', 'hour',                                            
@@ -736,7 +736,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'stocked', 'stake', 'pacific', 'oncall', 'knack', 'composed', 'distilling',
                                             'freight', 'weakness', 'inoffice', 'guard', 'atlassian', 'assume', 'premise',
                                             'minnesota', 'bill', 'eo', 'bus', 'toolsets', 'purchasing', 'synapse', 'construed',
-                                            'fueled', 'notification', 'uniqueness', 'endeavor', 'calendar', 'flsa', 'assembly',
+                                            'fueled', 'notification', 'uniqueness', 'endeavor', 'calendar', 'flsa', 
                                             'prime', 'animal', 'visiting', 'invested', 'basketball', 'stanford', 'grocery',
                                             'remarkable', 'usdc', 'import', 'schneider', 'armed', 'commercialization', 'snap',
                                             'transitioning', 'lens', 'configure', 'foot', 'mit', 'completes', 'pretax', 'waiting',
@@ -802,7 +802,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'promotional', 'minded', 'inconsistency', 'buyin', 'historic', 'solutioning', 'et',
                                             'readily', 'supervising', 'commuterelocate', 'agricultural', 'weight', 'forensic',
                                             'pollen', 'penske', 'corrective', 'ontime', 'projected', 'scene', 
-                                            'db2', 'selective', 'swift', '600', 'fundraising', 'lob', 'customize', 'overnight',
+                                            'db2', 'selective', '600', 'fundraising', 'lob', 'customize', 'overnight',
                                             'puzzle', 'prep', 'lender', 'onpremise', 'remained', 'ineligible', 'nasa', '100000',
                                             'respecting', 'usercentric', 'developmental', 'lifting', 'g', 'intake', 'baselined',
                                             'crisis', 'alerting', 'employerprotected', 'subscriber', 'photo', 'correctly',
@@ -4055,10 +4055,10 @@ def nlp_skill_lists(additional_stopwords):
                      'understand',
                      'year']  
 ####### !!!!!!!! WORKING HERE: create subtopic lists; will want to work backwards for each topic, too
-    subtopic_language = ['bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
-                         'python', 'r', 'ruby', 'rust', 'scala', 'sparql', 'sql', 'torch', 'typescript', 'vba',
-                         'xml',] #'scripting',
+    subtopic_language = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
+                         'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
+                         'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
+                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',] 
 
     subtopic_python = ['anaconda', 'skimage', 'scipy', 'pandas', 'django',
                        'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
@@ -4076,8 +4076,6 @@ def nlp_skill_lists(additional_stopwords):
                     'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'sqs',]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas', 'splunk',]
-    
-    subtopic_sas = ['sas',]
     
     subtopic_agile = ['agile', 'scrum', 'sprint', ]
     
@@ -4136,7 +4134,7 @@ def nlp_skill_lists(additional_stopwords):
     # maybe need a full MECE reset...
     # need a subtopic list for the linux/unix ecosystem
     
-    print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
+    print(subtopic_aws, subtopic_cloud, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish,
           subtopic_containers, subtopic_datatypes, subtopic_ide)
     
