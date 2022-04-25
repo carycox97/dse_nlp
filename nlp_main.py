@@ -2153,6 +2153,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'semantically': 'semantic',
                   'semantics': 'semantic',
                   'simulate': 'simulation',
+                  'scikitimage' : 'skimage',
                   'scikit': 'sklearn',
                   'scikitlearn': 'sklearn',
                   'sparkml': 'spark machine learning',
@@ -4054,22 +4055,22 @@ def nlp_skill_lists(additional_stopwords):
                      'understand',
                      'year']  
 ####### !!!!!!!! WORKING HERE: create subtopic lists; will want to work backwards for each topic, too
-    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'django',
+    subtopic_python = ['anaconda', 'sklearn', 'skimage', 'scipy', 'pandas', 'spacy', 'django',
                        'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
-                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy',] 
+                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy', 'scraping', 'sdk', 'seaborn',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
-                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker',]
+                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', ]
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas',]
     
     subtopic_sas = ['sas',]
     
-    subtopic_agile = ['agile',]
+    subtopic_agile = ['agile', 'scrum',]
     
     subtopic_language = ['python', 'r', 'sql', 'bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
                          'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
@@ -4590,14 +4591,14 @@ def nlp_skill_lists(additional_stopwords):
                          'science',
                          'scientific',
                          'scrapy',
-                         'scripting',             #!!!###
+                         'scripting',
                          'scrum',
-                         'scikitimage',
+                         'skimage',
                          'scipy',
                          'scraping',
                          'sdk',
                          'seaborn',
-                         'search',
+                         'search',             #!!!###
                          'segmentation',
                          'selenium',
                          'semantic',
