@@ -4060,12 +4060,12 @@ def nlp_skill_lists(additional_stopwords):
                          'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
                          'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',] 
 
-    subtopic_python = ['anaconda', 'skimage', 'scipy', 'pandas', 'django',
-                       'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
-                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium',
-                       'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
-                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy', 'scraping', 'sdk', 'seaborn', 'selenium', 'sklearn',
-                       'spacy', 'statsmodels', 'theano',] 
+    subtopic_python = ['anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'django',
+                       'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
+                       'matplotlib', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'pillow', 'plotly',
+                       'pycharm', 'pydot', 'pyspark', 'pytest', 'python', 'pytorch', 'pyunit', 'rasa',
+                       'requests', 'scipy', 'scrapy', 'sdk', 'seaborn', 'selenium', 'simpleitk', 'skimage',
+                       'sklearn', 'spacy', 'statsmodels', 'tensorflow', 'theano', 'word2vec', 'xgboost']      
     
     subtopic_r = ['caret', 'dplyr', 'ggplot', 'shiny', 'tidyverse',]
     
@@ -4113,7 +4113,7 @@ def nlp_skill_lists(additional_stopwords):
                               'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn', 'tensorrt',]
     
     subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',
-                    'palantir', 'qlik', 'spotfire', 'visio', 'visualization',]
+                    'palantir', 'qlik', 'spotfire', 'visio', 'visualization', 'pydot', 'bokeh', 'plotly']
     
     subtopic_starfish = ['ingestion', 'preprocessing', 'retrain', 'training', 'transformation', ]
     
