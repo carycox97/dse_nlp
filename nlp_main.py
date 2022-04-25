@@ -4055,13 +4055,13 @@ def nlp_skill_lists(additional_stopwords):
                      'understand',
                      'year']  
 ####### !!!!!!!! WORKING HERE: create subtopic lists; will want to work backwards for each topic, too
-    subtopic_python = ['anaconda', 'sklearn', 'skimage', 'scipy', 'pandas', 'spacy', 'django',
+    subtopic_python = ['anaconda', 'skimage', 'scipy', 'pandas', 'spacy', 'django',
                        'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
                        'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
                        'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
-                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy', 'scraping', 'sdk', 'seaborn',] 
+                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy', 'scraping', 'sdk', 'seaborn', 'selenium', 'sklearn',] 
     
-    subtopic_r = ['caret', 'dplyr', 'ggplot',]
+    subtopic_r = ['caret', 'dplyr', 'ggplot', 'shiny',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
                     'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', ]
@@ -4085,7 +4085,7 @@ def nlp_skill_lists(additional_stopwords):
                         'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
                         'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython', 'qgis', 'qlik',
                         'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',
-                        'sas', 'sagemaker', 'sap',] # maybe split into TOOLS and DATABASES
+                        'sas', 'sagemaker', 'sap', 'shell', 'snaplogic', 'snowflake',] # maybe split into TOOLS and DATABASES
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4095,11 +4095,11 @@ def nlp_skill_lists(additional_stopwords):
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 'probability',
                             'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 'regression',
-                            'regularization', 'reinforcement', 'rms', 'sampling',] # will need to figure out monograms/bigrams
+                            'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',] # will need to figure out monograms/bigrams
     
     # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
     
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa',]
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa', 'sentiment',]
     
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
                               'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn',]
@@ -4122,6 +4122,7 @@ def nlp_skill_lists(additional_stopwords):
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
     # might need to split math_models into math and models
+    # maybe need a full MECE reset...
     
     print(subtopic_aws, subtopic_cloud, subtopic_sas, subtopic_agile, subtopic_language, subtopic_tooling,
           subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish,
@@ -4598,8 +4599,8 @@ def nlp_skill_lists(additional_stopwords):
                          'scraping',
                          'sdk',
                          'seaborn',
-                         'search',             #!!!###
-                         'segmentation',
+                         'search',
+                         'segmentation', 
                          'selenium',
                          'semantic',
                          'semistructured',
@@ -4616,15 +4617,15 @@ def nlp_skill_lists(additional_stopwords):
                          'shell',
                          'shiny',
                          'sigint',
-                         'signal', 
+                         'signal',
                          'simulation',
                          'skewness',
-                         'skill',
+                         'skill', 
                          'sklearn',
                          'snaplogic',
                          'snowflake',
                          'soa',
-                         'software',
+                         'software',            #!!!###
                          'solr',
                          'sorcero',
                          'source',
