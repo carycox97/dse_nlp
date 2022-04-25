@@ -4055,26 +4055,30 @@ def nlp_skill_lists(additional_stopwords):
                      'understand',
                      'year']  
 ####### !!!!!!!! WORKING HERE: create subtopic lists; will want to work backwards for each topic, too
-    subtopic_python = ['anaconda', 'skimage', 'scipy', 'pandas', 'spacy', 'django',
+    subtopic_language = ['bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
+                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
+                         'python', 'r', 'ruby', 'rust', 'scala', 'sparql', 'sql', ] #'scripting',
+
+    subtopic_python = ['anaconda', 'skimage', 'scipy', 'pandas', 'django',
                        'xgboost', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
-                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
-                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy', 'scraping', 'sdk', 'seaborn', 'selenium', 'sklearn',] 
+                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium',
+                       'word2vec', 'corenlp', 'dash', 'fastapi', 'flask', 'luigi', 'optimus', 'pycharm', 'ipython',
+                       'python', 'pyspark', 'pytorch', 'rasa', 'scrapy', 'scraping', 'sdk', 'seaborn', 'selenium', 'sklearn',
+                       'spacy', 'statsmodels', 'theano',] 
     
     subtopic_r = ['caret', 'dplyr', 'ggplot', 'shiny',]
+    
+    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa', 'sentiment',
+                    'speechtotext', 'spss',]
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
-                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', ]
+                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'sqs',]
     
-    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas',]
+    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas', 'splunk',]
     
     subtopic_sas = ['sas',]
     
-    subtopic_agile = ['agile', 'scrum',]
-    
-    subtopic_language = ['python', 'r', 'sql', 'bash', 'c', 'css', 'dax', 'fortran', 'golang', 'graphql', 'groovy', 'hiveql',
-                         'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'matlab', 'perl', 'php', 'pig', 'plsql',
-                         'ruby', 'rust', 'scala',] #'scripting',
+    subtopic_agile = ['agile', 'scrum', 'sprint', ]
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4085,7 +4089,9 @@ def nlp_skill_lists(additional_stopwords):
                         'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
                         'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython', 'qgis', 'qlik',
                         'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',
-                        'sas', 'sagemaker', 'sap', 'shell', 'snaplogic', 'snowflake',] # maybe split into TOOLS and DATABASES
+                        'sas', 'sagemaker', 'sap', 'shell', 'snaplogic', 'snowflake', 'solr', 'sorcero', 'spark', 'splunk',
+                        'spotfire', 'spreadsheet', 'spss', 'sqoop', 'ssis', 'stata', 'svn', 'tableau', 'tensorflow', 
+                        'tensorrt',] # maybe split into TOOLS and DATABASES
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4095,17 +4101,18 @@ def nlp_skill_lists(additional_stopwords):
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 'probability',
                             'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 'regression',
-                            'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',] # will need to figure out monograms/bigrams
+                            'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
+                            'statistics', 'stochastic', 'supervised', 'svm',] # will need to figure out monograms/bigrams
     
     # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
     
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa', 'sentiment',]
+
     
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
-                              'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn',]
+                              'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn', 'tensorrt',]
     
     subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',
-                    'palantir', 'qlik',]
+                    'palantir', 'qlik', 'spotfire',]
     
     subtopic_starfish = ['ingestion', 'preprocessing', 'retrain',]
     
@@ -4119,6 +4126,7 @@ def nlp_skill_lists(additional_stopwords):
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
     # maybe a subtopic for the SQL ecosystem
     # maybe a subtopic for IDEs
+    # maybe a subtopic for version control software (like Git and SVN)
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
     # might need to split math_models into math and models
@@ -4625,21 +4633,21 @@ def nlp_skill_lists(additional_stopwords):
                          'snaplogic',
                          'snowflake',
                          'soa',
-                         'software',            #!!!###
+                         'software',
                          'solr',
                          'sorcero',
                          'source',
-                         'sp',
+                         'sp',                      # what the hell is this
                          'spacy',
                          'spark',
                          'sparql',
                          'spatial',
                          'speech', 
                          'speechtotext',
-                         'splunk', 
+                         'splunk',
                          'spotfire',
                          'spreadsheet',
-                         'sprint',
+                         'sprint', 
                          'spss',
                          'sql',
                          'sqoop',
@@ -4652,7 +4660,7 @@ def nlp_skill_lists(additional_stopwords):
                          'stata',
                          'stochastic',
                          'structured',
-                         'supervised', 
+                         'supervised',
                          'svm',
                          'svn',
                          'synthetic',
@@ -4667,7 +4675,7 @@ def nlp_skill_lists(additional_stopwords):
                          'testing',
                          'text',
                          'theano',
-                         'theory',
+                         'theory',                  #!!!###
                          'tibco',
                          'tidyverse',
                          'time', 
