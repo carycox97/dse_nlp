@@ -669,7 +669,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'updated', 'alert', 'nonrelational', 'retrieve', 'semiconductor', 'correction',
                                             'licensed', 'anything', 'alexa', 'org', 'genuine', 'prevents', 'ar', 'quantity',
                                             'minimize', 'invitation', 'mclean', 'depends', 'enhances', '400', 'hardest',
-                                            'generalized', 'accomplished', 'ticket', 'downtown', 'transformer', 'utilized',
+                                            'generalized', 'accomplished', 'ticket', 'downtown', 'utilized',
                                             'depend', 'ibmibm', '3d', 'poc', 'challenged', 'writes', 'revolutionary', 'majority',
                                             'allowance', 'ally', 'sustainment', 'parking', 'servicing', 'mac', 'thank',
                                             'mantech', 'suggestion', 'compliant', 'instrumental', 'novartis', 'controlled',
@@ -1190,7 +1190,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'disqualify', 'twitch', 'backtested', 'robert', 'or', 'cj', 'crosscountry', 'dia',
                                             'configurable', 'irca', 'boomi', 'multiomics', 'decisiveness', 'microbial', 'flawless',
                                             'figuring', 'cabinet', 'spatiotemporal', 'essence', 'opentext', 'gay', '33',
-                                            'microbiology', 'flair', 'simpler', 'dependability', 'autodesk', 'hm', 'occurred',
+                                            'microbiology', 'simpler', 'dependability', 'autodesk', 'hm', 'occurred',
                                             'automaker', 'macos',
                                             'charles', '52', 'bandwidth', 'quote', 'struggle', 'starter', 'aug', 'accompanying',
                                             'wyman', 'kroll', 'characterizing', 'entertain', 'unvaccinated', 'principled', 'bet',
@@ -2212,6 +2212,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'tssci': 'top secret sci',
                   'train': 'training',
                   'transformative': 'transformation',
+                  'transformer': 'transformers',
                   'translating': 'translation',
                   'treebased': 'tree',
                   'debug': 'troubleshoot',
@@ -4060,21 +4061,22 @@ def nlp_skill_lists(additional_stopwords):
                          'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
                          'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',] ###
 
-    subtopic_python = ['anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'django',
+    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'django',
                        'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
                        'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'pillow',
-                       'plotly', 'pycaret', 'pycharm', 'pydot', 'pyspark', 'pytest', 'python', 'pytorch',
-                       'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk', 'seaborn', 'selenium',
-                       'simpleitk', 'skimage', 'sklearn', 'spacy', 'statsmodels', 'tensorflow', 'theano',
-                       'word2vec', 'xgboost'] ###
+                       'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
+                       'python', 'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
+                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'spacy', 'statsmodels',
+                       'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost'] ###
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
                   'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
                   'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
                   'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] ###
     
-    subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa', 'sentiment',
-                    'speechtotext', 'spss', 'translation', 'word2vec',]
+    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'lda', 'nlp', 'nltk', 'pattern',
+                    'polyglot', 'pynlpl', 'rasa', 'sentiment', 'sklearn', 'spacy', 'speechtotext',
+                    'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### NOW GETINTO THE MAIN LIST
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
                     'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'sqs',]
