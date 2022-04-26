@@ -4076,7 +4076,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'lda', 'nlp', 'nltk', 'pattern',
                     'polyglot', 'pynlpl', 'rasa', 'sentiment', 'sklearn', 'spacy', 'speechtotext',
-                    'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### NOW GETINTO THE MAIN LIST
+                    'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### NOW GET INTO THE MAIN LIST
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
                     'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'sqs',]
@@ -4159,6 +4159,7 @@ def nlp_skill_lists(additional_stopwords):
                            'advanced',
                            'algebra',
                            'algorithm',
+                           'allennlp',
                            'alteryx',
                            'amazon',
                            'anaconda',
@@ -4327,6 +4328,7 @@ def nlp_skill_lists(additional_stopwords):
                          'filter', 
                          'filtering',
                          'fivetran',
+                         'flair',
                          'flask',
                          'flume',
                          'forecast',
@@ -4545,6 +4547,7 @@ def nlp_skill_lists(additional_stopwords):
                          'plc',
                          'plotly',
                          'plsql',
+                         'polyglot',
                          'postgresql',
                          'power',
                          'powershell',
@@ -4564,6 +4567,7 @@ def nlp_skill_lists(additional_stopwords):
                          'pycaret',
                          'pycharm',
                          'pydot',
+                         'pynlpl',
                          'pyspark',
                          'python',
                          'pytest',
@@ -4718,6 +4722,7 @@ def nlp_skill_lists(additional_stopwords):
                          'tensorrt',
                          'testing',
                          'text',
+                         'textblob',
                          'theano',
                          'theory',
                          'tibco',
@@ -4733,6 +4738,7 @@ def nlp_skill_lists(additional_stopwords):
                          'training',
                          'trajectory',
                          'transformation',
+                         'transformers'
                          'translation',
                          'troubleshoot',
                          'tree',
