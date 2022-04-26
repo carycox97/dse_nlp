@@ -1082,7 +1082,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'lease', 'nonus', 'delay', 'laugh', 'testability', 'budgeted', 'selfaware',
                                             'invitae', 'resulted', 'crosssell', 'zillow', 'booking', 'reader', 'postersupplement',
                                             'sysco', 'perficient', 'healthineers', 'soil', 'assures', 'onnx', 'rehabilitation',
-                                            'nato', 'equalopportunity', 'favor', 'farfetch', 'silver', 'cdw', 'lattice', 'pwcs',
+                                            'nato', 'equalopportunity', 'favor', 'farfetch', 'silver', 'cdw', 'pwcs',
                                             'consist', 'techdriven', 'precedent', 'africa', 'attends', 'automobile',
                                             'clara', 'vetting', 'returned', 'turned', 'stresstest', 'licensure', 'bu', '19972021',
                                             'reimburse', 'healing', 'recruitinghelpmitreorg', 'phi', 'crowe', 'unites', 'ncu',
@@ -4058,7 +4058,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_language = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
                          'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
                          'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
-                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',] ##
+                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',] ###
 
     subtopic_python = ['anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'django',
                        'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
@@ -4066,9 +4066,12 @@ def nlp_skill_lists(additional_stopwords):
                        'plotly', 'pycaret', 'pycharm', 'pydot', 'pyspark', 'pytest', 'python', 'pytorch',
                        'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk', 'seaborn', 'selenium',
                        'simpleitk', 'skimage', 'sklearn', 'spacy', 'statsmodels', 'tensorflow', 'theano',
-                       'word2vec', 'xgboost'] ##
+                       'word2vec', 'xgboost'] ###
     
-    subtopic_r = ['caret', 'dplyr', 'ggplot', 'shiny', 'tidyverse',]
+    subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
+                  'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
+                  'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
+                  'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] ###
     
     subtopic_nlp = ['asr', 'spacy', 'gensim', 'nltk', 'nlp', 'corenlp', 'corpus', 'gpt', 'lda', 'rasa', 'sentiment',
                     'speechtotext', 'spss', 'translation', 'word2vec',]
@@ -4955,19 +4958,6 @@ def nlp_skill_lists(additional_stopwords):
     print(f'Test for Stopword pollution in skill lists: {not set(ds_skills_combined).isdisjoint(additional_stopwords)}\n')
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
     print(f'Stopword pollutants: {stopword_pollutants}\n')
-    
-    # create lists for subtopics of interest
-    subtopic_python = ['anaconda', 'sklearn', 'scikitimage', 'scipy', 'pandas', 'seaborn', 'spacy', 'pytorch', 'django',
-                       'xgboost', 'pyspark', 'nltk', 'ipython', 'matplotlib', 'opencv', 'numpy', 'bokeh', 'caffe', 'dask',
-                       'gensim', 'jupyter', 'keras', 'plotly', 'tensorflow', 'pycharm', 'scrapy', 'selenium', 'statsmodels',
-                       'theano', 'word2vec'] 
-    # subtopic_aws = ['amazon',]
-    # subtopic_cloud = ['amazon',]
-    # subtopic_sas = []
-    # subtopic_agile = ['agile',]
-    # subtopic_language = []
-    # subtopic_tech = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible',]
-    # subtopic_math = ['algebra', 'lnear algebra', 'anova', 'algorithm',]
     
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python
 
