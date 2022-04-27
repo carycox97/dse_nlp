@@ -474,7 +474,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'last', 'dream', 'requisition', 'invest', 'section', 'apple', 'combining', 'committee',
                                             'held', 'authority', 'deal',  'contributes', 'daytoday', 'iot', 'toward',
                                             'achieving', 'learner', 'spirit', 'fee', 'agent', 'certain',  'cc', 'transition',
-                                            'roadmaps', 'emr', 'champion', 'virginia', 'region', 'failure', 'establishing',
+                                            'roadmaps', 'champion', 'virginia', 'region', 'failure', 'establishing',
                                             'comfort', 'eager',  'combined', 'contingent', 'instruction', 'powered', 'utility',
                                             'functionality', 'worked', 'ideally', 'coordination', 'intended', 'underlying',
                                             'proper', 'operates', 'refine', 'unable', 'represent', 'might', 'advocate',
@@ -4076,10 +4076,12 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'lda', 'nlp', 'nltk', 'pattern',
                     'polyglot', 'pynlpl', 'rasa', 'sentiment', 'sklearn', 'spacy', 'speechtotext',
-                    'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### NOW GET INTO THE MAIN LIST
+                    'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### 
    
-    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'dynamodb', 'ec2', 'elasticsearch', 'glue', 'kinesis', 'lex',
-                    'mapreduce', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'sqs',]
+    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'cloudhsm', 'cloudtrail', 'codebuild', 'codedeploy', 'codepipeline',
+                    'codestar', 'dms', 'dynamodb', 'ebs', 'ec2', 'elasticache', 'elasticsearch', 'emr',
+                    'glacier', 'glue', 'inspector', 'kinesis', 'kms', 'lambda', 'lex', 'macie', 'mapreduce', 'polly', 'quicksight',
+                    'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball', 'sqs', 'vpc', 'xray']
     
     subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas', 'splunk',]
     
@@ -4738,7 +4740,7 @@ def nlp_skill_lists(additional_stopwords):
                          'training',
                          'trajectory',
                          'transformation',
-                         'transformers'
+                         'transformers',
                          'translation',
                          'troubleshoot',
                          'tree',
