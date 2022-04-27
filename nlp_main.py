@@ -4081,9 +4081,10 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'cloudhsm', 'cloudtrail', 'codebuild', 'codedeploy', 'codepipeline',
                     'codestar', 'dms', 'dynamodb', 'ebs', 'ec2', 'elasticache', 'elasticsearch', 'emr',
                     'glacier', 'glue', 'inspector', 'kinesis', 'kms', 'lambda', 'lex', 'macie', 'mapreduce', 'polly', 'quicksight',
-                    'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball', 'sqs', 'vpc', 'xray']
+                    'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball', 'sqs', 'vpc', 'xray'] ###
     
-    subtopic_cloud = ['amazon', 'athena', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'h2o', 'informatica', 'paas', 'splunk',]
+    subtopic_cloud = ['amazon', 'alibaba', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'google', 'h2o',
+                      'informatica', 'oracle', 'redhat', 'sap', 'splunk', 'vmware' ] ### might need to deal with 'google cloud' bigram
     
     subtopic_agile = ['agile', 'scrum', 'sprint', ]
     
@@ -4161,6 +4162,7 @@ def nlp_skill_lists(additional_stopwords):
                            'advanced',
                            'algebra',
                            'algorithm',
+                           'alibaba', 
                            'allennlp',
                            'alteryx',
                            'amazon',
@@ -4369,6 +4371,7 @@ def nlp_skill_lists(additional_stopwords):
                          'glue',
                          'go',
                          'golang',
+                         'google',
                          'gpt',
                          'gpu',
                          'gradient',
