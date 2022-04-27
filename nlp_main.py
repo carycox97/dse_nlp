@@ -418,7 +418,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'class', 'explore', 'overall', 'establish', 'move', 'integrated', 'three', 'desire',
                                             'obtain', 'pricing', 'regular', 'maintenance', 'interested', 'along', 'increase',
                                             'utilize', 'manufacturing', 'built', 'acquisition', 'thats', 'submit',
-                                            'roadmap', 'coordinate', 'prepare', 'utilizing', 'foundation', 'encourage', 'cycle',
+                                            'coordinate', 'prepare', 'utilizing', 'foundation', 'encourage', 'cycle',
                                             'vendor', 'become', 'device', 'smart', 'ass', 'effectiveness', 'mean',
                                             'adoption', 'located', 'preferably', 'division', 'mindset', 'scope', 'exposure',
                                             'progress', 'transforming', 'lab', 'enabling', 'interaction',  'look', 'promote',
@@ -847,7 +847,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'highprofile', 'blood', 'intends', 'adverse', 'worksm', 'placed', 'datarich',
                                             'instructor', 'renewal', 'responsiveness', 'realistic', 'toronto', 'differently',
                                             'metropolitan', 'neuraflash', 'patientfocused', 'constitute', 'raleigh', 'rollout',
-                                            'waterfall', 'mastercard', 'dangerous', 'posture', 'sidebyside', 'pr', 'bidding',
+                                            'mastercard', 'dangerous', 'posture', 'sidebyside', 'pr', 'bidding',
                                             'postgraduate', 'paramount', 'subordinate', 'hesitate', 'directory', 'instance',
                                             'disrupted', '36', 'viacomcbs', 'positioning', 'adjusted', 'ltd', 'ee', 'sponsoring',
                                             'negative', 'overhead', 'linkage', 'productionquality', 'merger', 'jobqualifications',
@@ -4086,7 +4086,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_cloud = ['amazon', 'alibaba', 'aurora', 'aws', 'azure', 'cloud', 'gcp', 'google', 'h2o',
                       'informatica', 'oracle', 'redhat', 'sap', 'splunk', 'vmware' ] ### might need to deal with 'google cloud' bigram
     
-    subtopic_agile = ['agile', 'scrum', 'sprint', ]
+    subtopic_agile = ['agile', 'backlog', 'kanban', 'mvp', 'roadmap', 'scrum', 'sprint', 'waterfall']
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
