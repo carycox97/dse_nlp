@@ -2346,7 +2346,7 @@ def visualize_indeed_metadata(df):
     
 
 def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
-                      terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df, job_title_map):
+                      terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -3729,7 +3729,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
 
     
-    def prepare_job_titles_for_viz(df, job_title_map):
+    def prepare_job_titles_for_viz(df):
         '''
         Identify the unique job titles inherent in the raw Indeed dataframe, df. Convert the unique abbreviations
         to their full names (e.g., 'ds' to 'data scientist') and prepare the list of full names for automatic
@@ -3739,9 +3739,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         ----------
         df : dataframe
             Contains the raw concatenated Indeed csvs. Created in the clean_raw_csv function.
-            
-        job_title_map : dictionary
-            Mapping of job title abbreviations to their corresponding full names.
 
         Returns
         -------
@@ -3749,9 +3746,16 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             Fully conditioned list of unique job titles with inserted quotation marks and conjunctions (e.g., 'and').
 
         '''
-        
-        
-        ####### !!!!!!!! WORKING HERE: MOVE job_title_map TO HERE       
+        # create a dictionary for job title and abbreviation mapping
+        job_title_map = {'ds': 'data scientist',
+                         'ml': 'machine learning',
+                         'da': 'data analyst',
+                         'ai': 'artificial intelligence',
+                         'dd': 'data science director',
+                         'de': 'data engineer',
+                         'ce': 'cloud engineer',
+                         'se': 'software engineer',
+                         'ba': 'business analyst'}
 
         # capture the unique job title abbreviations from df
         unique_titles_raw = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
@@ -3773,9 +3777,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         
         return unique_titles_viz
 
-    # capture and condition the unique job titles in the dataset, and ready them for automatic visualization
+
 ####### !!!!!!!! WORKING HERE: insert unique_titles_viz into each call to a viz function below
-    unique_titles_viz = prepare_job_titles_for_viz(df, job_title_map)
+    unique_titles_viz = prepare_job_titles_for_viz(df)
     
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
@@ -5200,18 +5204,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
-# create a dictionary for job title and abbreviation mapping
-job_title_map = {'ds': 'data scientist',
-                 'ml': 'machine learning',
-                 'da': 'data analyst',
-                 'ai': 'artificial intelligence',
-                 'dd': 'data science director',
-                 'de': 'data engineer',
-                 'ce': 'cloud engineer',
-                 'se': 'software engineer',
-                 'ba': 'business analyst'}
-
-def main_program(csv_path, job_title_map):
+def main_program(csv_path):
     # load and concatenate the raw csvs collected from Indeed and stored in a data_xx directory
     df_raw = load_and_concat_csvs(csv_path)
     
@@ -5240,7 +5233,7 @@ def main_program(csv_path, job_title_map):
     
     # visualize n_grams and skill lists as horizontal bar plots
     df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
-                                    terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df, job_title_map)
+                                    terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
     
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, viz_title='Python Subtopic')
 
@@ -5248,7 +5241,7 @@ def main_program(csv_path, job_title_map):
 
 
 # execute main program
-df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path, job_title_map)
+df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path)
 
 # close time calculation
 end_time = time.time()
