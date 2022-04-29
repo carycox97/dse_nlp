@@ -2423,23 +2423,22 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
 ####### !!!!!!!! WORKING HERE: automating job title in visualizations        
 
         # capture the unique job title abbreviations from df
-        unique_titles = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
+        unique_titles_raw = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
+             
+        # convert abbreviations to full job titles
+        unique_titles = [job_title_map.get(title, title) for title in unique_titles_raw]
+        
+        # append quotation marks to every element
+        unique_titles = ['"' + title for title in unique_titles]
+        append_quotes = '"'
+        unique_titles = (pd.Series(unique_titles) + append_quotes).tolist()
         
         # insert 'and' in between job titles
-        unique_titles_copy = unique_titles[:]
-        unique_titles_copy.insert(1, 'and')
-        
-        # convert abbreviations to full job titles
-        unique_titles_copy = [job_title_map.get(title, title) for title in unique_titles_copy]
-
-
-
-
-
-
+        unique_titles_viz = unique_titles[:]
+        unique_titles_viz.insert(1, 'and')
         
         # print test
-        print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_copy)}')
+        print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_viz)}')
 
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, 
