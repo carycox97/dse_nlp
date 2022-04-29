@@ -110,6 +110,7 @@ def clean_raw_csv(df_raw):
 
     '''
     # drop unnecessary fields and repair job_Description field name
+####### !!!!!!!! WORKING HERE: might need to drop new total_page_count field from the indeed.py scraper
     df_clean = df_raw.drop(['URL', 'page_count', 'post_date', 'reviews'], axis=1)
     df_clean.rename(columns={'job_Description':'job_description'}, inplace=True)
 
@@ -2345,7 +2346,7 @@ def visualize_indeed_metadata(df):
     
 
 def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
-                      terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df):
+                      terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df, job_title_map):
     '''
     Visualize the n_grams created by the nlp_count_n_grams function.
 
@@ -2417,7 +2418,25 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                     style='italic',
                     ha='left',
                     in_layout=True,
-                    wrap=True)          
+                    wrap=True)   
+
+####### !!!!!!!! WORKING HERE: automating job title in visualizations        
+
+        # capture the unique job title abbreviations from df
+        unique_titles = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
+        
+        # insert 'and' in between job titles
+        unique_titles_copy = unique_titles[:]
+        unique_titles_copy.insert(1, 'and')
+        
+        # convert abbreviations to full job titles
+        
+        # integrate them into the visualization's docstring
+        
+
+        
+        # print test
+        print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_copy)}')
 
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, 
@@ -4064,9 +4083,9 @@ def nlp_skill_lists(additional_stopwords):
                        'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
                        'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'pillow',
                        'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
-                       'python', 'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
+                       'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
                        'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'spacy', 'statsmodels',
-                       'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost'] ###
+                       'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost'] ### 'python', 
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
                   'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
@@ -5150,7 +5169,18 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
-def main_program(csv_path):
+# create a dictionary for job title and abbreviation mapping
+job_title_map = {'ds': 'data scientist',
+                 'ml': 'machine learning',
+                 'da': 'data analyst',
+                 'ai': 'artificial intelligence',
+                 'dd': 'data science director',
+                 'de': 'data engineer',
+                 'ce': 'cloud engineer',
+                 'se': 'software engineer',
+                 'ba': 'business analyst'}
+
+def main_program(csv_path, job_title_map):
     # load and concatenate the raw csvs collected from Indeed and stored in a data_xx directory
     df_raw = load_and_concat_csvs(csv_path)
     
@@ -5179,7 +5209,7 @@ def main_program(csv_path):
     
     # visualize n_grams and skill lists as horizontal bar plots
     df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
-                                    terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
+                                    terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df, job_title_map)
     
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, viz_title='Python Subtopic')
 
@@ -5187,7 +5217,7 @@ def main_program(csv_path):
 
 
 # execute main program
-df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path)
+df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path, job_title_map)
 
 # close time calculation
 end_time = time.time()
