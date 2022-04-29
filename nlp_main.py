@@ -2430,9 +2430,12 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         unique_titles_copy.insert(1, 'and')
         
         # convert abbreviations to full job titles
-        
-        # integrate them into the visualization's docstring
-        
+        unique_titles_copy = [job_title_map.get(title, title) for title in unique_titles_copy]
+
+
+
+
+
 
         
         # print test
