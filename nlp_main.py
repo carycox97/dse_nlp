@@ -3730,8 +3730,29 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
 
     
     def prepare_job_titles_for_viz(df, job_title_map):
-        ####### !!!!!!!! WORKING HERE: automating job title in visualizations        
-        # MOVE THIS TO A BETTER PLACE AND MAKE SURE TO PASS job_title_map AND df
+        '''
+        Identify the unique job titles inherent in the raw Indeed dataframe, df. Convert the unique abbreviations
+        to their full names (e.g., 'ds' to 'data scientist') and prepare the list of full names for automatic
+        insertion into visualizations.
+
+        Parameters
+        ----------
+        df : dataframe
+            Contains the raw concatenated Indeed csvs. Created in the clean_raw_csv function.
+            
+        job_title_map : dictionary
+            Mapping of job title abbreviations to their corresponding full names.
+
+        Returns
+        -------
+        unique_titles_viz : list
+            Fully conditioned list of unique job titles with inserted quotation marks and conjunctions (e.g., 'and').
+
+        '''
+        
+        
+        ####### !!!!!!!! WORKING HERE: MOVE job_title_map TO HERE       
+
         # capture the unique job title abbreviations from df
         unique_titles_raw = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
              
@@ -3748,10 +3769,13 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         unique_titles_viz.insert(1, 'and')
     
         # print test
-        print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_viz)}')
+        # print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_viz)}')
+        
+        return unique_titles_viz
 
     # capture and condition the unique job titles in the dataset, and ready them for automatic visualization
-    prepare_job_titles_for_viz(df, job_title_map)
+####### !!!!!!!! WORKING HERE: insert unique_titles_viz into each call to a viz function below
+    unique_titles_viz = prepare_job_titles_for_viz(df, job_title_map)
     
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
