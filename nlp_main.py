@@ -2420,26 +2420,6 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                     in_layout=True,
                     wrap=True)   
 
-####### !!!!!!!! WORKING HERE: automating job title in visualizations        
-
-        # capture the unique job title abbreviations from df
-        unique_titles_raw = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
-             
-        # convert abbreviations to full job titles
-        unique_titles = [job_title_map.get(title, title) for title in unique_titles_raw]
-        
-        # append quotation marks to every element
-        unique_titles = ['"' + title for title in unique_titles]
-        append_quotes = '"'
-        unique_titles = (pd.Series(unique_titles) + append_quotes).tolist()
-        
-        # insert 'and' in between job titles
-        unique_titles_viz = unique_titles[:]
-        unique_titles_viz.insert(1, 'and')
-        
-        # print test
-        print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_viz)}')
-
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, 
                               term_fixes, df_jobs_raw):
@@ -3748,6 +3728,31 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         df_jobs_bigrams = bigrams_by_percentage(df_jobs_raw, bigram_match_to_prof_list)
         monograms_and_bigrams_by_percentage(df_jobs_mono, df_jobs_bigrams)
 
+    
+    def prepare_job_titles_for_viz(df, job_title_map):
+        ####### !!!!!!!! WORKING HERE: automating job title in visualizations        
+        # MOVE THIS TO A BETTER PLACE AND MAKE SURE TO PASS job_title_map AND df
+        # capture the unique job title abbreviations from df
+        unique_titles_raw = list(df.scrape_job_title.unique()) # maybe intersperse a comma and and and in between titles
+             
+        # convert abbreviations to full job titles
+        unique_titles = [job_title_map.get(title, title) for title in unique_titles_raw]
+        
+        # append quotation marks to every element
+        unique_titles = ['"' + title for title in unique_titles]
+        append_quotes = '"'
+        unique_titles = (pd.Series(unique_titles) + append_quotes).tolist()
+        
+        # insert 'and' in between job titles
+        unique_titles_viz = unique_titles[:]
+        unique_titles_viz.insert(1, 'and')
+    
+        # print test
+        print(f'This is a test of the job titles, which are {" ".join(str(x) for x in unique_titles_viz)}')
+
+    # capture and condition the unique job titles in the dataset, and ready them for automatic visualization
+    prepare_job_titles_for_viz(df, job_title_map)
+    
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
     
