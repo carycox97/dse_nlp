@@ -110,7 +110,6 @@ def clean_raw_csv(df_raw):
 
     '''
     # drop unnecessary fields and repair job_Description field name
-####### !!!!!!!! WORKING HERE: might need to drop new total_page_count field from the indeed.py scraper
     df_clean = df_raw.drop(['URL', 'page_count', 'post_date', 'reviews'], axis=1)
     df_clean.rename(columns={'job_Description':'job_description'}, inplace=True)
 
@@ -546,7 +545,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'urgency', 'delight', 'tailored', 'abreast', 'progressive', 'vibrant', 'book',
                                             'vertical', 'astrazeneca', 'tangible', 'loyalty', 'mechanism', 'lieu', 'competition',
                                             'nationwide', 'invent', 'owning', 'light', 'discovering', 'hope', 'fda', 
-                                            'joint', 'lambda', 'pushing', 'generally', 'follows', 'touch', 'spring', 'relevance',
+                                            'joint', 'pushing', 'generally', 'follows', 'touch', 'spring', 'relevance',
                                             'water', 'discretion', 'extent', 'acquire', 'respected', 'positively', 'corp',
                                             'transformational', 'walk', 'qualify', 'owned', 'defines', 'payer', 'guided',
                                             'popular', '2019', 'standing', 'nyse',  'fulfill', 'adaptable', 'cash', 
@@ -582,7 +581,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'moody', 'else', 'translates', 'cultivate', 'anccon', 'cognizant',
                                             'strengthen', 'raise', 'drawing', 'affair', 'internationally', 'door', 'portal',
                                             'seller', 'plant', 'buyer', 'accomplishment', '1000', 'traffic', 'intervention',
-                                            'honest', 'specified', 'executes', 'backlog', 'w', 'published', 'army',
+                                            'honest', 'specified', 'executes', 'w', 'published', 'army',
                                             'relates', 'eight', 'recommends', 'park', 'called', 'sitting',
                                             'fulfillment', 'na', 'walmart', 'administrator', 'ac_consulting21', 'verisk', 'spent',
                                             'michigan', 'slack', 'red', 'crime', 'anticipated', 'desk', '5000', 'derived',
@@ -2366,7 +2365,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
     None. Directly outputs visualizations.
 
     ''' 
-    def visualize_all_monograms(n_grams):
+    def visualize_all_monograms(n_grams, unique_titles_viz):
         '''
         print('\nVisualizing all monograms...')
         Visualize all monograms across all skillsets (e.g., crednetials, technical, soft and professional). Can also
@@ -2408,9 +2407,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                     color='r',
                     fontweight='demibold')
         
-        plt.figtext(0.300, 0.010,
-                    textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                  width=60),
+        plt.figtext(0.140, 0.010,
+                    textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                  width=70),
                     bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                     fontsize=14,
                     color='black',
@@ -2422,7 +2421,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
 
 
     def visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, 
-                              term_fixes, df_jobs_raw):
+                              term_fixes, df_jobs_raw, unique_titles_viz):
         '''
         Create visualizations for monograms and bigrams assoicated with the credential skill list.
 
@@ -2501,9 +2500,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
                       
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2511,7 +2510,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True)  
+                        wrap=True) 
             
             return bigram_match_to_cred_list
                
@@ -2571,9 +2570,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2581,7 +2580,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True)  
+                        wrap=True)   
             
             return df_jobs_mono
         
@@ -2659,9 +2658,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2669,7 +2668,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
             
             return df_jobs_bigrams
 
@@ -2727,9 +2726,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2750,7 +2749,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         
 
     def visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords,
-                             term_fixes, df_jobs_raw):
+                             term_fixes, df_jobs_raw, unique_titles_viz):
         '''
         Create visualizations for monograms and bigrams assoicated with the technical skill list.
 
@@ -2829,9 +2828,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2839,7 +2838,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
                        
             return bigram_match_to_tech_list
         
@@ -2900,9 +2899,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2988,9 +2987,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -2998,7 +2997,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
             
             return df_jobs_bigrams    
 
@@ -3056,9 +3055,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3066,7 +3065,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True)
+                        wrap=True) 
 
     
         # visualize technical skills by count
@@ -3079,7 +3078,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
 
 
     def visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords,
-                       term_fixes, df_jobs_raw):
+                       term_fixes, df_jobs_raw, unique_titles_viz):
         '''
         Create visualizations for monograms and bigrams assoicated with the soft skill list.
 
@@ -3158,9 +3157,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3229,9 +3228,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3239,7 +3238,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True)  
+                        wrap=True)   
             
             return df_jobs_mono
 
@@ -3315,9 +3314,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3325,7 +3324,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
             
             return df_jobs_bigrams
 
@@ -3383,9 +3382,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3393,7 +3392,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True)        
+                        wrap=True)         
               
         # visualize soft skills by count
         bigram_match_to_soft_list = monograms_and_bigrams_by_count()
@@ -3405,7 +3404,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
 
 
     def visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, 
-                               additional_stopwords, term_fixes, df_jobs_raw):
+                               additional_stopwords, term_fixes, df_jobs_raw, unique_titles_viz):
         '''
         Create visualizations for monograms and bigrams assoicated with the professional skill list.
 
@@ -3484,9 +3483,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Count', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3494,7 +3493,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
                        
             return bigram_match_to_prof_list
 
@@ -3554,9 +3553,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3564,7 +3563,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True)  
+                        wrap=True)   
             
             return df_jobs_mono
 
@@ -3640,9 +3639,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3650,7 +3649,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
             
             return df_jobs_bigrams
 
@@ -3708,9 +3707,9 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             ax.set(ylabel=None)
             ax.set_xlabel('Percentage', fontsize=18)
             
-            plt.figtext(0.330, 0.010,
-                        textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                                      width=60),
+            plt.figtext(0.140, 0.010,
+                        textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                      width=70),
                         bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                         fontsize=14,
                         color='black',
@@ -3718,7 +3717,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
                         style='italic',
                         ha='left',
                         in_layout=True,
-                        wrap=True) 
+                        wrap=True)  
 
         # visualize professional skills by count
         bigram_match_to_prof_list = monograms_and_bigrams_by_count()
@@ -3778,22 +3777,28 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         return unique_titles_viz
 
 
-####### !!!!!!!! WORKING HERE: insert unique_titles_viz into each call to a viz function below
     unique_titles_viz = prepare_job_titles_for_viz(df)
     
     # create a clean dataframe where each record is a unique listing, and each term is tokenized
     df_jobs_raw = clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes) 
     
     # visualize all mongrams regardless of skillset
-    visualize_all_monograms(n_grams)
+    visualize_all_monograms(n_grams, unique_titles_viz)
     
     # visualize credentials, technical skills, soft skills and professional skills
-    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw) 
-    visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
-    visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
-    visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df_jobs_raw)
+    visualize_credentials(n_grams, ds_cred_terms, terms_for_nlp, series_of_interest, additional_stopwords,
+                          term_fixes, df_jobs_raw, unique_titles_viz) 
     
-    return df_jobs_raw
+    visualize_technicals(n_grams, ds_tech_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords,
+                         term_fixes, df_jobs_raw, unique_titles_viz)
+    
+    visualize_soft(n_grams, ds_soft_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords,
+                   term_fixes, df_jobs_raw, unique_titles_viz)
+    
+    visualize_professional(n_grams, ds_prof_skill_terms, terms_for_nlp, series_of_interest, additional_stopwords,
+                           term_fixes, df_jobs_raw, unique_titles_viz)
+    
+    return df_jobs_raw, unique_titles_viz
 
 
 def visualize_word_clouds(terms_for_nlp, series_of_interest):
@@ -3885,7 +3890,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, viz_title):
+def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_titles_viz, viz_title):
     '''
     Visualize counts and percentages of monograms for subtopics of interest.
 
@@ -3928,9 +3933,9 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, viz_title)
     ax.set(ylabel=None)
     ax.set_xlabel('Count', fontsize=18)
     
-    plt.figtext(0.330, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=60),
+    plt.figtext(0.140, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=70),
                 bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                 fontsize=14,
                 color='black',
@@ -3938,7 +3943,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, viz_title)
                 style='italic',
                 ha='left',
                 in_layout=True,
-                wrap=True)
+                wrap=True) 
      
     # create a horizontal barplot visualizing data science skills in the subtopic list - by percentage
     df_jobs_mono = df_jobs_raw.copy()
@@ -3975,9 +3980,9 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, viz_title)
     ax.set(ylabel=None)
     ax.set_xlabel('Percentage', fontsize=18)
     
-    plt.figtext(0.330, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for "data scientist" collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=60),
+    plt.figtext(0.140, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=70),
                 bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
                 fontsize=14,
                 color='black',
@@ -5091,6 +5096,9 @@ def nlp_skill_lists(additional_stopwords):
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
     print(f'Stopword pollutants: {stopword_pollutants}\n')
     
+####### !!!!!!!! WORKING HERE: confirm all subtopic terms show up in the ds_skills_combined
+    # sum all subtopic lists then subtract ds_skills_combined and make sure it's an empty list
+    
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python
 
 
@@ -5232,10 +5240,10 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    df_jobs_raw = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
+    df_jobs_raw, unique_titles_viz = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
                                     terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
     
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, viz_title='Python Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
 
