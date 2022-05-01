@@ -709,7 +709,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'veteransindividuals', 'inventing', 'technologydriven', 'articulating', 'pega', 'cto',
                                             'refinement', '49', 'multicultural', 'responsibly', 'la', 'capturing', 'joy',
                                             'diagnose',  'fastchanging', 'wi', 'weather', 'percentage', 'archive', 'hospitality',
-                                            'substitute', 'childcare', 'violence', 'discrete', 'tampa', 'constructing', 'coffee',
+                                            'substitute', 'childcare', 'violence', 'tampa', 'constructing', 'coffee',
                                             'grounded', 'wholesale', 'disrupting', 'dialog', 'subcategory', 'thoroughly', 'dev', 
                                             'wall', 'io', 'fort', '300', 'assay', 'facetoface', '2008', 'uf0b7', 'processed',
                                             'appeal', 'observability', 'pinterest', 'penfed', 'physically', 'kitchen', 'academy',
@@ -842,7 +842,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'easytounderstand', 'letting', 'consults', 'moderately', 'epa', 'lgbtq', 'repetitive',
                                             'contracted', 'multi', 'elite', 'latitude', 'wellpositioned', 'heor', 'upper',
                                             'weapon', '60135c', 'winner', 'ocr', 'nonclinical', 'august', 'usually',
-                                            'personalizing', 'berlin', 'williams', 'valuebased', 'z', 'pdf', 'provisioning',
+                                            'personalizing', 'berlin', 'williams', 'valuebased', 'z', 'provisioning',
                                             'siemens', 'olap', 'recurly', 'encryption', 'cx', 'internetnative', 'satisfied',
                                             'highprofile', 'blood', 'intends', 'adverse', 'worksm', 'placed', 'datarich',
                                             'instructor', 'renewal', 'responsiveness', 'realistic', 'toronto', 'differently',
@@ -4113,7 +4113,7 @@ def nlp_skill_lists(additional_stopwords):
                      'training',
                      'understand',
                      'year']  
-####### !!!!!!!! WORKING HERE: create subtopic lists
+
     subtopic_language = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
                          'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
                          'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
@@ -4149,6 +4149,13 @@ def nlp_skill_lists(additional_stopwords):
                            'rancher', 'rkt', 'runc', 'skopeo', 'vagrant', 'virtualbox', 'windock', 'zerovm'] ### 'dive' might have to be in context of cloud tech
     
     subtopic_agile = ['agile', 'backlog', 'kanban', 'mvp', 'roadmap', 'scrum', 'sprint', 'waterfall'] ###
+
+    ####### !!!!!!!! WORKING HERE: create subtopic lists    
+    subtopic_datatypes = ['json', 'csv', 'time series', 'trajectory', 'unstructured', 'structured',
+                          'continuous', 'discrete', 'text', 'quantitative', 'qualitative', 'excel',
+                          'xlsx', 'zip', 'txt', 'html', 'pdf', 'parquet', 'avro', 'orc',
+                          'protocol buffer', 'sas', 'sql', 'pickle', 'stata', 'hdf5', 'matlab', 'png', 'jpeg',
+                          'xml']
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4188,7 +4195,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_starfish = ['ingestion', 'preprocessing', 'retrain', 'training', 'transformation', ]
     
-    subtopic_datatypes = ['json', 'csv', 'time series', 'trajectory', 'unstructured', 'structured']
+
     
     subtopic_ide = ['anaconda', 'pycharm', 'rstudio']
     
