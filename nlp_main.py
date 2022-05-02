@@ -4209,11 +4209,7 @@ def nlp_skill_lists(additional_stopwords):
     # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
     # might need to split math_models into math and models
     # maybe need a full MECE reset...
-    # need a subtopic list for the linux/unix ecosystem
-    
-    print(subtopic_aws, subtopic_cloud, subtopic_agile, subtopic_language, subtopic_tooling,
-          subtopic_math_models, subtopic_nlp, subtopic_deep_learning, subtopic_viz, subtopic_r, subtopic_starfish,
-          subtopic_containers, subtopic_datatypes, subtopic_ide)
+    # need a subtopic list for the linux/unix ecosystem    
     
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -4859,6 +4855,7 @@ def nlp_skill_lists(additional_stopwords):
                          'troubleshoot',
                          'tree',
                          'trend',
+                         'txt',
                          'typescript',
                          'ubuntu',
                          'uncover', 
@@ -4894,11 +4891,14 @@ def nlp_skill_lists(additional_stopwords):
                          'windows',
                          'word2vec',
                          'xgboost',
+                         'xlsx',
                          'xml',
                          'xray',
+                         'yaml',
                          'yarn',
                          'zeromq',
-                         'zerovm']    
+                         'zerovm',
+                         'zip']    
     
     ds_soft_skill_terms = ['adhoc',
                            'ability',
@@ -5110,12 +5110,21 @@ def nlp_skill_lists(additional_stopwords):
                            'workstreams'] 
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
+    subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
+                         subtopic_math_models + subtopic_nlp + subtopic_deep_learning + subtopic_viz+subtopic_r +
+                         subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
     print(f'Test for Stopword pollution in skill lists: {not set(ds_skills_combined).isdisjoint(additional_stopwords)}\n')
     stopword_pollutants = list(set(additional_stopwords).intersection(ds_skills_combined))
-    print(f'Stopword pollutants: {stopword_pollutants}\n')
+    print(f'Stopword pollutants from primary skill lists: {stopword_pollutants}\n')
+    
+    # confirm exclusivity of the subtopic lists with the additional_stopwords list in the clean_terms_for_nlp function
+    print(f'Test for Stopword pollution in subtopic lists: {not set(subtopics_combined).isdisjoint(additional_stopwords)}\n')
+    stopword_pollutants = list(set(additional_stopwords).intersection(subtopics_combined))
+    print(f'Stopword pollutants from primary skill lists: {stopword_pollutants}\n')    
+    
     
 ####### !!!!!!!! WORKING HERE: confirm all subtopic terms show up in the ds_skills_combined
     # sum all subtopic lists then subtract ds_skills_combined and make sure it's an empty list
