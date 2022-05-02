@@ -779,7 +779,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'seminar', 'unusual', 'trending', 'interpreted', 'adheres', 'inherent', 'gene',
                                             'carmax', 'productionizing', 'farm', 'continuity', 'podcasts', 'talking', 'lever',
                                             'clarification', '6000', 'ave', 'dataflow', 'compete', 'habit', 'citigroup', 'endorse',
-                                            'continent', 'responds', 'grafana', 'simplicity', 'hp', 'clm', 'honesty', 'angular',
+                                            'continent', 'responds', 'simplicity', 'hp', 'clm', 'honesty', 'angular',
                                             'viewpoint', 'blueprint', 'incredibly', 'maybe', 'arising', 'contextual', 'normally',
                                             'richest',  'usbased', '31', 'vanguard', 'actually', 'peraton', 'adult', 'festival',
                                             'oil', '3m', 'jd', 'enormous', 'hazard', 'fisher', 'guest', 'characteristicto',
@@ -1213,7 +1213,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'varsity', 'icertis', 'camp', 'objectively', 'impairment', 'injection', 'ob', 
                                             'domicile', 'gapp', 'iq', 'detailing', 'cmc', 'ccar', 'preventative', 'nordisk',
                                             'settlement', 'mx', 'bird', 'advertisement', 'tf', 'eurofins', 'whichever', '263892',
-                                            'coppa', 'amyris', 'labcorp', 'justification', 'virology', 'sisense', 'nextroll',
+                                            'coppa', 'amyris', 'labcorp', 'justification', 'virology', 'nextroll',
                                             'njoy', 'educationtraining', 'cref', 'experiential', 'oltp', 'menlo', 'reaction',
                                             'organizationally', 'gradeslevels', 'protectionrelated', 'caching', 'mentored',
                                             '75year', 'geo', 'oura', 'forrester', 'arrow', 'accrual',
@@ -4152,13 +4152,20 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_agile = ['agile', 'backlog', 'kanban', 'mvp', 'roadmap', 'scrum', 'sprint', 'waterfall'] ###
 
-    ####### !!!!!!!! WORKING HERE: create subtopic lists    
+
     subtopic_datatypes = ['avro', 'continuous', 'csv', 'discrete', 'excel', 'hdf5', 'html', 'jpeg',
                           'json', 'matlab', 'netcdf', 'onnx', 'orc', 'parquet', 'pb', 'pdf', 'petastorm',
                           'pickle', 'pmml', 'png', 'qualitative', 'quantitative',
                           'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords',
-                          'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip']  ### waiting on 'time series'
-    
+                          'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip']  ### waiting on 'time series' and bigrams
+####### !!!!!!!! WORKING HERE: create subtopic lists    
+    subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
+                    'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
+                    'highcharts', 'infogram', 'interactive', 'kibana', 'klipfolio', 'leaflet',
+                    'looker', 'matplotlib', 'palantir', 'plotly', 'polymaps', 'power bi', 'pydot',
+                    'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'vega',
+                    'visio', 'visualization', 'watson', 'zoho']
+
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
@@ -4192,8 +4199,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
                               'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn', 'tensorrt',]
     
-    subtopic_viz = ['power bi', 'tableau', 'dashboard', 'seaborn', 'matplotlib', 'domo', 'interactive', 'kibana', 'looker',
-                    'palantir', 'qlik', 'spotfire', 'visio', 'visualization', 'pydot', 'bokeh', 'plotly']
+
     
     subtopic_starfish = ['ingestion', 'preprocessing', 'retrain', 'training', 'transformation', ]
     
@@ -5131,9 +5137,6 @@ def nlp_skill_lists(additional_stopwords):
     print(f'Test for subtopic terms missing in skill lists: {not set(subtopics_combined).isdisjoint(ds_skills_combined)}\n')
     subtopic_missing_terms = sorted(list(set(subtopics_combined) - set(ds_skills_combined)))
     print(f'Subtopic terms missing from primary skill lists: {subtopic_missing_terms}\n')  
-   
-####### !!!!!!!! WORKING HERE: confirm all subtopic terms show up in the ds_skills_combined
-    # sum all subtopic lists then subtract ds_skills_combined and make sure it's an empty list
     
     return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python
 
