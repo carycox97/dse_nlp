@@ -142,6 +142,9 @@ def clean_raw_csv(df_raw):
         '''
         # convert csv_name field to a string 
         df_clean['csv_name'] = df_clean['csv_name'].astype(str)
+      
+        # fix single zero in csv name
+        df_clean['csv_name'] = [x.replace('_0_', '_000_') if (len(x) != 24) else x for x in df_clean['csv_name']]
         
         # from the csv_name field, create fields for the state, scraped job title and date scraped 
         df_clean['state_abbrev'] = df_clean['csv_name'].str.slice(3, 5)
@@ -209,7 +212,6 @@ def clean_raw_csv(df_raw):
         df_clean['state_name'] = df_clean['state_abbrev']
         df_clean['state_name'] = df_clean['state_name'].replace(state_abbrev_to_state_name)
         
-
         # make a copy of df_clean as df, drop the now unnecessary csv_name field and delete the df_clean dataframe
         df = df_clean.copy()
         df = df.drop(['csv_name'], axis=1)
@@ -4172,7 +4174,7 @@ def nlp_skill_lists(additional_stopwords):
                         'weka', 'windows', 'yarn', 'zeromq',] # maybe split into TOOLS and DATABASES
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
-                            'monte', 'carlo', 'classifiction', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
+                            'monte', 'carlo', 'classification', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
                             'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',
@@ -5103,7 +5105,7 @@ def nlp_skill_lists(additional_stopwords):
                            'understanding',
                            'user',
                            'impactful',
-                           'waterfall'
+                           'waterfall',
                            'white', 
                            'win',
                            'work',
@@ -5123,9 +5125,13 @@ def nlp_skill_lists(additional_stopwords):
     # confirm exclusivity of the subtopic lists with the additional_stopwords list in the clean_terms_for_nlp function
     print(f'Test for Stopword pollution in subtopic lists: {not set(subtopics_combined).isdisjoint(additional_stopwords)}\n')
     stopword_pollutants = list(set(additional_stopwords).intersection(subtopics_combined))
-    print(f'Stopword pollutants from primary skill lists: {stopword_pollutants}\n')    
+    print(f'Stopword pollutants from primary skill lists: {stopword_pollutants}\n')  
     
-    
+    # confirm all terms in subtopics are reflected in at least on skill list
+    print(f'Test for subtopic terms missing in skill lists: {not set(subtopics_combined).isdisjoint(ds_skills_combined)}\n')
+    subtopic_missing_terms = sorted(list(set(subtopics_combined) - set(ds_skills_combined)))
+    print(f'Subtopic terms missing from primary skill lists: {subtopic_missing_terms}\n')  
+   
 ####### !!!!!!!! WORKING HERE: confirm all subtopic terms show up in the ds_skills_combined
     # sum all subtopic lists then subtract ds_skills_combined and make sure it's an empty list
     
