@@ -4158,13 +4158,15 @@ def nlp_skill_lists(additional_stopwords):
                           'pickle', 'pmml', 'png', 'qualitative', 'quantitative',
                           'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords',
                           'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip']  ### waiting on 'time series' and bigrams
-####### !!!!!!!! WORKING HERE: create subtopic lists    
+ 
     subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
                     'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
                     'highcharts', 'infogram', 'interactive', 'kibana', 'klipfolio', 'leaflet',
                     'looker', 'matplotlib', 'palantir', 'plotly', 'polymaps', 'power bi', 'pydot',
                     'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'vega',
-                    'visio', 'visualization', 'watson', 'zoho']
+                    'visio', 'visualization', 'watson', 'zoho'] ### need to work the power bi bigram
+####### !!!!!!!! WORKING HERE: create subtopic lists       
+    subtopic_ide = ['anaconda', 'pycharm', 'rstudio']
 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4205,7 +4207,7 @@ def nlp_skill_lists(additional_stopwords):
     
 
     
-    subtopic_ide = ['anaconda', 'pycharm', 'rstudio']
+
     
     # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
@@ -4300,6 +4302,7 @@ def nlp_skill_lists(additional_stopwords):
                          'cicd',
                          'chain',
                          'chart',
+                         'chartblocks',
                          'chatbot',
                          'classification',
                          'cleaning',
@@ -4361,6 +4364,7 @@ def nlp_skill_lists(additional_stopwords):
                          'dataminr',
                          'datarobot',
                          'datatable',
+                         'datawrapper',
                          'data-driven',
                          'dax', 
                          'decomposition',  
@@ -4386,11 +4390,13 @@ def nlp_skill_lists(additional_stopwords):
                          'django',
                          'dplyr',
                          'dsp',
+                         'dundas',
                          'dynamodb',
                          'e1071',
                          'early', 
                          'ebs',
                          'ec2',
+                         'echarts',
                          'ecosystem',
                          'eda',
                          'edge',
@@ -4420,6 +4426,7 @@ def nlp_skill_lists(additional_stopwords):
                          'feature',
                          'filter', 
                          'filtering',
+                         'finereport',
                          'fivetran',
                          'flair',
                          'flask',
@@ -4437,6 +4444,7 @@ def nlp_skill_lists(additional_stopwords):
                          'function',
                          'fundamental',
                          'fusion',
+                         'fusioncharts',
                          'gan',
                          'gaussian',
                          'gbm',
@@ -4454,6 +4462,7 @@ def nlp_skill_lists(additional_stopwords):
                          'gpt',
                          'gpu',
                          'gradient',
+                         'grafana',
                          'graph',
                          'graphql',
                          'groovy',
@@ -4470,6 +4479,7 @@ def nlp_skill_lists(additional_stopwords):
                          'hdfs',
                          'hidden',
                          'hierarchical',
+                         'highcharts',
                          'hive',
                          'hiveql',
                          'hpc',
@@ -4487,6 +4497,7 @@ def nlp_skill_lists(additional_stopwords):
                          'indexing', 
                          'inference',
                          'inferential',
+                         'infogram',
                          'informatica',
                          'information',
                          'infrastructure',
@@ -4520,6 +4531,7 @@ def nlp_skill_lists(additional_stopwords):
                          'kernel',
                          'kernlab',
                          'kibana',
+                         'klipfolio',
                          'kmeans',
                          'kms',
                          'knime',
@@ -4534,6 +4546,7 @@ def nlp_skill_lists(additional_stopwords):
                          'lattice',
                          'lda', 
                          'ldap',
+                         'leaflet',
                          'learning',
                          'lex',
                          'library',
@@ -4665,6 +4678,7 @@ def nlp_skill_lists(additional_stopwords):
                          'podman',
                          'polly',
                          'polyglot',
+                         'polymaps',
                          'postgresql',
                          'power',
                          'powershell',
@@ -4787,9 +4801,11 @@ def nlp_skill_lists(additional_stopwords):
                          'shell',
                          'shiny',
                          'sigint',
+                         'sigmajs',
                          'signal',
                          'simpleitk',
                          'simulation',
+                         'sisense',
                          'skewness',
                          'skill', 
                          'sklearn',
@@ -4878,6 +4894,7 @@ def nlp_skill_lists(additional_stopwords):
                          'variable',
                          'vba',
                          'vector',
+                         'vega',
                          'version',
                          'vertica',
                          'virtualbox',
@@ -4906,7 +4923,8 @@ def nlp_skill_lists(additional_stopwords):
                          'yarn',
                          'zeromq',
                          'zerovm',
-                         'zip']    
+                         'zip',
+                         'zoho']    
     
     ds_soft_skill_terms = ['adhoc',
                            'ability',
