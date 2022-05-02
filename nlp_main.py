@@ -1081,7 +1081,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'workbench', 'foursquare', 'reallife', 'resolved', 'demography', 'soothsayer',
                                             'lease', 'nonus', 'delay', 'laugh', 'testability', 'budgeted', 'selfaware',
                                             'invitae', 'resulted', 'crosssell', 'zillow', 'booking', 'reader', 'postersupplement',
-                                            'sysco', 'perficient', 'healthineers', 'soil', 'assures', 'onnx', 'rehabilitation',
+                                            'sysco', 'perficient', 'healthineers', 'soil', 'assures', 'rehabilitation',
                                             'nato', 'equalopportunity', 'favor', 'farfetch', 'silver', 'cdw', 'pwcs',
                                             'consist', 'techdriven', 'precedent', 'africa', 'attends', 'automobile',
                                             'clara', 'vetting', 'returned', 'turned', 'stresstest', 'licensure', 'bu', '19972021',
@@ -4121,7 +4121,7 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'django',
                        'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
-                       'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'pillow',
+                       'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
                        'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
                        'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
                        'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'spacy', 'statsmodels',
@@ -4155,7 +4155,7 @@ def nlp_skill_lists(additional_stopwords):
                           'continuous', 'discrete', 'text', 'quantitative', 'qualitative', 'excel',
                           'xlsx', 'zip', 'txt', 'html', 'pdf', 'parquet', 'avro', 'orc',
                           'protocol buffer', 'sas', 'sql', 'pickle', 'stata', 'hdf5', 'matlab', 'png', 'jpeg',
-                          'xml']
+                          'xml', 'petastorm', 'tfrecords', 'netcdf', 'onnx', 'yaml', 'pmml']  # pb for protocal buffer
     
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4203,6 +4203,7 @@ def nlp_skill_lists(additional_stopwords):
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
     # maybe a subtopic for the SQL ecosystem
     # maybe a subtopic for IDEs
+    # maybe a subtopic for just ML and DL algorithms
     # maybe a subtopic for version control software (like Git and SVN)
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
@@ -4635,6 +4636,7 @@ def nlp_skill_lists(additional_stopwords):
                          'peoplesoft',
                          'periscope',
                          'perl',
+                         'petastorm', 
                          'php',
                          'pig',
                          'pillow',
