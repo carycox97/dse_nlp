@@ -754,7 +754,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'deposit', 'unmet', 'prudential', 'messy', 'inclusivity', 'compassionate', 'forge',
                                             'dataintensive', 'breach', 'rock', 'band', 'sits', 'emphasizing', 'serverless', '46',
                                             'coast', 'retaliation', 'versed', 'ta', 'pathway', 'investigative', 'licensing',
-                                            'transforms', 'route', 'represented', 'merchandise', 'delta', 'cd', 'knowledgeskills',
+                                            'transforms', 'route', 'represented', 'merchandise', 'cd', 'knowledgeskills',
                                             'consent', 'seniorlevel', 'drink', 'nov', 'treasury', 'companypaid',
                                             'costeffective', 'excitement', 'packaged', 'issuing', 'thanks', 'compass', 'assemble',
                                             'sedentary', 'lineage', 'geico', 'engineered', 'refer', 'bert', 'unitibm', 'postdoc',
@@ -4163,10 +4163,13 @@ def nlp_skill_lists(additional_stopwords):
                     'looker', 'matplotlib', 'palantir', 'plotly', 'polymaps', 'power bi', 'pydot',
                     'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'vega',
                     'visio', 'visualization', 'watson', 'zoho'] ### need to work the power bi bigram
-####### !!!!!!!! WORKING HERE: create subtopic lists       
+    
     subtopic_ide = ['anaconda', 'atom', 'dataspell', 'eclipse', 'emacs', 'gedit', 'jupyter', 'notepad',
                     'nteract', 'pycharm', 'pydev', 'rstudio', 'rodeo', 'spyder', 'sublime', 'thonny', 
-                    'vim', 'visual studio'] 
+                    'vim', 'visual studio'] ###
+####### !!!!!!!! WORKING HERE: create subtopic lists       
+    subtopic_version_control = ['bazaar', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
+                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  # need to add in othe rgit elements like GitHub, Git LFS, GitLab, etc.
 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -4212,9 +4215,7 @@ def nlp_skill_lists(additional_stopwords):
     # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
     # maybe a subtopic for the SQL ecosystem
-    # maybe a subtopic for IDEs
     # maybe a subtopic for just ML and DL algorithms
-    # maybe a subtopic for version control software (like Git and SVN)
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
     # might need to split math_models into math and models
@@ -5151,7 +5152,8 @@ def nlp_skill_lists(additional_stopwords):
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_deep_learning + subtopic_viz+subtopic_r +
-                         subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide)
+                         subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
+                         subtopic_version_control)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
