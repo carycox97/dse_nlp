@@ -4462,6 +4462,7 @@ def nlp_skill_lists(additional_stopwords):
                          'gbm',
                          'gedit',
                          'gensim',
+                         'geometry',
                          'geospatial',
                          'gcp', 
                          'ggplot',
