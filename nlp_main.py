@@ -1399,14 +1399,13 @@ def clean_terms_for_nlp(series_of_interest):
                                             'cdph', 'ox', 'iron', 'apd', 'multiplechoice', 'driscolls', 'deferral',
                                             'updater', 'mlds', 'smoke', 'topps', 'ax', 'softbank', 'remodeling',
                                             'annapolis',]))) 
- 
-    
+     
     # create stop_words object and toggle on/off additional stop words
     # stop_words = nltk.corpus.stopwords.words('english') + additional_stopwords + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     # stop_words = nltk.corpus.stopwords.words('english') + ds_cred_terms + ds_prof_skill_terms + ds_soft_skill_terms + ds_tech_skill_terms
     stop_words = stopwords.words('english')
 
-    # initialize lemmatizer and execute lemmatization; this is the sloest part of the processing
+    # initialize lemmatizer and execute lemmatization; this is the slowest part of the processing
     print('   Lemmatizing...')
     wnl = nltk.stem.WordNetLemmatizer()
     terms_for_nlp = [wnl.lemmatize(word) for word in progressbar(words) if word not in stop_words]
@@ -2286,9 +2285,8 @@ def clean_listings_for_nlp(series_of_interest, additional_stopwords, term_fixes)
     # # tokenize the new df_jobs dataframe
     # df_jobs['job_description'] = df_jobs['job_description'].apply(word_tokenize)
 
-    # tokenize the new jf_jobs dataframe
-    print('\nTokenizing the new df_jobs dataframe...')
-    
+    # tokenize the new df_jobs dataframe
+    print('\nTokenizing the new df_jobs dataframe...')    
     df_jobs['job_description'] = df_jobs['job_description'].progress_apply(word_tokenize)
     
     # convert tokenized text to lowercase
@@ -4166,7 +4164,9 @@ def nlp_skill_lists(additional_stopwords):
                     'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'vega',
                     'visio', 'visualization', 'watson', 'zoho'] ### need to work the power bi bigram
 ####### !!!!!!!! WORKING HERE: create subtopic lists       
-    subtopic_ide = ['anaconda', 'pycharm', 'rstudio']
+    subtopic_ide = ['anaconda', 'atom', 'dataspell', 'eclipse', 'emacs', 'gedit', 'jupyter', 'notepad',
+                    'nteract', 'pycharm', 'pydev', 'rstudio', 'rodeo', 'spyder', 'sublime', 'thonny', 
+                    'vim', 'visual studio'] 
 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
