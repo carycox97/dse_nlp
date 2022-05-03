@@ -1360,7 +1360,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'ead', 'bunch', 'tumblr', 
                                             'gendernonbinary', 'rudeness', 'photographer', 'reused', 'firstplace', 'healthtech',
                                             'potff', 'crisp', 'exploding', 'slate', 'concertai', 'foresight', 'regulartemporary',
-                                            '35000', 'geometry', 'underpin', 'morse', 'usb', 'apac', 'doctrine', 'lawrence',
+                                            '35000', 'underpin', 'morse', 'usb', 'apac', 'doctrine', 'lawrence',
                                             'podcast', 'referenced', 'wwwistockcom', 'industrialization', 'nielseniq',
                                             '275', 'athletic', 'hyperion', 'genre', 'upandcoming', 'interpretive', 'gone', 
                                             'monfri', 'caribbean', 'necessity', 'declaration', 'multibilliondollar', 'compose',
@@ -4167,10 +4167,10 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_ide = ['anaconda', 'atom', 'dataspell', 'eclipse', 'emacs', 'gedit', 'jupyter', 'notepad',
                     'nteract', 'pycharm', 'pydev', 'rstudio', 'rodeo', 'spyder', 'sublime', 'thonny', 
                     'vim', 'visual studio'] ###
-####### !!!!!!!! WORKING HERE: create subtopic lists       
+     
     subtopic_version_control = ['bazaar', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
-                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  # need to add in othe rgit elements like GitHub, Git LFS, GitLab, etc.
-
+                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in othe rgit elements like GitHub, Git LFS, GitLab, etc.
+    
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
@@ -4184,6 +4184,10 @@ def nlp_skill_lists(additional_stopwords):
                         'spotfire', 'spreadsheet', 'spss', 'sqoop', 'ssis', 'stata', 'svn', 'tableau', 'tensorflow', 
                         'tensorrt', 'tibco', 'ubuntu', 'unix', 'vertica', 'visio', 'vlookup', 'vmware', 'watson',
                         'weka', 'windows', 'yarn', 'zeromq',] # maybe split into TOOLS and DATABASES
+####### !!!!!!!! WORKING HERE: create subtopic lists  
+    subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
+                            'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
+                            'statistics',]    
     
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classification', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4217,7 +4221,6 @@ def nlp_skill_lists(additional_stopwords):
     # maybe a subtopic for the SQL ecosystem
     # maybe a subtopic for just ML and DL algorithms
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
-    # maybe a subtopic for BI tools like Tableau, Power BI, Qlik, etc.
     # might need to split math_models into math and models
     # maybe need a full MECE reset...
     # need a subtopic list for the linux/unix ecosystem    
@@ -4883,7 +4886,7 @@ def nlp_skill_lists(additional_stopwords):
                          'tfs',
                          'theano',
                          'theory',
-                         'thonny'
+                         'thonny',
                          'tibco',
                          'tidyquant',
                          'tidyr',
@@ -5164,7 +5167,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_deep_learning + subtopic_viz+subtopic_r +
                          subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
-                         subtopic_version_control)
+                         subtopic_version_control + subtopic_mathematics)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
