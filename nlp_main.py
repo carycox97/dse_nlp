@@ -3994,7 +3994,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
 
 def nlp_skill_lists(additional_stopwords):
-    '''
+    '''   
     Generate lists of keywords for each job title's: credentials, technical skills, soft skills and professional skills.
     These lists are used by other functions to filter the job_description field, visualize key terms, etc.
 
@@ -4171,6 +4171,13 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_version_control = ['bazaar', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in othe rgit elements like GitHub, Git LFS, GitLab, etc.
     
+    subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
+                            'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
+                            'statistics'] ###   
+
+####### !!!!!!!! WORKING HERE: create subtopic lists  
+    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] 
+    
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
@@ -4181,14 +4188,10 @@ def nlp_skill_lists(additional_stopwords):
                         'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython', 'qgis', 'qlik',
                         'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',
                         'sas', 'sagemaker', 'sap', 'shell', 'snaplogic', 'snowflake', 'solr', 'sorcero', 'spark', 'splunk',
-                        'spotfire', 'spreadsheet', 'spss', 'sqoop', 'ssis', 'stata', 'svn', 'tableau', 'tensorflow', 
+                        'spotfire', 'spreadsheet', 'spss', 'sqlite', 'sqoop', 'ssis', 'stata', 'svn', 'tableau', 'tensorflow', 
                         'tensorrt', 'tibco', 'ubuntu', 'unix', 'vertica', 'visio', 'vlookup', 'vmware', 'watson',
                         'weka', 'windows', 'yarn', 'zeromq',] # maybe split into TOOLS and DATABASES
-####### !!!!!!!! WORKING HERE: create subtopic lists  
-    subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
-                            'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
-                            'statistics',]    
-    
+   
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classification', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
@@ -4222,7 +4225,6 @@ def nlp_skill_lists(additional_stopwords):
     # maybe a subtopic for just ML and DL algorithms
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # might need to split math_models into math and models
-    # maybe need a full MECE reset...
     # need a subtopic list for the linux/unix ecosystem    
     
     ds_tech_skill_terms = ['ab',
@@ -5168,7 +5170,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_deep_learning + subtopic_viz+subtopic_r +
                          subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
-                         subtopic_version_control + subtopic_mathematics)
+                         subtopic_version_control + subtopic_mathematics + subtopic_sql)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
