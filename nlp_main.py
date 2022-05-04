@@ -869,7 +869,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'variation', 'definexml', 'hanover', 'levi', 'soc', 'subsystem', 'featured',
                                             'circuit', 'biologics', 'drastically', 'naturally', 'difficulty', 'welldocumented',
                                             'germany', 'promoter', 'duplicating', 'ccb', '58', 'usecases',
-                                            'controller', 'retains', 'rail', 'wayfairs', 'indeeds', 'firmwide', 'block', 'jump',
+                                            'controller', 'retains', 'rail', 'wayfairs', 'indeeds', 'firmwide', 'jump',
                                             'decentralized', 'showcase', 'runtime', 'prestigious', 'enroll', 'preservation',
                                             'rationalization', 'antiracist', 'chair', '208000', 'death', 'dish', 'hair', 'spotifys',
                                             'gathered', 'consequence', 'coinbase', 'acl', 'prescient', 'guru', 'defi', 'expands',
@@ -1507,6 +1507,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'biostatistician': 'biostatistics', 
                   'biostatistical': 'biostatistics',
                   'biotechnology': 'biotech',
+                  'block': 'blocks',
                   'bootcamps': 'bootcamp',
                   'bootstrapping': 'bootstrap',
                   'caffe2': 'caffe',
@@ -1672,6 +1673,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'hard': 'diligent',
                   'diligently': 'diligent',
                   'diligence': 'diligent',
+                  'deeplearning4j': 'dl4j',
                   'highdimensional': 'dimensional',
                   'highdimensionality': 'dimensional',
                   'multidimensional': 'dimensional',
@@ -4119,12 +4121,12 @@ def nlp_skill_lists(additional_stopwords):
                          'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
                          'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',] ###
 
-    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'django',
-                       'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
+    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'dgl', 
+                       'django', 'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
                        'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
                        'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
                        'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
-                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'spacy', 'statsmodels',
+                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 'statsmodels',
                        'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost'] ### 'python', 
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
@@ -4132,9 +4134,9 @@ def nlp_skill_lists(additional_stopwords):
                   'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
                   'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] ###
     
-    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'lda', 'nlp', 'nltk', 'pattern',
-                    'polyglot', 'pynlpl', 'rasa', 'sentiment', 'sklearn', 'spacy', 'speechtotext',
-                    'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### 
+    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'kaldi',
+                    'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
+                    'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec'] ### 
    
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'cloudhsm', 'cloudtrail', 'codebuild', 'codedeploy', 'codepipeline',
                     'codestar', 'dms', 'dynamodb', 'ebs', 'ec2', 'elasticache', 'elasticsearch', 'emr',
@@ -4175,9 +4177,32 @@ def nlp_skill_lists(additional_stopwords):
                             'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
                             'statistics'] ###   
 
-####### !!!!!!!! WORKING HERE: create subtopic lists  
-    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] 
+    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] ###
+ 
+####### !!!!!!!! WORKING HERE: create subtopic lists      
+    subtopic_deep_learning = ['autoencoder',
+                             'automl',
+                             'caffe',
+                             'convolutional',
+                             'ensemble',
+                             'gan',
+                             'lightgbm',
+                             'lstm',
+                             'mxnet',
+                             'network',
+                             'neural',
+                             'nvidia',
+                             'pipeline',
+                             'pla',
+                             'rnn',
+                             'tensorrt'] 
     
+    subtopic_dl_frameworks = ['block', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o', 'keras',
+                              'lasagne', 'mxnet ', 'paddlepaddle', 'pytorch', 'singa',
+                              'sonnet', 'spark ml', 'tensorflow', 'tfx', 'theano']  
+    
+    subtopic_ml_broad = ['onnx']
+
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
@@ -4208,20 +4233,13 @@ def nlp_skill_lists(additional_stopwords):
     
 
     
-    subtopic_deep_learning = ['autoencoder', 'automl', 'caffe', 'convolutional', 'ensemble', 'gan', 'lightgbm', 'lstm', 'mxnet',
-                              'network', 'neural', 'nvidia', 'pipeline', 'pla', 'rnn', 'tensorrt',]
+
     
 
     
     subtopic_starfish = ['ingestion', 'preprocessing', 'retrain', 'training', 'transformation', ]
-    
-
-    
-
-    
-    # subtopics to work backwards for: ds_workflow (eda, etl, etc.); math classes/basics only
+  
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
-    # maybe a subtopic for the SQL ecosystem
     # maybe a subtopic for just ML and DL algorithms
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # might need to split math_models into math and models
@@ -4543,6 +4561,7 @@ def nlp_skill_lists(additional_stopwords):
                          'json',
                          'julia',
                          'jupyter',
+                         'kaldi',
                          'keras',
                          'kernel',
                          'kernlab',
@@ -4841,6 +4860,7 @@ def nlp_skill_lists(additional_stopwords):
                          'soa',
                          'software',
                          'solr',
+                         'sonnet',
                          'sorcero',
                          'source',
                          'sp',                      # what the hell is this
