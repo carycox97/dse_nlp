@@ -5507,18 +5507,6 @@ del start_time, end_time
 # print(time.time() - start_time)
 
 
-# # ORIGINAL
-# def find_bigrams(data):
-#     output = np.zeros((data.shape[0], len(bigrams)), dtype=bool)
-#     for i, d in enumerate(data):
-#         possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
-#         indices = np.where(np.isin(bigrams, list(set(bigrams).intersection(set(possible_bigrams)))))
-#         output[i, indices] = True
-#     return list(output.T)
-
-# output = find_bigrams(df['job_description'].to_numpy())
-# df = df.assign(**dict(zip(bigrams, output)))
-
 # # MY IMPLEMENTATION AND YES THIS WORKS!!
 # def find_bigram_match_to_cred_list(data):
 #     output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
