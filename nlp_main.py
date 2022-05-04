@@ -4856,6 +4856,7 @@ def nlp_skill_lists(additional_stopwords):
                          'spss',
                          'spyder',
                          'sql',
+                         'sqlite',
                          'sqoop',
                          'sqs',
                          'sre',
@@ -5505,24 +5506,6 @@ del start_time, end_time
 # df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
 # print(time.time() - start_time)
 
-# # TRYING STACKOVERFLOW REGEX ANSWER #1
-# #regex = '|'.join('(%s)' % b.replace(' ', r'\s+') for b in bigram_match_to_cred_list)
-# regex = '|'.join('(%s)' % b for b in bigram_match_to_cred_list)
-# # matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna())
-# matches = (df_jobs['job_description'].apply(' '.join).str.extractall(regex).droplevel(1).notna().groupby(level=0).max())
-# matches.columns = bigram_match_to_cred_list
-# out = df_jobs.join(matches).fillna(False)
-
-# TRYING STACKOVERFLOW REGEX ANSWER #2
-# import pandas as pd
-# import numpy as np
-# import nltk
-
-# bigrams = ['data science', 'computer science', 'bachelors degree']
-# df = pd.DataFrame(data={'job_description': [['data', 'science', 'degree', 'expert'],
-#                                             ['computer', 'science', 'degree', 'masters'],
-#                                             ['bachelors', 'degree', 'computer', 'vision'],
-#                                             ['data', 'processing', 'science']]})
 
 # # ORIGINAL
 # def find_bigrams(data):
@@ -5549,21 +5532,6 @@ del start_time, end_time
 # df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
 
 # Alternate Title Brainstorm for Skill Bar Charts
-# Consider making each chart a call to action
-# Original: Key Terms and Phrases for Data Scientist Credentials
-# What Credentials Employers are Looking For 
-# What You Need to Know for Credentials
-# Credentials to Focus on 
-# Breaking Down Credentials
-# Credential Focus Points
-# Priority Items for Data Scientist Credentials
-# Priority Objects for Credentials
-# Where to Focus Your Credentialing Efforts
-# Focus Areas for Your Credentialing
-# Where to Prioritize Your Credentialing
-# Maximizing Your Credentials
-# Maximizing the Value of Your Credentials
-# Getting Your Credentials to Excellence
 # Where to Focus Your Credentials
 # Focus Your Credentialing on These Key Areas ##############
 # Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
