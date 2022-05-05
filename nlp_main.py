@@ -1500,6 +1500,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'bioengineering': 'bioscience',
                   'biology': 'bioscience',
                   'biological': 'bioscience',
+                  'biomechanics': 'bioscience',
                   'biophysics': 'bioscience',
                   'epidemiology': 'bioscience',
                   'neuroscience': 'bioscience',
@@ -4210,7 +4211,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
-                        'fivetran', 'flume', 'fortify', 'git', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
+                        'fivetran', 'flume', 'fortify', 'git', 'hux', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
                         'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',
                         'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
                         'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
@@ -4523,6 +4524,7 @@ def nlp_skill_lists(additional_stopwords):
                          'hpcml',
                          'hris',
                          'html',
+                         'hux',
                          'hyperparameter',
                          'hyperv',
                          'hypothesis',
@@ -5318,7 +5320,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 200, 400
+    n_gram_range_start, n_gram_range_stop  = 0, 200
     _ = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop, print_flag=True)
     
     # (Optional) Step 5: Print in convenient form for addition to additional_stopword list
@@ -5326,7 +5328,10 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     # n_grams = [x for x in list(n_grams.grams)]
     # print(f'List of ngrams for new data parsing:\n{n_grams}\n')
 
-
+def utilities():
+    pass
+    # create tool to flag for a single term of interest
+    # probably need to bring in df_jobs_raw, or a later processed version that is used in the percentage charts
 ###### MAIN EXECUTION BELOW ######
 
 # define universal variables and data paths
