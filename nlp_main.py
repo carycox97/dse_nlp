@@ -1370,7 +1370,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'facial', 'louisville', '130000', 'being', 'fullyvaccinated', 'homepage', 'multiagent',
                                             'highland', 'scheduler', 'racing', 'rotating', 'intricacy', 'httpsbenefitsindeedjobs',
                                             'iehp', 'mayvin', 'inconsistent', 'linguistic', 'clearing', 'broadest', 'bomber', 
-                                            'moon', 'lims', 'disconnected', 'patience',
+                                            'moon', 'lims', 'disconnected', 'patience', 'assuming',
                                             'uncertain', 'superiority', 'loyal', 'ofac', 'paste', 'bing', 'rhode', 'smithfield',
                                             'iheartradio', 'vue', 'atypical', 'endlessly', 'rendering', 'llnl', 'whollyowned',
                                             'village', 'evolutionary', 'datafirst', 'psychometric', 'crosscultural', 'daylight',
@@ -1603,6 +1603,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'concisely': 'concise',
                   'succinct': 'concise',
                   'consultant': 'consulting',
+                  'containerorchestration' : 'container orchestration',
                   'contributor': 'contribute',
                   'cnn': 'convolutional neural network',
                   'cnns': 'convolutional neural network',
@@ -1636,6 +1637,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'businessdata': 'business data',
                   'dataset': 'data',
                   'datasets': 'data',
+                  'dataanalysis': 'data analysis',
                   'dataanalytics': 'data analytics',
                   'datacomputing': 'data computing',
                   'datascience': 'data science',
@@ -1939,6 +1941,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'math': 'mathematics',
                   'mathematician': 'mathematics',
                   'mathematical': 'mathematics',
+                  'mathematicalstatistical': 'mathematics statistics',
                   'mathematicsstatistics': 'mathematics statistics',
                   'mathstatistics': 'mathematics statistics',
                   'pyplot': 'matplotlib',
@@ -4042,6 +4045,7 @@ def nlp_skill_lists(additional_stopwords):
                      'analyst',
                      'analytics',
                      'associate',
+                     'astronomy',
                      'bachelors',
                      'bioinformatics',
                      'bioscience',
@@ -4215,7 +4219,7 @@ def nlp_skill_lists(additional_stopwords):
                         'sas', 'sagemaker', 'sap', 'shell', 'snaplogic', 'snowflake', 'solr', 'sorcero', 'spark', 'splunk',
                         'spotfire', 'spreadsheet', 'spss', 'sqlite', 'sqoop', 'ssis', 'stata', 'svn', 'tableau', 'tensorflow', 
                         'tensorrt', 'tibco', 'ubuntu', 'unix', 'vertica', 'visio', 'vlookup', 'vmware', 'watson',
-                        'weka', 'windows', 'yarn', 'zeromq',] # maybe split into TOOLS and DATABASES
+                        'weka', 'windows', 'yarn', 'zeromq', 'executable',] # maybe split into TOOLS and DATABASES
    
     subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
                             'monte', 'carlo', 'classification', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
@@ -4449,6 +4453,7 @@ def nlp_skill_lists(additional_stopwords):
                          'evaluation',
                          'evidence',
                          'excel',
+                         'executable',
                          'experiment',
                          'fastapi',
                          'feature',
@@ -5183,6 +5188,7 @@ def nlp_skill_lists(additional_stopwords):
                            'understanding',
                            'user',
                            'impactful',
+                           'warfighters',
                            'waterfall',
                            'white', 
                            'win',
@@ -5312,7 +5318,7 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     
     # Step 4: count the volume of n-grams from the job_description field and the given range
     n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, 200
+    n_gram_range_start, n_gram_range_stop  = 200, 400
     _ = nlp_count_n_grams(new_terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop, print_flag=True)
     
     # (Optional) Step 5: Print in convenient form for addition to additional_stopword list
