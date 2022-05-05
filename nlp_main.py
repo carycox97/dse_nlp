@@ -1503,6 +1503,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'biomechanics': 'bioscience',
                   'biophysics': 'bioscience',
                   'epidemiology': 'bioscience',
+                  'neuroimaging': 'bioscience',
                   'neuroscience': 'bioscience',
                   'biostatisticians': 'biostatistics',
                   'biostatistician': 'biostatistics', 
@@ -4132,7 +4133,7 @@ def nlp_skill_lists(additional_stopwords):
                        'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
                        'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
                        'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 'statsmodels',
-                       'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost'] ### 'python', 
+                       'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost', 'zookeeper'] ### 'python', 
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
                   'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
@@ -4166,7 +4167,7 @@ def nlp_skill_lists(additional_stopwords):
  
     subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
                     'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
-                    'highcharts', 'infogram', 'interactive', 'kibana', 'klipfolio', 'leaflet',
+                    'highcharts', 'infogram', 'interactive', 'kibana', 'kizan', 'klipfolio', 'leaflet',
                     'looker', 'matplotlib', 'palantir', 'plotly', 'polymaps', 'power bi', 'pydot',
                     'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'vega',
                     'visio', 'visualization', 'watson', 'zoho'] ### need to work the power bi bigram
@@ -4571,6 +4572,7 @@ def nlp_skill_lists(additional_stopwords):
                          'kernel',
                          'kernlab',
                          'kibana',
+                         'kizan',
                          'klipfolio',
                          'kmeans',
                          'kms',
@@ -4985,7 +4987,8 @@ def nlp_skill_lists(additional_stopwords):
                          'zeromq',
                          'zerovm',
                          'zip',
-                         'zoho']    
+                         'zoho',
+                         'zookeeper']    
     
     ds_soft_skill_terms = ['adhoc',
                            'ability',
@@ -5328,12 +5331,19 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
     # n_grams = [x for x in list(n_grams.grams)]
     # print(f'List of ngrams for new data parsing:\n{n_grams}\n')
 
+
+####### !!!!!!!! WORKING HERE: create function for searching job listings for a single term of interest
 def utilities():
     pass
-    # create tool to flag for a single term of interest
     # probably need to bring in df_jobs_raw, or a later processed version that is used in the percentage charts
-###### MAIN EXECUTION BELOW ######
+    # df_jobs_raw is a df, where each record is a list of tokenized strings
+    # NEED THE PROCESSED df_jobs DATAFRAME!! Might need to call clean_listings_for_nlp, of get it passed in (optimal)
+    # maybe
+    # 1) recombine each line into a single string
+    # 2) flag each line for a single term 
 
+
+###### MAIN EXECUTION BELOW ######
 # define universal variables and data paths
 csv_path = r'C:\Users\ca007843\Documents\100_mine\nlp\data_ds'
 
@@ -5563,4 +5573,23 @@ del start_time, end_time
 
 # shell command to count total lines of code:
 # pygount --format=summary .
+
+# for movie in movies:
+#   	# If actor is not found between character 37 and 41 inclusive
+#     # Print word not found
+#     if movie.find("actor", 37, 42) == -1:
+#         print("Word not found")
+#     # Count occurrences and replace two with one
+#     elif movie.count("actor") == 2:  
+#         print(movie.replace("actor actor", "actor"))
+#     else:
+#         # Replace three occurrences with one
+#         print(movie.replace("actor actor actor", "actor"))
+
+# for movie in movies:
+#   try:
+#     # Find the first occurrence of word
+#   	print(movie.index('money', 12, 51))
+#   except ValueError:
+#     print("substring not found")
 
