@@ -4180,7 +4180,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] ###
  
 ####### !!!!!!!! WORKING HERE: create subtopic lists      
-    subtopic_deep_learning = ['autoencoder',
+    subtopic_deep_learning = ['autoencoder',   # NEED TO DECONFLICT THIS WITH THE OTHER DL SUBTOPIC LIST
                              'automl',
                              'caffe',
                              'convolutional',
@@ -4397,7 +4397,7 @@ def nlp_skill_lists(additional_stopwords):
                          'detection',
                          'development',
                          'devops',
-                         'dgl'
+                         'dgl',
                          'dictionary',
                          'differential',
                          'dimensional',
@@ -5301,7 +5301,8 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 
     '''    
     # Step 1: create the skill lists
-    ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined = nlp_skill_lists(additional_stopwords)
+    (ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined,
+     subtopic_python) = nlp_skill_lists(additional_stopwords)
      
     # Step 2: redact ds_skills_combined from terms_for_nlp
     new_terms_for_nlp = [x for x in terms_for_nlp if x not in ds_skills_combined] 
