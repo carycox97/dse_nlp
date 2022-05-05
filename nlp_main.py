@@ -4156,8 +4156,8 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_datatypes = ['avro', 'continuous', 'csv', 'discrete', 'excel', 'hdf5', 'html', 'jpeg',
                           'json', 'matlab', 'netcdf', 'onnx', 'orc', 'parquet', 'pb', 'pdf', 'petastorm',
                           'pickle', 'pmml', 'png', 'qualitative', 'quantitative',
-                          'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords',
-                          'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip']  ### waiting on 'time series' and bigrams
+                          'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords', 'time series',
+                          'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip']  ### 
  
     subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
                     'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
@@ -4199,7 +4199,7 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o', 'keras',
                               'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa',
-                              'sonnet', 'spark ml', 'tensorflow', 'tfx', 'theano']  
+                              'sonnet', 'spark ml', 'tensorflow', 'tfx', 'theano'] ### 
     
     subtopic_ml_broad = ['onnx']
 
@@ -4228,19 +4228,10 @@ def nlp_skill_lists(additional_stopwords):
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
                             'statistics', 'stochastic', 'supervised', 'svm', 'transformation', 'decision tree',
                             'univariate', 'unsupervised', 'validation', 'vector', 'xgboost',] # will need to figure out monograms/bigrams
-    
-    # might need a subtopic breakout for just pure math, like algebra, calculus, etc.; then maybe another for 'concepts'
-    
-
-    
-
-    
-
-    
+ 
     subtopic_starfish = ['ingestion', 'preprocessing', 'retrain', 'training', 'transformation', ]
   
     # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
-    # maybe a subtopic for just ML and DL algorithms
     # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
     # might need to split math_models into math and models
     # need a subtopic list for the linux/unix ecosystem    
@@ -5202,7 +5193,8 @@ def nlp_skill_lists(additional_stopwords):
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_deep_learning + subtopic_viz+subtopic_r +
                          subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
-                         subtopic_version_control + subtopic_mathematics + subtopic_sql)
+                         subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_frameworks + 
+                         subtopic_ml_broad)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
