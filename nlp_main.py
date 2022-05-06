@@ -4186,26 +4186,25 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] ###
  
 ####### !!!!!!!! WORKING HERE: create subtopic lists      
-    subtopic_deep_learning = ['autoencoder',   # NEED TO DECONFLICT THIS WITH THE OTHER DL SUBTOPIC LIST
+    subtopic_dl_supporting = ['autoencoder',
                              'automl',
-                             'caffe',
                              'convolutional',
                              'ensemble',
                              'gan',
                              'lightgbm',
                              'lstm',
-                             'mxnet',
-                             'network',
-                             'neural',
+                             'neural network',
+                             'neuron',
                              'nvidia',
+                             'onnx'
                              'pipeline',
                              'pla',
                              'rnn',
-                             'tensorrt'] 
+                             'tensorrt'] ### 
     
-    subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o', 'keras',
-                              'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa',
-                              'sonnet', 'spark ml', 'tensorflow', 'tfx', 'theano'] ### 
+    subtopic_dl_frameworks =['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
+                             'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
+                             'spark ml', 'tensorflow', 'tfx', 'theano']
     
     subtopic_ml_broad = ['onnx']
 
@@ -5202,9 +5201,9 @@ def nlp_skill_lists(additional_stopwords):
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
-                         subtopic_math_models + subtopic_nlp + subtopic_deep_learning + subtopic_viz+subtopic_r +
+                         subtopic_math_models + subtopic_nlp + subtopic_viz+subtopic_r + subtopic_dl_frameworks +
                          subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
-                         subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_frameworks + 
+                         subtopic_version_control + subtopic_mathematics + subtopic_sql + 
                          subtopic_ml_broad)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
