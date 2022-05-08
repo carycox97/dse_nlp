@@ -4186,11 +4186,17 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] ###
  
 ####### !!!!!!!! WORKING HERE: create subtopic lists      
+    subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
+                              'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
+                              'spark ml', 'tensorflow', 'tfx', 'theano']
+    
+    subtopic_dl_algorithms = ['convolutional',
+                              'gan',
+                              'rnn',]
+
     subtopic_dl_supporting = ['autoencoder',
-                             'automl',
-                             'convolutional',
-                             'ensemble',
-                             'gan',
+                             'automl',                      
+                             'ensemble',                           
                              'lightgbm',
                              'lstm',
                              'neural network',
@@ -4198,15 +4204,10 @@ def nlp_skill_lists(additional_stopwords):
                              'nvidia',
                              'onnx'
                              'pipeline',
-                             'pla',
-                             'rnn',
+                             'pla',                            
                              'tensorrt'] ### 
-    
-    subtopic_dl_frameworks =['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
-                             'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
-                             'spark ml', 'tensorflow', 'tfx', 'theano']
-    
-    subtopic_ml_broad = ['onnx']
+  
+    subtopic_ml_algorithms = ['kmeans']
 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
@@ -5591,4 +5592,3 @@ del start_time, end_time
 #   	print(movie.index('money', 12, 51))
 #   except ValueError:
 #     print("substring not found")
-
