@@ -5204,8 +5204,8 @@ def nlp_skill_lists(additional_stopwords):
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_viz+subtopic_r + subtopic_dl_frameworks +
                          subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
-                         subtopic_version_control + subtopic_mathematics + subtopic_sql + 
-                         subtopic_ml_broad)
+                         subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
+                         subtopic_dl_supporting + subtopic_ml_algorithms)
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
@@ -5511,18 +5511,6 @@ del start_time, end_time
 # apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
 # df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
 
-# # function to apply parts of speech tags
-# def get_wordnet_pos(tag):
-#     if tag.startswith('J'):
-#         return wordnet.ADJ
-#     elif tag.startswith('V'):
-#         return wordnet.VERB
-#     elif tag.startswith('N'):
-#         return wordnet.NOUN
-#     elif tag.startswith('R'):
-#         return wordnet.ADV
-#     else:
-#         return wordnet.NOUN
 
 # # tag parts of speech
 # df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [(word, get_wordnet_pos(pos_tag)) for (word, pos_tag) in x])
