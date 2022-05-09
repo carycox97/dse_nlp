@@ -4185,35 +4185,18 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] ###
  
-####### !!!!!!!! WORKING HERE: create subtopic lists      
+     
     subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
                               'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
                               'spark ml', 'tensorflow', 'tfx', 'theano'] ###
     
-    subtopic_dl_algorithms = ['autoencoder',
-                              'convolutional',
-                              'dbm',
-                              'dbn',
-                              'gan',
-                              'lstm',
-                              'mlp',
-                              'neural network',
-                              'rbfn',
-                              'rbm',
-                              'rbn',
-                              'rnn',
-                              'som'] 
+    subtopic_dl_algorithms = ['autoencoder', 'convolutional', 'dbm', 'dbn', 'gan', 'lstm', 'mlp', 'neural network',
+                              'rbfn', 'rbm', 'rbn', 'rnn', 'som'] ###
 
-    subtopic_dl_supporting = ['automl',                      
-                             'ensemble',                           
-                             'lightgbm',
-                             'neuron',
-                             'nvidia',
-                             'onnx'
-                             'pipeline',
-                             'pla',                            
-                             'tensorrt'] ### 
-  
+    subtopic_dl_supporting = ['automl', 'ensemble', 'lightgbm', 'neuron', 'nvidia', 'onnx', 'pipeline',
+                              'pla', 'tensorrt'] ### 
+
+    ####### !!!!!!!! WORKING HERE: create subtopic lists 
     subtopic_ml_algorithms = ['kmeans']
 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
@@ -4671,6 +4654,7 @@ def nlp_skill_lists(additional_stopwords):
                          'netcdf',
                          'network',
                          'neural',
+                         'neuron',
                          'nginx',
                          'nifi',
                          'nlp',
