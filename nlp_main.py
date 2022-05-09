@@ -4224,13 +4224,7 @@ def nlp_skill_lists(additional_stopwords):
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
                             'statistics', 'stochastic', 'supervised', 'svm', 'transformation', 'decision tree',
                             'univariate', 'unsupervised', 'validation', 'vector', 'xgboost',] # will need to figure out monograms/bigrams
- 
-    subtopic_starfish = ['ingestion', 'preprocessing', 'retrain', 'training', 'transformation', ]
   
-    # maybe need a pipeline subtopic: ingest > cleaning > modeling > eval > etc.
-    # maybe a subtopic for geospatial tooling and data; CNNS, image processing, etc.
-    # might need to split math_models into math and models
-    # need a subtopic list for the linux/unix ecosystem    
     
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -5201,7 +5195,7 @@ def nlp_skill_lists(additional_stopwords):
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_viz+subtopic_r + subtopic_dl_frameworks +
-                         subtopic_starfish + subtopic_containers + subtopic_datatypes + subtopic_ide +
+                         subtopic_containers + subtopic_datatypes + subtopic_ide +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_ml_algorithms)
 
