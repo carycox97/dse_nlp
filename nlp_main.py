@@ -4188,18 +4188,23 @@ def nlp_skill_lists(additional_stopwords):
 ####### !!!!!!!! WORKING HERE: create subtopic lists      
     subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
                               'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
-                              'spark ml', 'tensorflow', 'tfx', 'theano']
+                              'spark ml', 'tensorflow', 'tfx', 'theano'] ###
     
     subtopic_dl_algorithms = ['convolutional',
+                              'dbn',
                               'gan',
-                              'rnn',]
+                              'lstm',
+                              'mlp',
+                              'neural network',
+                              'rbfn',
+                              'rbn',
+                              'rnn',
+                              'som']
 
     subtopic_dl_supporting = ['autoencoder',
                              'automl',                      
                              'ensemble',                           
                              'lightgbm',
-                             'lstm',
-                             'neural network',
                              'neuron',
                              'nvidia',
                              'onnx'
