@@ -917,7 +917,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'dual', 'adjacent', 'locate', 'smooth', 'infer', 'revision', 'multiservice',
                                             'evolent', 'nuanced', 'iqvia', 'treating', 'motorola', 'exponential', 'periodically',
                                             'brick',  'offsite', 'commencement', 'doresponsibilities', 'countless', 'hourly',
-                                            'boost', 'neurips', 'bm', 'telco', 'crystal', 'keller', 'hortonworks',
+                                            'neurips', 'bm', 'telco', 'crystal', 'keller', 'hortonworks',
                                             'junction', 'covidrelated', 'glass', 'amplified', 'cosmetic', 'ara',
                                             'discussing', 'modified', 'gold', 'genesys', 'axon', 'distributor', 'paternity',
                                             'helm', 'removing', 'comprises', 'timeoff', 'missile', 'rx', 'agentbased',
@@ -1697,6 +1697,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'engage': 'engagement',
                   'engages': 'engagement',
                   'engineer': 'engineering',
+                  'ensembling': 'ensemble',
                   'willingness': 'enthusiasm',
                   'energetic': 'enthusiastic',
                   'attitude': 'enthusiastic',
@@ -1789,6 +1790,7 @@ def clean_terms_for_nlp(series_of_interest):
                   'forward': 'forward-thinking',
                   'gans': 'gan',
                   'generative': 'gan',
+                  'boost': 'gbm',
                   'boosted': 'gbm',
                   'boosting': 'gbm',
                   'google': 'gcp',
@@ -4196,9 +4198,13 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_dl_supporting = ['automl', 'ensemble', 'lightgbm', 'neuron', 'nvidia', 'onnx', 'pipeline',
                               'pla', 'tensorrt'] ### 
 
-    ####### !!!!!!!! WORKING HERE: create subtopic lists 
-    subtopic_ml_algorithms = ['kmeans']
 
+    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori', 'classification', 'clustering', 'decision tree', 
+                              'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'knn', 'lda', 
+                              'linear regression', 'logistic regression', 'lvq', 'naive bayes', 'pca', 'random forest',
+                              'reinforcement', 'supervised', 'svm', 'unsupervised'] ###
+
+####### !!!!!!!! WORKING HERE: create subtopic lists 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
@@ -4231,6 +4237,7 @@ def nlp_skill_lists(additional_stopwords):
                            'accumulo',
                            'accurate', 
                            'activation',
+                           'adaboost',
                            'adobe', 
                            'adopter',
                            'adversarial',
@@ -4256,6 +4263,7 @@ def nlp_skill_lists(additional_stopwords):
                          'application',
                          'applied', 
                          'approach',
+                         'apriori',
                          'arcgis',
                          'architecture',
                          'arima',
@@ -4481,6 +4489,7 @@ def nlp_skill_lists(additional_stopwords):
                          'glm',
                          'glue',
                          'gluon',
+                         'gmm',
                          'go',
                          'golang',
                          'google',
@@ -4598,6 +4607,7 @@ def nlp_skill_lists(additional_stopwords):
                          'ltv',
                          'lubridate',
                          'luigi',
+                         'lvq',
                          'lxc',
                          'lxd',
                          'machine',
