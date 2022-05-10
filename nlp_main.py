@@ -4208,7 +4208,7 @@ def nlp_skill_lists(additional_stopwords):
                           'hibari', 'mldb', 'mongodb', 'mssql', 'mysql', 'neo4j', 'nosql', 'orientdb',
                           'postgresql', 'rabbitmq', 'rdbms', 'redis', 'relational database','riak', 'terrstore']    
     
-    subtopic_big_data = []
+    subtopic_big_data = ['hadoop']
 
 ####### !!!!!!!! WORKING HERE: create subtopic lists 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
