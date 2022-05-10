@@ -4155,7 +4155,7 @@ def nlp_skill_lists(additional_stopwords):
                       'informatica', 'oracle', 'redhat', 'sap', 'splunk', 'vmware' ] ### might need to deal with 'google cloud' bigram
     
     subtopic_containers = ['artifactory', 'buildah', 'buildkit', 'container', 'containerd', 'crun', 'dive', 'docker', 'hyperv',
-                           'kaniko', 'kubernetes', 'lxc', 'lxd', 'mesos', 'openshift', 'openvz', 'podman',
+                           'kaniko', 'kubernetes', 'lxc', 'lxd', 'mesos', 'openshift', 'openvz', 'orchestration', 'podman',
                            'rancher', 'rkt', 'runc', 'skopeo', 'vagrant', 'virtualbox', 'windock', 'zerovm'] ### 'dive' might have to be in context of cloud tech
     
     subtopic_agile = ['agile', 'backlog', 'kanban', 'mvp', 'roadmap', 'scrum', 'sprint', 'waterfall'] ###
@@ -4178,7 +4178,7 @@ def nlp_skill_lists(additional_stopwords):
                     'nteract', 'pycharm', 'pydev', 'rstudio', 'rodeo', 'spyder', 'sublime', 'thonny', 
                     'vim', 'visual studio'] ###
      
-    subtopic_version_control = ['bazaar', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
+    subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in othe rgit elements like GitHub, Git LFS, GitLab, etc.
     
     subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
@@ -4204,11 +4204,13 @@ def nlp_skill_lists(additional_stopwords):
                               'linear regression', 'logistic regression', 'lvq', 'naive bayes', 'pca', 'random forest',
                               'reinforcement', 'supervised', 'sqlite', 'svm', 'unsupervised'] ###
 
-####### !!!!!!!! WORKING HERE: create subtopic lists 
-    subtopic_databases = ['cassandra', 'couchbase', 'db2', 'dynamodb', 'elasticsearch', 'flockdb', 'hbase',
+    subtopic_databases = ['access', 'cassandra', 'couchbase', 'db2', 'dynamodb', 'elasticsearch', 'flockdb', 'hbase',
                           'hibari', 'mldb', 'mongodb', 'mssql', 'mysql', 'neo4j', 'nosql', 'orientdb',
-                          'postgresql', 'rabbitmq', 'redis', 'riak', 'terrstore']    
+                          'postgresql', 'rabbitmq', 'rdbms', 'redis', 'relational database','riak', 'terrstore']    
+    
+    subtopic_big_data = []
 
+####### !!!!!!!! WORKING HERE: create subtopic lists 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'couchbase', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'db2', 'delfi', 'docker', 'domo', 'dynamodb', 
@@ -5216,11 +5218,11 @@ def nlp_skill_lists(additional_stopwords):
                            'workstreams'] 
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
-    subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
-                         subtopic_math_models + subtopic_nlp + subtopic_viz+subtopic_r + subtopic_dl_frameworks +
+    subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_big_data +
+                         subtopic_math_models + subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
-                         subtopic_dl_supporting + subtopic_ml_algorithms)
+                         subtopic_dl_supporting + subtopic_ml_algorithms) #subtopic_tooling +
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
