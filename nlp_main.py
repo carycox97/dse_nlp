@@ -4205,13 +4205,16 @@ def nlp_skill_lists(additional_stopwords):
                               'reinforcement', 'supervised', 'svm', 'unsupervised'] ###
 
 ####### !!!!!!!! WORKING HERE: create subtopic lists 
+    subtopic_databases = ['cassandra', 'dynamodb', 'elasticsearch', 'hbase', 'mongodb', 'nosql',]    
+
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
-                        'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'excel', 'fastapi',
-                        'fivetran', 'flume', 'fortify', 'git', 'hux', 'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter',
-                        'knime', 'kubeflow', 'kubernetes', 'linux', 'looker', 'kibana', 'mathematica', 'matlab', 'mlflow',
-                        'mongodb', 'mssql', 'mysql', 'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie',
-                        'opencl', 'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
+                        'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'dynamodb', 
+                        'elasticsearch', 'excel', 'fastapi', 'fivetran', 'flume', 'fortify', 'git', 'hbase', 'hux',
+                        'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter', 'knime', 'kubeflow', 'kubernetes', 'linux',
+                        'looker', 'kibana', 'mathematica', 'matlab', 'mlflow', 'mongodb', 'mssql', 'mysql',
+                        'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie', 'opencl',
+                        'openshift', 'oracle', 'orchestration', 'palantir', 'peoplesoft', 'periscope', 'pig',
                         'pipeline', 'pivot', 'postgresql', 'powershell', 'presto', 'pycharm', 'ipython', 'qgis', 'qlik',
                         'rabbitmq', 'rancher', 'rasa', 'rdbms', 'reactjs', 'redhat', 'redis', 'relational', 'rest', 'rstudio',
                         'sas', 'sagemaker', 'sap', 'shell', 'snaplogic', 'snowflake', 'solr', 'sorcero', 'spark', 'splunk',
