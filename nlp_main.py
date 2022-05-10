@@ -804,7 +804,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'promotional', 'minded', 'inconsistency', 'buyin', 'historic', 'solutioning', 'et',
                                             'readily', 'supervising', 'commuterelocate', 'agricultural', 'weight', 'forensic',
                                             'pollen', 'penske', 'corrective', 'ontime', 'projected', 'scene', 
-                                            'db2', 'selective', '600', 'fundraising', 'lob', 'customize', 'overnight',
+                                            'selective', '600', 'fundraising', 'lob', 'customize', 'overnight',
                                             'puzzle', 'prep', 'lender', 'onpremise', 'remained', 'ineligible', 'nasa', '100000',
                                             'respecting', 'usercentric', 'developmental', 'lifting', 'g', 'intake', 'baselined',
                                             'crisis', 'alerting', 'employerprotected', 'subscriber', 'photo', 'correctly',
@@ -4199,17 +4199,19 @@ def nlp_skill_lists(additional_stopwords):
                               'pla', 'tensorrt'] ### 
 
 
-    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori', 'classification', 'clustering', 'decision tree', 
-                              'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'knn', 'lda', 
+    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori', 'classification', 'clustering', 
+                              'decision tree', 'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'knn', 'lda', 
                               'linear regression', 'logistic regression', 'lvq', 'naive bayes', 'pca', 'random forest',
-                              'reinforcement', 'supervised', 'svm', 'unsupervised'] ###
+                              'reinforcement', 'supervised', 'sqlite', 'svm', 'unsupervised'] ###
 
 ####### !!!!!!!! WORKING HERE: create subtopic lists 
-    subtopic_databases = ['cassandra', 'dynamodb', 'elasticsearch', 'hbase', 'mongodb', 'nosql',]    
+    subtopic_databases = ['cassandra', 'couchbase', 'db2', 'dynamodb', 'elasticsearch', 'flockdb', 'hbase',
+                          'hibari', 'mldb', 'mongodb', 'mssql', 'mysql', 'neo4j', 'nosql', 'orientdb',
+                          'postgresql', 'rabbitmq', 'redis', 'riak', 'terrstore']    
 
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
-                        'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'cplex', 'cuda',
-                        'd3js', 'databricks', 'datarobot', 'dataminr', 'delfi', 'docker', 'domo', 'dynamodb', 
+                        'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'couchbase', 'cplex', 'cuda',
+                        'd3js', 'databricks', 'datarobot', 'dataminr', 'db2', 'delfi', 'docker', 'domo', 'dynamodb', 
                         'elasticsearch', 'excel', 'fastapi', 'fivetran', 'flume', 'fortify', 'git', 'hbase', 'hux',
                         'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter', 'knime', 'kubeflow', 'kubernetes', 'linux',
                         'looker', 'kibana', 'mathematica', 'matlab', 'mlflow', 'mongodb', 'mssql', 'mysql',
@@ -5208,7 +5210,7 @@ def nlp_skill_lists(additional_stopwords):
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_language + subtopic_tooling +
                          subtopic_math_models + subtopic_nlp + subtopic_viz+subtopic_r + subtopic_dl_frameworks +
-                         subtopic_containers + subtopic_datatypes + subtopic_ide +
+                         subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_ml_algorithms)
 
