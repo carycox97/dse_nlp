@@ -1188,7 +1188,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'mobilefirst', 'technologically', 'complementing', 'steel', 'bidens', 'breeding',
                                             'solutionsoriented', 'dhei', '2011', 'harrisburg', 'multistakeholder',
                                             'shipment', 'cartcom', 'supplementing', 'opendoor', 'norc', 'recursion', 
-                                            'hubbers', 'regulationsstandards', 'digitalocean', 'saying', 'triplelift', 'adapted',
+                                            'hubbers', 'regulationsstandards', 'saying', 'triplelift', 'adapted',
                                             'disqualify', 'twitch', 'backtested', 'robert', 'or', 'cj', 'crosscountry', 'dia',
                                             'configurable', 'irca', 'boomi', 'multiomics', 'decisiveness', 'microbial', 'flawless',
                                             'figuring', 'cabinet', 'spatiotemporal', 'essence', 'opentext', 'gay', '33',
@@ -1374,7 +1374,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'uncertain', 'superiority', 'loyal', 'ofac', 'paste', 'bing', 'rhode', 'smithfield',
                                             'iheartradio', 'vue', 'atypical', 'endlessly', 'rendering', 'llnl', 'whollyowned',
                                             'village', 'evolutionary', 'datafirst', 'psychometric', 'crosscultural', 'daylight',
-                                            '14043', 'ajax', 'agronomy', 'refusal', 'cbre', '1974', 'lewis', 'bleeding',
+                                            '14043', 'agronomy', 'refusal', 'cbre', '1974', 'lewis', 'bleeding',
                                             'anderson', 'inspirational', 'beneficiary', 'brighams', 'viasat', 'dao', 'incyte',
                                             '570000', 'blink', 'musical', 'latestage', 'twist', 'modernized', 'chester', 'komodo',
                                             '607415a', 'discovers', 'comp', 'multimedia', 'opportunityaffirmative',
@@ -4128,11 +4128,13 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'cloudhsm', 'cloudtrail', 'codebuild', 'codedeploy', 'codepipeline',
                     'codestar', 'dms', 'dynamodb', 'ebs', 'ec2', 'elasticache', 'elasticsearch', 'emr',
-                    'glacier', 'glue', 'inspector', 'kinesis', 'kms', 'lambda', 'lex', 'macie', 'mapreduce', 'polly', 'quicksight',
-                    'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball', 'sqs', 'vpc', 'xray']
+                    'glacier', 'glue', 'inspector', 'kinesis', 'kms', 'lambda', 'lex', 'macie', 'mapreduce', 'polly', 
+                    'presto', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball',
+                    'sqs', 'vpc', 'xray']
     
     subtopic_cloud = ['amazon', 'alibaba', 'aurora', 'aws', 'azure', 'cloud', 'cloudera', 'cosmos', 'databricks',
-                      'gcp', 'google', 'h2o', 'informatica', 'oracle', 'redhat', 'sap', 'splunk', 'vmware' ] ### might need to deal with 'google cloud' bigram
+                      'digitalocean', 'gcp', 'google', 'h2o', 'informatica', 'nifi', 'oracle',
+                      'redhat', 'sap', 'splunk', 'vertica', 'vmware', 'zeromq'] ### might need to deal with 'google cloud' bigram
     
     subtopic_containers = ['artifactory', 'buildah', 'buildkit', 'container', 'containerd', 'crun', 'dive',
                            'docker', 'hyperv', 'kaniko', 'kubeflow', 'kubernetes', 'lxc', 'lxd', 'mesos',
@@ -4142,7 +4144,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_databases = ['access', 'accumulo', 'cassandra', 'cosmos', 'couchbase', 'db2', 'dynamodb',
                           'elasticsearch', 'flockdb', 'hbase', 'hibari', 'mldb', 'mongodb', 'mssql',
                           'mysql', 'neo4j', 'nosql', 'orientdb', 'postgresql', 'rabbitmq', 'rdbms',
-                          'redis', 'relational', 'riak', 'terrstore'] 
+                          'redis', 'relational', 'riak', 'solr', 'terrstore'] 
 
     subtopic_datatypes = ['avro', 'continuous', 'csv', 'discrete', 'excel', 'hdf5', 'html', 'jpeg',
                           'json', 'matlab', 'netcdf', 'onnx', 'orc', 'parquet', 'pb', 'pdf', 'petastorm',
@@ -4166,8 +4168,9 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_languages = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
                          'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
-                         'matlab', 'nodejs', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
-                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript', 'vba', 'xml',]
+                         'matlab', 'nodejs', 'opencl', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
+                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript',
+                         'wolfram', 'vba', 'xml',]
 
     subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
                             'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
@@ -4187,20 +4190,21 @@ def nlp_skill_lists(additional_stopwords):
                        'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
                        'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
                        'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
-                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 'statsmodels',
-                       'tensorflow', 'textblob', 'theano', 'word2vec', 'xgboost', 'zookeeper'] 
+                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
+                       'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
+                       'xgboost', 'zookeeper'] 
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
                   'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
                   'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
                   'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] 
     
-    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'sql', 'sqlite'] 
+    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'presto', 'sql', 'sqlite', 'ssis',] 
 
     subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
                     'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
                     'highcharts', 'infogram', 'interactive', 'kibana', 'kizan', 'klipfolio', 'leaflet',
-                    'looker', 'matplotlib', 'palantir', 'plotly', 'polymaps', 'power bi', 'pydot',
+                    'looker', 'matplotlib', 'palantir', 'periscope', 'plotly', 'polymaps', 'power bi', 'pydot',
                     'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'tibco', 'vega',
                     'visio', 'visualization', 'watson', 'zoho'] 
    
@@ -4209,16 +4213,22 @@ def nlp_skill_lists(additional_stopwords):
    
 
 ####### !!!!!!!! WORKING HERE: create subtopic lists 
-    subtopic_big_data = ['apache', 'flume', 'hadoop', 'hive', 'pig', 'spark',]   
+    subtopic_big_data = ['apache', 'flume', 'hadoop', 'hdfs', 'hive', 'hiveql', 'oozie', 'mapreduce', 'pig', 'presto',
+                         'sqoop', 'spark', 'yarn',]   
     
     subtopic_linux = ['bash', 'centos', 'cuda', 'debian', 'fedora', 'linux', 'mint', 'nvidia', 'openshift', 'redhat',
                       'shell', 'ubuntu', 'unix',] # rapids, but have to find
     
-    subtopic_platforms = ['alteryx', 'dataminr', 'datarobot', 'delfi', 'snaplogic', 'snowflake',]
+    subtopic_platforms = ['alteryx', 'dataminr', 'datarobot', 'delfi', 'knime', 'mathematica', 'nvivo',
+                          'snaplogic', 'snowflake', 'sorcero', 'weka',]
     
-    subtopic_it_and_web = ['ansible', 'aspnet', 'fortify', 'nginx', 'twistlock']
+    subtopic_it_and_web = ['ansible', 'aspnet', 'flask', 'fortify', 'jenkins', 'nginx', 'reactjs', 'twistlock']
     
     subtopic_gis = ['arcgis', 'qgis',]
+    
+    subtopic_other = ['ivr', 'jira', 'peoplesoft',]
+    
+    subtopic_javascript = ['ajax', 'd3js', 'jquery', 'reactjs',] 
 
  
 
@@ -4233,7 +4243,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'couchbase', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'db2', 'delfi', 'docker', 'domo', 'dynamodb', 
-                        'elasticsearch', 'excel', 'fastapi', 'fedora', 'fivetran', 'flume', 'fortify', 'git', 'hbase', 'hux',
+                        'elasticsearch', 'excel', 'fastapi', 'fedora', 'fivetran', 'flume', 'fortify', 'git', 'hbase',
                         'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter', 'knime', 'kubeflow', 'kubernetes', 'linux',
                         'looker', 'kibana', 'mathematica', 'matlab', 'mlflow', 'mongodb', 'mssql', 'mysql',
                         'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie', 'opencl',
@@ -5242,7 +5252,8 @@ def nlp_skill_lists(additional_stopwords):
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_ml_algorithms + subtopic_linux + subtopic_python +
-                         subtopic_platforms + subtopic_it_and_web + subtopic_gis) #subtopic_tooling +
+                         subtopic_platforms + subtopic_it_and_web + subtopic_gis + subtopic_other + 
+                         subtopic_javascript) #subtopic_tooling +
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
