@@ -332,7 +332,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'retirement', 'reward', 'rico', 'role', 'safety', 'salary', 'salesforcecom',
                                             'salesforceorg', 'san', 'saving', 'schedule', 'scratch', 'secret', 'seeking',
                                             'self', 'sending', 'senior', 'sense', 'sequoia', 'sex', 'sexual', 'shape',
-                                            'shift', 'show', 'sincerely', 'small', 'social', 'someone', 'sound', 'spending',
+                                            'show', 'sincerely', 'small', 'social', 'someone', 'sound', 'spending',
                                             'sponsorship', 'sr', 'standard', 'start', 'state', 'statement', 'status', 'stay',
                                             'stock', 'suite', 'summary', 'supplemental', 'supply', 'support', 'sure',
                                             'suspended', 'talented', 'teladoc', 'tenure', 'term', 'therapeutic', 'third',
@@ -586,7 +586,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'honest', 'specified', 'executes', 'w', 'published', 'army',
                                             'relates', 'eight', 'recommends', 'park', 'called', 'sitting',
                                             'fulfillment', 'na', 'walmart', 'administrator', 'ac_consulting21', 'verisk', 'spent',
-                                            'michigan', 'slack', 'red', 'crime', 'anticipated', 'desk', '5000', 'derived',
+                                            'michigan', 'slack', 'crime', 'anticipated', 'desk', '5000', 'derived',
                                             'grasp', 'dot', 'west', 'personalize', 'meaning', 'complicated', 'calling', 'bigger',
                                             'reducing', 'seamless', 'module', 'clarity', 'convenient', 'pennsylvania', 'integrates',
                                             'achieved', 'putting', 'rank', 'retaining', 'suggest', 'piece', 'throughput',
@@ -649,7 +649,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'enforcement', 'extreme', 'intern', 'encompassing', 'reproducibility', '19', 'loop',
                                             'triage', 'aligning', 'temporarily', 'youd', 'regulated', 'brain', 'hq', 'tune',
                                             'distance', 'continual', 'representing', 'solely', 'beneficial', 'biopharmaceutical',
-                                            'hat', 'instrumentation', 'ey', 'critically', 'fan', 'interacts', 'synthesizing',
+                                            'instrumentation', 'ey', 'critically', 'fan', 'interacts', 'synthesizing',
                                             'sent', 'nyc', 'qualifying', 'hsa', 'centric', 'culturally', 'mexico',
                                             'zero', 'routinely', 'reveal', 'row', 'recommending', 'tasked', 'synthesis', 'trait',
                                             'possessing', 'perceived', 'flink', 'seen', 'merchandising', 'properly', '360',
@@ -4207,7 +4207,10 @@ def nlp_skill_lists(additional_stopwords):
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
    
 
+####### !!!!!!!! WORKING HERE: create subtopic lists 
+    subtopic_big_data = ['hadoop']   
     
+    subtopic_linux = ['centos', 'fedora', 'linux', 'openshift', 'redhat', 'shell', 'ubuntu', 'unix',]
 
  
 
@@ -4217,13 +4220,12 @@ def nlp_skill_lists(additional_stopwords):
 
    
     
-    subtopic_big_data = ['hadoop']
 
-####### !!!!!!!! WORKING HERE: create subtopic lists 
+
     subtopic_tooling = ['access', 'accumulo', 'alteryx', 'anaconda', 'ansible', 'apache', 'arcgis', 'aspnet', 'bash',
                         'bitbucket', 'cad', 'cassandra', 'centos', 'cli', 'cloudera', 'cognos', 'cosmos', 'couchbase', 'cplex', 'cuda',
                         'd3js', 'databricks', 'datarobot', 'dataminr', 'db2', 'delfi', 'docker', 'domo', 'dynamodb', 
-                        'elasticsearch', 'excel', 'fastapi', 'fivetran', 'flume', 'fortify', 'git', 'hbase', 'hux',
+                        'elasticsearch', 'excel', 'fastapi', 'fedora', 'fivetran', 'flume', 'fortify', 'git', 'hbase', 'hux',
                         'ide', 'ivr', 'jenkins', 'jira', 'jquery', 'jupyter', 'knime', 'kubeflow', 'kubernetes', 'linux',
                         'looker', 'kibana', 'mathematica', 'matlab', 'mlflow', 'mongodb', 'mssql', 'mysql',
                         'neo4j', 'nginx', 'nifi', 'nodejs', 'nosql', 'nvidia', 'nvivo', 'oozie', 'opencl',
