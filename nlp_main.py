@@ -1347,7 +1347,7 @@ def clean_terms_for_nlp(series_of_interest):
                                             'auditable', 'wwwaccenturecom', 'ro', 'neon', 'englishspanish', 'rewire', 'wafer',
                                             'seedinvest', 'cohesion', '43', 'sondermind', 'aerial', 'lime', 'recurlys', '42',
                                             'moore', 'ulta', 'cbs', 'americorps', 
-                                            'essentially', 'passive', 'dentalvision', 'bag', 'noncompete', 'lumedic', 'groupons',
+                                            'essentially', 'passive', 'dentalvision', 'noncompete', 'lumedic', 'groupons',
                                             'disparity', 'visualized', 'touched', 'juggling', 'datto', '18000', 'interactivity', 
                                             'versioned', 'salesforces', 'cdp', 'biorad', 'ben', 'disseminating', 'readability',
                                             'calculator', 'male', 'icd', 'ppt', 'stash', 'kidney', 'msu', 'cited', 'tempus', 
@@ -4155,7 +4155,8 @@ def nlp_skill_lists(additional_stopwords):
                           'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords', 'time series',
                           'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip'] 
 
-    subtopic_dl_algorithms = ['autoencoder', 'convolutional', 'dbm', 'dbn', 'gan', 'lstm', 'mlp', 'neural network',
+    subtopic_dl_algorithms = ['autoencoder', 'boltzmann', 'convolutional', 'dbm', 'dbn', 'gan',
+                              'hopfield', 'lvq', 'lstm', 'mlp', 'neural network', 'perceptron',
                               'rbfn', 'rbm', 'rbn', 'rnn', 'som']
      
     subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
@@ -4189,9 +4190,10 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
                             'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
-                            'statistics']  
+                            'statistics']  #### !!!! DECONFLICT WITH MATH LIST RIGHT BELOW
 
-
+    subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
+                     'linear algebra', 'mathematics', 'probability', 'statistics',]
 
     subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'kaldi',
                     'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
@@ -4228,44 +4230,71 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
 
-####### !!!!!!!! WORKING HERE: parse the math_models subtopic list
-    subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
-                     'linear algebra', 'mathematics', 'probability', 'statistics',]
+####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
+    subtopic_ml_algorithms = [  'lda', 
+                               'lvq',   'sqlite',  ]
+
+
+########## SUPERVISED ##########     
+    subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
+                                  'discriminant analysis', 'gradint boosting', 'knn', 'lda', 'logistic regression',
+                                  'naive bayes', 'neural network', 'nusvc', 'oner', 'qda', 'random forest',
+                                  'sgd', 'svc', 'svm', 'zeror']
     
-    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori',  
-                              'decision tree', 'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'lda', 
-                              'linear regression', 'logistic regression', 'lvq',  'pca', 'random forest',
-                              'reinforcement', 'supervised', 'sqlite',  'unsupervised']
+    subtopic_ml_regression = ['decision tree', 'ensemble', 'glm', 'gpr', 'gradint boosting', 'linear regression',
+                              'loess', 'mars', 'neural network', 'ols', 'random forest', 'regression', 'svr']
+
+    subtopic_ml_supervised = ['supervised', 'classification', 'regression'] + subtopic_ml_classification + subtopic_ml_regression
+
+########## SEMI-SUPERVISED ########## 
+    subtopic_ml_semisupervised = ['gan']
 
 
+########## UNSUPERVISED ########## 
+    subtopic_ml_unsupervised = ['apriori', 'clustering',  'cmeans', 'gmm', 'kmeans', 'markov',
+                                'neural network', 'pca', 'unsupervised'] 
     
-    subtopic_ml_supervised = ['classification', 'discriminant analysis', 'knn',
-                              'naive bayes', 'neural network','regression', 'svm',]
+    subtopic_ml_association = ['apriori', 'eclat']
+
+    subtopic_ml_clustering = ['clustering',  'cmeans', 'dbscan', 'expectation maximization',
+                              'gmm', 'hierarchical', 'kmeans', 'kmedians', 'kmodes',
+                              'mean shift', 'markov', 'neural network', 'spectral clustering']  # recommender systems
     
-    subtopic_ml_classification = ['classification', 'discriminant analysis', 'knn',
-                                  'naive bayes', 'neural network', 'svm',]
+    subtopic_ml_dimen_reduct = ['autoencoder', 'backward feature', 'dimensionality reduction', 'factor analysis',
+                                'forward feature', 'ica', 'isomap', 'lda', 'lle', 'mds', 'pca', 'plsr', 'rda', 'sammon',
+                                'subset selction', 'svd', 'tsne']
+
+
+########## REINFORCEMENT LEARNING ########## 
+    subtopic_ml_reinforcement = ['reinforcement',]
     
-    subtopic_ml_regression = ['regression','neural network']
+
+########## ANOMALY DETECTION ########## 
+    subtopic_ml_anomaly = ['anomaly detection', 'isolation forest', 'lof', 'mcd', 'pca', 'svm']
+
+
+########## I AM NOT SURE YET; COULD BE OVERLAPS ##########
+    subtopic_ml_ensemble = ['adaboost', 'bagging', 'bootstrap', 'catboost', 'gbm', 'gbrt',
+                            'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
+    
+    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'ridge']
 
 
 
 
-    subtopic_ml_unsupervised = ['clustering', 'neural network']    
-
-    subtopic_ml_clustering = ['clustering', 'neural network'] 
 
 
-    subtopic_math_models = ['anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 
+    subtopic_math_models = ['anova', 'algorithm', 'multiarmed', 'bandit', 'arima',  
                             'monte', 'carlo', 'correlation', 'crf', 'differential', 'dsp',
-                            'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
-                            'inference', 'inferential', 'kmeans',  'likelihood', 'linear', 'localization',
-                            'logic', 'logistic', 'loss', 'markov',  'matrix', 'maximum', 'multivariate',
-                            'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
-                            'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 
+                             'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
+                            'inference', 'inferential',   'likelihood', 'linear', 'localization',
+                            'logic', 'logistic', 'loss',   'matrix', 'maximum', 'multivariate',
+                             'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
+                            'optimization', 'outlier', 'parametric', 'pattern', 'pearson', 'pla', 
                             'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
-                            'stochastic', 'supervised', 'transformation', 'decision tree',
-                            'univariate', 'unsupervised', 'validation', 'vector', 'xgboost',] # will need to figure out monograms/bigrams
+                            'stochastic', 'supervised', 'transformation',
+                            'univariate', 'validation', 'vector', ] # will need to figure out monograms/bigrams
       
     ds_tech_skill_terms = ['ab',
                            'access',
