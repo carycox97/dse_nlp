@@ -4191,10 +4191,7 @@ def nlp_skill_lists(additional_stopwords):
                             'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
                             'statistics']  
 
-    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori', 'classification', 'clustering', 
-                              'decision tree', 'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'knn', 'lda', 
-                              'linear regression', 'logistic regression', 'lvq', 'naive bayes', 'pca', 'random forest',
-                              'reinforcement', 'supervised', 'sqlite', 'svm', 'unsupervised']
+
 
     subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'kaldi',
                     'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
@@ -4234,6 +4231,21 @@ def nlp_skill_lists(additional_stopwords):
 ####### !!!!!!!! WORKING HERE: parse the math_models subtopic list
     subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
                      'linear algebra', 'mathematics', 'probability', 'statistics',]
+    
+    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori',  'clustering', 
+                              'decision tree', 'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'knn', 'lda', 
+                              'linear regression', 'logistic regression', 'lvq', 'naive bayes', 'pca', 'random forest',
+                              'reinforcement', 'supervised', 'sqlite', 'svm', 'unsupervised']
+    
+    subtopic_ml_supervised = ['classification', 'regression',]
+    
+    subtopic_ml_unsupervised = []
+    
+    subtopic_ml_classification = ['classification',]
+    
+    subtopic_ml_regression = ['regression',]
+    
+    subtopic_ml_clustering = []
 
 
     subtopic_math_models = ['anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 
@@ -4243,7 +4255,7 @@ def nlp_skill_lists(additional_stopwords):
                             'logic', 'logistic', 'loss', 'markov',  'matrix', 'maximum', 'multivariate',
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 
-                            'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 'regression',
+                            'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
                             'stochastic', 'supervised', 'svm', 'transformation', 'decision tree',
                             'univariate', 'unsupervised', 'validation', 'vector', 'xgboost',] # will need to figure out monograms/bigrams
