@@ -4232,19 +4232,22 @@ def nlp_skill_lists(additional_stopwords):
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
 
 ####### !!!!!!!! WORKING HERE: parse the math_models subtopic list
-    subtopic_math_models = ['algebra', 'linear algebra', 'anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 'calculus',
+    subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
+                     'linear algebra', 'mathematics', 'probability', 'statistics',]
+
+
+    subtopic_math_models = ['anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 
                             'monte', 'carlo', 'classification', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                             'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
-                            'logic', 'logistic', 'loss', 'markov', 'mathematics', 'matrix', 'maximum', 'multivariate',
+                            'logic', 'logistic', 'loss', 'markov',  'matrix', 'maximum', 'multivariate',
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
-                            'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 'probability',
+                            'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 
                             'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 'regression',
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
-                            'statistics', 'stochastic', 'supervised', 'svm', 'transformation', 'decision tree',
+                            'stochastic', 'supervised', 'svm', 'transformation', 'decision tree',
                             'univariate', 'unsupervised', 'validation', 'vector', 'xgboost',] # will need to figure out monograms/bigrams
-  
-    
+      
     ds_tech_skill_terms = ['ab',
                            'access',
                            'accumulo',
@@ -5230,7 +5233,7 @@ def nlp_skill_lists(additional_stopwords):
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_ml_algorithms + subtopic_linux + subtopic_python +
                          subtopic_platforms + subtopic_it_and_web + subtopic_geospatial + subtopic_other + 
-                         subtopic_javascript + subtopic_excel) #subtopic_tooling +
+                         subtopic_javascript + subtopic_excel + subtopic_math) #subtopic_tooling +
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
