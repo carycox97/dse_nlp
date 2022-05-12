@@ -4232,32 +4232,39 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
                      'linear algebra', 'mathematics', 'probability', 'statistics',]
     
-    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori',  'clustering', 
-                              'decision tree', 'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'knn', 'lda', 
-                              'linear regression', 'logistic regression', 'lvq', 'naive bayes', 'pca', 'random forest',
-                              'reinforcement', 'supervised', 'sqlite', 'svm', 'unsupervised']
+    subtopic_ml_algorithms = ['adaboost', 'anomaly detection', 'apriori',  
+                              'decision tree', 'dimensionality reduction', 'ensemble', 'gbm', 'gmm', 'kmeans', 'lda', 
+                              'linear regression', 'logistic regression', 'lvq',  'pca', 'random forest',
+                              'reinforcement', 'supervised', 'sqlite',  'unsupervised']
+
+
     
-    subtopic_ml_supervised = ['classification', 'regression',]
+    subtopic_ml_supervised = ['classification', 'discriminant analysis', 'knn',
+                              'naive bayes', 'neural network','regression', 'svm',]
     
-    subtopic_ml_unsupervised = []
+    subtopic_ml_classification = ['classification', 'discriminant analysis', 'knn',
+                                  'naive bayes', 'neural network', 'svm',]
     
-    subtopic_ml_classification = ['classification',]
-    
-    subtopic_ml_regression = ['regression',]
-    
-    subtopic_ml_clustering = []
+    subtopic_ml_regression = ['regression','neural network']
+
+
+
+
+    subtopic_ml_unsupervised = ['clustering', 'neural network']    
+
+    subtopic_ml_clustering = ['clustering', 'neural network'] 
 
 
     subtopic_math_models = ['anova', 'algorithm', 'multiarmed', 'bandit', 'arima', 'bayes', 
-                            'monte', 'carlo', 'classification', 'clustering', 'correlation', 'crf', 'differential', 'dsp',
+                            'monte', 'carlo', 'correlation', 'crf', 'differential', 'dsp',
                             'ensemble', 'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
-                            'inference', 'inferential', 'kmeans', 'knn', 'likelihood', 'linear', 'localization',
+                            'inference', 'inferential', 'kmeans',  'likelihood', 'linear', 'localization',
                             'logic', 'logistic', 'loss', 'markov',  'matrix', 'maximum', 'multivariate',
                             'naive', 'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pca', 'pearson', 'pla', 
                             'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
-                            'stochastic', 'supervised', 'svm', 'transformation', 'decision tree',
+                            'stochastic', 'supervised', 'transformation', 'decision tree',
                             'univariate', 'unsupervised', 'validation', 'vector', 'xgboost',] # will need to figure out monograms/bigrams
       
     ds_tech_skill_terms = ['ab',
