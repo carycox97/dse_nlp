@@ -4276,18 +4276,20 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_ml_recommendation = ['recommender', 'recommendation',]
 
-    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'maximum likelihood',
-                         'monte carlo', 'normalize', 'outlier', 'pearson', 'randomization', 
-                         'rms', 'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
+    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'loss', 'maximum likelihood',
+                         'monte carlo', 'nonparametric', 'normalize', 'outlier', 'parametric',
+                         'pearson', 'randomization', 'rms', 'sampling', 'simulation',
+                         'skewness', 'stochastic', 'univariate',]
 
-####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
+
     subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
-                              'imputation', 'modeling', 'optimization', 'regression', 'regularization',
+                              'imputation', 'modeling',  'optimization', 'pattern', 'regression', 'regularization',
                               'segmentation', 'transformation',]    
 
-    subtopic_math_models = ['algorithm', 'crf', 'differential', 'dsp', 'gbm', 'gradient',  
-                            'inferential', 'linear', 'logic', 'loss', 'lvq', 'matrix', 'nearest', 'neighbor',
-                            'nonlinear', 'nonparametric', 'ontology',  'parametric', 'pattern', 'pla', 
+####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
+    subtopic_math_models = ['algorithm', 'crf', 'differential', 'dsp', 'gbm',  
+                            'inferential', 'linear', 'logic',  'lvq', 'matrix', 'nearest', 'neighbor',
+                            'nonlinear', 'ontology',   'pla', 
                             'pso', 'reasoning', 'validation', 'vector',] # will need to figure out monograms/bigrams
       
     ds_tech_skill_terms = ['ab',
