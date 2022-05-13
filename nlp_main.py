@@ -4163,7 +4163,7 @@ def nlp_skill_lists(additional_stopwords):
                               'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
                               'spark ml', 'tensorflow', 'tfx', 'theano']
 
-    subtopic_dl_supporting = ['automl', 'ensemble', 'lightgbm', 'neuron', 'nvidia', 'onnx', 'pipeline',
+    subtopic_dl_supporting = ['automl', 'ensemble', 'inference', 'lightgbm', 'neuron', 'nvidia', 'onnx', 'pipeline',
                               'pla', 'tensorrt'] 
     
     subtopic_excel = ['excel', 'pivot', 'spreadsheet', 'vlookup',]
@@ -4266,7 +4266,7 @@ def nlp_skill_lists(additional_stopwords):
 
 
 ########## REINFORCEMENT LEARNING ########## 
-    subtopic_ml_reinforcement = ['reinforcement',]
+    subtopic_ml_reinforcement = ['multiarmed bandit', 'reinforcement',]
     
 
 ########## ANOMALY DETECTION ########## 
@@ -4278,20 +4278,22 @@ def nlp_skill_lists(additional_stopwords):
                             'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
     
     subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'ridge']
+    
+    subtopic_ml_recommendation = ['recommender', 'recommendation',]
+
+    subtopic_ml_supporting = []
 
 
 
 
-
-
-    subtopic_math_models = ['anova', 'algorithm', 'multiarmed', 'bandit', 'arima',  
+    subtopic_math_models = ['anova', 'algorithm',  'arima',  
                             'monte', 'carlo', 'correlation', 'crf', 'differential', 'dsp',
-                             'forest', 'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
-                            'inference', 'inferential',   'likelihood', 'linear', 'localization',
-                            'logic', 'logistic', 'loss',   'matrix', 'maximum', 'multivariate',
+                            'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
+                             'inferential', 'likelihood', 'linear', 'localization',
+                            'logic', 'loss', 'matrix', 'maximum', 'multivariate',
                              'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pearson', 'pla', 
-                            'pso', 'randomization', 'reasoning', 'recommender', 'recommendation', 
+                            'pso', 'randomization', 'reasoning', 
                             'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
                             'stochastic', 'supervised', 'transformation',
                             'univariate', 'validation', 'vector', ] # will need to figure out monograms/bigrams
