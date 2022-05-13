@@ -4193,7 +4193,7 @@ def nlp_skill_lists(additional_stopwords):
                             'statistics']  #### !!!! DECONFLICT WITH MATH LIST RIGHT BELOW
 
     subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
-                     'linear algebra', 'mathematics', 'probability', 'statistics',]
+                     'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
 
     subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'kaldi',
                     'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
@@ -4277,7 +4277,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_ml_ensemble = ['adaboost', 'bagging', 'bootstrap', 'catboost', 'gbm', 'gbrt',
                             'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
     
-    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'ridge']
+    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'regularization', 'ridge']
     
     subtopic_ml_recommendation = ['recommender', 'recommendation',]
 
@@ -4290,11 +4290,11 @@ def nlp_skill_lists(additional_stopwords):
                             'monte', 'carlo', 'correlation', 'crf', 'differential', 'dsp',
                             'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
                              'inferential', 'likelihood', 'linear', 'localization',
-                            'logic', 'loss', 'matrix', 'maximum', 'multivariate',
+                            'logic', 'loss', 'matrix', 'maximum', 
                              'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
                             'optimization', 'outlier', 'parametric', 'pattern', 'pearson', 'pla', 
                             'pso', 'randomization', 'reasoning', 
-                            'regularization', 'reinforcement', 'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
+                             'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
                             'stochastic', 'supervised', 'transformation',
                             'univariate', 'validation', 'vector', ] # will need to figure out monograms/bigrams
       
