@@ -4155,7 +4155,7 @@ def nlp_skill_lists(additional_stopwords):
                           'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords', 'time series',
                           'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip'] 
 
-    subtopic_dl_algorithms = ['autoencoder', 'boltzmann', 'convolutional', 'dbm', 'dbn', 'gan',
+    subtopic_dl_algorithms = ['algorithm', 'autoencoder', 'boltzmann', 'convolutional', 'dbm', 'dbn', 'gan',
                               'hopfield', 'lvq', 'lstm', 'mlp', 'neural network', 'perceptron',
                               'rbfn', 'rbm', 'rbn', 'rnn', 'som']
      
@@ -4192,10 +4192,10 @@ def nlp_skill_lists(additional_stopwords):
                             'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
                             'statistics']  #### !!!! DECONFLICT WITH MATH LIST RIGHT BELOW
 
-    subtopic_math = ['algebra', 'calculus', 'discrete math', 'geometry', 'graph theory', 'information theory',
+    subtopic_math = ['algebra', 'calculus', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
                      'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
 
-    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'flair', 'gensim', 'gpt', 'kaldi',
+    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'crf', 'flair', 'gensim', 'gpt', 'kaldi',
                     'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
                     'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec']
     
@@ -4232,8 +4232,8 @@ def nlp_skill_lists(additional_stopwords):
 
 ########## SUPERVISED ##########     
     subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
-                                  'discriminant analysis', 'gradint boosting', 'knn', 'lda', 'logistic regression',
-                                  'naive bayes', 'neural network', 'nusvc', 'oner', 'qda', 'random forest',
+                                  'discriminant analysis', 'gradient boosting', 'knn', 'lda', 'logistic regression',
+                                  'naive bayes', 'neural network', 'nusvc', 'oner', 'pla', 'qda', 'random forest',
                                   'sgd', 'svc', 'svm', 'zeror']
     
     subtopic_ml_regression = ['arima', 'decision tree', 'ensemble', 'glm', 'gpr', 'gradint boosting', 'linear regression',
@@ -4276,21 +4276,20 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_ml_recommendation = ['recommender', 'recommendation',]
 
-    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'loss', 'maximum likelihood',
-                         'monte carlo', 'nonparametric', 'normalize', 'outlier', 'parametric',
-                         'pearson', 'randomization', 'rms', 'sampling', 'simulation',
-                         'skewness', 'stochastic', 'univariate',]
-
+    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'inferential', 'linear',
+                         'loss', 'maximum likelihood', 'monte carlo', 'nonlinear', 'nonparametric',
+                         'normalize', 'outlier', 'parametric', 'pearson', 'randomization', 'rms',
+                         'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
+    
+    subtopic_ml_optimization= ['optimization', 'pso']
 
     subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
                               'imputation', 'modeling',  'optimization', 'pattern', 'regression', 'regularization',
                               'segmentation', 'transformation',]    
 
 ####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
-    subtopic_math_models = ['algorithm', 'crf', 'differential', 'dsp', 'gbm',  
-                            'inferential', 'linear', 'logic',  'lvq', 'matrix', 'nearest', 'neighbor',
-                            'nonlinear', 'ontology',   'pla', 
-                            'pso', 'reasoning', 'validation', 'vector',] # will need to figure out monograms/bigrams
+    subtopic_holding_tank = ['logic', 'matrix', 'nearest', 'neighbor', 'ontology', 'reasoning', 'validation', 'vector',]    
+    
       
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -5272,7 +5271,7 @@ def nlp_skill_lists(additional_stopwords):
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
     subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_languages + subtopic_big_data +
-                         subtopic_math_models + subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
+                         subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_linux + subtopic_python +
