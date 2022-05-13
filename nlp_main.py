@@ -4230,18 +4230,13 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
 
-####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
-    subtopic_ml_algorithms = [  'lda', 
-                               'lvq',   'sqlite',  ]
-
-
 ########## SUPERVISED ##########     
     subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
                                   'discriminant analysis', 'gradint boosting', 'knn', 'lda', 'logistic regression',
                                   'naive bayes', 'neural network', 'nusvc', 'oner', 'qda', 'random forest',
                                   'sgd', 'svc', 'svm', 'zeror']
     
-    subtopic_ml_regression = ['decision tree', 'ensemble', 'glm', 'gpr', 'gradint boosting', 'linear regression',
+    subtopic_ml_regression = ['arima', 'decision tree', 'ensemble', 'glm', 'gpr', 'gradint boosting', 'linear regression',
                               'loess', 'mars', 'neural network', 'ols', 'random forest', 'regression', 'svr']
 
     subtopic_ml_supervised = ['supervised', 'classification', 'regression'] + subtopic_ml_classification + subtopic_ml_regression
@@ -4281,22 +4276,19 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_ml_recommendation = ['recommender', 'recommendation',]
 
-    subtopic_ml_supporting = []
+    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'maximum likelihood',
+                         'monte carlo', 'normalize', 'outlier', 'pearson', 'randomization', 
+                         'rms', 'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
 
+####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
+    subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
+                              'imputation', 'modeling', 'optimization', 'regression', 'regularization',
+                              'segmentation', 'transformation',]    
 
-
-
-    subtopic_math_models = ['anova', 'algorithm',  'arima',  
-                            'monte', 'carlo', 'correlation', 'crf', 'differential', 'dsp',
-                            'gaussian', 'gbm', 'gradient', 'identification', 'imputation',
-                             'inferential', 'likelihood', 'linear', 'localization',
-                            'logic', 'loss', 'matrix', 'maximum', 
-                             'nearest', 'neighbor', 'nonlinear', 'nonparametric', 'normalize', 'ontology',
-                            'optimization', 'outlier', 'parametric', 'pattern', 'pearson', 'pla', 
-                            'pso', 'randomization', 'reasoning', 
-                             'rms', 'sampling', 'segmentation', 'simulation', 'skewness',
-                            'stochastic', 'supervised', 'transformation',
-                            'univariate', 'validation', 'vector', ] # will need to figure out monograms/bigrams
+    subtopic_math_models = ['algorithm', 'crf', 'differential', 'dsp', 'gbm', 'gradient',  
+                            'inferential', 'linear', 'logic', 'loss', 'lvq', 'matrix', 'nearest', 'neighbor',
+                            'nonlinear', 'nonparametric', 'ontology',  'parametric', 'pattern', 'pla', 
+                            'pso', 'reasoning', 'validation', 'vector',] # will need to figure out monograms/bigrams
       
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -5281,7 +5273,7 @@ def nlp_skill_lists(additional_stopwords):
                          subtopic_math_models + subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
-                         subtopic_dl_supporting + subtopic_ml_algorithms + subtopic_linux + subtopic_python +
+                         subtopic_dl_supporting + subtopic_linux + subtopic_python +
                          subtopic_platforms + subtopic_it_and_web + subtopic_geospatial + subtopic_other + 
                          subtopic_javascript + subtopic_excel + subtopic_math) #subtopic_tooling +
 
