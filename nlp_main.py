@@ -4123,166 +4123,7 @@ def nlp_skill_lists(additional_stopwords):
                      'training',
                      'understand',
                      'year']  
-
-    subtopic_agile = ['agile', 'backlog', 'kanban', 'mvp', 'roadmap', 'scrum', 'sprint', 'waterfall']
-
-    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'cloudhsm', 'cloudtrail', 'codebuild', 'codedeploy', 'codepipeline',
-                    'codestar', 'dms', 'dynamodb', 'ebs', 'ec2', 'elasticache', 'elasticsearch', 'emr',
-                    'glacier', 'glue', 'inspector', 'kinesis', 'kms', 'lambda', 'lex', 'macie', 'mapreduce', 'polly', 
-                    'presto', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball',
-                    'sqs', 'vpc', 'xray']
     
-    subtopic_big_data = ['apache', 'flume', 'hadoop', 'hdfs', 'hive', 'hiveql', 'oozie', 'mapreduce', 'pig', 'presto',
-                         'sqoop', 'spark', 'yarn',]   
-    
-    subtopic_cloud = ['amazon', 'alibaba', 'aurora', 'aws', 'azure', 'cloud', 'cloudera', 'cosmos', 'databricks',
-                      'digitalocean', 'gcp', 'google', 'h2o', 'informatica', 'nifi', 'oracle',
-                      'redhat', 'sap', 'splunk', 'vertica', 'vmware', 'zeromq'] ### might need to deal with 'google cloud' bigram
-    
-    subtopic_containers = ['artifactory', 'buildah', 'buildkit', 'container', 'containerd', 'crun', 'dive',
-                           'docker', 'hyperv', 'kaniko', 'kubeflow', 'kubernetes', 'lxc', 'lxd', 'mesos',
-                           'openshift', 'openvz', 'orchestration', 'podman', 'rancher', 'rkt', 'runc', 'skopeo',
-                           'vagrant', 'virtualbox', 'windock', 'zerovm'] ### 'dive' might have to be in context of cloud tech
-
-    subtopic_databases = ['access', 'accumulo', 'cassandra', 'cosmos', 'couchbase', 'db2', 'dynamodb',
-                          'elasticsearch', 'flockdb', 'hbase', 'hibari', 'mldb', 'mongodb', 'mssql',
-                          'mysql', 'neo4j', 'nosql', 'orientdb', 'postgresql', 'rabbitmq', 'rdbms',
-                          'redis', 'relational', 'riak', 'solr', 'terrstore'] 
-
-    subtopic_datatypes = ['avro', 'continuous', 'csv', 'discrete', 'excel', 'hdf5', 'html', 'jpeg',
-                          'json', 'matlab', 'netcdf', 'onnx', 'orc', 'parquet', 'pb', 'pdf', 'petastorm',
-                          'pickle', 'pmml', 'png', 'qualitative', 'quantitative',
-                          'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords', 'time series',
-                          'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip'] 
-
-    subtopic_dl_algorithms = ['algorithm', 'autoencoder', 'boltzmann', 'convolutional', 'dbm', 'dbn', 'gan',
-                              'hopfield', 'lvq', 'lstm', 'mlp', 'neural network', 'perceptron',
-                              'rbfn', 'rbm', 'rbn', 'rnn', 'som']
-     
-    subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
-                              'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
-                              'spark ml', 'tensorflow', 'tfx', 'theano']
-
-    subtopic_dl_supporting = ['automl', 'ensemble', 'inference', 'lightgbm', 'neuron', 'nvidia', 'onnx', 'pipeline',
-                              'pla', 'tensorrt'] 
-    
-    subtopic_excel = ['excel', 'pivot', 'spreadsheet', 'vlookup',]
-    
-    subtopic_geospatial = ['arcgis', 'cad', 'qgis',]
-
-    subtopic_ide = ['anaconda', 'atom', 'dataspell', 'eclipse', 'emacs', 'gedit', 'jupyter', 'notepad',
-                    'nteract', 'pycharm', 'pydev', 'rstudio', 'rodeo', 'spyder', 'sublime', 'thonny', 
-                    'vim', 'visual studio']
-
-    subtopic_it_and_web = ['ansible', 'aspnet', 'executable', 'flask', 'fortify', 'jenkins',
-                           'nginx', 'reactjs', 'rest', 'twistlock']
-    
-    subtopic_javascript = ['ajax', 'd3js', 'jquery', 'reactjs',] 
-
-    subtopic_languages = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
-                         'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
-                         'matlab', 'nodejs', 'opencl', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
-                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript',
-                         'wolfram', 'vba', 'xml',]
-
-    subtopic_linux = ['bash', 'centos', 'cli', 'cuda', 'debian', 'fedora', 'linux', 'mint', 'nvidia', 'openshift', 'redhat',
-                      'shell', 'ubuntu', 'unix',] # rapids, but have to find
-
-    subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
-                            'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
-                            'statistics']  #### !!!! DECONFLICT WITH MATH LIST RIGHT BELOW
-
-    subtopic_math = ['algebra', 'calculus', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
-                     'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
-    
-    ########## SUPERVISED ##########     
-    subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
-                                  'discriminant analysis', 'gradient boosting', 'knn', 'lda', 'logistic regression',
-                                  'naive bayes', 'neural network', 'nusvc', 'oner', 'pla', 'qda', 'random forest',
-                                  'sgd', 'svc', 'svm', 'zeror']
-    
-    subtopic_ml_regression = ['arima', 'decision tree', 'ensemble', 'glm', 'gpr', 'gradint boosting', 'linear regression',
-                              'loess', 'mars', 'neural network', 'ols', 'random forest', 'regression', 'svr']
-
-    subtopic_ml_supervised = ['supervised', 'classification', 'regression'] + subtopic_ml_classification + subtopic_ml_regression
-
-    ########## SEMI-SUPERVISED ########## 
-    subtopic_ml_semisupervised = ['gan']
-
-
-    ########## UNSUPERVISED ##########     
-    subtopic_ml_association = ['apriori', 'eclat']
-
-    subtopic_ml_clustering = ['clustering',  'cmeans', 'dbscan', 'expectation maximization',
-                              'gmm', 'hierarchical', 'kmeans', 'kmedians', 'kmodes',
-                              'mean shift', 'markov', 'neural network', 'spectral clustering']  # recommender systems
-    
-    subtopic_ml_dimen_reduct = ['autoencoder', 'backward feature', 'dimensionality reduction', 'factor analysis',
-                                'forward feature', 'ica', 'isomap', 'lda', 'lle', 'mds', 'pca', 'plsr', 'rda', 'sammon',
-                                'subset selction', 'svd', 'tsne']
-    
-    subtopic_ml_unsupervised = ['unsupervised'] + subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct
-
-    ########## ML REMAINDER ##########
-    subtopic_ml_anomaly = ['anomaly detection', 'isolation forest', 'lof', 'mcd', 'pca', 'svm']  
-
-    subtopic_ml_ensemble = ['adaboost', 'bagging', 'bootstrap', 'catboost', 'gbm', 'gbrt',
-                            'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
-    
-    subtopic_ml_optimization= ['optimization', 'pso'] 
-
-    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'regularization', 'ridge']
-    
-    subtopic_ml_recommendation = ['recommender', 'recommendation',]
-
-    subtopic_ml_reinforcement = ['multiarmed bandit', 'reinforcement',]
-
-    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'inferential', 'linear',
-                         'loss', 'maximum likelihood', 'monte carlo', 'nonlinear', 'nonparametric',
-                         'normalize', 'outlier', 'parametric', 'pearson', 'randomization', 'rms',
-                         'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
-    
-    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'crf', 'flair', 'gensim', 'gpt', 'kaldi',
-                    'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
-                    'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec']
-    
-    subtopic_other = ['ivr', 'jira', 'peoplesoft', 'powershell', 'windows']
-    
-    subtopic_platforms = ['alteryx', 'cplex', 'dataminr', 'datarobot', 'delfi', 'fivetran', 'ide', 'knime',
-                          'mathematica', 'mlflow', 'nvivo', 'snaplogic', 'snowflake', 'sorcero', 'weka',]
-    
-    subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
-                              'imputation', 'modeling',  'optimization', 'pattern', 'regression', 'regularization',
-                              'segmentation', 'transformation',]  
-
-    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'dgl', 
-                       'django', 'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
-                       'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
-                       'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
-                       'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
-                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
-                       'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
-                       'xgboost', 'zookeeper'] 
-    
-    subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
-                  'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
-                  'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
-                  'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] 
-    
-    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'presto', 'sql', 'sqlite', 'ssis',] 
-
-    subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
-                    'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
-                    'highcharts', 'infogram', 'interactive', 'kibana', 'kizan', 'klipfolio', 'leaflet',
-                    'looker', 'matplotlib', 'palantir', 'periscope', 'plotly', 'polymaps', 'power bi', 'pydot',
-                    'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'tibco', 'vega',
-                    'visio', 'visualization', 'watson', 'zoho'] 
-   
-    subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
-                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
-
-    subtopic_holding_tank = ['logic', 'matrix', 'nearest', 'neighbor', 'ontology', 'reasoning', 'validation', 'vector',] 
-      
     ds_tech_skill_terms = ['ab',
                            'access',
                            'accumulo',
@@ -5262,7 +5103,168 @@ def nlp_skill_lists(additional_stopwords):
                            'workstreams'] 
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
+
+    # establish subtopic lists for specific technical skill breakdowns
+    subtopic_agile = ['agile', 'backlog', 'kanban', 'mvp', 'roadmap', 'scrum', 'sprint', 'waterfall']
+
+    subtopic_aws = ['aws', 'amazon', 'athena', 'aurora', 'cloudhsm', 'cloudtrail', 'codebuild', 'codedeploy', 'codepipeline',
+                    'codestar', 'dms', 'dynamodb', 'ebs', 'ec2', 'elasticache', 'elasticsearch', 'emr',
+                    'glacier', 'glue', 'inspector', 'kinesis', 'kms', 'lambda', 'lex', 'macie', 'mapreduce', 'polly', 
+                    'presto', 'quicksight', 'rds', 'redshift', 'rekognition', 's3', 'sagemaker', 'sdk', 'snowball',
+                    'sqs', 'vpc', 'xray']
     
+    subtopic_big_data = ['apache', 'flume', 'hadoop', 'hdfs', 'hive', 'hiveql', 'oozie', 'mapreduce', 'pig', 'presto',
+                         'sqoop', 'spark', 'yarn',]   
+    
+    subtopic_cloud = ['amazon', 'alibaba', 'aurora', 'aws', 'azure', 'cloud', 'cloudera', 'cosmos', 'databricks',
+                      'digitalocean', 'gcp', 'google', 'h2o', 'informatica', 'nifi', 'oracle',
+                      'redhat', 'sap', 'splunk', 'vertica', 'vmware', 'zeromq'] ### might need to deal with 'google cloud' bigram
+    
+    subtopic_containers = ['artifactory', 'buildah', 'buildkit', 'container', 'containerd', 'crun', 'dive',
+                           'docker', 'hyperv', 'kaniko', 'kubeflow', 'kubernetes', 'lxc', 'lxd', 'mesos',
+                           'openshift', 'openvz', 'orchestration', 'podman', 'rancher', 'rkt', 'runc', 'skopeo',
+                           'vagrant', 'virtualbox', 'windock', 'zerovm'] ### 'dive' might have to be in context of cloud tech
+
+    subtopic_databases = ['access', 'accumulo', 'cassandra', 'cosmos', 'couchbase', 'db2', 'dynamodb',
+                          'elasticsearch', 'flockdb', 'hbase', 'hibari', 'mldb', 'mongodb', 'mssql',
+                          'mysql', 'neo4j', 'nosql', 'orientdb', 'postgresql', 'rabbitmq', 'rdbms',
+                          'redis', 'relational', 'riak', 'solr', 'terrstore'] 
+
+    subtopic_datatypes = ['avro', 'continuous', 'csv', 'discrete', 'excel', 'hdf5', 'html', 'jpeg',
+                          'json', 'matlab', 'netcdf', 'onnx', 'orc', 'parquet', 'pb', 'pdf', 'petastorm',
+                          'pickle', 'pmml', 'png', 'qualitative', 'quantitative',
+                          'sas', 'sql', 'stata', 'structured', 'text', 'tfrecords', 'time series',
+                          'trajectory', 'txt', 'unstructured', 'xlsx', 'xml', 'yaml', 'zip'] 
+
+    subtopic_dl_algorithms = ['algorithm', 'autoencoder', 'boltzmann', 'convolutional', 'dbm', 'dbn', 'gan',
+                              'hopfield', 'lvq', 'lstm', 'mlp', 'neural network', 'perceptron',
+                              'rbfn', 'rbm', 'rbn', 'rnn', 'som']
+     
+    subtopic_dl_frameworks = ['blocks', 'caffe', 'chainer', 'cntk ', 'dgl', 'dl4j', 'flux', 'gluon', 'h2o',
+                              'keras', 'lasagne', 'mxnet', 'paddlepaddle', 'pytorch', 'singa', 'sonnet',
+                              'spark ml', 'tensorflow', 'tfx', 'theano']
+
+    subtopic_dl_supporting = ['automl', 'ensemble', 'inference', 'lightgbm', 'neuron', 'nvidia', 'onnx', 'pipeline',
+                              'pla', 'tensorrt'] 
+    
+    subtopic_excel = ['excel', 'pivot', 'spreadsheet', 'vlookup',]
+    
+    subtopic_geospatial = ['arcgis', 'cad', 'qgis',]
+
+    subtopic_ide = ['anaconda', 'atom', 'dataspell', 'eclipse', 'emacs', 'gedit', 'jupyter', 'notepad',
+                    'nteract', 'pycharm', 'pydev', 'rstudio', 'rodeo', 'spyder', 'sublime', 'thonny', 
+                    'vim', 'visual studio']
+
+    subtopic_it_and_web = ['ansible', 'aspnet', 'executable', 'flask', 'fortify', 'jenkins',
+                           'nginx', 'reactjs', 'rest', 'twistlock']
+    
+    subtopic_javascript = ['ajax', 'd3js', 'jquery', 'reactjs',] 
+
+    subtopic_languages = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
+                         'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
+                         'matlab', 'nodejs', 'opencl', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
+                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript',
+                         'wolfram', 'vba', 'xml',]
+
+    subtopic_linux = ['bash', 'centos', 'cli', 'cuda', 'debian', 'fedora', 'linux', 'mint', 'nvidia', 'openshift', 'redhat',
+                      'shell', 'ubuntu', 'unix',] # rapids, but have to find
+
+    subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
+                            'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
+                            'statistics']  #### !!!! DECONFLICT WITH MATH LIST RIGHT BELOW
+
+    subtopic_math = ['algebra', 'calculus', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
+                     'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
+    
+    ########## SUPERVISED ##########     
+    subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
+                                  'discriminant analysis', 'gradient boosting', 'knn', 'lda', 'logistic regression',
+                                  'naive bayes', 'neural network', 'nusvc', 'oner', 'pla', 'qda', 'random forest',
+                                  'sgd', 'svc', 'svm', 'zeror']
+    
+    subtopic_ml_regression = ['arima', 'decision tree', 'ensemble', 'glm', 'gpr', 'gradint boosting', 'linear regression',
+                              'loess', 'mars', 'neural network', 'ols', 'random forest', 'regression', 'svr']
+
+    subtopic_ml_supervised = ['supervised', 'classification', 'regression'] + subtopic_ml_classification + subtopic_ml_regression
+
+    ########## SEMI-SUPERVISED ########## 
+    subtopic_ml_semisupervised = ['gan']
+
+
+    ########## UNSUPERVISED ##########     
+    subtopic_ml_association = ['apriori', 'eclat']
+
+    subtopic_ml_clustering = ['clustering',  'cmeans', 'dbscan', 'expectation maximization',
+                              'gmm', 'hierarchical', 'kmeans', 'kmedians', 'kmodes',
+                              'mean shift', 'markov', 'neural network', 'spectral clustering']  # recommender systems
+    
+    subtopic_ml_dimen_reduct = ['autoencoder', 'backward feature', 'dimensionality reduction', 'factor analysis',
+                                'forward feature', 'ica', 'isomap', 'lda', 'lle', 'mds', 'pca', 'plsr', 'rda', 'sammon',
+                                'subset selction', 'svd', 'tsne']
+    
+    subtopic_ml_unsupervised = ['unsupervised'] + subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct
+
+    ########## ML REMAINDER ##########
+    subtopic_ml_anomaly = ['anomaly detection', 'isolation forest', 'lof', 'mcd', 'pca', 'svm']  
+
+    subtopic_ml_ensemble = ['adaboost', 'bagging', 'bootstrap', 'catboost', 'gbm', 'gbrt',
+                            'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
+    
+    subtopic_ml_optimization= ['optimization', 'pso'] 
+
+    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'regularization', 'ridge']
+    
+    subtopic_ml_recommendation = ['recommender', 'recommendation',]
+
+    subtopic_ml_reinforcement = ['multiarmed bandit', 'reinforcement',]
+
+    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'inferential', 'linear',
+                         'loss', 'maximum likelihood', 'monte carlo', 'nonlinear', 'nonparametric',
+                         'normalize', 'outlier', 'parametric', 'pearson', 'randomization', 'rms',
+                         'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
+    
+    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'crf', 'flair', 'gensim', 'gpt', 'kaldi',
+                    'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
+                    'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec']
+    
+    subtopic_other = ['ivr', 'jira', 'peoplesoft', 'powershell', 'windows']
+    
+    subtopic_platforms = ['alteryx', 'cplex', 'dataminr', 'datarobot', 'delfi', 'fivetran', 'ide', 'knime',
+                          'mathematica', 'mlflow', 'nvivo', 'snaplogic', 'snowflake', 'sorcero', 'weka',]
+    
+    subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
+                              'imputation', 'modeling',  'optimization', 'pattern', 'regression', 'regularization',
+                              'segmentation', 'transformation',]  
+
+    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'dgl', 
+                       'django', 'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
+                       'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
+                       'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
+                       'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
+                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
+                       'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
+                       'xgboost', 'zookeeper'] 
+    
+    subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
+                  'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
+                  'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
+                  'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] 
+    
+    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'presto', 'sql', 'sqlite', 'ssis',] 
+
+    subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
+                    'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
+                    'highcharts', 'infogram', 'interactive', 'kibana', 'kizan', 'klipfolio', 'leaflet',
+                    'looker', 'matplotlib', 'palantir', 'periscope', 'plotly', 'polymaps', 'power bi', 'pydot',
+                    'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'tibco', 'vega',
+                    'visio', 'visualization', 'watson', 'zoho'] 
+   
+    subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
+                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
+
+    subtopic_holding_tank = ['logic', 'matrix', 'nearest', 'neighbor', 'ontology', 'reasoning', 'validation', 'vector',] 
+    
+    # combine all technical subtopics into a single list
     subtopics_combined = list(set((subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_languages + subtopic_big_data +
                          subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
