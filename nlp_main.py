@@ -4223,11 +4223,25 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_ml_unsupervised = ['unsupervised'] + subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct
 
+    ########## ML REMAINDER ##########
+    subtopic_ml_anomaly = ['anomaly detection', 'isolation forest', 'lof', 'mcd', 'pca', 'svm']  
 
+    subtopic_ml_ensemble = ['adaboost', 'bagging', 'bootstrap', 'catboost', 'gbm', 'gbrt',
+                            'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
     
+    subtopic_ml_optimization= ['optimization', 'pso'] 
 
+    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'regularization', 'ridge']
+    
+    subtopic_ml_recommendation = ['recommender', 'recommendation',]
 
+    subtopic_ml_reinforcement = ['multiarmed bandit', 'reinforcement',]
 
+    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'inferential', 'linear',
+                         'loss', 'maximum likelihood', 'monte carlo', 'nonlinear', 'nonparametric',
+                         'normalize', 'outlier', 'parametric', 'pearson', 'randomization', 'rms',
+                         'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
+    
     subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'crf', 'flair', 'gensim', 'gpt', 'kaldi',
                     'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
                     'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec']
@@ -4267,36 +4281,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
                                 'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
 
-
-
-    ########## REINFORCEMENT LEARNING ########## 
-    subtopic_ml_reinforcement = ['multiarmed bandit', 'reinforcement',]
-    
-
-    ########## ANOMALY DETECTION ########## 
-    subtopic_ml_anomaly = ['anomaly detection', 'isolation forest', 'lof', 'mcd', 'pca', 'svm']
-
-
-########## I AM NOT SURE YET; COULD BE OVERLAPS ##########
-    subtopic_ml_ensemble = ['adaboost', 'bagging', 'bootstrap', 'catboost', 'gbm', 'gbrt',
-                            'gradient boosting', 'random forest', 'voting classifier', 'xgboost']
-    
-    subtopic_ml_regularization = ['elastic net', 'lasso', 'lars', 'regularization', 'ridge']
-    
-    subtopic_ml_recommendation = ['recommender', 'recommendation',]
-
-    subtopic_ml_stats = ['anova', 'correlation', 'gaussian', 'gradient descent', 'inferential', 'linear',
-                         'loss', 'maximum likelihood', 'monte carlo', 'nonlinear', 'nonparametric',
-                         'normalize', 'outlier', 'parametric', 'pearson', 'randomization', 'rms',
-                         'sampling', 'simulation', 'skewness', 'stochastic', 'univariate',]
-    
-    subtopic_ml_optimization= ['optimization', 'pso']
-
-  
-
-####### !!!!!!!! WORKING HERE: organize the subtopic lists and create aggregation lists of key subtopics   
-    subtopic_holding_tank = ['logic', 'matrix', 'nearest', 'neighbor', 'ontology', 'reasoning', 'validation', 'vector',]    
-    
+    subtopic_holding_tank = ['logic', 'matrix', 'nearest', 'neighbor', 'ontology', 'reasoning', 'validation', 'vector',] 
       
     ds_tech_skill_terms = ['ab',
                            'access',
@@ -5277,16 +5262,18 @@ def nlp_skill_lists(additional_stopwords):
                            'workstreams'] 
     
     ds_skills_combined = ds_cred_terms + ds_tech_skill_terms + ds_soft_skill_terms + ds_prof_skill_terms
-    subtopics_combined = (subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_languages + subtopic_big_data +
+    
+    subtopics_combined = list(set((subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_languages + subtopic_big_data +
                          subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_linux + subtopic_python +
                          subtopic_platforms + subtopic_it_and_web + subtopic_geospatial + subtopic_other + 
-                         subtopic_javascript + subtopic_excel + subtopic_math + subtopic_ml_classification +
-                         subtopic_ml_regression + subtopic_ml_supervised + subtopic_ml_semisupervised +
-                         subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct +
-                         subtopic_ml_unsupervised + subtopic_ml_reinforcement + subtopic_ml_anomaly) #subtopic_tooling +
+                         subtopic_javascript + subtopic_excel + subtopic_math + subtopic_ml_supervised +
+                         subtopic_ml_semisupervised + subtopic_ml_unsupervised + subtopic_ml_reinforcement +
+                         subtopic_ml_anomaly + subtopic_problem_types + subtopic_holding_tank + subtopic_ml_ensemble +
+                         subtopic_ml_optimization + subtopic_ml_regularization + subtopic_ml_recommendation +
+                         subtopic_ml_stats)))
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
