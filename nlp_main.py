@@ -4194,42 +4194,7 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_math = ['algebra', 'calculus', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
                      'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
-
-    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'crf', 'flair', 'gensim', 'gpt', 'kaldi',
-                    'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
-                    'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec']
     
-    subtopic_other = ['ivr', 'jira', 'peoplesoft', 'powershell', 'windows']
-    
-    subtopic_platforms = ['alteryx', 'cplex', 'dataminr', 'datarobot', 'delfi', 'fivetran', 'ide', 'knime',
-                          'mathematica', 'mlflow', 'nvivo', 'snaplogic', 'snowflake', 'sorcero', 'weka',]
-
-    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'dgl', 
-                       'django', 'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
-                       'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
-                       'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
-                       'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
-                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
-                       'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
-                       'xgboost', 'zookeeper'] 
-    
-    subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
-                  'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
-                  'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
-                  'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] 
-    
-    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'presto', 'sql', 'sqlite', 'ssis',] 
-
-    subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
-                    'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
-                    'highcharts', 'infogram', 'interactive', 'kibana', 'kizan', 'klipfolio', 'leaflet',
-                    'looker', 'matplotlib', 'palantir', 'periscope', 'plotly', 'polymaps', 'power bi', 'pydot',
-                    'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'tibco', 'vega',
-                    'visio', 'visualization', 'watson', 'zoho'] 
-   
-    subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
-                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
-
 ########## SUPERVISED ##########     
     subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
                                   'discriminant analysis', 'gradient boosting', 'knn', 'lda', 'logistic regression',
@@ -4258,6 +4223,51 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_ml_dimen_reduct = ['autoencoder', 'backward feature', 'dimensionality reduction', 'factor analysis',
                                 'forward feature', 'ica', 'isomap', 'lda', 'lle', 'mds', 'pca', 'plsr', 'rda', 'sammon',
                                 'subset selction', 'svd', 'tsne']
+    
+    subtopic_ml_unsupervised = ['unsupervised'] + subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct
+
+
+
+
+    subtopic_nlp = ['allennlp', 'asr', 'corenlp', 'corpus', 'crf', 'flair', 'gensim', 'gpt', 'kaldi',
+                    'lda', 'nlp', 'nltk', 'pattern', 'polyglot', 'pynlpl', 'rasa', 'sentiment',
+                    'sklearn', 'spacy', 'speechtotext', 'spss', 'textblob', 'transformers', 'translation', 'word2vec']
+    
+    subtopic_other = ['ivr', 'jira', 'peoplesoft', 'powershell', 'windows']
+    
+    subtopic_platforms = ['alteryx', 'cplex', 'dataminr', 'datarobot', 'delfi', 'fivetran', 'ide', 'knime',
+                          'mathematica', 'mlflow', 'nvivo', 'snaplogic', 'snowflake', 'sorcero', 'weka',]
+    
+    subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
+                              'imputation', 'modeling',  'optimization', 'pattern', 'regression', 'regularization',
+                              'segmentation', 'transformation',]  
+
+    subtopic_python = ['allennlp', 'anaconda', 'beautifulsoup', 'bokeh', 'caffe', 'corenlp', 'dash', 'dask', 'dgl', 
+                       'django', 'fastapi', 'flask', 'gensim', 'ipython', 'jupyter', 'keras', 'luigi', 'mahotas',
+                       'matplotlib', 'mlpack', 'mxnet', 'nltk', 'numpy', 'opencv', 'optimus', 'pandas', 'petastorm', 'pillow',
+                       'plotly', 'polyglot', 'pycaret', 'pycharm', 'pydot', 'pynlpl', 'pyspark', 'pytest',
+                       'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
+                       'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
+                       'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
+                       'xgboost', 'zookeeper'] 
+    
+    subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
+                  'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
+                  'quanteda', 'rcrawler', 'readr', 'readxl', 'rio', 'rmarkdown', 'shiny', 'stringr', 'superml',
+                  'tidyquant', 'tidyr', 'tidyverse', 'tidyxl', 'vroom', 'xgboost',] 
+    
+    subtopic_sql = ['mssql', 'mysql', 'nosql', 'postgresql', 'presto', 'sql', 'sqlite', 'ssis',] 
+
+    subtopic_viz = ['bokeh', 'chartblocks', 'cognos', 'd3js', 'dashboard',  'datawrapper',  'domo',
+                    'dundas', 'echarts', 'excel', 'finereport', 'fusioncharts', 'ggplot', 'grafana',
+                    'highcharts', 'infogram', 'interactive', 'kibana', 'kizan', 'klipfolio', 'leaflet',
+                    'looker', 'matplotlib', 'palantir', 'periscope', 'plotly', 'polymaps', 'power bi', 'pydot',
+                    'qlik', 'seaborn', 'sigmajs', 'sisense', 'spotfire', 'tableau', 'tibco', 'vega',
+                    'visio', 'visualization', 'watson', 'zoho'] 
+   
+    subtopic_version_control = ['bazaar', 'bitbucket', 'cvs', 'delta lake', 'dolt', 'dvc', 'git', 'lakefs', 'mercurial', 
+                                'monotone', 'neptune', 'pachyderm', 'svn', 'tfs', 'vsts' ]  ### need to add in other git elements like GitHub, Git LFS, GitLab, etc.
+
 
 
 ########## REINFORCEMENT LEARNING ########## 
@@ -4283,11 +4293,9 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_ml_optimization= ['optimization', 'pso']
 
-    subtopic_problem_types = ['anomaly detection', 'classification', 'clustering', 'identification', 'localization',
-                              'imputation', 'modeling',  'optimization', 'pattern', 'regression', 'regularization',
-                              'segmentation', 'transformation',]    
+  
 
-####### !!!!!!!! WORKING HERE: parse the machine learning subtopic lists   
+####### !!!!!!!! WORKING HERE: organize the subtopic lists and create aggregation lists of key subtopics   
     subtopic_holding_tank = ['logic', 'matrix', 'nearest', 'neighbor', 'ontology', 'reasoning', 'validation', 'vector',]    
     
       
