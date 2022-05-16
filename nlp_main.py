@@ -3924,6 +3924,27 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     mask_monogram = monograms.grams.isin(subtopic_list)
     monograms_df_sns = monograms[mask_monogram]  
 
+
+
+
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists    
+    # generate bigrams from the full terms_for_nlp list
+    n_gram_count = 2
+    n_gram_range_start, n_gram_range_stop  = 0, 100
+    bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    
+    # subset the bigrams for which at least one term appears in the credentials list
+    bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+    mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+    bigrams_df_sns = bigrams[mask_bigram]
+
+    # add the monograms and bigrams
+    ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+
+
+    
+    
+
     # create a horizontal barplot visualizing data science skills in the subtopic list - by count
     plt.figure(figsize=(7, 10))
     sns.set_style('dark')
@@ -5169,11 +5190,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_linux = ['bash', 'centos', 'cli', 'cuda', 'debian', 'fedora', 'linux', 'mint', 'nvidia', 'openshift', 'redhat',
                       'shell', 'ubuntu', 'unix',] # rapids, but have to find
 
-    subtopic_mathematics = ['algebra',  'bayes', 'calculus', 'differential', 'discrete math', 'geometry', 'graph theory', 
-                            'information theory', 'linear algebra', 'mathematics', 'multivariate', 'probability',
-                            'statistics']  #### !!!! DECONFLICT WITH MATH LIST RIGHT BELOW
-
-    subtopic_math = ['algebra', 'calculus', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
+    subtopic_math = ['algebra', 'calculus', 'differential', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
                      'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
     
     ########## SUPERVISED ##########     
@@ -5268,7 +5285,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopics_combined = list(set((subtopic_aws + subtopic_cloud + subtopic_agile + subtopic_languages + subtopic_big_data +
                          subtopic_nlp + subtopic_viz + subtopic_r + subtopic_dl_frameworks +
                          subtopic_containers + subtopic_datatypes + subtopic_ide + subtopic_databases +
-                         subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
+                         subtopic_version_control + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_linux + subtopic_python +
                          subtopic_platforms + subtopic_it_and_web + subtopic_geospatial + subtopic_other + 
                          subtopic_javascript + subtopic_excel + subtopic_math + subtopic_ml_supervised +
