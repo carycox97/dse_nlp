@@ -4195,7 +4195,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_math = ['algebra', 'calculus', 'discrete math', 'dsp', 'geometry', 'graph theory', 'information theory',
                      'linear algebra', 'mathematics', 'multivariate', 'probability', 'statistics',]
     
-########## SUPERVISED ##########     
+    ########## SUPERVISED ##########     
     subtopic_ml_classification = ['bayes', 'classification', 'decision tree', 'decision stump ',
                                   'discriminant analysis', 'gradient boosting', 'knn', 'lda', 'logistic regression',
                                   'naive bayes', 'neural network', 'nusvc', 'oner', 'pla', 'qda', 'random forest',
@@ -4206,14 +4206,11 @@ def nlp_skill_lists(additional_stopwords):
 
     subtopic_ml_supervised = ['supervised', 'classification', 'regression'] + subtopic_ml_classification + subtopic_ml_regression
 
-########## SEMI-SUPERVISED ########## 
+    ########## SEMI-SUPERVISED ########## 
     subtopic_ml_semisupervised = ['gan']
 
 
-########## UNSUPERVISED ########## 
-    subtopic_ml_unsupervised = ['apriori', 'clustering',  'cmeans', 'gmm', 'kmeans', 'markov',
-                                'neural network', 'pca', 'unsupervised'] 
-    
+    ########## UNSUPERVISED ##########     
     subtopic_ml_association = ['apriori', 'eclat']
 
     subtopic_ml_clustering = ['clustering',  'cmeans', 'dbscan', 'expectation maximization',
@@ -4226,6 +4223,8 @@ def nlp_skill_lists(additional_stopwords):
     
     subtopic_ml_unsupervised = ['unsupervised'] + subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct
 
+
+    
 
 
 
@@ -4270,11 +4269,11 @@ def nlp_skill_lists(additional_stopwords):
 
 
 
-########## REINFORCEMENT LEARNING ########## 
+    ########## REINFORCEMENT LEARNING ########## 
     subtopic_ml_reinforcement = ['multiarmed bandit', 'reinforcement',]
     
 
-########## ANOMALY DETECTION ########## 
+    ########## ANOMALY DETECTION ########## 
     subtopic_ml_anomaly = ['anomaly detection', 'isolation forest', 'lof', 'mcd', 'pca', 'svm']
 
 
@@ -5284,7 +5283,10 @@ def nlp_skill_lists(additional_stopwords):
                          subtopic_version_control + subtopic_mathematics + subtopic_sql + subtopic_dl_algorithms +
                          subtopic_dl_supporting + subtopic_linux + subtopic_python +
                          subtopic_platforms + subtopic_it_and_web + subtopic_geospatial + subtopic_other + 
-                         subtopic_javascript + subtopic_excel + subtopic_math) #subtopic_tooling +
+                         subtopic_javascript + subtopic_excel + subtopic_math + subtopic_ml_classification +
+                         subtopic_ml_regression + subtopic_ml_supervised + subtopic_ml_semisupervised +
+                         subtopic_ml_association + subtopic_ml_clustering + subtopic_ml_dimen_reduct +
+                         subtopic_ml_unsupervised + subtopic_ml_reinforcement + subtopic_ml_anomaly) #subtopic_tooling +
 
     # confirm exclusivity of each list with the additional_stopwords list in the clean_terms_for_nlp function
     print('\n***** Stopword and Skill List Testing ***** \n')
