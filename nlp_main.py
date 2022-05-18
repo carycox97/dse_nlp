@@ -5310,7 +5310,7 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_missing_terms = sorted(list(set(subtopics_combined) - set(ds_skills_combined)))
     print(f'Subtopic terms missing from primary skill lists: {subtopic_missing_terms}\n')  
     
-    return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python
+    return ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms, ds_skills_combined, subtopic_python, subtopic_languages
 
 
 def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop, print_flag=False):
@@ -5450,7 +5450,7 @@ def main_program(csv_path):
     
     # create lists for key terms related to credentialing and key skill sets, and a combined list for all terms of interest
     (ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms,
-     ds_prof_skill_terms, ds_skills_combined, subtopic_python) = nlp_skill_lists(additional_stopwords)
+     ds_prof_skill_terms, ds_skills_combined, subtopic_python, subtopic_languages) = nlp_skill_lists(additional_stopwords)
     
     # count all n_grams 
     n_gram_count = 1
@@ -5467,16 +5467,7 @@ def main_program(csv_path):
                                                        additional_stopwords, term_fixes, df)
     
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
-
-####### !!!!!!!! WORKING HERE: print out a quick summary of primary dataframes; maybe sequence them
-    # df_raw
-    # terms for nlp    
-    # n_grams
-    print(f'n_grams is a list of terms by count')
-    # df_jobs
-    # terms_for_nlp
-    # df
-    # df_jobs_raw
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
 
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
