@@ -3928,18 +3928,18 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
 
 ####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists    
-    # generate bigrams from the full terms_for_nlp list
-    n_gram_count = 2
-    n_gram_range_start, n_gram_range_stop  = 0, 100
-    bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    # # generate bigrams from the full terms_for_nlp list
+    # n_gram_count = 2
+    # n_gram_range_start, n_gram_range_stop  = 0, 100
+    # bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
-    # subset the bigrams for which at least one term appears in the credentials list
-    bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
-    mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
-    bigrams_df_sns = bigrams[mask_bigram]
+    # # subset the bigrams for which at least one term appears in the credentials list
+    # bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+    # mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
+    # bigrams_df_sns = bigrams[mask_bigram]
 
-    # add the monograms and bigrams
-    ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+    # # add the monograms and bigrams
+    # ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
 
 
     
@@ -5320,7 +5320,7 @@ def nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_ra
     Parameters
     ----------
     terms_for_nlp : list
-        List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+        List containing scraped and cleaned terms from the series of interest; created in the clean_for_nlp function.
     n_gram_count : integer
         A parameter representing the dimensionality of the n_grams of interest (e.g., 2 = bigram, 3 = trigram, etc.).
     n_gram_range_start : integer
@@ -5462,16 +5462,27 @@ def main_program(csv_path):
     visualize_word_clouds(terms_for_nlp, series_of_interest)
     
     # visualize n_grams and skill lists as horizontal bar plots
-    df_jobs_raw, unique_titles_viz = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms, ds_prof_skill_terms,
-                                    terms_for_nlp, series_of_interest, additional_stopwords, term_fixes, df)
+    df_jobs_raw, unique_titles_viz = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms,
+                                                       ds_prof_skill_terms, terms_for_nlp, series_of_interest,
+                                                       additional_stopwords, term_fixes, df)
     
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
 
-    return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms
+####### !!!!!!!! WORKING HERE: print out a quick summary of primary dataframes; maybe sequence them
+    # df_raw
+    # terms for nlp    
+    # n_grams
+    print(f'n_grams is a list of terms by count')
+    # df_jobs
+    # terms_for_nlp
+    # df
+    # df_jobs_raw
+
+    return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
 
 # execute main program
-df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms = main_program(csv_path)
+df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw = main_program(csv_path)
 
 # close time calculation
 end_time = time.time()
@@ -5648,22 +5659,3 @@ del start_time, end_time
 
 # shell command to count total lines of code:
 # pygount --format=summary .
-
-# for movie in movies:
-#   	# If actor is not found between character 37 and 41 inclusive
-#     # Print word not found
-#     if movie.find("actor", 37, 42) == -1:
-#         print("Word not found")
-#     # Count occurrences and replace two with one
-#     elif movie.count("actor") == 2:  
-#         print(movie.replace("actor actor", "actor"))
-#     else:
-#         # Replace three occurrences with one
-#         print(movie.replace("actor actor actor", "actor"))
-
-# for movie in movies:
-#   try:
-#     # Find the first occurrence of word
-#   	print(movie.index('money', 12, 51))
-#   except ValueError:
-#     print("substring not found")
