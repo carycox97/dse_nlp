@@ -5580,20 +5580,6 @@ del start_time, end_time
 # df_term_fixes['terms'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
 # terms_for_nlp = list(df_term_fixes['terms'])
 
-# # Failures
-# df_jobs['job_description'].replace(list(term_fixes.keys()), list(term_fixes.values()), regex=False, inplace=True)
-# df_jobs['job_description'].replace(dict(zip(list(term_fixes.keys()), list(term_fixes.values()))), regex=False, inplace=True)
-# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
-# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False)
-# df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # failed when df records are lists
-# df_jobs['test'] = [x.replace(term_fixes, regex=False) for x in df_jobs['job_description']] # still fails
-
-
-# # seeking help
-# # data = {'Name':[["'Tom' 'is' 'qualified'"], 'nick', 'krish', 'jack'],
-# # 'Age':[20, 21, 19, 18]}
-# # df = pd.DataFrame(data)
-       
         
 # trying from stackoverflow
 # for k in term_fixes:
