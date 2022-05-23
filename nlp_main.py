@@ -5466,6 +5466,7 @@ def main_program(csv_path):
                                                        ds_prof_skill_terms, terms_for_nlp, series_of_interest,
                                                        additional_stopwords, term_fixes, df)
     
+    # visualize subtopics as horizonal bar plots
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
