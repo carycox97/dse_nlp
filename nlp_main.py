@@ -3927,7 +3927,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
 
 
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists    
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list  
     # # generate bigrams from the full terms_for_nlp list
     # n_gram_count = 2
     # n_gram_range_start, n_gram_range_stop  = 0, 100
@@ -5260,7 +5260,7 @@ def nlp_skill_lists(additional_stopwords):
                        'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
                        'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
                        'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
-                       'xgboost', 'zookeeper'] 
+                       'xgboost', 'zookeeper', 'collaborate work', 'work collaborate'] 
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
                   'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
