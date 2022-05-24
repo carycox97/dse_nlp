@@ -3915,6 +3915,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     None. Directly outputs visualizations.
 
     ''' 
+    subtopic_list = subtopic_python.copy()  ############ RENOVE AFTER GOES FINAL
     # generate monograms from the full terms_for_nlp list
     n_gram_count = 1
     n_gram_range_start, n_gram_range_stop  = 0, int((len(terms_for_nlp) / 2))
@@ -3936,14 +3937,16 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # # subset the bigrams for which at least one term appears in the subtopic list
-####### !!!!!!!! Might need to change the target bigram in the subtopic_python list
-    bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)]
-    print(f"Bigrams matched in subtopic_list: {bigram_match_to_cred_list[:10]}")
-    # mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
-    # bigrams_df_sns = bigrams[mask_bigram]
+    bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)]
+    print(f'Bigrams matched in subtopic_list: {bigram_match_to_subtopic_list[:10]}\n')
+    mask_bigram = bigrams.grams.isin(bigram_match_to_subtopic_list)
+    bigrams_df_sns = bigrams[mask_bigram]   
+    print(f'Top 5 elements of bigrams_df_sns: {bigrams_df_sns.head()}\n')
 
-    # # add the monograms and bigrams
-    # ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+################ BOOKMARK HERE: this did not concatenate on the first attempt; IT's AN INDEXING PROBLEM; need to sort by count and reset the index
+    # add the monograms and bigrams
+    ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+    print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.head(30)}')
 
 
     
@@ -3956,8 +3959,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         
     ax = sns.barplot(x='count',
                      y='grams',
-                     data=monograms_df_sns,
-                     order=monograms_df_sns.sort_values('count', ascending = False).grams[:25],
+                     data=ngram_combined_sns,
+                     order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
                      orient='h',
                      palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
@@ -3978,6 +3981,9 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 ha='left',
                 in_layout=True,
                 wrap=True) 
+
+visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
+
      
     # create a horizontal barplot visualizing data science skills in the subtopic list - by percentage
     df_jobs_mono = df_jobs_raw.copy()
