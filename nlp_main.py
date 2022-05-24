@@ -3928,6 +3928,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
 
 ####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list  
+####### !!!!!!!! WORKING HERE: initial goal is to get 'collaborate work' and 'work collaborate' bigrams into the list
+
     # # generate bigrams from the full terms_for_nlp list
     # n_gram_count = 2
     # n_gram_range_start, n_gram_range_stop  = 0, 100
