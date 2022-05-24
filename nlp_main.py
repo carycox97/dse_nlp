@@ -3915,7 +3915,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     None. Directly outputs visualizations.
 
     ''' 
-    subtopic_list = subtopic_python.copy()  ############ RENOVE AFTER GOES FINAL
+    subtopic_list = subtopic_python.copy()  ############ REMOVE AFTER GOES FINAL
     # generate monograms from the full terms_for_nlp list
     n_gram_count = 1
     n_gram_range_start, n_gram_range_stop  = 0, int((len(terms_for_nlp) / 2))
@@ -3924,9 +3924,6 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     # subset the monograms that appear in the subtopic list
     mask_monogram = monograms.grams.isin(subtopic_list)
     monograms_df_sns = monograms[mask_monogram]  
-
-
-
 
 ####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list  
 ####### !!!!!!!! WORKING HERE: initial goal is to get 'collaborate work' and 'work collaborate' bigrams into the list
@@ -3943,14 +3940,9 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     bigrams_df_sns = bigrams[mask_bigram]   
     print(f'Top 5 elements of bigrams_df_sns: {bigrams_df_sns.head()}\n')
 
-################ BOOKMARK HERE: this did not concatenate on the first attempt; IT's AN INDEXING PROBLEM; need to sort by count and reset the index
     # add the monograms and bigrams
     ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-    print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.head(30)}')
-
-
-    
-    
+    print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.sort_values("count", ascending=False).head(30)}')
 
     # create a horizontal barplot visualizing data science skills in the subtopic list - by count
     plt.figure(figsize=(7, 10))
@@ -3984,6 +3976,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
 visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
 
+################ BOOKMARK HERE working on the percentage plot, first for monograms
      
     # create a horizontal barplot visualizing data science skills in the subtopic list - by percentage
     df_jobs_mono = df_jobs_raw.copy()
@@ -4030,7 +4023,75 @@ visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_title
                 style='italic',
                 ha='left',
                 in_layout=True,
-                wrap=True)    
+                wrap=True)  
+
+
+    
+    ########## BIGRAM HOLDING TANK BEGIN
+    df_jobs_bigrams = df_jobs_raw.copy()
+    
+    # flag job listings if they contain the technical skill term (from stack question)
+    def find_bigram_match_to_soft_list(data):
+        output = np.zeros((data.shape[0], len(bigram_match_to_soft_list)), dtype=bool)
+        for i, d in enumerate(data):
+            possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+            indices = np.where(np.isin(bigram_match_to_soft_list, list(set(bigram_match_to_soft_list).intersection(set(possible_bigrams)))))
+            output[i, indices] = True
+        return list(output.T)
+
+    output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
+    df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_soft_list, output)))
+    
+    # identify and silence noisy, duplicate or unhelpful bigrams 
+    bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
+    df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
+    
+    # calculate sum of all technical skill terms for both rows and columns
+    df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
+    df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+    df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
+    
+    # drop all rows except the total row, transform columns and rows and rename the fields
+    df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
+    df_jobs_bigrams_sns.rename(columns={'variable': 'ds_soft_term','value': 'count'}, inplace=True)
+    
+    # calculate a percentages field
+    df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
+    df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_soft_term'].str.contains('total')==False]
+    
+    # create a horizontal barplot visualizing data science credentials as a percentage of job listings
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.8)               
+   
+    ax = sns.barplot(x='percentage',
+                     y='ds_soft_term',
+                     data=df_jobs_bigrams_sns,
+                     order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_soft_term[:25],
+                     orient='h',
+                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    
+    ax.set_title(textwrap.fill('**For Soft Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                 fontsize=24,
+                 loc='center')
+    ax.set(ylabel=None)
+    ax.set_xlabel('Percentage', fontsize=18)
+    
+    plt.figtext(0.140, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=70),
+                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                fontsize=14,
+                color='black',
+                fontweight='regular',
+                style='italic',
+                ha='left',
+                in_layout=True,
+                wrap=True) 
+    
+    
+    ########## BIGRAM HOLDING TANK END
+    
 
 
 def nlp_skill_lists(additional_stopwords):
