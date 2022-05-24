@@ -3936,7 +3936,9 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
     
     # # subset the bigrams for which at least one term appears in the subtopic list
-    # bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in ds_cred_terms)]
+####### !!!!!!!! Might need to change the target bigram in the subtopic_python list
+    bigram_match_to_cred_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)]
+    print(f"Bigrams matched in subtopic_list: {bigram_match_to_cred_list[:10]}")
     # mask_bigram = bigrams.grams.isin(bigram_match_to_cred_list)
     # bigrams_df_sns = bigrams[mask_bigram]
 
