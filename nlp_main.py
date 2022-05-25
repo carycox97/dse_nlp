@@ -4018,8 +4018,6 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 in_layout=True,
                 wrap=True)  
 
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list   
-
     ########## BIGRAM HOLDING TANK BEGIN
     df_jobs_bigrams = df_jobs_raw.copy()
     
@@ -4081,7 +4079,51 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 ha='left',
                 in_layout=True,
                 wrap=True) 
+
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list   
     
+    # combine monograms and bigrams into a single dataframe
+    df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
+    
+    # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+    df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
+    df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+    df_jobs_combined_sns.rename(columns={'variable': 'ds_prof_term_phrase','value': 'count'}, inplace=True)
+    df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_prof_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
+
+    # calculate a percentages field
+    df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
+  
+    # visualize combined mongrams and bigrams
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.8)  
+   
+    ax = sns.barplot(x='percentage',
+                     y='ds_prof_term_phrase',
+                     data=df_jobs_combined_sns,
+                     order=df_jobs_combined_sns.sort_values('percentage', ascending = False).ds_prof_term_phrase[:20],
+                     orient='h',
+                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+    
+    ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Professional Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                 fontsize=24,
+                 loc='center')
+    ax.set(ylabel=None)
+    ax.set_xlabel('Percentage', fontsize=18)
+    
+    plt.figtext(0.140, 0.010,
+                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                              width=70),
+                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                fontsize=14,
+                color='black',
+                fontweight='regular',
+                style='italic',
+                ha='left',
+                in_layout=True,
+                wrap=True)
+
     
     ########## BIGRAM HOLDING TANK END
 visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')    
