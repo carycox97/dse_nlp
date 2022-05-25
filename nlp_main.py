@@ -4080,33 +4080,36 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 in_layout=True,
                 wrap=True) 
 
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list   
-    
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list   
+
     # combine monograms and bigrams into a single dataframe
     df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
     
-    # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+    # melt the dataframe, drop nan rows, rename the fields, drop the two 'total' rows and sort descending
     df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
     df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
-    df_jobs_combined_sns.rename(columns={'variable': 'ds_prof_term_phrase','value': 'count'}, inplace=True)
-    df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_prof_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
-
+    df_jobs_combined_sns.rename(columns={'variable': 'subtopic_term_phrase','value': 'count'}, inplace=True)
+    df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
+    
     # calculate a percentages field
     df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
-  
+    print(df_jobs_combined_sns.sort_values('percentage', ascending=False).subtopic_term_phrase[:20])
+    print(df_jobs_combined_sns.sort_values('percentage', ascending=False).head(10))
+    
     # visualize combined mongrams and bigrams
     plt.figure(figsize=(7, 10))
     sns.set_style('dark')
     sns.set(font_scale = 1.8)  
-   
+###### BOOKMARK: Fix wrong rendering of the bigram percentages     
     ax = sns.barplot(x='percentage',
-                     y='ds_prof_term_phrase',
+                     y='subtopic_term_phrase',
                      data=df_jobs_combined_sns,
-                     order=df_jobs_combined_sns.sort_values('percentage', ascending = False).ds_prof_term_phrase[:20],
+                     order=df_jobs_combined_sns.sort_values('percentage', ascending=False).subtopic_term_phrase[:20],
                      orient='h',
+                     ci=None,
                      palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
-    ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Professional Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
+    ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Subtopic Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
                  fontsize=24,
                  loc='center')
     ax.set(ylabel=None)
