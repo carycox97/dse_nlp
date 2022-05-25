@@ -3944,7 +3944,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
     print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.sort_values("count", ascending=False).head(30)}')
 
-    # create a horizontal barplot visualizing data science skills in the subtopic list - by count
+    # create a horizontal barplot visualizing data science skill monograms and bigrams in the subtopic list - by count
     plt.figure(figsize=(7, 10))
     sns.set_style('dark')
     sns.set(font_scale = 1.8) 
@@ -3974,11 +3974,11 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 in_layout=True,
                 wrap=True) 
 
-visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
 
-################ BOOKMARK HERE working on the percentage plot, first for monograms
+
+################ BOOKMARK HERE working on the percentage plot, first for monograms UPDATE THE COMMENTS NEXT!!!!!!
      
-    # create a horizontal barplot visualizing data science skills in the subtopic list - by percentage
+    # create a horizontal barplot visualizing data science skill monograms in the subtopic list - by percentage
     df_jobs_mono = df_jobs_raw.copy()
     df_jobs_mono[subtopic_list] = [[any(w==term for w in lst) for term in subtopic_list] for lst in df_jobs_mono['job_description']]
     
@@ -4024,6 +4024,10 @@ visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_title
                 ha='left',
                 in_layout=True,
                 wrap=True)  
+
+visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
+
+
 
 
     
