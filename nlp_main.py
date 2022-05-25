@@ -4018,39 +4018,39 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 in_layout=True,
                 wrap=True)  
 
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list  
-################ BOOKMARK HERE working on the combined monograms and bigrams percentage plot    
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists  : at end, redact dummy bigrams from subtopic python list   
+
     ########## BIGRAM HOLDING TANK BEGIN
     df_jobs_bigrams = df_jobs_raw.copy()
     
-    # flag job listings if they contain the technical skill term (from stack question)
+    # flag job listings if they contain the subtopic skill term (from stack question) ## TRYING bigram_match_to_subtopic_list
     def find_bigram_match_to_soft_list(data):
-        output = np.zeros((data.shape[0], len(bigram_match_to_soft_list)), dtype=bool)
+        output = np.zeros((data.shape[0], len(bigram_match_to_subtopic_list)), dtype=bool)
         for i, d in enumerate(data):
             possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
-            indices = np.where(np.isin(bigram_match_to_soft_list, list(set(bigram_match_to_soft_list).intersection(set(possible_bigrams)))))
+            indices = np.where(np.isin(bigram_match_to_subtopic_list, list(set(bigram_match_to_subtopic_list).intersection(set(possible_bigrams)))))
             output[i, indices] = True
         return list(output.T)
 
     output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
-    df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_soft_list, output)))
+    df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_subtopic_list, output)))
     
     # identify and silence noisy, duplicate or unhelpful bigrams 
     bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
     df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
     
-    # calculate sum of all technical skill terms for both rows and columns
+    # calculate sum of all subtopic skill terms for both rows and columns
     df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
     df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
     df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
     
     # drop all rows except the total row, transform columns and rows and rename the fields
     df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
-    df_jobs_bigrams_sns.rename(columns={'variable': 'ds_soft_term','value': 'count'}, inplace=True)
+    df_jobs_bigrams_sns.rename(columns={'variable': 'subtopic_term','value': 'count'}, inplace=True)
     
     # calculate a percentages field
     df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
-    df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['ds_soft_term'].str.contains('total')==False]
+    df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['subtopic_term'].str.contains('total')==False]
     
     # create a horizontal barplot visualizing data science credentials as a percentage of job listings
     plt.figure(figsize=(7, 10))
@@ -4058,13 +4058,13 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     sns.set(font_scale = 1.8)               
    
     ax = sns.barplot(x='percentage',
-                     y='ds_soft_term',
+                     y='subtopic_term',
                      data=df_jobs_bigrams_sns,
-                     order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).ds_soft_term[:25],
+                     order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).subtopic_term[:25],
                      orient='h',
                      palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
-    ax.set_title(textwrap.fill('**For Soft Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
+    ax.set_title(textwrap.fill('**For Subtopic Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
                  fontsize=24,
                  loc='center')
     ax.set(ylabel=None)
