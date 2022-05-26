@@ -4090,9 +4090,10 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     # combine monograms and bigrams into a single dataframe
     df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
     
-    # melt the dataframe, drop nan rows, rename the fields, drop the two 'total' rows and sort descending
+    # melt the dataframe, drop nan and zero countrows, rename the fields, drop the two 'total' rows and sort descending
     df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
     df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+    df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
     df_jobs_combined_sns.rename(columns={'variable': 'subtopic_term_phrase','value': 'count'}, inplace=True)
     df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])].reset_index(drop=True)
     
@@ -4103,11 +4104,12 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     print(df_jobs_combined_sns.sort_values('percentage', ascending=False).head(10))
     
     # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
+    df_jobs_combined_sns = df_jobs_combined_sns.loc[(df_jobs_combined_sns.T !=0).any()]
     
     # visualize combined mongrams and bigrams
-    # plt.figure(figsize=(7, 10))
-    # sns.set_style('dark')
-    # sns.set(font_scale = 1.8)  
+    plt.figure(figsize=(7, 10))
+    sns.set_style('dark')
+    sns.set(font_scale = 1.8)  
 ###### BOOKMARK: Fix wrong rendering of the bigram percentages  NEXT: take this to the bottom and go line by line   
 ################ NOOOOOOOOOOOOOOOOOOOOOO THERE ARE DUPLICATES IN THE MERGE AND SEABORN IS AVERAGING THEM!!!!!    
     ax = sns.barplot(x='percentage',
