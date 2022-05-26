@@ -4081,6 +4081,11 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 wrap=True) 
 
 ####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list   
+    # TRYING A RESET OF DEFAULTS    
+    # sns.reset_defaults()
+    # plt.figure(figsize=(7, 10))
+    # sns.set_style('dark')
+    # sns.set(font_scale = 1.8) 
 
     # combine monograms and bigrams into a single dataframe
     df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
@@ -4089,18 +4094,22 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
     df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
     df_jobs_combined_sns.rename(columns={'variable': 'subtopic_term_phrase','value': 'count'}, inplace=True)
-    df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
+    df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])].reset_index(drop=True)
     
     # calculate a percentages field
     df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
+    df_jobs_combined_sns = df_jobs_combined_sns.sort_values('percentage', ascending=False).reset_index(drop=True)
     print(df_jobs_combined_sns.sort_values('percentage', ascending=False).subtopic_term_phrase[:20])
     print(df_jobs_combined_sns.sort_values('percentage', ascending=False).head(10))
     
+    # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
+    
     # visualize combined mongrams and bigrams
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.8)  
-###### BOOKMARK: Fix wrong rendering of the bigram percentages     
+    # plt.figure(figsize=(7, 10))
+    # sns.set_style('dark')
+    # sns.set(font_scale = 1.8)  
+###### BOOKMARK: Fix wrong rendering of the bigram percentages  NEXT: take this to the bottom and go line by line   
+################ NOOOOOOOOOOOOOOOOOOOOOO THERE ARE DUPLICATES IN THE MERGE AND SEABORN IS AVERAGING THEM!!!!!    
     ax = sns.barplot(x='percentage',
                      y='subtopic_term_phrase',
                      data=df_jobs_combined_sns,
@@ -4109,9 +4118,12 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                      ci=None,
                      palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
     
+    ax.bar_label(ax.containers[0])
+    # ax.set_xlim(1,30)
+    
     ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Subtopic Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
-                 fontsize=24,
-                 loc='center')
+                  fontsize=24,
+                  loc='center')
     ax.set(ylabel=None)
     ax.set_xlabel('Percentage', fontsize=18)
     
@@ -5577,10 +5589,10 @@ def main_program(csv_path):
     
     # visualize subtopics as horizonal bar plots
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Tooling Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
+    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
+    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
+    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Tooling Subtopic')
+    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
     
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
