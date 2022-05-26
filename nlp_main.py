@@ -2708,9 +2708,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             # combine monograms and bigrams into a single dataframe
             df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
             
-            # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            # melt the dataframe, drop nan and zero count rows, rename the fields and drop the two 'total' rows
             df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
             df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+            df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
             df_jobs_combined_sns.rename(columns={'variable': 'ds_cred_term_phrase','value': 'count'}, inplace=True)
             df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_cred_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
     
@@ -3037,9 +3038,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             # combine monograms and bigrams into a single dataframe
             df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
             
-            # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            # melt the dataframe, drop nan and zero count rows, rename the fields and drop the two 'total' rows
             df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
             df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+            df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
             df_jobs_combined_sns.rename(columns={'variable': 'ds_tech_term_phrase','value': 'count'}, inplace=True)
             df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_tech_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
     
@@ -3364,9 +3366,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             # combine monograms and bigrams into a single dataframe
             df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
             
-            # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            # melt the dataframe, drop nan and zero count rows, rename the fields and drop the two 'total' rows
             df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
             df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+            df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
             df_jobs_combined_sns.rename(columns={'variable': 'ds_soft_term_phrase','value': 'count'}, inplace=True)
             df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_soft_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
     
@@ -3689,9 +3692,10 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
             # combine monograms and bigrams into a single dataframe
             df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
             
-            # melt the dataframe, drop nan rows, rename the fields and drop the two 'total' rows
+            # melt the dataframe, drop nan and zero count rows, rename the fields and drop the two 'total' rows
             df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
             df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+            df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
             df_jobs_combined_sns.rename(columns={'variable': 'ds_prof_term_phrase','value': 'count'}, inplace=True)
             df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.ds_prof_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])]
     
@@ -3901,12 +3905,20 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
 
 def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_titles_viz, viz_title):
     '''
-    Visualize counts and percentages of monograms for subtopics of interest.
+    Visualize counts and percentages of monograms and bigrams for subtopics of interest.
 
     Parameters
     ----------
+    df : dataframe
+        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
+    df_jobs_raw : dataframe
+        A dataframe where each record is a unique listing, and each term is tokenized.
+    terms_for_nlp : list
+        A list containing all terms (fully cleaned and processed) extracted from the series_of_interest Series.
     subtopic_list : list
         List containing monograms of interest for the subtopic (e.g., 'pandas' amd 'numpy' for python libraries).
+    unique_titles_viz : list
+        Fully conditioned list of unique job titles with inserted quotation marks and conjunctions (e.g., 'and').
     viz_title : string
         String containing the title for the outputted visualization.
 
@@ -3914,7 +3926,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     -------
     None. Directly outputs visualizations.
 
-    ''' 
+    '''
     def monograms_by_count():
         # generate monograms from the full terms_for_nlp list
         n_gram_count = 1
@@ -3972,10 +3984,6 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                     wrap=True) 
      
         return bigram_match_to_subtopic_list
-
-
-
-
 
 
     def monograms_by_percentage():
@@ -4046,7 +4054,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_subtopic_list, output)))
         
         # identify and silence noisy, duplicate or unhelpful bigrams 
-        bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
+        bigrams_to_silence = ['experience experience', 'collaborate collaborate']
         df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
         
         # calculate sum of all subtopic skill terms for both rows and columns
@@ -4096,12 +4104,10 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
 
     def monograms_and_bigrams_by_percentage():
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list
-####### NEXT: Full test of bigrams in subtopic viz, then clean up the function, then create subfunctions, then create flags for empty lists from subtopics
         # combine monograms and bigrams into a single dataframe
         df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
         
-        # melt the dataframe, drop nan and zero countrows, rename the fields, drop the two 'total' rows and sort descending
+        # melt the dataframe, drop nan and zero count rows, rename the fields, drop the two 'total' rows and sort descending
         df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
         df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
         df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
@@ -4153,7 +4159,9 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     df_jobs_bigrams = bigrams_by_percentage()
     monograms_and_bigrams_by_percentage()
 
-
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list
+####### NEXT: Full test of bigrams in subtopic viz, then clean up the function, then create subfunctions, then create flags for empty lists from subtopics
+####### update docstring for viz ngrams
 def nlp_skill_lists(additional_stopwords):
     '''   
     Generate lists of keywords for each job title's: credentials, technical skills, soft skills and professional skills.
