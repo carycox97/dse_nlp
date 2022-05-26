@@ -256,10 +256,10 @@ def clean_terms_for_nlp(series_of_interest):
         A list containing all terms (fully cleaned and processed) extracted from the series_of_interest Series.
     
     additional_stopwords : list
-        A list to capture all domain-specific stopwords and 'stop-lemma'
+        A list to capture all domain-specific stopwords and 'stop-lemma'.
     
     term_fixes : dictionary
-        A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest
+        A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest.
 
     '''    
     print('\nCleaning data for nlp:')
@@ -2361,22 +2361,36 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
     Parameters
     ----------
     n_grams : dataframe
-        Contains the processed n_grams; sorted by count from highest to lowest; converted to a df in this function.
-    
+        Contains the processed n_grams; sorted by count from highest to lowest; converted to a df in this function.  
     ds_cred_terms : list
-        Contains keywords pertaining to data science credentials (e.g., 'bachelors', 'experience', etc.)
-        
+        Contains keywords pertaining to data science credentials (e.g., 'bachelors', 'experience', etc.).
+    ds_tech_skill_terms : list
+        Contains keywords pertaining to data science technical skills (e.g., 'python', 'aws', etc.).
+    ds_soft_skill_terms : list
+        Contains keywords pertaining to data science soft skills (e.g., 'collaborate', 'enthusiastic', etc.).
+    ds_prof_skill_terms : list
+        Contains keywords pertaining to data science professional skills (e.g., 'scrum', 'client', etc.).
     terms_for_nlp : list
         List containing scraped and cleaned terms from the series of interest; created in the clean_for nlp function.
+    series_of_interest : series
+        A variable set in the main program, series_of_interest contains the targeted job listing data for NLP processing.
+    additional_stopwords : list
+        A list to capture all domain-specific stopwords and 'stop-lemma'.
+    term_fixes : dictionary
+        A dictionary for correcting misspelled, duplicated or consolidated terms in the series of interest.
+    df : dataframe
+        The primary dataframe for the concatenated, cleaned and parsed Indeed csv data.
 
     Returns
     -------
-    None. Directly outputs visualizations.
+    df_jobs_raw : dataframe
+        A dataframe wherein each record is a unique listing, and each term in each listing is tokenized.
+    unique_titles_viz : list
+        Fully conditioned list of unique job titles with inserted quotation marks and conjunctions (e.g., 'and').
 
-    ''' 
+    '''
     def visualize_all_monograms(n_grams, unique_titles_viz):
         '''
-        print('\nVisualizing all monograms...')
         Visualize all monograms across all skillsets (e.g., crednetials, technical, soft and professional). Can also
         be tuned to produce bigrams only based on the n_gram_count variable set in the main function.
 
@@ -2390,6 +2404,7 @@ def visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill
         None. Directly outputs visualizations.
 
         '''
+        print('\nVisualizing all monograms...')
         # bound the count of ngram records to be visualized
         n_grams_sns = n_grams.iloc[:20] # toggle how many records to show in the visualization
         
@@ -4160,7 +4175,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     monograms_and_bigrams_by_percentage()
 
 ####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list
-####### NEXT: Full test of bigrams in subtopic viz, then clean up the function, then create subfunctions, then create flags for empty lists from subtopics
+####### NEXT: create flags for empty lists from subtopics
 ####### update docstring for viz ngrams
 def nlp_skill_lists(additional_stopwords):
     '''   
