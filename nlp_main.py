@@ -3915,235 +3915,243 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     None. Directly outputs visualizations.
 
     ''' 
-    subtopic_list = subtopic_python.copy()  ############ REMOVE AFTER GOES FINAL
-    # generate monograms from the full terms_for_nlp list
-    n_gram_count = 1
-    n_gram_range_start, n_gram_range_stop  = 0, int((len(terms_for_nlp) / 2))
-    monograms = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)    
-
-    # subset the monograms that appear in the subtopic list
-    mask_monogram = monograms.grams.isin(subtopic_list)
-    monograms_df_sns = monograms[mask_monogram]  
-
-    # generate bigrams from the full terms_for_nlp list
-    n_gram_count = 2
-    n_gram_range_start, n_gram_range_stop  = 0, 100
-    bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+    def monograms_by_count():
+        # generate monograms from the full terms_for_nlp list
+        n_gram_count = 1
+        n_gram_range_start, n_gram_range_stop  = 0, int((len(terms_for_nlp) / 2))
+        monograms = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)    
     
-    # # subset the bigrams for which at least one term appears in the subtopic list
-    bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)]
-    print(f'Bigrams matched in subtopic_list: {bigram_match_to_subtopic_list[:10]}\n')
-    mask_bigram = bigrams.grams.isin(bigram_match_to_subtopic_list)
-    bigrams_df_sns = bigrams[mask_bigram]   
-    print(f'Top 5 elements of bigrams_df_sns: {bigrams_df_sns.head()}\n')
-
-    # add the monograms and bigrams
-    ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-    print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.sort_values("count", ascending=False).head(30)}')
-
-    # create a horizontal barplot visualizing data science skill monograms and bigrams in the subtopic list - by count
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.8) 
+        # subset the monograms that appear in the subtopic list
+        mask_monogram = monograms.grams.isin(subtopic_list)
+        monograms_df_sns = monograms[mask_monogram]  
+    
+        # generate bigrams from the full terms_for_nlp list
+        n_gram_count = 2
+        n_gram_range_start, n_gram_range_stop  = 0, 100
+        bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
-    ax = sns.barplot(x='count',
-                     y='grams',
-                     data=ngram_combined_sns,
-                     order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
-                     orient='h',
-                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        # # subset the bigrams for which at least one term appears in the subtopic list
+        bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)]
+        print(f'Bigrams matched in subtopic_list: {bigram_match_to_subtopic_list[:10]}\n')
+        mask_bigram = bigrams.grams.isin(bigram_match_to_subtopic_list)
+        bigrams_df_sns = bigrams[mask_bigram]   
+        print(f'Top 5 elements of bigrams_df_sns: {bigrams_df_sns.head()}\n')
     
-    ax.set_title(textwrap.fill(viz_title, width=40),
-                 fontsize=24,
-                 loc='center')   
-    ax.set(ylabel=None)
-    ax.set_xlabel('Count', fontsize=18)
+        # add the monograms and bigrams
+        ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
+        print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.sort_values("count", ascending=False).head(30)}')
     
-    plt.figtext(0.140, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=70),
-                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-                fontsize=14,
-                color='black',
-                fontweight='regular',
-                style='italic',
-                ha='left',
-                in_layout=True,
-                wrap=True) 
+        # create a horizontal barplot visualizing data science skill monograms and bigrams in the subtopic list - by count
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.8) 
+            
+        ax = sns.barplot(x='count',
+                         y='grams',
+                         data=ngram_combined_sns,
+                         order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        
+        ax.set_title(textwrap.fill(viz_title, width=40),
+                     fontsize=24,
+                     loc='center')   
+        ax.set(ylabel=None)
+        ax.set_xlabel('Count', fontsize=18)
+        
+        plt.figtext(0.140, 0.010,
+                    textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                  width=70),
+                    bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                    fontsize=14,
+                    color='black',
+                    fontweight='regular',
+                    style='italic',
+                    ha='left',
+                    in_layout=True,
+                    wrap=True) 
      
-    # create a horizontal barplot visualizing data science skill monograms in the subtopic list - by percentage
-    df_jobs_mono = df_jobs_raw.copy()
-    df_jobs_mono[subtopic_list] = [[any(w==term for w in lst) for term in subtopic_list] for lst in df_jobs_mono['job_description']]
-    
-    # calculate sum of all credential terms for both rows and columns
-    df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
-    df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-    df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
-         
-    # drop all rows except the total row, transform columns and rows and rename the fields
-    df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
-    df_jobs_mono_sns.rename(columns={'variable': 'subtopic_term','value': 'count'}, inplace=True)
-    
-    # calculate a percentages field
-    df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
-    df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['subtopic_term'].str.contains('total')==False]      
-    
-    # create a horizontal barplot visualizing subtopic monograms as a percentage of job listings
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.8)            
-   
-    ax = sns.barplot(x='percentage',
-                     y='subtopic_term',
-                     data=df_jobs_mono_sns,
-                     order=df_jobs_mono_sns.sort_values('percentage', ascending = False).subtopic_term[:25],
-                     orient='h',
-                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-    
-    ax.set_title(textwrap.fill(viz_title + ': Monograms Only', width=40), 
-                 fontsize=24,
-                 loc='center')
-    ax.set(ylabel=None)
-    ax.set_xlabel('Percentage', fontsize=18)
-    
-    plt.figtext(0.140, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=70),
-                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-                fontsize=14,
-                color='black',
-                fontweight='regular',
-                style='italic',
-                ha='left',
-                in_layout=True,
-                wrap=True)  
+        return bigram_match_to_subtopic_list
 
-    ########## BIGRAM HOLDING TANK BEGIN
-    df_jobs_bigrams = df_jobs_raw.copy()
-    
-    # flag job listings if they contain the subtopic skill term (from stack question) ## TRYING bigram_match_to_subtopic_list
-    def find_bigram_match_to_soft_list(data):
-        output = np.zeros((data.shape[0], len(bigram_match_to_subtopic_list)), dtype=bool)
-        for i, d in enumerate(data):
-            possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
-            indices = np.where(np.isin(bigram_match_to_subtopic_list, list(set(bigram_match_to_subtopic_list).intersection(set(possible_bigrams)))))
-            output[i, indices] = True
-        return list(output.T)
 
-    output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
-    df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_subtopic_list, output)))
-    
-    # identify and silence noisy, duplicate or unhelpful bigrams 
-    bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
-    df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
-    
-    # calculate sum of all subtopic skill terms for both rows and columns
-    df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
-    df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
-    df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
-    
-    # drop all rows except the total row, transform columns and rows and rename the fields
-    df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
-    df_jobs_bigrams_sns.rename(columns={'variable': 'subtopic_term','value': 'count'}, inplace=True)
-    
-    # calculate a percentages field
-    df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
-    df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['subtopic_term'].str.contains('total')==False]
-    
-    # create a horizontal barplot visualizing data science credentials as a percentage of job listings
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.8)               
-   
-    ax = sns.barplot(x='percentage',
-                     y='subtopic_term',
-                     data=df_jobs_bigrams_sns,
-                     order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).subtopic_term[:25],
-                     orient='h',
-                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-    
-    ax.set_title(textwrap.fill('**For Subtopic Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
-                 fontsize=24,
-                 loc='center')
-    ax.set(ylabel=None)
-    ax.set_xlabel('Percentage', fontsize=18)
-    
-    plt.figtext(0.140, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=70),
-                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-                fontsize=14,
-                color='black',
-                fontweight='regular',
-                style='italic',
-                ha='left',
-                in_layout=True,
-                wrap=True) 
 
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list   
-    # TRYING A RESET OF DEFAULTS    
-    # sns.reset_defaults()
-    # plt.figure(figsize=(7, 10))
-    # sns.set_style('dark')
-    # sns.set(font_scale = 1.8) 
 
-    # combine monograms and bigrams into a single dataframe
-    df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
-    
-    # melt the dataframe, drop nan and zero countrows, rename the fields, drop the two 'total' rows and sort descending
-    df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
-    df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
-    df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
-    df_jobs_combined_sns.rename(columns={'variable': 'subtopic_term_phrase','value': 'count'}, inplace=True)
-    df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])].reset_index(drop=True)
-    
-    # calculate a percentages field
-    df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
-    df_jobs_combined_sns = df_jobs_combined_sns.sort_values('percentage', ascending=False).reset_index(drop=True)
-    print(df_jobs_combined_sns.sort_values('percentage', ascending=False).subtopic_term_phrase[:20])
-    print(df_jobs_combined_sns.sort_values('percentage', ascending=False).head(10))
-    
-    # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
-    df_jobs_combined_sns = df_jobs_combined_sns.loc[(df_jobs_combined_sns.T !=0).any()]
-    
-    # visualize combined mongrams and bigrams
-    plt.figure(figsize=(7, 10))
-    sns.set_style('dark')
-    sns.set(font_scale = 1.8)  
-###### BOOKMARK: Fix wrong rendering of the bigram percentages  NEXT: take this to the bottom and go line by line   
-################ NOOOOOOOOOOOOOOOOOOOOOO THERE ARE DUPLICATES IN THE MERGE AND SEABORN IS AVERAGING THEM!!!!!    
-    ax = sns.barplot(x='percentage',
-                     y='subtopic_term_phrase',
-                     data=df_jobs_combined_sns,
-                     order=df_jobs_combined_sns.sort_values('percentage', ascending=False).subtopic_term_phrase[:20],
-                     orient='h',
-                     ci=None,
-                     palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-    
-    ax.bar_label(ax.containers[0])
-    # ax.set_xlim(1,30)
-    
-    ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Subtopic Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
-                  fontsize=24,
-                  loc='center')
-    ax.set(ylabel=None)
-    ax.set_xlabel('Percentage', fontsize=18)
-    
-    plt.figtext(0.140, 0.010,
-                textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
-                              width=70),
-                bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
-                fontsize=14,
-                color='black',
-                fontweight='regular',
-                style='italic',
-                ha='left',
-                in_layout=True,
-                wrap=True)
 
+
+    def monograms_by_percentage():
+        # create a horizontal barplot visualizing subtopic monograms in the subtopic list - by percentage
+        df_jobs_mono = df_jobs_raw.copy()
+        df_jobs_mono[subtopic_list] = [[any(w==term for w in lst) for term in subtopic_list] for lst in df_jobs_mono['job_description']]
+        
+        # calculate sum of all credential terms for both rows and columns
+        df_jobs_mono = df_jobs_mono.drop('job_description', axis=1)
+        df_jobs_mono.loc[:, 'total_mono_in_list'] = df_jobs_mono.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs_mono.loc['total_mono', :] = df_jobs_mono.sum(axis=0) # this does columns; need to drop the job_description field
+             
+        # drop all rows except the total row, transform columns and rows and rename the fields
+        df_jobs_mono_sns = df_jobs_mono.drop(df_jobs_mono.index.to_list()[:-1], axis = 0).melt()
+        df_jobs_mono_sns.rename(columns={'variable': 'subtopic_term','value': 'count'}, inplace=True)
+        
+        # calculate a percentages field
+        df_jobs_mono_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_mono_sns['count']]
+        df_jobs_mono_sns = df_jobs_mono_sns[df_jobs_mono_sns['subtopic_term'].str.contains('total')==False]      
+        
+        # create a horizontal barplot visualizing subtopic monograms as a percentage of job listings
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.8)            
+       
+        ax = sns.barplot(x='percentage',
+                         y='subtopic_term',
+                         data=df_jobs_mono_sns,
+                         order=df_jobs_mono_sns.sort_values('percentage', ascending = False).subtopic_term[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        
+        ax.set_title(textwrap.fill(viz_title + ': Monograms Only', width=40), 
+                     fontsize=24,
+                     loc='center')
+        ax.set(ylabel=None)
+        ax.set_xlabel('Percentage', fontsize=18)
+        
+        plt.figtext(0.140, 0.010,
+                    textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                  width=70),
+                    bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                    fontsize=14,
+                    color='black',
+                    fontweight='regular',
+                    style='italic',
+                    ha='left',
+                    in_layout=True,
+                    wrap=True)  
+
+        return df_jobs_mono
+
+
+    def bigrams_by_percentage():
+        # visualize subtopic bigrams by percentage 
+        df_jobs_bigrams = df_jobs_raw.copy()
+        
+        # flag job listings if they contain the subtopic skill term (from stack question)
+        def find_bigram_match_to_soft_list(data):
+            output = np.zeros((data.shape[0], len(bigram_match_to_subtopic_list)), dtype=bool)
+            for i, d in enumerate(data):
+                possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
+                indices = np.where(np.isin(bigram_match_to_subtopic_list, list(set(bigram_match_to_subtopic_list).intersection(set(possible_bigrams)))))
+                output[i, indices] = True
+            return list(output.T)
     
-    ########## BIGRAM HOLDING TANK END
-visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')    
+        output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
+        df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_subtopic_list, output)))
+        
+        # identify and silence noisy, duplicate or unhelpful bigrams 
+        bigrams_to_silence = ['machine learning', 'experience experience', 'collaborate collaborate']
+        df_jobs_bigrams = df_jobs_bigrams.drop(columns=bigrams_to_silence, errors='ignore')
+        
+        # calculate sum of all subtopic skill terms for both rows and columns
+        df_jobs_bigrams = df_jobs_bigrams.drop('job_description', axis=1)
+        df_jobs_bigrams.loc[:, 'total_bigram_in_list'] = df_jobs_bigrams.sum(axis=1) # this does rows; need to plot these to filter out noisy/broken listings; can be used for the unicorn index
+        df_jobs_bigrams.loc['total_bigram', :] = df_jobs_bigrams.sum(axis=0) # this does columns; need to drop the job_description field
+        
+        # drop all rows except the total row, transform columns and rows and rename the fields
+        df_jobs_bigrams_sns = df_jobs_bigrams.drop(df_jobs_bigrams.index.to_list()[:-1], axis = 0).melt()
+        df_jobs_bigrams_sns.rename(columns={'variable': 'subtopic_term','value': 'count'}, inplace=True)
+        
+        # calculate a percentages field
+        df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
+        df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['subtopic_term'].str.contains('total')==False]
+        
+        # create a horizontal barplot visualizing subtopic bigrams as a percentage of job listings
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.8)               
+       
+        ax = sns.barplot(x='percentage',
+                         y='subtopic_term',
+                         data=df_jobs_bigrams_sns,
+                         order=df_jobs_bigrams_sns.sort_values('percentage', ascending = False).subtopic_term[:25],
+                         orient='h',
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        
+        ax.set_title(textwrap.fill('**For Subtopic Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                     fontsize=24,
+                     loc='center')
+        ax.set(ylabel=None)
+        ax.set_xlabel('Percentage', fontsize=18)
+        
+        plt.figtext(0.140, 0.010,
+                    textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                  width=70),
+                    bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                    fontsize=14,
+                    color='black',
+                    fontweight='regular',
+                    style='italic',
+                    ha='left',
+                    in_layout=True,
+                    wrap=True) 
+        
+        return df_jobs_bigrams
+
+
+    def monograms_and_bigrams_by_percentage():
+####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list
+####### NEXT: Full test of bigrams in subtopic viz, then clean up the function, then create subfunctions, then create flags for empty lists from subtopics
+        # combine monograms and bigrams into a single dataframe
+        df_jobs_combined = pd.concat([df_jobs_mono, df_jobs_bigrams], axis=1)
+        
+        # melt the dataframe, drop nan and zero countrows, rename the fields, drop the two 'total' rows and sort descending
+        df_jobs_combined_sns = df_jobs_combined.drop(df_jobs_combined.index.to_list()[:-2], axis = 0).melt()
+        df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'].notna()]
+        df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
+        df_jobs_combined_sns.rename(columns={'variable': 'subtopic_term_phrase','value': 'count'}, inplace=True)
+        df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])].reset_index(drop=True)
+        
+        # calculate a percentages field
+        df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
+        df_jobs_combined_sns = df_jobs_combined_sns.sort_values('percentage', ascending=False).reset_index(drop=True)
+        
+        # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
+        df_jobs_combined_sns = df_jobs_combined_sns.loc[(df_jobs_combined_sns.T !=0).any()]
+        
+        # visualize combined mongrams and bigrams
+        plt.figure(figsize=(7, 10))
+        sns.set_style('dark')
+        sns.set(font_scale = 1.8)  
+    
+        ax = sns.barplot(x='percentage',
+                         y='subtopic_term_phrase',
+                         data=df_jobs_combined_sns,
+                         order=df_jobs_combined_sns.sort_values('percentage', ascending=False).subtopic_term_phrase[:20],
+                         orient='h',
+                         ci=None,
+                         palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
+        
+        # ax.bar_label(ax.containers[0])
+        
+        ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Subtopic Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
+                      fontsize=24,
+                      loc='center')
+        ax.set(ylabel=None)
+        ax.set_xlabel('Percentage', fontsize=18)
+        
+        plt.figtext(0.140, 0.010,
+                    textwrap.fill(f'Data: {len(df)} Indeed job listings for {" ".join(str(x) for x in unique_titles_viz)} collected between {min(df.scrape_date)} and {max(df.scrape_date)}',
+                                  width=70),
+                    bbox=dict(facecolor='none', boxstyle='square', edgecolor='none', pad=0.2),
+                    fontsize=14,
+                    color='black',
+                    fontweight='regular',
+                    style='italic',
+                    ha='left',
+                    in_layout=True,
+                    wrap=True)
+    
+    bigram_match_to_subtopic_list = monograms_by_count()
+    df_jobs_mono = monograms_by_percentage()
+    df_jobs_bigrams = bigrams_by_percentage()
+    monograms_and_bigrams_by_percentage()
 
 
 def nlp_skill_lists(additional_stopwords):
