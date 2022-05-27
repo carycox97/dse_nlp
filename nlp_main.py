@@ -4051,7 +4051,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
         return df_jobs_mono
 
-
+###!!! PROBLEM IS HERE BECAUSE THERE ARE NO BIGRAMS
     def bigrams_by_percentage():
         # visualize subtopic bigrams by percentage 
         df_jobs_bigrams = df_jobs_raw.copy()
@@ -4064,7 +4064,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 indices = np.where(np.isin(bigram_match_to_subtopic_list, list(set(bigram_match_to_subtopic_list).intersection(set(possible_bigrams)))))
                 output[i, indices] = True
             return list(output.T)
-    
+        # CHECK HERE FOR AN EMPTY df_jobs_bigrams_sns dataframe    
         output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
         df_jobs_bigrams = df_jobs_bigrams.assign(**dict(zip(bigram_match_to_subtopic_list, output)))
         
@@ -4084,6 +4084,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         # calculate a percentages field
         df_jobs_bigrams_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_bigrams_sns['count']]
         df_jobs_bigrams_sns = df_jobs_bigrams_sns[df_jobs_bigrams_sns['subtopic_term'].str.contains('total')==False]
+        
+
         
         # create a horizontal barplot visualizing subtopic bigrams as a percentage of job listings
         plt.figure(figsize=(7, 10))
@@ -4169,6 +4171,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                     in_layout=True,
                     wrap=True)
     
+    subtopic_list = subtopic_dl_frameworks
+    viz_title = 'testing testing'
     bigram_match_to_subtopic_list = monograms_by_count()
     df_jobs_mono = monograms_by_percentage()
     df_jobs_bigrams = bigrams_by_percentage()
