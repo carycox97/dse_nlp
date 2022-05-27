@@ -4174,9 +4174,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
     df_jobs_bigrams = bigrams_by_percentage()
     monograms_and_bigrams_by_percentage()
 
-####### !!!!!!!! WORKING HERE: solve the bigram problem for subtopic lists; at end, redact dummy bigrams from subtopic python list
-####### NEXT: create flags for empty lists from subtopics
-####### update docstring for viz ngrams
+
 def nlp_skill_lists(additional_stopwords):
     '''   
     Generate lists of keywords for each job title's: credentials, technical skills, soft skills and professional skills.
@@ -5336,10 +5334,10 @@ def nlp_skill_lists(additional_stopwords):
     subtopic_javascript = ['ajax', 'd3js', 'jquery', 'reactjs',] 
 
     subtopic_languages = ['assembly', 'awk', 'bash', 'c', 'css', 'dax', 'fortran', 'go', 'golang', 'graphql', 'groovy',
-                         'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
-                         'matlab', 'nodejs', 'opencl', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
-                         'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript',
-                         'wolfram', 'vba', 'xml',]
+                          'hiveql', 'hpcml', 'html', 'java', 'javascript', 'julia', 'kotlin', 'lisp',
+                          'matlab', 'nodejs', 'opencl', 'perl', 'php', 'pig', 'plsql', 'python', 'r', 'ruby', 'rust',
+                          'sas', 'scala', 'shell', 'sparql', 'sql', 'swift', 'torch', 'typescript',
+                          'wolfram', 'vba', 'xml',]
 
     subtopic_linux = ['bash', 'centos', 'cli', 'cuda', 'debian', 'fedora', 'linux', 'mint', 'nvidia', 'openshift', 'redhat',
                       'shell', 'ubuntu', 'unix',] # rapids, but have to find
@@ -5619,13 +5617,15 @@ def main_program(csv_path):
     df_jobs_raw, unique_titles_viz = visualize_n_grams(n_grams, ds_cred_terms, ds_tech_skill_terms, ds_soft_skill_terms,
                                                        ds_prof_skill_terms, terms_for_nlp, series_of_interest,
                                                        additional_stopwords, term_fixes, df)
-    
+
+####### !!!!!!!! WORKING HERE: create flags for empty lists from subtopics; at end, redact dummy bigrams from subtopic python list  
+####### Will need to make smarter titles for the subtopic plots so you can tell them apart; might be a new arg to pass in
     # visualize subtopics as horizonal bar plots
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Tooling Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Tooling Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
     
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
