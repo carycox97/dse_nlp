@@ -4031,7 +4031,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         
-        ax.set_title(textwrap.fill(viz_title + ': Monograms Only', width=40), 
+        ax.set_title(textwrap.fill('**For Subtopic Parsing: ' + viz_title + ' Monograms by Percentage', width=40), 
                      fontsize=24,
                      loc='center')
         ax.set(ylabel=None)
@@ -4099,7 +4099,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                              orient='h',
                              palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
             
-            ax.set_title(textwrap.fill('**For Subtopic Parsing: Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
+            ax.set_title(textwrap.fill('**For Subtopic Parsing: ' + viz_title + ' Bigrams by Percentage', width=40), # original title: Percentage Key Bigrams for Data Scientist Credentials
                          fontsize=24,
                          loc='center')
             ax.set(ylabel=None)
@@ -4156,7 +4156,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         
         # ax.bar_label(ax.containers[0])
 ####### !!!!!!!! WORKING HERE:  need to make smarter titles for the subtopic plots so you can tell them apart; might be a new arg to pass in        
-        ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Subtopic Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
+        ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority ' + (' '.join(viz_title.split()[:-1])) +' Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
                       fontsize=24,
                       loc='center')
         ax.set(ylabel=None)
