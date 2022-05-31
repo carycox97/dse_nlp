@@ -4132,11 +4132,14 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         df_jobs_combined_sns = df_jobs_combined_sns[df_jobs_combined_sns['value'] != 0]
         df_jobs_combined_sns.rename(columns={'variable': 'subtopic_term_phrase','value': 'count'}, inplace=True)
         df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(['total_mono_in_list', 'total_bigram_in_list'])].reset_index(drop=True)
+        df_jobs_combined_sns = df_jobs_combined_sns.loc[df_jobs_combined_sns.subtopic_term_phrase != 'job_description']
         
         # calculate a percentages field
         df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
         df_jobs_combined_sns = df_jobs_combined_sns.sort_values('percentage', ascending=False).reset_index(drop=True)
-#### THERE IS A PROBELEM WITH THE LINE ABOVE, WHICH HAS THE JOB DESCRIPTIONS RECORD IN IT        
+#### THERE IS A PROBELEM WITH THE LINE ABOVE, WHICH HAS THE JOB DESCRIPTIONS RECORD IN IT   
+#### THE job_description row is still in there and 
+#### PROBABLY CAN JUST SKIP THIS ENTIRE FUNCTION IF THERE ARE NO BIGRAMS; maybe pass a flag from monograms_by_percentage     
         # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
         df_jobs_combined_sns = df_jobs_combined_sns.loc[(df_jobs_combined_sns.T !=0).any()]
         
@@ -4173,8 +4176,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                     in_layout=True,
                     wrap=True)
     
-    subtopic_list = subtopic_dl_frameworks
-    viz_title = 'testing testing'
+    # subtopic_list = subtopic_dl_frameworks
+    # viz_title = 'testing testing'
     bigram_match_to_subtopic_list = monograms_by_count()
     df_jobs_mono = monograms_by_percentage()
     df_jobs_bigrams = bigrams_by_percentage()
