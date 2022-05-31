@@ -3959,14 +3959,14 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         
         # # subset the bigrams for which at least one term appears in the subtopic list
         bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)]
-        print(f'Bigrams matched in subtopic_list: {bigram_match_to_subtopic_list[:10]}\n')
+        # print(f'Bigrams matched in subtopic_list: {bigram_match_to_subtopic_list[:10]}\n')
         mask_bigram = bigrams.grams.isin(bigram_match_to_subtopic_list)
         bigrams_df_sns = bigrams[mask_bigram]   
-        print(f'Top 5 elements of bigrams_df_sns: {bigrams_df_sns.head()}\n')
+        # print(f'Top 5 elements of bigrams_df_sns: {bigrams_df_sns.head()}\n')
     
         # add the monograms and bigrams
         ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-        print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.sort_values("count", ascending=False).head(30)}')
+        # print(f'Top 30 elements of ngram_combined_sns: {ngram_combined_sns.sort_values("count", ascending=False).head(30)}')
     
         # create a horizontal barplot visualizing data science skill monograms and bigrams in the subtopic list - by count
         plt.figure(figsize=(7, 10))
@@ -3979,8 +3979,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                          order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        
-        ax.set_title(textwrap.fill(viz_title, width=40),
+###!!! Working here on fixing the subtopic titles        
+        ax.set_title(textwrap.fill('**For Subtopic Parsing: ' + viz_title + ' Monograms by Count', width=40),
                      fontsize=24,
                      loc='center')   
         ax.set(ylabel=None)
@@ -4155,7 +4155,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         
         # ax.bar_label(ax.containers[0])
-        
+####### !!!!!!!! WORKING HERE:  need to make smarter titles for the subtopic plots so you can tell them apart; might be a new arg to pass in        
         ax.set_title(textwrap.fill('Focus Your Learning Time on High-Priority Subtopic Skills', width=33), # original title: Percentage Key Bigrams for Data Scientist Credentials
                       fontsize=24,
                       loc='center')
@@ -5624,7 +5624,7 @@ def main_program(csv_path):
                                                        additional_stopwords, term_fixes, df)
 
 ####### !!!!!!!! WORKING HERE:   EXECUCTING FULL TEST AGAINST LARGER DATASET
-####### Will need to make smarter titles for the subtopic plots so you can tell them apart; might be a new arg to pass in
+
     # visualize subtopics as horizonal bar plots
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
