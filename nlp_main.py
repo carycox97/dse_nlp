@@ -4064,7 +4064,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                 indices = np.where(np.isin(bigram_match_to_subtopic_list, list(set(bigram_match_to_subtopic_list).intersection(set(possible_bigrams)))))
                 output[i, indices] = True
             return list(output.T)
-        # CHECK HERE FOR AN EMPTY df_jobs_bigrams_sns dataframe    
+  
         output = find_bigram_match_to_soft_list(df_jobs_bigrams['job_description'].to_numpy())
         
         if len(output) != 0:
@@ -4137,9 +4137,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         # calculate a percentages field
         df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
         df_jobs_combined_sns = df_jobs_combined_sns.sort_values('percentage', ascending=False).reset_index(drop=True)
-#### THERE IS A PROBELEM WITH THE LINE ABOVE, WHICH HAS THE JOB DESCRIPTIONS RECORD IN IT   
-#### THE job_description row is still in there and 
-#### PROBABLY CAN JUST SKIP THIS ENTIRE FUNCTION IF THERE ARE NO BIGRAMS; maybe pass a flag from monograms_by_percentage     
+    
         # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
         df_jobs_combined_sns = df_jobs_combined_sns.loc[(df_jobs_combined_sns.T !=0).any()]
         
@@ -4175,9 +4173,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                     ha='left',
                     in_layout=True,
                     wrap=True)
-    
-    # subtopic_list = subtopic_dl_frameworks
-    # viz_title = 'testing testing'
+
     bigram_match_to_subtopic_list = monograms_by_count()
     df_jobs_mono = monograms_by_percentage()
     df_jobs_bigrams = bigrams_by_percentage()
@@ -5421,7 +5417,7 @@ def nlp_skill_lists(additional_stopwords):
                        'pytorch', 'pyunit', 'rasa', 'requests', 'scipy', 'scrapy', 'sdk',
                        'seaborn', 'selenium', 'simpleitk', 'skimage', 'sklearn', 'sonnet', 'spacy', 
                        'sqlalchemy', 'statsmodels', 'tensorflow', 'textblob', 'theano', 'word2vec',
-                       'xgboost', 'zookeeper', 'collaborate work', 'work collaborate'] 
+                       'xgboost', 'zookeeper']  # , 'collaborate work', 'work collaborate'
     
     subtopic_r = ['bioconductor', 'caret', 'dataexplorer', 'datatable', 'dplyr', 'e1071', 'esquisse' , 'ggplot',
                   'janitor', 'kernlab', 'knitr', 'lattice', 'lubridate', 'mboost', 'mlr3', 'plotly', 'purr',
@@ -5627,14 +5623,14 @@ def main_program(csv_path):
                                                        ds_prof_skill_terms, terms_for_nlp, series_of_interest,
                                                        additional_stopwords, term_fixes, df)
 
-####### !!!!!!!! WORKING HERE: create flags for empty lists from subtopics; at end, redact dummy bigrams from subtopic python list  
+####### !!!!!!!! WORKING HERE:   EXECUCTING FULL TEST AGAINST LARGER DATASET
 ####### Will need to make smarter titles for the subtopic plots so you can tell them apart; might be a new arg to pass in
     # visualize subtopics as horizonal bar plots
     visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Tooling Subtopic')
-    # visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Tooling Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
     
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
@@ -5775,21 +5771,6 @@ del start_time, end_time
 # e = df_jobs['job_description'].explode()
 # df_jobs[ds_cred_terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in ds_cred_terms], axis=1)
 # print(time.time() - start_time)
-
-# start_time = time.time()
-# e = df_jobs['job_description'].explode()
-# df_jobs[ds_cred_terms] = pd.concat([e.eq(t).rename(t) for t in ds_cred_terms], axis=1).groupby(level=0).any()
-# print(time.time() - start_time)
-
-
-# # MY IMPLEMENTATION AND YES THIS WORKS!!
-# def find_bigram_match_to_cred_list(data):
-#     output = np.zeros((data.shape[0], len(bigram_match_to_cred_list)), dtype=bool)
-#     for i, d in enumerate(data):
-#         possible_bigrams = [' '.join(x) for x in list(nltk.bigrams(d)) + list(nltk.bigrams(d[::-1]))]
-#         indices = np.where(np.isin(bigram_match_to_cred_list, list(set(bigram_match_to_cred_list).intersection(set(possible_bigrams)))))
-#         output[i, indices] = True
-#     return list(output.T)
 
 # output = find_bigram_match_to_cred_list(df_jobs['job_description'].to_numpy())
 # df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
