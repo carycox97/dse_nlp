@@ -4049,7 +4049,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         
-        ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Technical Skill', width=40),
+        ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Technical Skill', width=40), # Need to update this title
                      fontsize=24,
                      loc='center')   
         ax.set(ylabel=None)
