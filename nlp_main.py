@@ -4014,7 +4014,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
         '''          
         # subset the monograms that appear in the technical skills list
-        mask_monogram = n_grams.grams.isin(ds_tech_skill_terms)
+        mask_monogram = n_grams.grams.isin(ds_tech_skill_terms) # fix here with subtopic_list
         monograms_df_sns = n_grams[mask_monogram]
         
         # generate bigrams from the full terms_for_nlp list
@@ -4023,7 +4023,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
         # subset the bigrams for which at least one term appears in the technical skills list
-        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in ds_tech_skill_terms)]
+        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in ds_tech_skill_terms)] # fix here with subtopic_list
         mask_bigram = bigrams.grams.isin(bigram_match_to_tech_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
@@ -5830,14 +5830,7 @@ del start_time, end_time
 #                         'data': [True, False, False, True],
 #                         'rf': [False, False, True, False]})
 
-# alternate solutions to the skill list flagging operation
-# start_time = time.time()
-# e = df_jobs['job_description'].explode()
-# df_jobs[ds_cred_terms] = pd.concat([e.eq(t).groupby(level=0).any().rename(t) for t in ds_cred_terms], axis=1)
-# print(time.time() - start_time)
 
-# output = find_bigram_match_to_cred_list(df_jobs['job_description'].to_numpy())
-# df_jobs = df_jobs.assign(**dict(zip(bigram_match_to_cred_list, output)))
 
 # Alternate Title Brainstorm for Skill Bar Charts
 # Where to Focus Your Credentials
