@@ -4014,9 +4014,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
 
         '''  
         ### HOLDING TANK
-#         subtopic_list = subtopic_python
-#         ###        
-# ###!!! WORKING HERE: debug here ; viz is showing bigrams only  ; problem with how ngams is being calculated??        
+#         subtopic_list = subtopic_python 
 #         # subset the monograms that appear in the subtopic skills list
 #         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
 #         monograms_df_sns = n_grams[mask_monogram]
@@ -4027,16 +4025,17 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
         # subset the bigrams for which at least one term appears in the technical skills list
-        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] # fix here with subtopic_list
+        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
         mask_bigram = bigrams.grams.isin(bigram_match_to_tech_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
         # add the monograms and bigrams
         ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-
+###!!! WORKING HERE: debug here the polluting bigrams do not overlap with the subtopic list!!!!
+### The term 'excellence' is flagging for subtopic viz because of a partial match to 'excel' in subtopic_viz
         # identify noisy, duplicate or unhelpful monograms and bigrams
-        # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system'] # these from cred
-        ngrams_to_silence = ['system'] 
+        # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system']
+        ngrams_to_silence = ['system',] 
         
         # exclude unwanted terms and phrases
         ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
@@ -4052,8 +4051,8 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
                          order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-        
-        ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Subtopic FIX Skill', width=40), # Need to update this title
+
+        ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each ' + (' '.join(viz_title.split()[:-1])) + ' Skill', width=40), # Need to update this title
                      fontsize=24,
                      loc='center')   
         ax.set(ylabel=None)
