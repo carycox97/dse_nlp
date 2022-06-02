@@ -3998,7 +3998,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
                     in_layout=True,
                     wrap=True) 
      
-        return bigram_match_to_subtopic_list
+        return bigram_match_to_subtopic_list, monograms_df_sns
 
 
 
@@ -4013,13 +4013,13 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
             A list of bigrams in which each bigram has at least one term matching a term in the subtopic list.
 
         '''  
-        ### HOLDING TANKS
-        subtopic_list = subtopic_viz
-        ###        
-        
-        # subset the monograms that appear in the subtopic skills list
-        mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
-        monograms_df_sns = n_grams[mask_monogram]
+        ### HOLDING TANK
+#         subtopic_list = subtopic_python
+#         ###        
+# ###!!! WORKING HERE: debug here ; viz is showing bigrams only  ; problem with how ngams is being calculated??        
+#         # subset the monograms that appear in the subtopic skills list
+#         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
+#         monograms_df_sns = n_grams[mask_monogram]
         
         # generate bigrams from the full terms_for_nlp list
         n_gram_count = 2
@@ -4045,7 +4045,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.8) 
-###!!! WORKING HERE: debug here ; viz is showing bigrams only           
+         
         ax = sns.barplot(x='count',
                          y='grams',
                          data=ngram_combined_sns,
@@ -4244,11 +4244,16 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
                     in_layout=True,
                     wrap=True)
     
-    bigram_match_to_subtopic_list = monograms_by_count()
+    bigram_match_to_subtopic_list, monograms_df_sns = monograms_by_count()
     df_jobs_mono = monograms_by_percentage()
     df_jobs_bigrams = bigrams_by_percentage()
     monograms_and_bigrams_by_count()
     monograms_and_bigrams_by_percentage()
+
+
+
+
+
 
 
 def nlp_skill_lists(additional_stopwords):
