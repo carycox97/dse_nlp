@@ -3918,7 +3918,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_titles_viz, viz_title):
+def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, unique_titles_viz, viz_title):
     '''
     Visualize counts and percentages of monograms and bigrams for subtopics of interest.
 
@@ -3979,7 +3979,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                          order=ngram_combined_sns.sort_values('count', ascending = False).grams[:25],
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
-###!!! Working here on fixing the subtopic titles        
+     
         ax.set_title(textwrap.fill('**For Subtopic Parsing: ' + viz_title + ' Monograms by Count', width=40),
                      fontsize=24,
                      loc='center')   
@@ -4001,7 +4001,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         return bigram_match_to_subtopic_list
 
 
-###!!! WORKING HERE: get this function going
+
     def monograms_and_bigrams_by_count():
         '''
         Visualize the top n combined list of monograms and bigrams according to how many times they appear
@@ -4012,8 +4012,12 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         bigram_match_to_tech_list : list
             A list of bigrams in which each bigram has at least one term matching a term in the subtopic list.
 
-        '''          
-        # subset the monograms that appear in the technical skills list
+        '''  
+        ### HOLDING TANKS
+        subtopic_list = subtopic_viz
+        ###        
+        
+        # subset the monograms that appear in the subtopic skills list
         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
         monograms_df_sns = n_grams[mask_monogram]
         
@@ -4041,7 +4045,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
         sns.set(font_scale = 1.8) 
-            
+###!!! WORKING HERE: debug here ; viz is showing bigrams only           
         ax = sns.barplot(x='count',
                          y='grams',
                          data=ngram_combined_sns,
@@ -5691,11 +5695,11 @@ def main_program(csv_path):
                                                        additional_stopwords, term_fixes, df)
 
     # visualize subtopics as horizonal bar plots
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_viz, unique_titles_viz, viz_title='Visualization Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_viz, unique_titles_viz, viz_title='Visualization Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
     
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
