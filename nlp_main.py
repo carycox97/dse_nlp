@@ -4009,12 +4009,12 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
 
         Returns
         -------
-        bigram_match_to_tech_list : list
+        bigram_match_to_subtopic_list : list
             A list of bigrams in which each bigram has at least one term matching a term in the subtopic list.
 
         '''  
         ### HOLDING TANK
-#         subtopic_list = subtopic_python 
+        subtopic_list = subtopic_viz 
 #         # subset the monograms that appear in the subtopic skills list
 #         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
 #         monograms_df_sns = n_grams[mask_monogram]
@@ -4023,16 +4023,25 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
+
+###!!! WORKING HERE: debug here the polluting bigrams do not overlap with the subtopic list!!!!
+### The term 'excellence' is flagging for subtopic viz because 'excel' is partially matching to 'excellence'; 
+### 'vision' false alarming on 'vision'
+### NEXT: FIX bigram_match_to_subtopic_list to achieve exact matches
         
-        # subset the bigrams for which at least one term appears in the technical skills list
-        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
-        mask_bigram = bigrams.grams.isin(bigram_match_to_tech_list)
+        # subset the bigrams for which at least one term appears in the subtopic skills list
+        bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
+### MAYBE HERE, FILTER DOWN bigram_match_to_subtopic_list BASED ON EXACT MATCH, RATHER THAN UPDATING THE FIRST
+        
+
+###
+
+        mask_bigram = bigrams.grams.isin(bigram_match_to_subtopic_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
         # add the monograms and bigrams
         ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-###!!! WORKING HERE: debug here the polluting bigrams do not overlap with the subtopic list!!!!
-### The term 'excellence' is flagging for subtopic viz because of a partial match to 'excel' in subtopic_viz
+
         # identify noisy, duplicate or unhelpful monograms and bigrams
         # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system']
         ngrams_to_silence = ['system',] 
