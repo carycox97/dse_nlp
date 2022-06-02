@@ -4014,7 +4014,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
 
         '''          
         # subset the monograms that appear in the technical skills list
-        mask_monogram = n_grams.grams.isin(ds_tech_skill_terms) # fix here with subtopic_list
+        mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
         monograms_df_sns = n_grams[mask_monogram]
         
         # generate bigrams from the full terms_for_nlp list
@@ -4023,14 +4023,14 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
         
         # subset the bigrams for which at least one term appears in the technical skills list
-        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in ds_tech_skill_terms)] # fix here with subtopic_list
+        bigram_match_to_tech_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] # fix here with subtopic_list
         mask_bigram = bigrams.grams.isin(bigram_match_to_tech_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
         # add the monograms and bigrams
         ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
 
-        # identify noisy, duplicate or unhelpful terms and phrases
+        # identify noisy, duplicate or unhelpful monograms and bigrams
         # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system'] # these from cred
         ngrams_to_silence = ['system'] 
         
@@ -4049,7 +4049,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                          orient='h',
                          palette='mako_r') # crest, mako, 'mako_d, Blues_d, mako_r, ocean, gist_gray, gist_gray_r, icefire
         
-        ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Technical Skill', width=40), # Need to update this title
+        ax.set_title(textwrap.fill('Consider How Intensely Employers Care about Each Subtopic FIX Skill', width=40), # Need to update this title
                      fontsize=24,
                      loc='center')   
         ax.set(ylabel=None)
@@ -4239,10 +4239,11 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, subtopic_list, unique_tit
                     ha='left',
                     in_layout=True,
                     wrap=True)
-
+    
     bigram_match_to_subtopic_list = monograms_by_count()
     df_jobs_mono = monograms_by_percentage()
     df_jobs_bigrams = bigrams_by_percentage()
+    monograms_and_bigrams_by_count()
     monograms_and_bigrams_by_percentage()
 
 
