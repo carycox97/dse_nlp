@@ -3918,7 +3918,7 @@ def visualize_word_clouds(terms_for_nlp, series_of_interest):
     word_cloud_masked.to_file(f'word_clouds/word_cloud_masked_{series_of_interest.name}.png')        
 
 
-def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, unique_titles_viz, viz_title):
+def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, unique_titles_viz, viz_title, bigram_drop_flag):
     '''
     Visualize counts and percentages of monograms and bigrams for subtopics of interest.
 
@@ -4014,7 +4014,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
 
         '''  
         ### HOLDING TANK
-        subtopic_list = subtopic_viz 
+        # subtopic_list = subtopic_viz 
 #         # subset the monograms that appear in the subtopic skills list
 #         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
 #         monograms_df_sns = n_grams[mask_monogram]
@@ -4032,16 +4032,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         # subset the bigrams for which at least one term appears in the subtopic skills list
         bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
 ### MAYBE HERE, FILTER DOWN bigram_match_to_subtopic_list BASED ON EXACT MATCH, RATHER THAN UPDATING THE FIRST
-        
-        if drop_flag == subtopic_viz:
-            # identify noisy, duplicate or unhelpful terms and phrases
-            ngrams_to_silence = ['computer vision', 'excellence communicate', 'data visualization',
-                                 'excellence collaborate', 'collaborate excellence'] 
-            
-            # exclude unwanted terms and phrases
-            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
-    
-            
+
 
 ###
 
@@ -4051,12 +4042,39 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         # add the monograms and bigrams
         ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
 
-        # identify noisy, duplicate or unhelpful monograms and bigrams
-        # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system']
-        ngrams_to_silence = ['system',] 
+ 
+
+       
+        # drop erroneous bigrams
+        if bigram_drop_flag == 'subtopic_viz':
+            # identify noisy, duplicate or unhelpful terms and phrases
+            ngrams_to_silence = ['computer vision', 'excellence communicate', 'data visualization',
+                                 'excellence collaborate', 'collaborate excellence'] 
+            
+            # exclude unwanted terms and phrases
+            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+        else:
+            pass
+            
+
+
+
+
+
+        # # identify noisy, duplicate or unhelpful monograms and bigrams
+        # # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system']
+        # ngrams_to_silence = ['system',] 
         
-        # exclude unwanted terms and phrases
-        ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+        # # exclude unwanted terms and phrases
+        # ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+
+
+
+
+
+
+
+
 
         # create a horizontal barplot visualizing data science technical skills
         plt.figure(figsize=(7, 10))
@@ -5717,11 +5735,11 @@ def main_program(csv_path):
                                                        additional_stopwords, term_fixes, df)
 
     # visualize subtopics as horizonal bar plots
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_python, unique_titles_viz, viz_title='Python Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_viz, unique_titles_viz, viz_title='Visualization Subtopic')
-    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_python, unique_titles_viz, viz_title='Python Subtopic', bigram_drop_flag='subtopic_python')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_languages, unique_titles_viz, viz_title='Programming Language Subtopic', bigram_drop_flag='subtopic_languages')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_dl_frameworks, unique_titles_viz, viz_title='Deep Learning Frameworks Subtopic', bigram_drop_flag='subtopic_dl_frameworks')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_viz, unique_titles_viz, viz_title='Visualization Subtopic', bigram_drop_flag='subtopic_viz')
+    visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_aws, unique_titles_viz, viz_title='AWS Subtopic', bigram_drop_flag='subtopic_aws')
     
     return df, series_of_interest, terms_for_nlp, additional_stopwords, term_fixes, n_grams, ds_cred_terms, df_raw
 
