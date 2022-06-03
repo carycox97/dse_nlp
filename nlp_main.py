@@ -4001,7 +4001,6 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         return bigram_match_to_subtopic_list, monograms_df_sns
 
 
-
     def monograms_and_bigrams_by_count():
         '''
         Visualize the top n combined list of monograms and bigrams according to how many times they appear
@@ -4012,19 +4011,11 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         bigram_match_to_subtopic_list : list
             A list of bigrams in which each bigram has at least one term matching a term in the subtopic list.
 
-        '''  
-        ### DELETE AFTER FINAL TESTING
-        # subtopic_list = subtopic_viz 
-#         # subset the monograms that appear in the subtopic skills list
-#         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
-#         monograms_df_sns = n_grams[mask_monogram]
-        
+        '''       
         # generate bigrams from the full terms_for_nlp list
         n_gram_count = 2
         n_gram_range_start, n_gram_range_stop  = 0, 100
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
-
-###!!! WORKING HERE: debug here the polluting bigrams do not overlap with the subtopic list!!!!
         
         # subset the bigrams for which at least one term appears in the subtopic skills list
         bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
@@ -4213,8 +4204,21 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         df_jobs_combined_sns['percentage'] = [round(x / len(df_jobs_raw)*100, 2) for x in df_jobs_combined_sns['count']]
         df_jobs_combined_sns = df_jobs_combined_sns.sort_values('percentage', ascending=False).reset_index(drop=True)
     
-        # drop all subtopic terms and phrases that do not appearin df_jobs_combined_sns
+        # drop all subtopic terms and phrases that do not appear in df_jobs_combined_sns
         df_jobs_combined_sns = df_jobs_combined_sns.loc[(df_jobs_combined_sns.T !=0).any()]
+        
+        # drop erroneous bigrams based on the specific subtopic
+        if bigram_drop_flag == 'subtopic_viz':
+            # identify noisy, duplicate or unhelpful terms and phrases
+            ngrams_to_silence = ['computer vision', 'excellence communicate', 'data visualization',
+                                  'excellence collaborate', 'collaborate excellence'] 
+            
+            # exclude unwanted terms and phrases
+            df_jobs_combined_sns = df_jobs_combined_sns[~df_jobs_combined_sns.subtopic_term_phrase.isin(ngrams_to_silence)].reset_index(drop=True)
+            
+            # ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+        else:
+            pass 
         
         # visualize combined mongrams and bigrams
         plt.figure(figsize=(7, 10))
@@ -4253,11 +4257,6 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
     df_jobs_bigrams = bigrams_by_percentage()
     monograms_and_bigrams_by_count()
     monograms_and_bigrams_by_percentage()
-
-
-
-
-
 
 
 def nlp_skill_lists(additional_stopwords):
