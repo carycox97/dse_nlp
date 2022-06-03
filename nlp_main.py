@@ -5658,12 +5658,15 @@ def parse_new_data(terms_for_nlp, ds_skills_combined, term_fixes):
 ####### !!!!!!!! WORKING HERE: create function for searching job listings for a single term of interest
 def utilities():
     pass
-    # probably need to bring in df_jobs_raw, or a later processed version that is used in the percentage charts
-    # df_jobs_raw is a df, where each record is a list of tokenized strings
-    # NEED THE PROCESSED df_jobs DATAFRAME!! Might need to call clean_listings_for_nlp, of get it passed in (optimal)
-    # maybe
-    # 1) recombine each line into a single string
-    # 2) flag each line for a single term 
+    # Search job_description field for monogram or bigram, and extract the five preceding and following terms
+    
+    # bring in the correct dataframe, probably df_jobs_raw, something that maintains row integrity
+    
+    # create a string containing the term or phrase of interest
+    
+    # create a dataframe containing job_descriptions containing the term or phrase
+    
+    # parse the job descriptions to capture text samples preceding and following 
 
 
 ###### MAIN EXECUTION BELOW ######
