@@ -4013,7 +4013,7 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
             A list of bigrams in which each bigram has at least one term matching a term in the subtopic list.
 
         '''  
-        ### HOLDING TANK
+        ### DELETE AFTER FINAL TESTING
         # subtopic_list = subtopic_viz 
 #         # subset the monograms that appear in the subtopic skills list
 #         mask_monogram = n_grams.grams.isin(subtopic_list) # fix here with subtopic_list
@@ -4025,27 +4025,16 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         bigrams = nlp_count_n_grams(terms_for_nlp, n_gram_count, n_gram_range_start, n_gram_range_stop)
 
 ###!!! WORKING HERE: debug here the polluting bigrams do not overlap with the subtopic list!!!!
-### The term 'excellence' is flagging for subtopic viz because 'excel' is partially matching to 'excellence'; 
-### 'vision' false alarming on 'vision'
-### NEXT: FIX bigram_match_to_subtopic_list to achieve exact matches
         
         # subset the bigrams for which at least one term appears in the subtopic skills list
         bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
-### MAYBE HERE, FILTER DOWN bigram_match_to_subtopic_list BASED ON EXACT MATCH, RATHER THAN UPDATING THE FIRST
-
-
-###
-
         mask_bigram = bigrams.grams.isin(bigram_match_to_subtopic_list)
         bigrams_df_sns = bigrams[mask_bigram]
 
         # add the monograms and bigrams
         ngram_combined_sns = pd.concat([monograms_df_sns, bigrams_df_sns], axis=0, ignore_index=True)
-
- 
-
-       
-        # drop erroneous bigrams
+    
+        # drop erroneous bigrams based on the specific subtopic
         if bigram_drop_flag == 'subtopic_viz':
             # identify noisy, duplicate or unhelpful terms and phrases
             ngrams_to_silence = ['computer vision', 'excellence communicate', 'data visualization',
@@ -4056,26 +4045,6 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         else:
             pass
             
-
-
-
-
-
-        # # identify noisy, duplicate or unhelpful monograms and bigrams
-        # # ngrams_to_silence = ['data', 'experience', 'business', 'science', 'year', 'ability', 'system']
-        # ngrams_to_silence = ['system',] 
-        
-        # # exclude unwanted terms and phrases
-        # ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
-
-
-
-
-
-
-
-
-
         # create a horizontal barplot visualizing data science technical skills
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
