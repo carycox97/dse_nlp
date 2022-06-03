@@ -4033,6 +4033,15 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
         bigram_match_to_subtopic_list = [x for x in bigrams.grams if any(b in x for b in subtopic_list)] 
 ### MAYBE HERE, FILTER DOWN bigram_match_to_subtopic_list BASED ON EXACT MATCH, RATHER THAN UPDATING THE FIRST
         
+        if drop_flag == subtopic_viz:
+            # identify noisy, duplicate or unhelpful terms and phrases
+            ngrams_to_silence = ['computer vision', 'excellence communicate', 'data visualization',
+                                 'excellence collaborate', 'collaborate excellence'] 
+            
+            # exclude unwanted terms and phrases
+            ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
+    
+            
 
 ###
 
