@@ -4035,7 +4035,23 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
             ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
         else:
             pass
-            
+         
+        # # alternate, more generalized approach from Stack
+        # bigram_list = ["computer vision", "data excellence", "data visualization"]
+        # unigram_list = ["excel", "tableau", "visio", "visualization"]
+        
+        # # Init a dict for counting number of match
+        # counts = {key: 0 for key in bigram_list}
+        
+        # # Count number of match for each bigram
+        # for big in bigram_list:
+        #     for uni in unigram_list:
+        #         if uni in big.split(" "):
+        #             counts[big] += 1
+        
+        # # Filter
+        # cleaned_bigrams = [item for item in bigram_list if counts[item] > 0]
+        
         # create a horizontal barplot visualizing data science technical skills
         plt.figure(figsize=(7, 10))
         sns.set_style('dark')
@@ -4219,6 +4235,22 @@ def visualize_subtopic(df, df_jobs_raw, terms_for_nlp, n_grams, subtopic_list, u
             # ngram_combined_sns = ngram_combined_sns[~ngram_combined_sns.grams.isin(ngrams_to_silence)].reset_index(drop=True)
         else:
             pass 
+        
+        # # alternate, more generalized approach from Stack
+        # bigram_list = ["computer vision", "data excellence", "data visualization"]
+        # unigram_list = ["excel", "tableau", "visio", "visualization"]
+        
+        # # Init a dict for counting number of match
+        # counts = {key: 0 for key in bigram_list}
+        
+        # # Count number of match for each bigram
+        # for big in bigram_list:
+        #     for uni in unigram_list:
+        #         if uni in big.split(" "):
+        #             counts[big] += 1
+        
+        # # Filter
+        # cleaned_bigrams = [item for item in bigram_list if counts[item] > 0]
         
         # visualize combined mongrams and bigrams
         plt.figure(figsize=(7, 10))
