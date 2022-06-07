@@ -5862,21 +5862,6 @@ del start_time, end_time
 # df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
 
 
-# # tag parts of speech
-# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [(word, get_wordnet_pos(pos_tag)) for (word, pos_tag) in x])
-
-# # lemmatize
-# wnl = WordNetLemmatizer()
-# df_jobs['job_description'] = df_jobs['job_description'].apply(lambda x: [wnl.lemmatize(word, tag) for word, tag in x])
-
-# second stackoverflow question
-# df = pd.DataFrame(data={'job_description': [['innovative', 'data', 'science'],
-#                                             ['scientist', 'have', 'a', 'masters'],
-#                                             ['database', 'rf', 'innovative'],
-#                                             ['sciencebased', 'data', 'performance']],
-#                         'innovative': [True, False, True, False],
-#                         'data': [True, False, False, True],
-#                         'rf': [False, False, True, False]})
 
 
 
