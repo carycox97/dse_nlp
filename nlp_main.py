@@ -5792,25 +5792,6 @@ del start_time, end_time
 # w_tokenizer = nltk.tokenize.WhitespaceTokenizer()
 # lemmatizer = nltk.stem.WordNetLemmatizer()
 
-# def lemmatize_text(text):
-#     return [lemmatizer.lemmatize(w) for w in w_tokenizer.tokenize(text)]
-
-# df_test = pd.DataFrame(series_of_interest.str.lower())
-# df_test['job_description'] = df_test.job_description.apply(lemmatize_text)
-
-# failed attempt at term_fixes find/replace
-# # GETTING CLOSER!! This replaces, but gets partials, like if 'rf' is part of a word it gets replaced with 'random forest'
-# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=True)
-
-# # this did not work at all; didn't replace anything
-# df_jobs['test'] = df_jobs['job_description'].replace(term_fixes, regex=False) 
-
-# # trying this - threw an error
-# df_jobs['test'] = df_jobs['job_description'].str.replace(term_fixes, regex=False)
-
-# # trying this - didn't work
-# df_jobs['test'] = df_jobs['job_description'].str.replace(str(term_fixes.keys()), str(term_fixes.values()), regex=True)
-
 
 # # w = "Where are we one today two twos them"                                # YES, each record in df_jobs['job_description']
 # # lookup_dict = {"one":"1", "two":"2", "three":"3"}                         # YES, the term_fixes dictionary
@@ -5861,16 +5842,6 @@ del start_time, end_time
 # apply parts of speech tags; nltk.download('averaged_perceptron_tagger')
 # df_jobs['job_description'] = df_jobs['job_description'].apply(nltk.tag.pos_tag)
 
-
-
-
-
-# Alternate Title Brainstorm for Skill Bar Charts
-# Where to Focus Your Credentials
-# Focus Your Credentialing on These Key Areas ##############
-# Skills, Terms, Areas, Subjects, Qualifications, Advantages, 
-# Credential Intensity: A Measure of How Deeply Employers Care
-# Consider How Intensely Employers Care about Each Credential Focus Area
 
 # shell command to count total lines of code:
 # pygount --format=summary .
