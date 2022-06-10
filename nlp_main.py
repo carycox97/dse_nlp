@@ -5804,22 +5804,6 @@ del start_time, end_time
 # # pattern = re.compile(r'\b(' + '|'.join(lookup_dict.keys()) + r')\b')     
 # # output = pattern.sub(lambda x: lookup_dict[x.group()], w)                 
 
-# # # boooooooooooooooooo
-# # df_jobs['test'] = df_jobs['job_description'].apply(lambda x: pattern.sub(lambda x: lookup_dict[x.group()], word) for word in df_jobs['job_description'])
-
-# # setting up for stackoverflow
-# df = pd.DataFrame(data={'job_description': ['knowledge of algorithm like rf',
-#                                             'must have a mastersphd',
-#                                             'must be trustworthy and possess curiosity',
-#                                             'we realise performance is critical']})
-
-# df = pd.DataFrame(data={'job_description': [['knowledge', 'of', 'algorithm', 'like', 'rf'],
-#                                             ['must', 'have', 'a', 'mastersphd'],
-#                                             ['must', 'be', 'trustworthy', 'and', 'possess', 'curiosity'],
-#                                             ['we', 'realise', 'performance', 'is', 'critical']]})
-
-
-
 # df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace(term_fixes, regex=True) for word in x])
 # df_jobs['test'] = df_jobs['job_description'].apply(lambda x: [word.replace('data', 'test_success') for word in x])
 
