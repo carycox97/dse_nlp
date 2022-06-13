@@ -5758,23 +5758,8 @@ print(f'\nTotal Processing Time: {(time.time() - start_time) / 60:.2f} minutes')
 del start_time, end_time
 
 
-
-
-
-
-
-
-
 #######  ARCHIVE ######
-# original -> df_term_fixes['terms'].replace(dict(zip(list(term_fixes.values()), list(term_fixes.keys()))), regex=False, inplace=True)
-# code for inverting the dictionary and sorting it alphabetically by key; then switch them
-# inv_map = {v: k for k, v in term_fixes.items()}
-# inv_map
-# dict_items = sorted(inv_map.items())
-# dict_items
-# dict(dict_items)
 
-# dict_alpha = sorted(term_fixes.items())
 
 # hold = df[df['job_description'].str.contains('attention to detail')]
 # hold = df[df['job_description'].str.contains('|'.join(['passion','collaborate','teamwork','team work', 'interpersonal','flexibility','flexible','listening','listener','listen','empathy','empathetic']))]
